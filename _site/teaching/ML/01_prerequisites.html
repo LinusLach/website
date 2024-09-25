@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Machine Learning Supplementary Material - 1&nbsp; Important R concepts</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./02_linear_models.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_prerequisites.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Important R concepts</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Machine Learning Supplementary Material</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_prerequisites.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Important R concepts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_linear_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_regression_trees.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regression Trees</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#installing-r-rstudio-and-getting-started-with-quarto" id="toc-installing-r-rstudio-and-getting-started-with-quarto" class="nav-link active" data-scroll-target="#installing-r-rstudio-and-getting-started-with-quarto"><span class="header-section-number">1.1</span> Installing R, RStudio, and getting started with Quarto</a></li>
+  <li><a href="#working-directories-and-projects" id="toc-working-directories-and-projects" class="nav-link" data-scroll-target="#working-directories-and-projects"><span class="header-section-number">1.2</span> Working directories and projects</a></li>
+  <li><a href="#help-my-code-doesnt-do-what-i-expect-it-to-do" id="toc-help-my-code-doesnt-do-what-i-expect-it-to-do" class="nav-link" data-scroll-target="#help-my-code-doesnt-do-what-i-expect-it-to-do"><span class="header-section-number">2</span> Help, my code doesn’t do what I expect it to do!</a></li>
+  <li><a href="#working-with-datasets" id="toc-working-with-datasets" class="nav-link" data-scroll-target="#working-with-datasets"><span class="header-section-number">3</span> Working with datasets</a>
+  <ul>
+  <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data"><span class="header-section-number">3.1</span> Importing data</a></li>
+  <li><a href="#sec-essentials" id="toc-sec-essentials" class="nav-link" data-scroll-target="#sec-essentials"><span class="header-section-number">3.2</span> Essential functions and libraries</a>
+  <ul class="collapse">
+  <li><a href="#sec-filtering" id="toc-sec-filtering" class="nav-link" data-scroll-target="#sec-filtering"><span class="header-section-number">3.2.1</span> Filtering, grouping, and summarizing data sets</a></li>
+  <li><a href="#mutating-data-sets" id="toc-mutating-data-sets" class="nav-link" data-scroll-target="#mutating-data-sets"><span class="header-section-number">3.2.2</span> Mutating data sets</a></li>
+  <li><a href="#factor-variables" id="toc-factor-variables" class="nav-link" data-scroll-target="#factor-variables"><span class="header-section-number">3.2.3</span> Factor Variables</a></li>
+  </ul></li>
+  <li><a href="#visualizing-data-with-ggplot" id="toc-visualizing-data-with-ggplot" class="nav-link" data-scroll-target="#visualizing-data-with-ggplot"><span class="header-section-number">3.3</span> Visualizing data with ggplot</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4</span> Exercises</a>
+  <ul>
+  <li><a href="#statistical-data-exploration-and-manipulation" id="toc-statistical-data-exploration-and-manipulation" class="nav-link" data-scroll-target="#statistical-data-exploration-and-manipulation"><span class="header-section-number">4.1</span> Statistical Data Exploration and Manipulation</a></li>
+  <li><a href="#visual-data-exploration" id="toc-visual-data-exploration" class="nav-link" data-scroll-target="#visual-data-exploration"><span class="header-section-number">4.2</span> Visual Data Exploration</a></li>
+  <li><a href="#loss-functions" id="toc-loss-functions" class="nav-link" data-scroll-target="#loss-functions"><span class="header-section-number">4.3</span> Loss functions</a>
+  <ul class="collapse">
+  <li><a href="#mae-loss" id="toc-mae-loss" class="nav-link" data-scroll-target="#mae-loss"><span class="header-section-number">4.3.1</span> MAE Loss</a></li>
+  <li><a href="#rmse" id="toc-rmse" class="nav-link" data-scroll-target="#rmse"><span class="header-section-number">4.3.2</span> (R)MSE</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions"><span class="header-section-number">5</span> Solutions</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">6</span> Session Info</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Important R concepts</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Most exercises involve working with the statistical software R. Since a comprehensive recap of R would go beyond the scope of this lecture, we only review libraries and concepts we frequently need throughout the exercises. For a comprehensive introduction to R, see <a href="https://yards.albert-rapp.de/">YARDS</a> by Dr.&nbsp;Albert Rapp.</p>
+<section id="installing-r-rstudio-and-getting-started-with-quarto" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="installing-r-rstudio-and-getting-started-with-quarto"><span class="header-section-number">1.1</span> Installing R, RStudio, and getting started with Quarto</h2>
+<p>Before starting the revision, we need to ensure that R and RStudio are installed. The installation process for both R and RStudio is straightforward and user-friendly. While R (the programming language) comes with a preinstalled graphical user interface, we will use the integrated development environment RStudio instead, as it looks more appealing and provides some features RGui lacks. It is important to note that in order to get RStudio to work, R needs to be installed first.</p>
+<ul>
+<li><p>R (for Windows) can be downloaded <a href="https://cran.r-project.org/bin/windows/base/">here</a>.</p></li>
+<li><p>RStudio can be downloaded <a href="https://posit.co/download/rstudio-desktop/">here</a>.</p></li>
+</ul>
+<p>After successfully installing R and RStudio, starting the latter should open a window that somewhat looks like the following (cf.&nbsp;<a href="https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html">RStudio User Guide</a>).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pictures/rstudio-panes-labeled.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<p>The <em>Source</em> pane displays a <code>.R</code> file named <code>ggplot2.R</code>. While <code>.R</code> files are the standard file format for R scripts used for programming in R, we will use Quarto documents (files ending with <code>.qmd</code>). Quarto labels itself as the</p>
+<blockquote class="blockquote">
+<p>next-generation version of R Markdown,</p>
+</blockquote>
+<p>meaning that a Quarto document allows</p>
+<blockquote class="blockquote">
+<p>weaving together narrative text and code to produce elegantly formatted output as documents, web pages, books, and more.</p>
+</blockquote>
+<p>Quarto is preinstalled in RStudio, so creating such documents is relatively simple.</p>
+<ol type="1">
+<li><p>click on <code>New File -&gt; Quarto Document...</code> in the <code>File</code> tab <img src="pictures/Quarto-Creation.png" class="img-fluid quarto-figure quarto-figure-center"></p></li>
+<li><p>Once the <code>New Quarto Document</code> window opens, you can modify the title and specify the output format. For the sake of simplicity, we will use the HTML output format. However, you could also choose PDF if you have a LaTeX installation on your device. Clicking on the <code>create</code> button will create a new Quarto Document. <img src="pictures/Quarto-Creation-02.png" class="img-fluid quarto-figure quarto-figure-center"></p></li>
+<li><p>The source pane now displays a sample Quarto document that can be modified. You might have to install <code>rmarkdown</code> (cf.&nbsp;mark 1). The Quarto document can then be modified by clicking on the respective sections. R Code cells can be executed by clicking on the green arrow (cf.&nbsp;mark 2). To insert new R code cells between paragraphs, click on the <code>Insert</code> tab and select <code>Executable Cell -&gt; R</code> (cf.&nbsp;mark 3).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pictures/Quarto-Creation-03.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div></li>
+</ol>
+<p>This should be enough to get you started with Quarto Documents. For further reading, I recommend the <a href="https://quarto.org/docs/get-started/hello/rstudio.html">Quarto Guide</a>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>While solving the (programming) exercises, you can create a new paragraph using <code>#</code> for a new chapter to make your document more readable. Additionally, you can simply create a section using <code>##</code>.</li>
+<li>Writing down some details on how you approached the programming exercises in a paragraph above or below can help you understand your approach when repeating the exercises later.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="working-directories-and-projects" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="working-directories-and-projects"><span class="header-section-number">1.2</span> Working directories and projects</h2>
+<p>After opening RStudio, execute the <code>getwd()</code> command in the console pane, which returns the current working directory. The working directory displays the directory of the R process. For example, if the return value of the <code>getwd()</code> command is <code>C:\Users\lachlinu\Desktop\ML</code>, then R can access any file in the <code>ML</code> directory. One way to change the working directory is using the <code>setwd()</code> command, which changes the current working directory. Manually changing the directory in every <code>.qmd</code> document might become tedious after a while, so a more practical alternative is setting up a project. RStudio projects allow the creation of an individual working directory for multiple contexts. For example, you might use R not only for solving Machine Learning exercises but also for your master’s thesis. Then, setting up two different projects will help you organize working directories and workspaces for each project individually. To set up a project for this course</p>
+<ol type="1">
+<li><p>Go to the <code>File</code> tab and select <code>New Project...</code>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pictures/New_Project.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div></li>
+<li><p>Choose <code>Existing Directory</code> and navigate to the directory in which you want to create the project in and click the <code>Create Project</code> button.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pictures/New_Project_03.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div></li>
+<li><p>You can now open the project by double clicking on the icon which should open a new RStudio window.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pictures/New_Project_04.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div></li>
+</ol>
+<p>Once the project is opened, running the <code>getwd()</code> command in the console pane returns its path. Any file in this directory can be directly accessed without specifying the preceding path.</p>
+</section>
+<section id="help-my-code-doesnt-do-what-i-expect-it-to-do" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Help, my code doesn’t do what I expect it to do!</h1>
+<p>Debugging, also known as finding out why code does not behave as expected, plays a substantial role in programming. Even after years of practice, occasional bugs will occur. There are several more or less effective approaches to resolve problems that might occur in the context of this course, with debugging being a key focus.</p>
+<ol type="1">
+<li><p>A simple Google search can do wonders. Most questions that arise in the context of this lecture have probably been asked on boards like <a href="https://stackoverflow.com">Stack Overflow</a>. Alternatively, the search results might contain websites like <a href="https://www.datacamp.com">DataCamp</a> or <a href="https://www.geeksforgeeks.org/">GeeksforGeeks</a>, which will most likely answer your question as well.</p></li>
+<li><p>Using a large language model like <a href="https://chatgpt.com/">ChatGPT</a>. When it comes to debugging or coding questions in general, large language models are helpful. Enter your question as a prompt and the answer will likely help you. However, when using less popular libraries, the answers might contain hallucinations that make it much more difficult to resolve your problem.</p></li>
+<li><p>The internal <code>help</code> function, while it might be considered old-school, is a highly effective troubleshooting approach. It can provide valuable insights when a function doesn’t behave as expected. If a function doesn’t behave as expected, typing <code>?function_name</code> in the console pane opens the respective help page. The <code>Arguments</code> section of the help page explains the different input parameters of a function. The <code>Value</code> section describes what the function intends to return. Examples of how to use a function are provided in the last section of the help.</p></li>
+<li><p>If each of the steps above fails, you can also ask questions via mail. When reporting a problem via mail, it’s crucial to provide some context and the steps you’ve tried to solve it yourself. This information is invaluable in understanding the issue and providing an effective solution. Also, as part of the learning process, try solving the problems first since that is one of the most essential skill sets to develop.</p></li>
+</ol>
+<!-- 
+      :::{.callout-note}
+      Sending screenshots of your errorcodes is considered standard practice in most of these courses.
+      It is a lot easier to help solving problems with a reproducible example instead. 
+      A reproducible example allows other people to analyze the underlying problem in their own enviroment. 
+      An easy way to create such a reproducible example is provided by the `{reprex}` library          ([Link to documentation](https://reprex.tidyverse.org/)).
+      After installing and adding the `{reprex}` library, copy the code snippet to the clipboard and enter `reprex(session_info=TRUE)` into the console.
+      Once the command has executed, the viewer pane opens and your clipboard now contains the         reproducable example as a string that can be posted in a mail.
+
+
+      
+
+
+
+
+      
+      :::
+-->
+</section>
+<section id="working-with-datasets" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Working with datasets</h1>
+<p>In the context of machine learning, data builds the foundation. Whether you want to predict the weather, future stock prices, or the base rent of a potential rental apartment, without high-quality data, even the most advanced models fail. However, the reality is that data we gather from the web, servers, or spreadsheets is often far from pristine. For example, missing values could be encoded as <code>NA</code> (Not Available), <code>NaN</code> (Not a Number), <code>NULL</code>, or simply by an empty string <code>" "</code>. That is why knowing your way around basic data manipulation is essential.</p>
+<section id="importing-data" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="importing-data"><span class="header-section-number">3.1</span> Importing data</h2>
+<p>To manipulate data, we first need to import it. R has quite a few preinstalled data sets; however, I prefer data sets that are either more complex, related to everyday life, or just more fun to explore. This course will provide most of the data in <code>.csv</code> or <code>.txt</code> files. Before we can start manipulating data, it’s essential to import it correctly. This ensures that the data is in the right format for further analysis.</p>
+<p>Consider the Netflix Movies and TV Shows data set, which can be downloaded from the data science community website <a href="https://www.kaggle.com/datasets/shivamb/netflix-shows">Kaggle</a> or directly below.</p>
+<div style="text-align: center;">
+<p><a href="data/netflix_titles.csv" class="btn btn-outline-primary" role="button" data-toggle="tooltip" title="3.3 MB">Download Netflix Data</a></p>
+</div>
+<p>Once you have downloaded the data and placed it in your current working directory, you can import it using the <code>read.csv</code> command:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data_netflix <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"netflix_titles.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Pro Tip">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pro Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To maintain structure in your project folder, it is advisable to create a separate directory for the data and import it from there. For example, if the project directory contains a <code>data</code> directory with the <code>netflix_title.csv</code> file inside, it can be imported using</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_netflix <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/netflix_titles.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-essentials" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-essentials"><span class="header-section-number">3.2</span> Essential functions and libraries</h2>
+<p>One of the most versatile and essential collection of libraries in the context of data science with R is the <code>{tidyverse}</code> library, which includes</p>
+<ul>
+<li><code>{ggplot}</code> for creating beautiful graphics,</li>
+<li><code>{dplyr}</code> for data manipulation,</li>
+<li><code>{stringr}</code> for working with strings, and</li>
+<li><code>{tibble}</code> for storing data effectively.</li>
+</ul>
+<p>An excellent in-depth introduction to the <a href="https://www.tidyverse.org/">tidyverse</a> called <a href="https://r4ds.hadley.nz/">R for Data Science</a> is freely available online if that piques your interest. This introduction focuses on a few core functions that will be useful throughout the course. As every other library, <code>{tidyverse}</code> can be attached using the <code>library</code> function once it has been installed:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once the library has been added, every function contained is available. For example, the <code>glimpse</code> function can be used on the <code>data_netflix</code> data set to get a short overview of the data types and contents:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data_netflix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 8,807
+Columns: 12
+$ show_id      &lt;chr&gt; "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s1…
+$ type         &lt;chr&gt; "Movie", "TV Show", "TV Show", "TV Show", "TV Show", "TV …
+$ title        &lt;chr&gt; "Dick Johnson Is Dead", "Blood &amp; Water", "Ganglands", "Ja…
+$ director     &lt;chr&gt; "Kirsten Johnson", "", "Julien Leclercq", "", "", "Mike F…
+$ cast         &lt;chr&gt; "", "Ama Qamata, Khosi Ngema, Gail Mabalane, Thabang Mola…
+$ country      &lt;chr&gt; "United States", "South Africa", "", "", "India", "", "",…
+$ date_added   &lt;chr&gt; "September 25, 2021", "September 24, 2021", "September 24…
+$ release_year &lt;int&gt; 2020, 2021, 2021, 2021, 2021, 2021, 2021, 1993, 2021, 202…
+$ rating       &lt;chr&gt; "PG-13", "TV-MA", "TV-MA", "TV-MA", "TV-MA", "TV-MA", "PG…
+$ duration     &lt;chr&gt; "90 min", "2 Seasons", "1 Season", "1 Season", "2 Seasons…
+$ listed_in    &lt;chr&gt; "Documentaries", "International TV Shows, TV Dramas, TV M…
+$ description  &lt;chr&gt; "As her father nears the end of his life, filmmaker Kirst…</code></pre>
+</div>
+</div>
+<p><code>Rows: 8,807</code> means that the data set has 8,807 entries, and <code>Columns: 12</code> means that the data set has 12 variables, respectively. The first column presents the variable names, their data types, and some initial values, providing a clear structure to the data set. We can already see that except for one variable (<code>release_year</code>), every other variable is of type <code>chr</code>, which stands for <em>character</em> or <em>string</em>.</p>
+<section id="sec-filtering" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="sec-filtering"><span class="header-section-number">3.2.1</span> Filtering, grouping, and summarizing data sets</h3>
+<p>Functions frequently encountered while working with data are <code>filter</code>, <code>group_by</code>, and <code>summarise</code>. Let’s say we want to find out, according to the data set, how many movies and series were released in each year following 2010. Now, if we were to tackle this problem without the <code>{tidyverse}</code> framework, our code might look a little something like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>netflix_filtered <span class="ot">&lt;-</span> data_netflix[data_netflix<span class="sc">$</span>release_year <span class="sc">&gt;</span> <span class="dv">2010</span>, ]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(netflix_filtered)), </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">by =</span> <span class="fu">list</span>(netflix_filtered<span class="sc">$</span>release_year), </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">FUN =</span> sum)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(result) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"release_year"</span>, <span class="st">"n"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   release_year    n
+1          2011  185
+2          2012  237
+3          2013  288
+4          2014  352
+5          2015  560
+6          2016  902
+7          2017 1032
+8          2018 1147
+9          2019 1030
+10         2020  953
+11         2021  592</code></pre>
+</div>
+</div>
+<p>or this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>netflix_filtered <span class="ot">&lt;-</span> data_netflix[data_netflix<span class="sc">$</span>release_year <span class="sc">&gt;</span> <span class="dv">2010</span>, ]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(netflix_filtered<span class="sc">$</span>release_year))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(result) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"release_year"</span>, <span class="st">"n"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   release_year    n
+1          2011  185
+2          2012  237
+3          2013  288
+4          2014  352
+5          2015  560
+6          2016  902
+7          2017 1032
+8          2018 1147
+9          2019 1030
+10         2020  953
+11         2021  592</code></pre>
+</div>
+</div>
+<p>The first code cell seems much more complicated than the second, yet it returns the same result. However, things can be simplified even more using the <code>{dplyr}</code> library that is contained in the <code>{tidyverse}</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>netflix_filtered <span class="ot">&lt;-</span> data_netflix <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">filter</span>(release_year<span class="sc">&gt;</span><span class="dv">2010</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="fu">group_by</span>(release_year) <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a>  <span class="fu">summarise</span>(<span class="at">n=</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let us break down the code snippet above:</p>
+<ol type="1">
+<li><p>In line <code>1</code> we use the pipe operator <code>%&gt;%</code>. It is part of the <code>{magrittr}</code> package and forwards an object into a function of call expression. Figuratively, a pipe does precisely what is expected: channel an object from one and to another. In this case, the pipe operator <code>%&gt;%</code> passes the <code>data_netflix</code> data set into the <code>filter</code> function.</p></li>
+<li><p>In line <code>2</code> the <code>filter</code> function selects a subset of a data set that satisfies a given condition. Here, the condition is that the movie or series’ release year should be after <code>2010</code>, which is indicated by the <code>&gt;</code> condition.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Without the pipe operator, the first and second line can be merged into</p>
+<div class="cell" data-execute="false">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(data_netflix,release_year<span class="sc">&gt;</span><span class="dv">2010</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>however, concatenating multiple functions causes the code to be unreadable and should thus be avoided.</p>
+</div>
+</div></li>
+<li><p>Results of the filtering procedure are then passed to the <code>group_by</code> function via the pipe operator again. The <code>group_by</code> function converts the underlying data set into a grouped one where operations can be performed group-wise. In the third line of the code cell, the <code>group_by</code> function is applied to the <code>release_year</code> variable, meaning that the data set now contains a group for every release year.</p></li>
+<li><p>This can be seen as a pre-processing step for the <code>summarise</code> function applied in the following line. The <code>summarise</code> function creates a new data set based on the functions passed as arguments. These functions are applied to every group created by the previous step. In the example above, the function applied is <code>n()</code>, which returns the group size. Thus, setting <code>n=n()</code> as the argument creates a new column named <code>n</code>, which contains the number of samples within each group.</p></li>
+</ol>
+</section>
+<section id="mutating-data-sets" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="mutating-data-sets"><span class="header-section-number">3.2.2</span> Mutating data sets</h3>
+<p>Besides filtering, grouping, and summarizing, another important concept is mutating the data, i.e., modifying the content of the data set.</p>
+<p>The <code>mutate</code> function either creates new columns or modifies existing columns based on the passed column names and functions that are passed. It is helpful for modifying data and their types, creating new variables based on existing ones, and removing unwanted variables. In the example below, the <code>mutate</code> function is used to modify the variable <code>date_added</code>, create a new variable called <code>is_show</code> and delete the variable <code>type</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>data_netflix <span class="ot">&lt;-</span> data_netflix <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">mutate</span>(<span class="at">date_added =</span> <span class="fu">mdy</span>(date_added),</span>
+<span id="cb12-3"><a href="#cb12-3"></a>         <span class="at">is_show =</span> <span class="fu">if_else</span>(type<span class="sc">==</span><span class="st">"TV Show"</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>),</span>
+<span id="cb12-4"><a href="#cb12-4"></a>         <span class="at">type =</span> <span class="cn">NULL</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li><p>In the first line of the code cell, the data set <code>data_netflix</code> is specified to be overwritten by its mutated version. Overwriting a data set is achieved by reassigning the <code>data_netlifx</code> object to the output of the pipe concatenation of the following code lines.</p></li>
+<li><p>The original <code>data_netflix</code> data set is passed into the mutate function in the second line. Here, the variable <code>date_written</code> is overwritten by the output of the <code>mdy</code> function with argument <code>date_added</code>. The <code>mdy</code> function is a function in the <code>{lubridate}</code> library that transforms dates stored in strings to <code>date</code> objects that are easier to handle. Note that we can directly pass column names into functions as we have previously passed the data set into the <code>mutate</code> function using the <code>%&gt;%</code> operator.</p></li>
+<li><p>In the third line, a new variable <code>is_show</code> is created, which takes the value <code>TRUE</code>, if the type of an entry in the data set is <code>"TV Show"</code> and <code>FALSE</code> if it is not. The <code>if_else</code> function achieves this.</p></li>
+<li><p>Setting the <code>type</code> variable to <code>NULL</code> effectively removes it from the data set.</p></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Assigning values in functions is achieved by using the <code>=</code> symbol. Assigning new variables outside of functions can also be done with the <code>=</code> symbol, but it is rarely used and except for some pathological cases there is no difference. However, most R users prefer assigning environment variables using <code>&lt;-</code> which does not work in function calls.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Pro Tip">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pro Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the previous code cell a line break was added after the <code>%&gt;%</code> and each argument in the <code>mutate</code> function for readability purposes. The code also works without adding the line breaks, but it can get messy fast:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data_netflix <span class="ot">&lt;-</span> data_netflix <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">date_added =</span> <span class="fu">mdy</span>(date_added), <span class="at">is_show =</span> <span class="fu">if_else</span>(type<span class="sc">==</span><span class="st">"TV Show"</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>), <span class="at">type =</span> <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="factor-variables" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="factor-variables"><span class="header-section-number">3.2.3</span> Factor Variables</h3>
+<p>An important data type that can handle both ordinal (data with some notion of order) and nominal data are so-called <code>factor</code> variables.</p>
+<p>Consider the following toy data set containing seven people with corresponding age groups and eye colors.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 3
+  names   age_groups eye_color
+  &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;    
+1 Alice   18-25      Blue     
+2 Bob     &lt;18        Brown    
+3 Charlie 26-35      Green    
+4 Diana   36-45      Hazel    
+5 Eve     18-25      Brown    
+6 Frank   60+        Blue     
+7 Grace   26-35      Green    </code></pre>
+</div>
+</div>
+<p>Since the variable <code>age_group</code> only specifies a range of ages, it does not make sense to encode them as integers rather than ordinal variables. The’ mutate’ function can encode age groups as ordinal variables. This involves setting the <code>age_groups</code> variable to a factor with levels and labels. Levels specify the order of the values, and labels can be used to rename these categories.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>data_example <span class="ot">&lt;-</span> data_example <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a>  <span class="fu">mutate</span>( </span>
+<span id="cb15-3"><a href="#cb15-3"></a>    <span class="at">age_groups =</span> <span class="fu">factor</span>(</span>
+<span id="cb15-4"><a href="#cb15-4"></a>      age_groups,</span>
+<span id="cb15-5"><a href="#cb15-5"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"&lt;18"</span>, <span class="st">"18-25"</span>, <span class="st">"26-35"</span>, <span class="st">"36-45"</span>, <span class="st">"60+"</span>),</span>
+<span id="cb15-6"><a href="#cb15-6"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"child"</span>,<span class="st">"adult"</span>,<span class="st">"adult"</span>,<span class="st">"adult"</span>,<span class="st">"senior"</span>),</span>
+<span id="cb15-7"><a href="#cb15-7"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a>    )</span>
+<span id="cb15-9"><a href="#cb15-9"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li><p>Similar to the previous example, we should specify that we overwrite the <code>data_example</code> data set with a mutated version.</p></li>
+<li><p>The <code>mutate</code> function is applied to the <code>age_groups</code> variable.</p></li>
+<li><p>Setting <code>age_groups = factor(age_groups, ...)</code> converts the <code>age_groups</code> column into a (so far unordered) factor, allowing for specific levels (categories) and labels.</p></li>
+<li><p><code>levels = c("&lt;18", "18-25",...)</code> specifies the predefined levels for the age groups.</p></li>
+<li><p><code>ordered=TRUE</code> specifies that the age groups are ordered according to the specified levels.</p></li>
+<li><p>Last but not least, <code>labels = c("child", "adult", ...)</code> specifies the labels that replace the numeric age groups. For instance, &lt;18 is labeled as <code>"child"</code>, the ranges 18-25, 26-35, and 36-45 are labeled as <code>"adult"</code>, and 60+ is labeled as <code>"senior"</code>.</p></li>
+</ol>
+<p>Similarly, the variable <code>eye_color</code> can also be converted to a nominal factor variable:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data_example <span class="ot">&lt;-</span> data_example <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">eye_color =</span> <span class="fu">factor</span>(eye_color)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To confirm that the variable <code>age_group</code> is indeed ordered, calling the feature shows the ordered levels:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data_example<span class="sc">$</span>age_groups</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] adult  child  adult  adult  adult  senior adult 
+Levels: child &lt; adult &lt; senior</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="visualizing-data-with-ggplot" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="visualizing-data-with-ggplot"><span class="header-section-number">3.3</span> Visualizing data with ggplot</h2>
+<p>Another critical aspect of data science and machine learning is graphical storytelling. Describing an algorithm strictly using mathematical notation or exploring a data set using descriptive and inductive statistics alone can make it challenging to understand the message. While R offers some base functions for creating graphics, this course primarily uses the library <code>{ggplot2}</code>. A comprehensive introduction to <code>{ggplot2}</code> can be found in Hadley Wickham’s book <a href="https://ggplot2-book.org/">Elegant Graphics for Data Analysis</a>. A short summary can be found below.</p>
+<p>For the following example, we will use the <code>netflix_filtered</code> data set (see <a href="#sec-filtering" class="quarto-xref"><span>Section 3.2.1</span></a>)</p>
+<p>A graphic created with <code>{ggplot2}</code> consists of the following three base components:</p>
+<ol type="1">
+<li><p>The data itself.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> netflix_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_prerequisites_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note, that the plot does not show any axis, ticks, and variables.</p></li>
+<li><p>A set of <em>aesthetics mappings</em> that describe how variables in the data are mapped to visual properties.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>release_year, <span class="at">y=</span>n), <span class="at">data =</span> netflix_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_prerequisites_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Using the <code>aes</code> function, we have specified that the release year should be mapped to the <span class="math inline">\(x\)</span>-axis, and <span class="math inline">\(n\)</span> to the <span class="math inline">\(y\)</span>-axis.</p></li>
+<li><p>Lastly, the <em>geom</em>-layer (component) describes how each observation in the data set is represented.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>release_year, <span class="at">y=</span>n), <span class="at">data =</span> netflix_filtered)<span class="sc">+</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">geom_col</span>()<span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_prerequisites_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Compared to the previous two code cells, a lot is going on here. So, let us break it down.</p>
+<ol type="1">
+<li>The plus at the end of line <code>1</code> is used to <strong>add</strong> another layer.</li>
+<li><code>geom_col</code> adds a column chart to the canvas, creating columns starting at <code>0</code> and ending at <span class="math inline">\(n\)</span>. Then, <code>+</code> indicates that another layer is added.</li>
+<li><code>geom_point</code> represents the data as points on the plane, i.e., an <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>-coordinate. The <code>+</code> indicates that yet another layer is added afterward.</li>
+<li>Lastly, the <code>geom_line</code> function adds a line connecting each data point with the one following.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Pro Tips">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pro Tips
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>As before, the data set can also directly be piped into the <code>ggplot</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>netflix_filtered <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>release_year, <span class="at">y=</span>n))<span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_col</span>()<span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><p>By changing the order of the layers, you can specify which layer should be added first and last. In this example, since <code>geom_col</code> was added first and every other layer is placed on top of the column plot.</p></li>
+</ol>
+</div>
+</div></li>
+</ol>
+<p>There are a lot more functions and settings that can be applied to each function. A selection of those is discussed in the exercises.</p>
+</section>
+</section>
+<section id="exercises" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Exercises</h1>
+<p>Throughout the exercises, we will work with the <a href="https://www.kaggle.com/datasets/sakshigoyal7/credit-card-customers">Credit Card Customers</a> data set that can either be downloaded using the provided link or the button below.</p>
+<div style="text-align: center;">
+<p><a href="data/BankChurners.csv" class="btn btn-outline-primary" role="button" data-toggle="tooltip" title="1.2 MB">Download BankChurners</a></p>
+</div>
+<p>The data set consists of 10,127 entries that represent individual customers of a bank including but not limited to their age, salary, credit card limit, and credit card category.</p>
+<section id="statistical-data-exploration-and-manipulation" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="statistical-data-exploration-and-manipulation"><span class="header-section-number">4.1</span> Statistical Data Exploration and Manipulation</h2>
+<p>We will start by getting a feeling for the data and performing some basic data manipulation steps.</p>
+<div id="exr-DEA1" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.1</strong></span> Import the data set and use the <code>glimpse</code> function to generate a summary of the data set.</p>
+</div>
+<div id="exr-DEA2" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.2</strong></span> Assume that the data set has been imported and saved as an object called <code>credit_info</code>. Explain the following code snippet both syntactically and semantically. <em>Hint: Use the help function for any function you do not know.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.character) <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$Attrition_Flag
+
+Attrited Customer Existing Customer 
+             1627              8500 
+
+$Gender
+
+   F    M 
+5358 4769 
+
+$Education_Level
+
+      College     Doctorate      Graduate   High School Post-Graduate 
+         1013           451          3128          2013           516 
+   Uneducated       Unknown 
+         1487          1519 
+
+$Marital_Status
+
+Divorced  Married   Single  Unknown 
+     748     4687     3943      749 
+
+$Income_Category
+
+       $120K +    $40K - $60K    $60K - $80K   $80K - $120K Less than $40K 
+           727           1790           1402           1535           3561 
+       Unknown 
+          1112 
+
+$Card_Category
+
+    Blue     Gold Platinum   Silver 
+    9436      116       20      555 </code></pre>
+</div>
+</div>
+</div>
+<div id="exr-DEA3" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.3</strong></span> Overwrite the variables <code>Income_Category</code> and <code>Education_Level</code> into ordered factors. When setting the levels for each group, set <code>"Unknown"</code> as the lowest level. Use this cleaned data set for the remaining exercises.</p>
+</div>
+<div id="exr-DEA4" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.4</strong></span> Group the data set by income category and find out each group’s <code>mean</code> and <code>median</code> credit limit.</p>
+</div>
+<div id="exr-DEA5" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.5</strong></span> Which income group has the highest mean credit limit?</p>
+</div>
+<div id="exr-DEA6" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.6</strong></span> Use the following code snippet to modify the data set by incorporating it into the <code>mutate</code> function. The snippet converts all <code>"Unknown"</code> values contained in character or factor columns into <code>NA</code> values, which are easier to handle.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">across</span>(<span class="fu">where</span>(<span class="sc">~</span> <span class="fu">is.character</span>(.) <span class="sc">|</span> <span class="fu">is.factor</span>(.)),</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>       <span class="sc">~</span><span class="fu">na_if</span>(.,<span class="st">"Unknown"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="exr-DEA7" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.7</strong></span> Apply the <code>na.omit()</code> function to the data set to remove all samples in the data set that contain <code>NA</code> values. How many samples have been removed in total?</p>
+</div>
+<p>Sometimes, we only want to infer results for specific subgroups. The Blue Credit Card is the most common type of credit card. Gaining insights for this particular group allows us to retrieve information that might be useful in later analyses.</p>
+<div id="exr-DEA8" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.8</strong></span> Find out how many customers have a Blue credit card.</p>
+</div>
+<div id="exr-DEA9" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.9</strong></span> Create a new data set <code>credit_info_blue</code> containing all customers that hold a Blue credit card.</p>
+</div>
+<div id="exr-DEA10" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.10</strong></span> Find the number of female customers holding the Blue Card who are, at most, 40 years old and have a credit limit above 10,000 USD.</p>
+</div>
+</section>
+<section id="visual-data-exploration" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="visual-data-exploration"><span class="header-section-number">4.2</span> Visual Data Exploration</h2>
+<div id="exr-VDE1" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.11</strong></span> We now want to explore some of the demographics in our data set. Create a histogram for the age of the customers using the <code>geom_histogram</code> function. Note that only one variable is required for the aesthetics to create a histogram.</p>
+</div>
+<div id="exr-VDE2" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.12</strong></span> Using the default parameters in the <code>geom_histogram</code> function, the message “<code>stat_bin()</code> using <code>bins = 30</code>. Pick better value with <code>binwidth</code>.” is displayed. Modify the code so that each age gets its own bin.</p>
+</div>
+<div id="exr-VDE3" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.13</strong></span> Now that the histogram looks more organized, we want to add more information. For example, by setting the <code>fill</code> option to <code>Gender</code>, we can create two overlapping histograms showing the number of male and female customers within each age group.</p>
+</div>
+<div id="exr-VDE4" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.14</strong></span> Instead of visualizing the <code>Gender</code> as in the plot above, we now want to analyze the continuous variable <code>Credit_Limit</code>. Therefore, instead of a histogram, use the <code>geom_density</code> function that plots an estimate of the underlying probability density.</p>
+</div>
+<div id="exr-VDE5" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.15</strong></span> The histograms and density plots only provide limited insight into the demographics and customer status as it is relatively complex to figure out the proportions of each group. To take this one step further, consider the following histogram, which shows the <code>Education_Level</code> within every bin.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age, <span class="at">fill =</span> Education_Level))<span class="sc">+</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_prerequisites_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can use the <code>geom_histogram</code> function and the <code>facet_wrap</code> function, which generates a subplot for each group. Apply the <code>facet_wrap</code> function to create a subplot for each education level.</p>
+</div>
+</section>
+<section id="loss-functions" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="loss-functions"><span class="header-section-number">4.3</span> Loss functions</h2>
+<p>In future exercises, different loss functions will be deployed to measure how far some regression results deviate from actual values. This exercise, therefore, briefly discusses the advantages and disadvantages of some loss functions and introduces them in R.</p>
+<p>Data-wise, we will consider the <code>credit_info</code> dataset and a simple linear model that is used to predict each customer’s credit limit.</p>
+<p>The following Code snippet reads the unmodified data, removes the features <code>Total_Revolving_Bal</code> and <code>Avg_Open_To_Buy</code> and trains a linear model with target variable <code>Credit_Limit</code> on all the remaining features. It’s important to note that the model is intentionally kept simple for demonstrative purposes, making it easier for you to grasp and apply the concepts.</p>
+<p>Copy the snippet into your own notebook and run it. <em>Hint: You might have to change the path in the <code>read.csv</code> function to your specified data path (<a href="#exr-DEA1" class="quarto-xref">Exercise&nbsp;<span>4.1</span></a>) and install the libraries that are attached.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(yardstick)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>credit_info <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/BankChurners.csv"</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>model_linear_data <span class="ot">&lt;-</span> credit_info <span class="sc">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Total_Revolving_Bal,Avg_Open_To_Buy))</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>model_linear_res <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Credit_Limit <span class="sc">~</span>., <span class="at">data =</span> model_linear_data) <span class="sc">%&gt;%</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(model_linear_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The object <code>model_linear_res</code> now contains our model’s original data set and predictions. Do not worry if you do not understand every line in the snippet above. We will consider training models in future exercises more thoroughly.</p>
+<section id="mae-loss" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="mae-loss"><span class="header-section-number">4.3.1</span> MAE Loss</h3>
+<p>The first loss function we explore is the <strong>M</strong>ean <strong>A</strong>bsolute <strong>E</strong>rror (MAE) loss defined as</p>
+<p><span class="math display">\[\begin{equation*}
+  \mathrm{MAE} := \mathrm{MAE}(y,\hat{y}):=\frac{1}{n}\sum_{i=1}^n |y_i-\hat{y_i}|,
+\end{equation*}\]</span></p>
+<p>where <span class="math inline">\(y=(y_1,...,y_n)\)</span> are target values and <span class="math inline">\(\hat{y}=(\hat{y_1},...,\hat{y_n})\)</span> are estimates of the target values.</p>
+<div id="exr-MAE1" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.16</strong></span> Briefly explain how the <code>MAE</code> loss can be interpreted regarding the target features scale.</p>
+</div>
+<div id="exr-MAE2" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.17</strong></span> The <code>mae</code> loss is a function in the <code>{yardstick}</code> library. If not already done, install the <code>{yardstick}</code> library and read the <code>help</code> function of the <code>mae</code> function. Then, apply it tot the <code>model_linear_res</code> data set and interpret the result.</p>
+</div>
+</section>
+<section id="rmse" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="rmse"><span class="header-section-number">4.3.2</span> (R)MSE</h3>
+<p>Another widely used loss function is the (<strong>R</strong>oot)<strong>M</strong>ean<strong>S</strong>quare<strong>E</strong>rror. It is defined as</p>
+<p><span class="math display">\[\begin{align*}
+  \mathrm{RMSE} &amp;:= \mathrm{RMSE}(y,\hat{y}) := \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y_i})^2}\\
+  \mathrm{MSE} &amp;:= \mathrm{MSE}(y,\hat{y}) := \frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y_i})^2
+\end{align*}\]</span></p>
+<div id="exr-RMSE" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.18</strong></span> Repeat the exercise <a href="#exr-MAE1" class="quarto-xref">Exercise&nbsp;<span>4.16</span></a> and <a href="#exr-MAE2" class="quarto-xref">Exercise&nbsp;<span>4.17</span></a> for the RMSE and MSE.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="solutions" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Solutions</h1>
+<div id="sol-DEA1" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.1</em> (<a href="#exr-DEA1" class="quarto-xref">Exercise&nbsp;<span>4.1</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/BankChurners.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-DEA2" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.2</em> (<a href="#exr-DEA2" class="quarto-xref">Exercise&nbsp;<span>4.2</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.character) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$Attrition_Flag
+
+Attrited Customer Existing Customer 
+             1627              8500 
+
+$Gender
+
+   F    M 
+5358 4769 
+
+$Education_Level
+
+      College     Doctorate      Graduate   High School Post-Graduate 
+         1013           451          3128          2013           516 
+   Uneducated       Unknown 
+         1487          1519 
+
+$Marital_Status
+
+Divorced  Married   Single  Unknown 
+     748     4687     3943      749 
+
+$Income_Category
+
+       $120K +    $40K - $60K    $60K - $80K   $80K - $120K Less than $40K 
+           727           1790           1402           1535           3561 
+       Unknown 
+          1112 
+
+$Card_Category
+
+    Blue     Gold Platinum   Silver 
+    9436      116       20      555 </code></pre>
+</div>
+</div>
+<ol type="1">
+<li><p>In the first line, the data set <code>credit_info</code> is passed to the following line.</p></li>
+<li><p>The <code>credit_info</code> data set is passed into the <code>select_if</code> function that selects columns of the data set based on some condition passed in the arguments. In this case, the condition is the <code>is.character</code> function, that checks, whether a column is of type <code>chr</code>. The results are then piped into the following line.</p></li>
+<li><p>In the third line, the selected columns are passed into the <code>sapply</code> function, that applies a given function column wise to a data set and returns the resulting data set. Here, the <code>table</code> function is applied generating a contingency table of the counts for each column.</p></li>
+</ol>
+</div>
+<div id="sol-DEA3" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.3</em> (<a href="#exr-DEA3" class="quarto-xref">Exercise&nbsp;<span>4.3</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="ot">&lt;-</span>credit_info <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Income_Category =</span> <span class="fu">factor</span>(Income_Category,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Unknown"</span>,<span class="st">"Less than $40K"</span>,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"$40K - $60K"</span>,<span class="st">"$60K - $80K"</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"$80K - $120K"</span>,<span class="st">"$120K +"</span>),</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">ordered =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">Education_Level =</span> <span class="fu">factor</span>(Education_Level,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Unknown"</span>,<span class="st">"Uneducated"</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"High School"</span>,<span class="st">"College"</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"Graduate"</span>, <span class="st">"Post-Graduate"</span>,</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"Doctorate"</span>)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>                                  )</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-DEA4" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.4</em> (<a href="#exr-DEA4" class="quarto-xref">Exercise&nbsp;<span>4.4</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Income_Category) <span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">meanlim =</span> <span class="fu">mean</span>(Credit_Limit),</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">medlim =</span> <span class="fu">median</span>(Credit_Limit)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  Income_Category meanlim medlim
+  &lt;ord&gt;             &lt;dbl&gt;  &lt;dbl&gt;
+1 Unknown           9517.   6380
+2 Less than $40K    3754.   2766
+3 $40K - $60K       5462.   3682
+4 $60K - $80K      10759.   7660
+5 $80K - $120K     15810.  12830
+6 $120K +          19717.  18442</code></pre>
+</div>
+</div>
+</div>
+<div id="sol-DEA5" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.5</em> (<a href="#exr-DEA5" class="quarto-xref">Exercise&nbsp;<span>4.5</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Income_Category) <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_group =</span> <span class="fu">mean</span>(Credit_Limit)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  Income_Category mean_group
+  &lt;ord&gt;                &lt;dbl&gt;
+1 Unknown              9517.
+2 Less than $40K       3754.
+3 $40K - $60K          5462.
+4 $60K - $80K         10759.
+5 $80K - $120K        15810.
+6 $120K +             19717.</code></pre>
+</div>
+</div>
+<p>Unsurprisingly, the highest income category also has the highest mean credit limit (19,717 USD).</p>
+</div>
+<div id="sol-DEA6" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.6</em> (<a href="#exr-DEA6" class="quarto-xref">Exercise&nbsp;<span>4.6</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="ot">&lt;-</span> credit_info_clean <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">where</span>(<span class="sc">~</span> <span class="fu">is.character</span>(.) <span class="sc">|</span> <span class="fu">is.factor</span>(.)),</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span> <span class="fu">na_if</span>(., <span class="st">"Unknown"</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-DEA7" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.7</em> (<a href="#exr-DEA7" class="quarto-xref">Exercise&nbsp;<span>4.7</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>nrow_old <span class="ot">&lt;-</span> <span class="fu">nrow</span>(credit_info_clean)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="ot">&lt;-</span> credit_info_clean <span class="sc">%&gt;%</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"{nrow_old-nrow(credit_info_clean)} samples were removed."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>3046 samples were removed.</code></pre>
+</div>
+</div>
+</div>
+<div id="sol-DEA8" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.8</em> (<a href="#exr-DEA8" class="quarto-xref">Exercise&nbsp;<span>4.8</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="sc">%&gt;%</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Card_Category) <span class="sc">%&gt;%</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  Card_Category     n
+  &lt;chr&gt;         &lt;int&gt;
+1 Blue           6598
+2 Gold             81
+3 Platinum         11
+4 Silver          391</code></pre>
+</div>
+</div>
+</div>
+<div id="sol-DEA9" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.9</em> (<a href="#exr-DEA9" class="quarto-xref">Exercise&nbsp;<span>4.9</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>credit_info_blue <span class="ot">&lt;-</span> credit_info_clean <span class="sc">%&gt;%</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Card_Category <span class="sc">==</span> <span class="st">"Blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-DEA10" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.10</em> (<a href="#exr-DEA10" class="quarto-xref">Exercise&nbsp;<span>4.10</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>credit_info_blue <span class="sc">%&gt;%</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"F"</span> <span class="sc">&amp;</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>           Customer_Age <span class="sc">&lt;=</span> <span class="dv">40</span> <span class="sc">&amp;</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>           Credit_Limit <span class="sc">&gt;</span> <span class="dv">10000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  n
+1 7</code></pre>
+</div>
+</div>
+</div>
+<div id="sol-VDE1" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.11</em> (<a href="#exr-VDE1" class="quarto-xref">Exercise&nbsp;<span>4.11</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age))<span class="sc">+</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_prerequisites_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="sol-VDE2" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.12</em> (<a href="#exr-VDE2" class="quarto-xref">Exercise&nbsp;<span>4.12</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age))<span class="sc">+</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_prerequisites_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="sol-VDE3" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.13</em> (<a href="#exr-VDE3" class="quarto-xref">Exercise&nbsp;<span>4.13</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age, <span class="at">fill =</span> Gender))<span class="sc">+</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_prerequisites_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="sol-VDE4" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.14</em> (<a href="#exr-VDE4" class="quarto-xref">Exercise&nbsp;<span>4.14</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Credit_Limit))<span class="sc">+</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_prerequisites_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="sol-VDE5" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.15</em> (<a href="#exr-VDE5" class="quarto-xref">Exercise&nbsp;<span>4.15</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean,</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(Customer_Age, <span class="at">fill =</span> Education_Level)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>       )<span class="sc">+</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="st">"Education_Level"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_prerequisites_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="sol-MAE1" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.16</em> (<a href="#exr-MAE1" class="quarto-xref">Exercise&nbsp;<span>4.16</span></a>). </span>The Mean Absolute Error (MAE) loss can be interpreted in terms of the scale of the target features because it directly measures the average absolute difference between predicted and actual target values. Thus, if the target variable is on a large scale (e.g., thousands), MAE will also be large. Conversely, for small target values, the MAE will be correspondingly smaller. This makes MAE sensitive to the scale of the target features, and it is essential to normalize or scale data if different features or targets are on very different scales to ensure the MAE provides meaningful comparisons across models or data sets.</p>
+</div>
+<div id="sol-MAE2" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.17</em> (<a href="#exr-MAE2" class="quarto-xref">Exercise&nbsp;<span>4.17</span></a>). </span>The <code>model_linear_res</code> data set contains the <code>.pred</code> column, where predictions of the linear model are saved. We can use the predictions and the outcome variable <code>Credit_Limit</code> to calculate the MAE.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>model_linear_res <span class="sc">%&gt;%</span> <span class="fu">mae</span>(.pred,Credit_Limit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 mae     standard       4114.</code></pre>
+</div>
+</div>
+<p>An MAE of 4114 indicates that on average, the predicted credit limit of a customer deviates 4114 USD.</p>
+</div>
+<div id="sol-RMSE" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.18</em> (<a href="#exr-RMSE" class="quarto-xref">Exercise&nbsp;<span>4.18</span></a>). </span></p>
+<ol type="1">
+<li><p>Similar to the MAE loss, the RMSE can be interpreted in terms of the scale of the target features. It also measures the average difference between the observed and predicted values, but its unique feature is that it emphasizes outliers more. Greater distances are weighted more heavily due to the square term, thereby enhancing prediction accuracy.</p></li>
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>model_linear_res <span class="sc">%&gt;%</span> yardstick<span class="sc">::</span><span class="fu">rmse</span>(.pred,Credit_Limit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard       5628.</code></pre>
+</div>
+</div>
+<p>An RMSE of 5628 indicates that, on average, a customer’s predicted credit limit deviates 5628 USD.</p></li>
+<li><p>As for the MSE, the error units are expressed as squared terms. Therefore, the scales can not be interpreted directly. MSE is usually deployed in practice since it has some nice properties like differentiability at <span class="math inline">\(0\)</span>, which the MAE lacks. Moreover, MSE is easier to compute, thanks to the absence of a square root, which reduces computational time.</p></li>
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>model_linear_rmse <span class="ot">&lt;-</span> model_linear_res <span class="sc">%&gt;%</span> <span class="fu">rmse</span>(.pred,Credit_Limit) <span class="sc">%&gt;%</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">".estimate"</span>)</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>model_linear_rmse<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 31676421</code></pre>
+</div>
+</div></li>
+</ol>
+</div>
+</section>
+<section id="session-info" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Session Info</h1>
+<p>The <code>sessionInfo()</code> function captures detailed information about the current R session, including the version of R and loaded packages. This is useful for ensuring reproducibility of analyses and troubleshooting code, as it provides a snapshot of the environment in which the code was executed.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.4.0 (2024-04-24 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 10 x64 (build 19045)
+
+Matrix products: default
+
+
+locale:
+[1] LC_COLLATE=English_United States.utf8 
+[2] LC_CTYPE=English_United States.utf8   
+[3] LC_MONETARY=English_United States.utf8
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.utf8    
+
+time zone: Europe/Berlin
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] yardstick_1.3.1    workflowsets_1.1.0 workflows_1.1.4    tune_1.2.1        
+ [5] rsample_1.2.1      recipes_1.0.10     parsnip_1.2.1      modeldata_1.3.0   
+ [9] infer_1.0.7        dials_1.2.1        scales_1.3.0       broom_1.0.5       
+[13] tidymodels_1.2.0   lubridate_1.9.3    forcats_1.0.0      stringr_1.5.1     
+[17] dplyr_1.1.4        purrr_1.0.2        readr_2.1.5        tidyr_1.3.1       
+[21] tibble_3.2.1       ggplot2_3.5.1      tidyverse_2.0.0   
+
+loaded via a namespace (and not attached):
+ [1] tidyselect_1.2.1    timeDate_4032.109   farver_2.1.1       
+ [4] fastmap_1.1.1       digest_0.6.35       rpart_4.1.23       
+ [7] timechange_0.3.0    lifecycle_1.0.4     survival_3.5-8     
+[10] magrittr_2.0.3      compiler_4.4.0      rlang_1.1.3        
+[13] tools_4.4.0         utf8_1.2.4          yaml_2.3.8         
+[16] data.table_1.15.4   knitr_1.46          labeling_0.4.3     
+[19] htmlwidgets_1.6.4   DiceDesign_1.10     withr_3.0.0        
+[22] nnet_7.3-19         grid_4.4.0          fansi_1.0.6        
+[25] colorspace_2.1-0    future_1.33.2       iterators_1.0.14   
+[28] globals_0.16.3      MASS_7.3-60.2       cli_3.6.2          
+[31] crayon_1.5.2        rmarkdown_2.26      generics_0.1.3     
+[34] rstudioapi_0.16.0   future.apply_1.11.2 tzdb_0.4.0         
+[37] splines_4.4.0       parallel_4.4.0      vctrs_0.6.5        
+[40] hardhat_1.3.1       Matrix_1.7-0        jsonlite_1.8.8     
+[43] hms_1.1.3           listenv_0.9.1       foreach_1.5.2      
+[46] gower_1.0.1         glue_1.7.0          parallelly_1.37.1  
+[49] codetools_0.2-20    stringi_1.8.4       gtable_0.3.5       
+[52] munsell_0.5.1       GPfit_1.0-8         pillar_1.9.0       
+[55] furrr_0.3.1         htmltools_0.5.8.1   ipred_0.9-14       
+[58] lava_1.8.0          R6_2.5.1            lhs_1.1.6          
+[61] evaluate_0.23       lattice_0.22-6      backports_1.4.1    
+[64] class_7.3-22        Rcpp_1.0.12         prodlim_2023.08.28 
+[67] xfun_0.43           pkgconfig_2.0.3    </code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Preface">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./02_linear_models.html" class="pagination-link" aria-label="Linear Models">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Models</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
