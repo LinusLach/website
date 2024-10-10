@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Machine Learning Supplementary Material - 1&nbsp; Important R concepts</title>
+<title>1&nbsp; Important R concepts – Machine Learning Supplementary Material</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -141,13 +141,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_prerequisites.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Important R concepts</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -187,24 +187,6 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Models</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./03_regularization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./04_regression_trees.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regression Trees</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -215,32 +197,35 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#installing-r-rstudio-and-getting-started-with-quarto" id="toc-installing-r-rstudio-and-getting-started-with-quarto" class="nav-link active" data-scroll-target="#installing-r-rstudio-and-getting-started-with-quarto"><span class="header-section-number">1.1</span> Installing R, RStudio, and getting started with Quarto</a></li>
-  <li><a href="#working-directories-and-projects" id="toc-working-directories-and-projects" class="nav-link" data-scroll-target="#working-directories-and-projects"><span class="header-section-number">1.2</span> Working directories and projects</a></li>
-  <li><a href="#help-my-code-doesnt-do-what-i-expect-it-to-do" id="toc-help-my-code-doesnt-do-what-i-expect-it-to-do" class="nav-link" data-scroll-target="#help-my-code-doesnt-do-what-i-expect-it-to-do"><span class="header-section-number">2</span> Help, my code doesn’t do what I expect it to do!</a></li>
-  <li><a href="#working-with-datasets" id="toc-working-with-datasets" class="nav-link" data-scroll-target="#working-with-datasets"><span class="header-section-number">3</span> Working with datasets</a>
+  <li><a href="#setting-up-r" id="toc-setting-up-r" class="nav-link active" data-scroll-target="#setting-up-r"><span class="header-section-number">1.1</span> Setting up R</a>
   <ul>
-  <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data"><span class="header-section-number">3.1</span> Importing data</a></li>
-  <li><a href="#sec-essentials" id="toc-sec-essentials" class="nav-link" data-scroll-target="#sec-essentials"><span class="header-section-number">3.2</span> Essential functions and libraries</a>
-  <ul class="collapse">
-  <li><a href="#sec-filtering" id="toc-sec-filtering" class="nav-link" data-scroll-target="#sec-filtering"><span class="header-section-number">3.2.1</span> Filtering, grouping, and summarizing data sets</a></li>
-  <li><a href="#mutating-data-sets" id="toc-mutating-data-sets" class="nav-link" data-scroll-target="#mutating-data-sets"><span class="header-section-number">3.2.2</span> Mutating data sets</a></li>
-  <li><a href="#factor-variables" id="toc-factor-variables" class="nav-link" data-scroll-target="#factor-variables"><span class="header-section-number">3.2.3</span> Factor Variables</a></li>
+  <li><a href="#installing-r-rstudio-and-getting-started-with-quarto" id="toc-installing-r-rstudio-and-getting-started-with-quarto" class="nav-link" data-scroll-target="#installing-r-rstudio-and-getting-started-with-quarto"><span class="header-section-number">1.1.1</span> Installing R, RStudio, and getting started with Quarto</a></li>
+  <li><a href="#working-directories-and-projects" id="toc-working-directories-and-projects" class="nav-link" data-scroll-target="#working-directories-and-projects"><span class="header-section-number">1.1.2</span> Working directories and projects</a></li>
   </ul></li>
-  <li><a href="#visualizing-data-with-ggplot" id="toc-visualizing-data-with-ggplot" class="nav-link" data-scroll-target="#visualizing-data-with-ggplot"><span class="header-section-number">3.3</span> Visualizing data with ggplot</a></li>
-  </ul></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4</span> Exercises</a>
+  <li><a href="#help-my-code-doesnt-do-what-i-expect-it-to-do" id="toc-help-my-code-doesnt-do-what-i-expect-it-to-do" class="nav-link" data-scroll-target="#help-my-code-doesnt-do-what-i-expect-it-to-do"><span class="header-section-number">1.2</span> Help, my code doesn’t do what I expect it to do!</a></li>
+  <li><a href="#working-with-datasets" id="toc-working-with-datasets" class="nav-link" data-scroll-target="#working-with-datasets"><span class="header-section-number">1.3</span> Working with datasets</a>
   <ul>
-  <li><a href="#statistical-data-exploration-and-manipulation" id="toc-statistical-data-exploration-and-manipulation" class="nav-link" data-scroll-target="#statistical-data-exploration-and-manipulation"><span class="header-section-number">4.1</span> Statistical Data Exploration and Manipulation</a></li>
-  <li><a href="#visual-data-exploration" id="toc-visual-data-exploration" class="nav-link" data-scroll-target="#visual-data-exploration"><span class="header-section-number">4.2</span> Visual Data Exploration</a></li>
-  <li><a href="#loss-functions" id="toc-loss-functions" class="nav-link" data-scroll-target="#loss-functions"><span class="header-section-number">4.3</span> Loss functions</a>
+  <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data"><span class="header-section-number">1.3.1</span> Importing data</a></li>
+  <li><a href="#sec-essentials" id="toc-sec-essentials" class="nav-link" data-scroll-target="#sec-essentials"><span class="header-section-number">1.3.2</span> Essential functions and libraries</a>
   <ul class="collapse">
-  <li><a href="#mae-loss" id="toc-mae-loss" class="nav-link" data-scroll-target="#mae-loss"><span class="header-section-number">4.3.1</span> MAE Loss</a></li>
-  <li><a href="#rmse" id="toc-rmse" class="nav-link" data-scroll-target="#rmse"><span class="header-section-number">4.3.2</span> (R)MSE</a></li>
+  <li><a href="#sec-filtering" id="toc-sec-filtering" class="nav-link" data-scroll-target="#sec-filtering"><span class="header-section-number">1.3.2.1</span> Filtering, grouping, and summarizing data sets</a></li>
+  </ul></li>
+  <li><a href="#mutating-data-sets" id="toc-mutating-data-sets" class="nav-link" data-scroll-target="#mutating-data-sets"><span class="header-section-number">1.3.3</span> Mutating data sets</a></li>
+  <li><a href="#factor-variables" id="toc-factor-variables" class="nav-link" data-scroll-target="#factor-variables"><span class="header-section-number">1.3.4</span> Factor Variables</a></li>
+  </ul></li>
+  <li><a href="#visualizing-data-with-ggplot" id="toc-visualizing-data-with-ggplot" class="nav-link" data-scroll-target="#visualizing-data-with-ggplot"><span class="header-section-number">1.4</span> Visualizing data with ggplot</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">1.5</span> Exercises</a>
+  <ul>
+  <li><a href="#statistical-data-exploration-and-manipulation" id="toc-statistical-data-exploration-and-manipulation" class="nav-link" data-scroll-target="#statistical-data-exploration-and-manipulation"><span class="header-section-number">1.5.1</span> Statistical Data Exploration and Manipulation</a></li>
+  <li><a href="#visual-data-exploration" id="toc-visual-data-exploration" class="nav-link" data-scroll-target="#visual-data-exploration"><span class="header-section-number">1.5.2</span> Visual Data Exploration</a></li>
+  <li><a href="#loss-functions" id="toc-loss-functions" class="nav-link" data-scroll-target="#loss-functions"><span class="header-section-number">1.5.3</span> Loss functions</a>
+  <ul class="collapse">
+  <li><a href="#mae-loss" id="toc-mae-loss" class="nav-link" data-scroll-target="#mae-loss"><span class="header-section-number">1.5.3.1</span> MAE Loss</a></li>
+  <li><a href="#rmse" id="toc-rmse" class="nav-link" data-scroll-target="#rmse"><span class="header-section-number">1.5.3.2</span> (R)MSE</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions"><span class="header-section-number">5</span> Solutions</a></li>
-  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">6</span> Session Info</a></li>
+  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions"><span class="header-section-number">1.6</span> Solutions</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">1.7</span> Session Info</a></li>
   </ul>
 </nav>
     </div>
@@ -267,8 +252,10 @@ window.Quarto = {
 
 
 <p>Most exercises involve working with the statistical software R. Since a comprehensive recap of R would go beyond the scope of this lecture, we only review libraries and concepts we frequently need throughout the exercises. For a comprehensive introduction to R, see <a href="https://yards.albert-rapp.de/">YARDS</a> by Dr.&nbsp;Albert Rapp.</p>
-<section id="installing-r-rstudio-and-getting-started-with-quarto" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="installing-r-rstudio-and-getting-started-with-quarto"><span class="header-section-number">1.1</span> Installing R, RStudio, and getting started with Quarto</h2>
+<section id="setting-up-r" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="setting-up-r"><span class="header-section-number">1.1</span> Setting up R</h2>
+<section id="installing-r-rstudio-and-getting-started-with-quarto" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="installing-r-rstudio-and-getting-started-with-quarto"><span class="header-section-number">1.1.1</span> Installing R, RStudio, and getting started with Quarto</h3>
 <p>Before starting the revision, we need to ensure that R and RStudio are installed. The installation process for both R and RStudio is straightforward and user-friendly. While R (the programming language) comes with a preinstalled graphical user interface, we will use the integrated development environment RStudio instead, as it looks more appealing and provides some features RGui lacks. It is important to note that in order to get RStudio to work, R needs to be installed first.</p>
 <ul>
 <li><p>R (for Windows) can be downloaded <a href="https://cran.r-project.org/bin/windows/base/">here</a>.</p></li>
@@ -317,8 +304,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="working-directories-and-projects" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="working-directories-and-projects"><span class="header-section-number">1.2</span> Working directories and projects</h2>
+<section id="working-directories-and-projects" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="working-directories-and-projects"><span class="header-section-number">1.1.2</span> Working directories and projects</h3>
 <p>After opening RStudio, execute the <code>getwd()</code> command in the console pane, which returns the current working directory. The working directory displays the directory of the R process. For example, if the return value of the <code>getwd()</code> command is <code>C:\Users\lachlinu\Desktop\ML</code>, then R can access any file in the <code>ML</code> directory. One way to change the working directory is using the <code>setwd()</code> command, which changes the current working directory. Manually changing the directory in every <code>.qmd</code> document might become tedious after a while, so a more practical alternative is setting up a project. RStudio projects allow the creation of an individual working directory for multiple contexts. For example, you might use R not only for solving Machine Learning exercises but also for your master’s thesis. Then, setting up two different projects will help you organize working directories and workspaces for each project individually. To set up a project for this course</p>
 <ol type="1">
 <li><p>Go to the <code>File</code> tab and select <code>New Project...</code>.</p>
@@ -342,8 +329,9 @@ Tip
 </ol>
 <p>Once the project is opened, running the <code>getwd()</code> command in the console pane returns its path. Any file in this directory can be directly accessed without specifying the preceding path.</p>
 </section>
-<section id="help-my-code-doesnt-do-what-i-expect-it-to-do" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Help, my code doesn’t do what I expect it to do!</h1>
+</section>
+<section id="help-my-code-doesnt-do-what-i-expect-it-to-do" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="help-my-code-doesnt-do-what-i-expect-it-to-do"><span class="header-section-number">1.2</span> Help, my code doesn’t do what I expect it to do!</h2>
 <p>Debugging, also known as finding out why code does not behave as expected, plays a substantial role in programming. Even after years of practice, occasional bugs will occur. There are several more or less effective approaches to resolve problems that might occur in the context of this course, with debugging being a key focus.</p>
 <ol type="1">
 <li><p>A simple Google search can do wonders. Most questions that arise in the context of this lecture have probably been asked on boards like <a href="https://stackoverflow.com">Stack Overflow</a>. Alternatively, the search results might contain websites like <a href="https://www.datacamp.com">DataCamp</a> or <a href="https://www.geeksforgeeks.org/">GeeksforGeeks</a>, which will most likely answer your question as well.</p></li>
@@ -361,7 +349,12 @@ Tip
       Once the command has executed, the viewer pane opens and your clipboard now contains the         reproducable example as a string that can be posted in a mail.
 
 
+
+
       
+
+
+
 
 
 
@@ -370,11 +363,11 @@ Tip
       :::
 -->
 </section>
-<section id="working-with-datasets" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Working with datasets</h1>
+<section id="working-with-datasets" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="working-with-datasets"><span class="header-section-number">1.3</span> Working with datasets</h2>
 <p>In the context of machine learning, data builds the foundation. Whether you want to predict the weather, future stock prices, or the base rent of a potential rental apartment, without high-quality data, even the most advanced models fail. However, the reality is that data we gather from the web, servers, or spreadsheets is often far from pristine. For example, missing values could be encoded as <code>NA</code> (Not Available), <code>NaN</code> (Not a Number), <code>NULL</code>, or simply by an empty string <code>" "</code>. That is why knowing your way around basic data manipulation is essential.</p>
-<section id="importing-data" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="importing-data"><span class="header-section-number">3.1</span> Importing data</h2>
+<section id="importing-data" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="importing-data"><span class="header-section-number">1.3.1</span> Importing data</h3>
 <p>To manipulate data, we first need to import it. R has quite a few preinstalled data sets; however, I prefer data sets that are either more complex, related to everyday life, or just more fun to explore. This course will provide most of the data in <code>.csv</code> or <code>.txt</code> files. Before we can start manipulating data, it’s essential to import it correctly. This ensures that the data is in the right format for further analysis.</p>
 <p>Consider the Netflix Movies and TV Shows data set, which can be downloaded from the data science community website <a href="https://www.kaggle.com/datasets/shivamb/netflix-shows">Kaggle</a> or directly below.</p>
 <div style="text-align: center;">
@@ -401,8 +394,8 @@ Pro Tip
 </div>
 </div>
 </section>
-<section id="sec-essentials" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="sec-essentials"><span class="header-section-number">3.2</span> Essential functions and libraries</h2>
+<section id="sec-essentials" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="sec-essentials"><span class="header-section-number">1.3.2</span> Essential functions and libraries</h3>
 <p>One of the most versatile and essential collection of libraries in the context of data science with R is the <code>{tidyverse}</code> library, which includes</p>
 <ul>
 <li><code>{ggplot}</code> for creating beautiful graphics,</li>
@@ -436,8 +429,8 @@ $ description  &lt;chr&gt; "As her father nears the end of his life, filmmaker K
 </div>
 </div>
 <p><code>Rows: 8,807</code> means that the data set has 8,807 entries, and <code>Columns: 12</code> means that the data set has 12 variables, respectively. The first column presents the variable names, their data types, and some initial values, providing a clear structure to the data set. We can already see that except for one variable (<code>release_year</code>), every other variable is of type <code>chr</code>, which stands for <em>character</em> or <em>string</em>.</p>
-<section id="sec-filtering" class="level3" data-number="3.2.1">
-<h3 data-number="3.2.1" class="anchored" data-anchor-id="sec-filtering"><span class="header-section-number">3.2.1</span> Filtering, grouping, and summarizing data sets</h3>
+<section id="sec-filtering" class="level4" data-number="1.3.2.1">
+<h4 data-number="1.3.2.1" class="anchored" data-anchor-id="sec-filtering"><span class="header-section-number">1.3.2.1</span> Filtering, grouping, and summarizing data sets</h4>
 <p>Functions frequently encountered while working with data are <code>filter</code>, <code>group_by</code>, and <code>summarise</code>. Let’s say we want to find out, according to the data set, how many movies and series were released in each year following 2010. Now, if we were to tackle this problem without the <code>{tidyverse}</code> framework, our code might look a little something like this:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>netflix_filtered <span class="ot">&lt;-</span> data_netflix[data_netflix<span class="sc">$</span>release_year <span class="sc">&gt;</span> <span class="dv">2010</span>, ]</span>
@@ -514,8 +507,9 @@ Note
 <li><p>This can be seen as a pre-processing step for the <code>summarise</code> function applied in the following line. The <code>summarise</code> function creates a new data set based on the functions passed as arguments. These functions are applied to every group created by the previous step. In the example above, the function applied is <code>n()</code>, which returns the group size. Thus, setting <code>n=n()</code> as the argument creates a new column named <code>n</code>, which contains the number of samples within each group.</p></li>
 </ol>
 </section>
-<section id="mutating-data-sets" class="level3" data-number="3.2.2">
-<h3 data-number="3.2.2" class="anchored" data-anchor-id="mutating-data-sets"><span class="header-section-number">3.2.2</span> Mutating data sets</h3>
+</section>
+<section id="mutating-data-sets" class="level3" data-number="1.3.3">
+<h3 data-number="1.3.3" class="anchored" data-anchor-id="mutating-data-sets"><span class="header-section-number">1.3.3</span> Mutating data sets</h3>
 <p>Besides filtering, grouping, and summarizing, another important concept is mutating the data, i.e., modifying the content of the data set.</p>
 <p>The <code>mutate</code> function either creates new columns or modifies existing columns based on the passed column names and functions that are passed. It is helpful for modifying data and their types, creating new variables based on existing ones, and removing unwanted variables. In the example below, the <code>mutate</code> function is used to modify the variable <code>date_added</code>, create a new variable called <code>is_show</code> and delete the variable <code>type</code>.</p>
 <div class="cell">
@@ -561,8 +555,8 @@ Pro Tip
 </div>
 </div>
 </section>
-<section id="factor-variables" class="level3" data-number="3.2.3">
-<h3 data-number="3.2.3" class="anchored" data-anchor-id="factor-variables"><span class="header-section-number">3.2.3</span> Factor Variables</h3>
+<section id="factor-variables" class="level3" data-number="1.3.4">
+<h3 data-number="1.3.4" class="anchored" data-anchor-id="factor-variables"><span class="header-section-number">1.3.4</span> Factor Variables</h3>
 <p>An important data type that can handle both ordinal (data with some notion of order) and nominal data are so-called <code>factor</code> variables.</p>
 <p>Consider the following toy data set containing seven people with corresponding age groups and eye colors.</p>
 <div class="cell">
@@ -616,10 +610,10 @@ Levels: child &lt; adult &lt; senior</code></pre>
 </div>
 </section>
 </section>
-<section id="visualizing-data-with-ggplot" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="visualizing-data-with-ggplot"><span class="header-section-number">3.3</span> Visualizing data with ggplot</h2>
+<section id="visualizing-data-with-ggplot" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="visualizing-data-with-ggplot"><span class="header-section-number">1.4</span> Visualizing data with ggplot</h2>
 <p>Another critical aspect of data science and machine learning is graphical storytelling. Describing an algorithm strictly using mathematical notation or exploring a data set using descriptive and inductive statistics alone can make it challenging to understand the message. While R offers some base functions for creating graphics, this course primarily uses the library <code>{ggplot2}</code>. A comprehensive introduction to <code>{ggplot2}</code> can be found in Hadley Wickham’s book <a href="https://ggplot2-book.org/">Elegant Graphics for Data Analysis</a>. A short summary can be found below.</p>
-<p>For the following example, we will use the <code>netflix_filtered</code> data set (see <a href="#sec-filtering" class="quarto-xref"><span>Section 3.2.1</span></a>)</p>
+<p>For the following example, we will use the <code>netflix_filtered</code> data set (see <a href="#sec-filtering" class="quarto-xref"><span>Section 1.3.2.1</span></a>)</p>
 <p>A graphic created with <code>{ggplot2}</code> consists of the following three base components:</p>
 <ol type="1">
 <li><p>The data itself.</p>
@@ -693,22 +687,21 @@ Pro Tips
 </ol>
 <p>There are a lot more functions and settings that can be applied to each function. A selection of those is discussed in the exercises.</p>
 </section>
-</section>
-<section id="exercises" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Exercises</h1>
+<section id="exercises" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">1.5</span> Exercises</h2>
 <p>Throughout the exercises, we will work with the <a href="https://www.kaggle.com/datasets/sakshigoyal7/credit-card-customers">Credit Card Customers</a> data set that can either be downloaded using the provided link or the button below.</p>
 <div style="text-align: center;">
 <p><a href="data/BankChurners.csv" class="btn btn-outline-primary" role="button" data-toggle="tooltip" title="1.2 MB">Download BankChurners</a></p>
 </div>
 <p>The data set consists of 10,127 entries that represent individual customers of a bank including but not limited to their age, salary, credit card limit, and credit card category.</p>
-<section id="statistical-data-exploration-and-manipulation" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="statistical-data-exploration-and-manipulation"><span class="header-section-number">4.1</span> Statistical Data Exploration and Manipulation</h2>
+<section id="statistical-data-exploration-and-manipulation" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="statistical-data-exploration-and-manipulation"><span class="header-section-number">1.5.1</span> Statistical Data Exploration and Manipulation</h3>
 <p>We will start by getting a feeling for the data and performing some basic data manipulation steps.</p>
 <div id="exr-DEA1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.1</strong></span> Import the data set and use the <code>glimpse</code> function to generate a summary of the data set.</p>
+<p><span class="theorem-title"><strong>Exercise 1.1</strong></span> Import the data set and use the <code>glimpse</code> function to generate a summary of the data set.</p>
 </div>
 <div id="exr-DEA2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.2</strong></span> Assume that the data set has been imported and saved as an object called <code>credit_info</code>. Explain the following code snippet both syntactically and semantically. <em>Hint: Use the help function for any function you do not know.</em></p>
+<p><span class="theorem-title"><strong>Exercise 1.2</strong></span> Assume that the data set has been imported and saved as an object called <code>credit_info</code>. Explain the following code snippet both syntactically and semantically. <em>Hint: Use the help function for any function you do not know.</em></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="sc">%&gt;%</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.character) <span class="sc">%&gt;%</span></span>
@@ -751,51 +744,51 @@ $Card_Category
 </div>
 </div>
 <div id="exr-DEA3" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.3</strong></span> Overwrite the variables <code>Income_Category</code> and <code>Education_Level</code> into ordered factors. When setting the levels for each group, set <code>"Unknown"</code> as the lowest level. Use this cleaned data set for the remaining exercises.</p>
+<p><span class="theorem-title"><strong>Exercise 1.3</strong></span> Overwrite the variables <code>Income_Category</code> and <code>Education_Level</code> into ordered factors. When setting the levels for each group, set <code>"Unknown"</code> as the lowest level. Use this cleaned data set for the remaining exercises.</p>
 </div>
 <div id="exr-DEA4" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.4</strong></span> Group the data set by income category and find out each group’s <code>mean</code> and <code>median</code> credit limit.</p>
+<p><span class="theorem-title"><strong>Exercise 1.4</strong></span> Group the data set by income category and find out each group’s <code>mean</code> and <code>median</code> credit limit.</p>
 </div>
 <div id="exr-DEA5" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.5</strong></span> Which income group has the highest mean credit limit?</p>
+<p><span class="theorem-title"><strong>Exercise 1.5</strong></span> Which income group has the highest mean credit limit?</p>
 </div>
 <div id="exr-DEA6" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.6</strong></span> Use the following code snippet to modify the data set by incorporating it into the <code>mutate</code> function. The snippet converts all <code>"Unknown"</code> values contained in character or factor columns into <code>NA</code> values, which are easier to handle.</p>
+<p><span class="theorem-title"><strong>Exercise 1.6</strong></span> Use the following code snippet to modify the data set by incorporating it into the <code>mutate</code> function. The snippet converts all <code>"Unknown"</code> values contained in character or factor columns into <code>NA</code> values, which are easier to handle.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">across</span>(<span class="fu">where</span>(<span class="sc">~</span> <span class="fu">is.character</span>(.) <span class="sc">|</span> <span class="fu">is.factor</span>(.)),</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>       <span class="sc">~</span><span class="fu">na_if</span>(.,<span class="st">"Unknown"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="exr-DEA7" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.7</strong></span> Apply the <code>na.omit()</code> function to the data set to remove all samples in the data set that contain <code>NA</code> values. How many samples have been removed in total?</p>
+<p><span class="theorem-title"><strong>Exercise 1.7</strong></span> Apply the <code>na.omit()</code> function to the data set to remove all samples in the data set that contain <code>NA</code> values. How many samples have been removed in total?</p>
 </div>
 <p>Sometimes, we only want to infer results for specific subgroups. The Blue Credit Card is the most common type of credit card. Gaining insights for this particular group allows us to retrieve information that might be useful in later analyses.</p>
 <div id="exr-DEA8" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.8</strong></span> Find out how many customers have a Blue credit card.</p>
+<p><span class="theorem-title"><strong>Exercise 1.8</strong></span> Find out how many customers have a Blue credit card.</p>
 </div>
 <div id="exr-DEA9" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.9</strong></span> Create a new data set <code>credit_info_blue</code> containing all customers that hold a Blue credit card.</p>
+<p><span class="theorem-title"><strong>Exercise 1.9</strong></span> Create a new data set <code>credit_info_blue</code> containing all customers that hold a Blue credit card.</p>
 </div>
 <div id="exr-DEA10" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.10</strong></span> Find the number of female customers holding the Blue Card who are, at most, 40 years old and have a credit limit above 10,000 USD.</p>
+<p><span class="theorem-title"><strong>Exercise 1.10</strong></span> Find the number of female customers holding the Blue Card who are, at most, 40 years old and have a credit limit above 10,000 USD.</p>
 </div>
 </section>
-<section id="visual-data-exploration" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="visual-data-exploration"><span class="header-section-number">4.2</span> Visual Data Exploration</h2>
+<section id="visual-data-exploration" class="level3" data-number="1.5.2">
+<h3 data-number="1.5.2" class="anchored" data-anchor-id="visual-data-exploration"><span class="header-section-number">1.5.2</span> Visual Data Exploration</h3>
 <div id="exr-VDE1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.11</strong></span> We now want to explore some of the demographics in our data set. Create a histogram for the age of the customers using the <code>geom_histogram</code> function. Note that only one variable is required for the aesthetics to create a histogram.</p>
+<p><span class="theorem-title"><strong>Exercise 1.11</strong></span> We now want to explore some of the demographics in our data set. Create a histogram for the age of the customers using the <code>geom_histogram</code> function. Note that only one variable is required for the aesthetics to create a histogram.</p>
 </div>
 <div id="exr-VDE2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.12</strong></span> Using the default parameters in the <code>geom_histogram</code> function, the message “<code>stat_bin()</code> using <code>bins = 30</code>. Pick better value with <code>binwidth</code>.” is displayed. Modify the code so that each age gets its own bin.</p>
+<p><span class="theorem-title"><strong>Exercise 1.12</strong></span> Using the default parameters in the <code>geom_histogram</code> function, the message “<code>stat_bin()</code> using <code>bins = 30</code>. Pick better value with <code>binwidth</code>.” is displayed. Modify the code so that each age gets its own bin.</p>
 </div>
 <div id="exr-VDE3" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.13</strong></span> Now that the histogram looks more organized, we want to add more information. For example, by setting the <code>fill</code> option to <code>Gender</code>, we can create two overlapping histograms showing the number of male and female customers within each age group.</p>
+<p><span class="theorem-title"><strong>Exercise 1.13</strong></span> Now that the histogram looks more organized, we want to add more information. For example, by setting the <code>fill</code> option to <code>Gender</code>, we can create two overlapping histograms showing the number of male and female customers within each age group.</p>
 </div>
 <div id="exr-VDE4" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.14</strong></span> Instead of visualizing the <code>Gender</code> as in the plot above, we now want to analyze the continuous variable <code>Credit_Limit</code>. Therefore, instead of a histogram, use the <code>geom_density</code> function that plots an estimate of the underlying probability density.</p>
+<p><span class="theorem-title"><strong>Exercise 1.14</strong></span> Instead of visualizing the <code>Gender</code> as in the plot above, we now want to analyze the continuous variable <code>Credit_Limit</code>. Therefore, instead of a histogram, use the <code>geom_density</code> function that plots an estimate of the underlying probability density.</p>
 </div>
 <div id="exr-VDE5" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.15</strong></span> The histograms and density plots only provide limited insight into the demographics and customer status as it is relatively complex to figure out the proportions of each group. To take this one step further, consider the following histogram, which shows the <code>Education_Level</code> within every bin.</p>
+<p><span class="theorem-title"><strong>Exercise 1.15</strong></span> The histograms and density plots only provide limited insight into the demographics and customer status as it is relatively complex to figure out the proportions of each group. To take this one step further, consider the following histogram, which shows the <code>Education_Level</code> within every bin.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age, <span class="at">fill =</span> Education_Level))<span class="sc">+</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -810,12 +803,12 @@ $Card_Category
 <p>We can use the <code>geom_histogram</code> function and the <code>facet_wrap</code> function, which generates a subplot for each group. Apply the <code>facet_wrap</code> function to create a subplot for each education level.</p>
 </div>
 </section>
-<section id="loss-functions" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="loss-functions"><span class="header-section-number">4.3</span> Loss functions</h2>
+<section id="loss-functions" class="level3" data-number="1.5.3">
+<h3 data-number="1.5.3" class="anchored" data-anchor-id="loss-functions"><span class="header-section-number">1.5.3</span> Loss functions</h3>
 <p>In future exercises, different loss functions will be deployed to measure how far some regression results deviate from actual values. This exercise, therefore, briefly discusses the advantages and disadvantages of some loss functions and introduces them in R.</p>
 <p>Data-wise, we will consider the <code>credit_info</code> dataset and a simple linear model that is used to predict each customer’s credit limit.</p>
 <p>The following Code snippet reads the unmodified data, removes the features <code>Total_Revolving_Bal</code> and <code>Avg_Open_To_Buy</code> and trains a linear model with target variable <code>Credit_Limit</code> on all the remaining features. It’s important to note that the model is intentionally kept simple for demonstrative purposes, making it easier for you to grasp and apply the concepts.</p>
-<p>Copy the snippet into your own notebook and run it. <em>Hint: You might have to change the path in the <code>read.csv</code> function to your specified data path (<a href="#exr-DEA1" class="quarto-xref">Exercise&nbsp;<span>4.1</span></a>) and install the libraries that are attached.</em></p>
+<p>Copy the snippet into your own notebook and run it. <em>Hint: You might have to change the path in the <code>read.csv</code> function to your specified data path (<a href="02_linear_models.html#exr-DEA1" class="quarto-xref">Exercise&nbsp;<span>2.1</span></a>) and install the libraries that are attached.</em></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(yardstick)</span>
@@ -830,43 +823,43 @@ $Card_Category
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(model_linear_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The object <code>model_linear_res</code> now contains our model’s original data set and predictions. Do not worry if you do not understand every line in the snippet above. We will consider training models in future exercises more thoroughly.</p>
-<section id="mae-loss" class="level3" data-number="4.3.1">
-<h3 data-number="4.3.1" class="anchored" data-anchor-id="mae-loss"><span class="header-section-number">4.3.1</span> MAE Loss</h3>
+<section id="mae-loss" class="level4" data-number="1.5.3.1">
+<h4 data-number="1.5.3.1" class="anchored" data-anchor-id="mae-loss"><span class="header-section-number">1.5.3.1</span> MAE Loss</h4>
 <p>The first loss function we explore is the <strong>M</strong>ean <strong>A</strong>bsolute <strong>E</strong>rror (MAE) loss defined as</p>
 <p><span class="math display">\[\begin{equation*}
   \mathrm{MAE} := \mathrm{MAE}(y,\hat{y}):=\frac{1}{n}\sum_{i=1}^n |y_i-\hat{y_i}|,
 \end{equation*}\]</span></p>
 <p>where <span class="math inline">\(y=(y_1,...,y_n)\)</span> are target values and <span class="math inline">\(\hat{y}=(\hat{y_1},...,\hat{y_n})\)</span> are estimates of the target values.</p>
 <div id="exr-MAE1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.16</strong></span> Briefly explain how the <code>MAE</code> loss can be interpreted regarding the target features scale.</p>
+<p><span class="theorem-title"><strong>Exercise 1.16</strong></span> Briefly explain how the <code>MAE</code> loss can be interpreted regarding the target features scale.</p>
 </div>
 <div id="exr-MAE2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.17</strong></span> The <code>mae</code> loss is a function in the <code>{yardstick}</code> library. If not already done, install the <code>{yardstick}</code> library and read the <code>help</code> function of the <code>mae</code> function. Then, apply it tot the <code>model_linear_res</code> data set and interpret the result.</p>
+<p><span class="theorem-title"><strong>Exercise 1.17</strong></span> The <code>mae</code> loss is a function in the <code>{yardstick}</code> library. If not already done, install the <code>{yardstick}</code> library and read the <code>help</code> function of the <code>mae</code> function. Then, apply it tot the <code>model_linear_res</code> data set and interpret the result.</p>
 </div>
 </section>
-<section id="rmse" class="level3" data-number="4.3.2">
-<h3 data-number="4.3.2" class="anchored" data-anchor-id="rmse"><span class="header-section-number">4.3.2</span> (R)MSE</h3>
+<section id="rmse" class="level4" data-number="1.5.3.2">
+<h4 data-number="1.5.3.2" class="anchored" data-anchor-id="rmse"><span class="header-section-number">1.5.3.2</span> (R)MSE</h4>
 <p>Another widely used loss function is the (<strong>R</strong>oot)<strong>M</strong>ean<strong>S</strong>quare<strong>E</strong>rror. It is defined as</p>
 <p><span class="math display">\[\begin{align*}
   \mathrm{RMSE} &amp;:= \mathrm{RMSE}(y,\hat{y}) := \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y_i})^2}\\
   \mathrm{MSE} &amp;:= \mathrm{MSE}(y,\hat{y}) := \frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y_i})^2
 \end{align*}\]</span></p>
 <div id="exr-RMSE" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.18</strong></span> Repeat the exercise <a href="#exr-MAE1" class="quarto-xref">Exercise&nbsp;<span>4.16</span></a> and <a href="#exr-MAE2" class="quarto-xref">Exercise&nbsp;<span>4.17</span></a> for the RMSE and MSE.</p>
+<p><span class="theorem-title"><strong>Exercise 1.18</strong></span> Repeat the exercise <a href="#exr-MAE1" class="quarto-xref">Exercise&nbsp;<span>1.16</span></a> and <a href="#exr-MAE2" class="quarto-xref">Exercise&nbsp;<span>1.17</span></a> for the RMSE and MSE.</p>
 </div>
 </section>
 </section>
 </section>
-<section id="solutions" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Solutions</h1>
+<section id="solutions" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="solutions"><span class="header-section-number">1.6</span> Solutions</h2>
 <div id="sol-DEA1" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.1</em> (<a href="#exr-DEA1" class="quarto-xref">Exercise&nbsp;<span>4.1</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.1</em> (<a href="02_linear_models.html#exr-DEA1" class="quarto-xref">Exercise&nbsp;<span>2.1</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/BankChurners.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-DEA2" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.2</em> (<a href="#exr-DEA2" class="quarto-xref">Exercise&nbsp;<span>4.2</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.2</em> (<a href="02_linear_models.html#exr-DEA2" class="quarto-xref">Exercise&nbsp;<span>2.2</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="sc">%&gt;%</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.character) <span class="sc">%&gt;%</span></span>
@@ -914,7 +907,7 @@ $Card_Category
 </ol>
 </div>
 <div id="sol-DEA3" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.3</em> (<a href="#exr-DEA3" class="quarto-xref">Exercise&nbsp;<span>4.3</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.3</em> (<a href="#exr-DEA3" class="quarto-xref">Exercise&nbsp;<span>1.3</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="ot">&lt;-</span>credit_info <span class="sc">%&gt;%</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Income_Category =</span> <span class="fu">factor</span>(Income_Category,</span>
@@ -932,7 +925,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-DEA4" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.4</em> (<a href="#exr-DEA4" class="quarto-xref">Exercise&nbsp;<span>4.4</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.4</em> (<a href="#exr-DEA4" class="quarto-xref">Exercise&nbsp;<span>1.4</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="sc">%&gt;%</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Income_Category) <span class="sc">%&gt;%</span></span>
@@ -954,7 +947,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-DEA5" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.5</em> (<a href="#exr-DEA5" class="quarto-xref">Exercise&nbsp;<span>4.5</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.5</em> (<a href="#exr-DEA5" class="quarto-xref">Exercise&nbsp;<span>1.5</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="sc">%&gt;%</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Income_Category) <span class="sc">%&gt;%</span></span>
@@ -976,7 +969,7 @@ $Card_Category
 <p>Unsurprisingly, the highest income category also has the highest mean credit limit (19,717 USD).</p>
 </div>
 <div id="sol-DEA6" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.6</em> (<a href="#exr-DEA6" class="quarto-xref">Exercise&nbsp;<span>4.6</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.6</em> (<a href="#exr-DEA6" class="quarto-xref">Exercise&nbsp;<span>1.6</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="ot">&lt;-</span> credit_info_clean <span class="sc">%&gt;%</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(</span>
@@ -986,7 +979,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-DEA7" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.7</em> (<a href="#exr-DEA7" class="quarto-xref">Exercise&nbsp;<span>4.7</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.7</em> (<a href="#exr-DEA7" class="quarto-xref">Exercise&nbsp;<span>1.7</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>nrow_old <span class="ot">&lt;-</span> <span class="fu">nrow</span>(credit_info_clean)</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1000,7 +993,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-DEA8" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.8</em> (<a href="#exr-DEA8" class="quarto-xref">Exercise&nbsp;<span>4.8</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.8</em> (<a href="#exr-DEA8" class="quarto-xref">Exercise&nbsp;<span>1.8</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="sc">%&gt;%</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Card_Category) <span class="sc">%&gt;%</span></span>
@@ -1017,14 +1010,14 @@ $Card_Category
 </div>
 </div>
 <div id="sol-DEA9" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.9</em> (<a href="#exr-DEA9" class="quarto-xref">Exercise&nbsp;<span>4.9</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.9</em> (<a href="#exr-DEA9" class="quarto-xref">Exercise&nbsp;<span>1.9</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>credit_info_blue <span class="ot">&lt;-</span> credit_info_clean <span class="sc">%&gt;%</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Card_Category <span class="sc">==</span> <span class="st">"Blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-DEA10" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.10</em> (<a href="#exr-DEA10" class="quarto-xref">Exercise&nbsp;<span>4.10</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.10</em> (<a href="#exr-DEA10" class="quarto-xref">Exercise&nbsp;<span>1.10</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>credit_info_blue <span class="sc">%&gt;%</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"F"</span> <span class="sc">&amp;</span></span>
@@ -1038,7 +1031,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-VDE1" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.11</em> (<a href="#exr-VDE1" class="quarto-xref">Exercise&nbsp;<span>4.11</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.11</em> (<a href="#exr-VDE1" class="quarto-xref">Exercise&nbsp;<span>1.11</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age))<span class="sc">+</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1055,7 +1048,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-VDE2" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.12</em> (<a href="#exr-VDE2" class="quarto-xref">Exercise&nbsp;<span>4.12</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.12</em> (<a href="#exr-VDE2" class="quarto-xref">Exercise&nbsp;<span>1.12</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age))<span class="sc">+</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1069,7 +1062,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-VDE3" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.13</em> (<a href="#exr-VDE3" class="quarto-xref">Exercise&nbsp;<span>4.13</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.13</em> (<a href="#exr-VDE3" class="quarto-xref">Exercise&nbsp;<span>1.13</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age, <span class="at">fill =</span> Gender))<span class="sc">+</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1083,7 +1076,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-VDE4" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.14</em> (<a href="#exr-VDE4" class="quarto-xref">Exercise&nbsp;<span>4.14</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.14</em> (<a href="#exr-VDE4" class="quarto-xref">Exercise&nbsp;<span>1.14</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Credit_Limit))<span class="sc">+</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1097,7 +1090,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-VDE5" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.15</em> (<a href="#exr-VDE5" class="quarto-xref">Exercise&nbsp;<span>4.15</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.15</em> (<a href="#exr-VDE5" class="quarto-xref">Exercise&nbsp;<span>1.15</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean,</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(Customer_Age, <span class="at">fill =</span> Education_Level)</span>
@@ -1114,10 +1107,10 @@ $Card_Category
 </div>
 </div>
 <div id="sol-MAE1" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.16</em> (<a href="#exr-MAE1" class="quarto-xref">Exercise&nbsp;<span>4.16</span></a>). </span>The Mean Absolute Error (MAE) loss can be interpreted in terms of the scale of the target features because it directly measures the average absolute difference between predicted and actual target values. Thus, if the target variable is on a large scale (e.g., thousands), MAE will also be large. Conversely, for small target values, the MAE will be correspondingly smaller. This makes MAE sensitive to the scale of the target features, and it is essential to normalize or scale data if different features or targets are on very different scales to ensure the MAE provides meaningful comparisons across models or data sets.</p>
+<p><span class="proof-title"><em>Solution 1.16</em> (<a href="#exr-MAE1" class="quarto-xref">Exercise&nbsp;<span>1.16</span></a>). </span>The Mean Absolute Error (MAE) loss can be interpreted in terms of the scale of the target features because it directly measures the average absolute difference between predicted and actual target values. Thus, if the target variable is on a large scale (e.g., thousands), MAE will also be large. Conversely, for small target values, the MAE will be correspondingly smaller. This makes MAE sensitive to the scale of the target features, and it is essential to normalize or scale data if different features or targets are on very different scales to ensure the MAE provides meaningful comparisons across models or data sets.</p>
 </div>
 <div id="sol-MAE2" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.17</em> (<a href="#exr-MAE2" class="quarto-xref">Exercise&nbsp;<span>4.17</span></a>). </span>The <code>model_linear_res</code> data set contains the <code>.pred</code> column, where predictions of the linear model are saved. We can use the predictions and the outcome variable <code>Credit_Limit</code> to calculate the MAE.</p>
+<p><span class="proof-title"><em>Solution 1.17</em> (<a href="#exr-MAE2" class="quarto-xref">Exercise&nbsp;<span>1.17</span></a>). </span>The <code>model_linear_res</code> data set contains the <code>.pred</code> column, where predictions of the linear model are saved. We can use the predictions and the outcome variable <code>Credit_Limit</code> to calculate the MAE.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>model_linear_res <span class="sc">%&gt;%</span> <span class="fu">mae</span>(.pred,Credit_Limit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1130,7 +1123,7 @@ $Card_Category
 <p>An MAE of 4114 indicates that on average, the predicted credit limit of a customer deviates 4114 USD.</p>
 </div>
 <div id="sol-RMSE" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.18</em> (<a href="#exr-RMSE" class="quarto-xref">Exercise&nbsp;<span>4.18</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.18</em> (<a href="#exr-RMSE" class="quarto-xref">Exercise&nbsp;<span>1.18</span></a>). </span></p>
 <ol type="1">
 <li><p>Similar to the MAE loss, the RMSE can be interpreted in terms of the scale of the target features. It also measures the average difference between the observed and predicted values, but its unique feature is that it emphasizes outliers more. Greater distances are weighted more heavily due to the square term, thereby enhancing prediction accuracy.</p></li>
 <li><div class="cell">
@@ -1155,64 +1148,58 @@ $Card_Category
 </ol>
 </div>
 </section>
-<section id="session-info" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Session Info</h1>
+<section id="session-info" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="session-info"><span class="header-section-number">1.7</span> Session Info</h2>
 <p>The <code>sessionInfo()</code> function captures detailed information about the current R session, including the version of R and loaded packages. This is useful for ensuring reproducibility of analyses and troubleshooting code, as it provides a snapshot of the environment in which the code was executed.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.4.0 (2024-04-24 ucrt)
-Platform: x86_64-w64-mingw32/x64
+<pre><code>R version 4.2.3 (2023-03-15 ucrt)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
 Running under: Windows 10 x64 (build 19045)
 
 Matrix products: default
 
-
 locale:
-[1] LC_COLLATE=English_United States.utf8 
-[2] LC_CTYPE=English_United States.utf8   
-[3] LC_MONETARY=English_United States.utf8
-[4] LC_NUMERIC=C                          
-[5] LC_TIME=English_United States.utf8    
-
-time zone: Europe/Berlin
-tzcode source: internal
+[1] LC_COLLATE=German_Germany.utf8  LC_CTYPE=German_Germany.utf8   
+[3] LC_MONETARY=German_Germany.utf8 LC_NUMERIC=C                   
+[5] LC_TIME=German_Germany.utf8    
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] yardstick_1.3.1    workflowsets_1.1.0 workflows_1.1.4    tune_1.2.1        
- [5] rsample_1.2.1      recipes_1.0.10     parsnip_1.2.1      modeldata_1.3.0   
- [9] infer_1.0.7        dials_1.2.1        scales_1.3.0       broom_1.0.5       
-[13] tidymodels_1.2.0   lubridate_1.9.3    forcats_1.0.0      stringr_1.5.1     
-[17] dplyr_1.1.4        purrr_1.0.2        readr_2.1.5        tidyr_1.3.1       
+ [1] yardstick_1.2.0    workflowsets_1.0.1 workflows_1.1.3    tune_1.1.2        
+ [5] rsample_1.2.0      recipes_1.0.8      parsnip_1.1.1      modeldata_1.2.0   
+ [9] infer_1.0.5        dials_1.2.0        scales_1.3.0       broom_1.0.5       
+[13] tidymodels_1.1.1   lubridate_1.9.2    forcats_1.0.0      stringr_1.5.0     
+[17] dplyr_1.1.2        purrr_1.0.2        readr_2.1.4        tidyr_1.3.0       
 [21] tibble_3.2.1       ggplot2_3.5.1      tidyverse_2.0.0   
 
 loaded via a namespace (and not attached):
- [1] tidyselect_1.2.1    timeDate_4032.109   farver_2.1.1       
- [4] fastmap_1.1.1       digest_0.6.35       rpart_4.1.23       
- [7] timechange_0.3.0    lifecycle_1.0.4     survival_3.5-8     
-[10] magrittr_2.0.3      compiler_4.4.0      rlang_1.1.3        
-[13] tools_4.4.0         utf8_1.2.4          yaml_2.3.8         
-[16] data.table_1.15.4   knitr_1.46          labeling_0.4.3     
-[19] htmlwidgets_1.6.4   DiceDesign_1.10     withr_3.0.0        
-[22] nnet_7.3-19         grid_4.4.0          fansi_1.0.6        
-[25] colorspace_2.1-0    future_1.33.2       iterators_1.0.14   
-[28] globals_0.16.3      MASS_7.3-60.2       cli_3.6.2          
-[31] crayon_1.5.2        rmarkdown_2.26      generics_0.1.3     
-[34] rstudioapi_0.16.0   future.apply_1.11.2 tzdb_0.4.0         
-[37] splines_4.4.0       parallel_4.4.0      vctrs_0.6.5        
-[40] hardhat_1.3.1       Matrix_1.7-0        jsonlite_1.8.8     
-[43] hms_1.1.3           listenv_0.9.1       foreach_1.5.2      
-[46] gower_1.0.1         glue_1.7.0          parallelly_1.37.1  
-[49] codetools_0.2-20    stringi_1.8.4       gtable_0.3.5       
-[52] munsell_0.5.1       GPfit_1.0-8         pillar_1.9.0       
-[55] furrr_0.3.1         htmltools_0.5.8.1   ipred_0.9-14       
-[58] lava_1.8.0          R6_2.5.1            lhs_1.1.6          
-[61] evaluate_0.23       lattice_0.22-6      backports_1.4.1    
-[64] class_7.3-22        Rcpp_1.0.12         prodlim_2023.08.28 
-[67] xfun_0.43           pkgconfig_2.0.3    </code></pre>
+ [1] foreach_1.5.2       jsonlite_1.8.8      splines_4.2.3      
+ [4] prodlim_2023.08.28  GPfit_1.0-8         yaml_2.3.8         
+ [7] globals_0.16.2      ipred_0.9-14        pillar_1.9.0       
+[10] backports_1.4.1     lattice_0.20-45     glue_1.6.2         
+[13] digest_0.6.31       hardhat_1.3.0       colorspace_2.1-0   
+[16] htmltools_0.5.5     Matrix_1.6-0        timeDate_4022.108  
+[19] pkgconfig_2.0.3     lhs_1.1.6           DiceDesign_1.9     
+[22] listenv_0.9.0       gower_1.0.1         lava_1.7.2.1       
+[25] tzdb_0.4.0          timechange_0.2.0    generics_0.1.3     
+[28] farver_2.1.1        furrr_0.3.1         withr_3.0.0        
+[31] nnet_7.3-18         cli_3.6.1           crayon_1.5.2       
+[34] survival_3.5-3      magrittr_2.0.3      evaluate_0.20      
+[37] fansi_1.0.4         future_1.33.0       parallelly_1.36.0  
+[40] MASS_7.3-58.2       class_7.3-21        tools_4.2.3        
+[43] data.table_1.14.8   hms_1.1.3           lifecycle_1.0.4    
+[46] munsell_0.5.1       compiler_4.2.3      rlang_1.1.1        
+[49] grid_4.2.3          iterators_1.0.14    rstudioapi_0.15.0  
+[52] htmlwidgets_1.6.2   labeling_0.4.3      rmarkdown_2.21     
+[55] gtable_0.3.5        codetools_0.2-19    R6_2.5.1           
+[58] knitr_1.43          fastmap_1.1.1       future.apply_1.11.0
+[61] utf8_1.2.3          stringi_1.7.12      parallel_4.2.3     
+[64] Rcpp_1.0.10         vctrs_0.6.3         rpart_4.1.19       
+[67] tidyselect_1.2.0    xfun_0.39          </code></pre>
 </div>
 </div>
 
@@ -1255,18 +1242,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1298,7 +1274,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1306,7 +1304,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
