@@ -248,46 +248,46 @@ window.Quarto = {
 
 <section id="overview" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">2.1</span> Overview</h2>
-<p>In this exercise session, we will review linear regression and polynomial regression. We will also learn how to efficiently split our data into training and test data, how to perform cross-validation and why that is important. Before we dive into the details, we will discuss developing statistical models in R.</p>
+<p>In this exercise session, we will review linear regression and polynomial regression. We will also learn how to efficiently split our data into training and test data, how to perform cross-validation, and why that is important. Before we dive into the details, we will discuss developing statistical models in R.</p>
 </section>
 <section id="good-practices-for-applied-machine-learning" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="good-practices-for-applied-machine-learning"><span class="header-section-number">2.2</span> Good practices for applied Machine Learning</h2>
-<p>In previous courses, we mainly focused on how to fit a certain model to a given dataset. However, this process could be described as model specification, rather than model development. So, what’s the difference between specifying a model and actually building a model?</p>
+<p>In previous courses, we mainly focused on fitting a certain model to a given dataset. However, this process could be described as model specification rather than model development. So, what is the difference between specifying and building a model?</p>
 <section id="developing-a-model-what-we-have-done-so-far" class="level3" data-number="2.2.1">
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="developing-a-model-what-we-have-done-so-far"><span class="header-section-number">2.2.1</span> Developing a model (What we have done so far!):</h3>
 <ul>
-<li><p>The given dataset has been cleaned, transformed, and manipulated using a variety of different packages and libraries.</p></li>
-<li><p>Resampling methods (like the ones we consider today) have been applied but training the model on each subset or newly generated dataset is usually performed by using a <em>for-loop</em> or similar methods. Using loops should mostly be avoided in programming languages like R since they can be slow compared to optimized methods specifically written for higher performance.</p></li>
-<li><p>Similar to applying resampling methods, hyperparameter tuning usually performed in the same fashion.</p></li>
+<li><p>The given dataset has been cleaned, transformed, and manipulated using various packages and libraries.</p></li>
+<li><p>Resampling methods (like the ones we consider today) have been applied, but training the model on each subset or newly generated dataset is usually performed using a <em>for-loop</em> or similar methods. Loops should mostly be avoided in programming languages like R since they can be slow compared to optimized methods specifically written for higher performance.</p></li>
+<li><p>Similar to applying resampling methods, hyperparameter tuning is usually performed in the same fashion.</p></li>
 </ul>
-<p>In summary, we have only basically specified the model we want to train and used a rather arbitrary and inconsistent approach for everything else.</p>
-<p>One of the biggest issues we face, however, is when switching the model. The approach we have been using so far emphasizes working with one selected model that we wish to keep using after data preprocessing.</p>
+<p>In summary, we have only specified the model we want to train and used a somewhat arbitrary and inconsistent approach for everything else.</p>
+<p>One of the most significant issues we face, however, is when switching the model. The approach we have been using so far emphasizes working with one selected model that we wish to keep using after data preprocessing.</p>
 </section>
 <section id="developing-a-model-what-we-want-to-do-moving-forward" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="developing-a-model-what-we-want-to-do-moving-forward"><span class="header-section-number">2.2.2</span> Developing a model (What we want to do moving forward!):</h3>
-<p>The main difference between the old approach and the new approach comes down to leveraging the advantages of the <code>{tidyverse}</code> and <code>{tidymodels}</code> frameworks. These frameworks allow for consistently preprocessing the data, setting model specifications, and performing steps like resampling and hyperparameter tuning all at once.</p>
-<p>Another huge advantage is, that by following this procedure we can also swiftly switch between different ML models. For example, applying a random forest algorithm and switching to a neural network approach for the same data works is only a matter of changing a few lines of code as we will see in later exercises.</p>
-<p>So where is the catch? At first, the process might seem a bit difficult or even “overkill” for the models we use. However, as the lecture progresses, our models will also (at least sometimes) become increasingly sophisticated. So we want to get used to this new process as early as possible in order to get used to it.</p>
+<p>The main difference between the old and new approaches is leveraging the advantages of the <code>{tidyverse}</code> and <code>{tidymodels}</code> frameworks. These frameworks allow for consistently preprocessing the data, setting model specifications, and performing steps like resampling and hyperparameter tuning simultaneously.</p>
+<p>Another huge advantage is that we can swiftly switch between different ML models by following this procedure. For example, applying a random forest algorithm and switching to a neural network approach for the same data is only a matter of changing a few lines of code, as we will see in later exercises.</p>
+<p>So, where is the catch? At first, the process might seem complicated or even “overkill” for the models we use. However, as the lecture progresses, our models will also (at least sometimes) become increasingly sophisticated. We want to get used to this new process as early as possible, as it will be useful once we consider more sophisticated models.</p>
 <p>The biggest takeaways are:</p>
 <ul>
 <li><p><strong>Consistency:</strong> Independent of what the dataset or desired model looks like, we can (almost) always use the same procedure when building a model.</p></li>
-<li><p><strong>Effectiveness:</strong> Once we get used to this new approach, we can develop our models a lot more effectively than before.</p></li>
-<li><p><strong>Safety:</strong> Developing an ML model has many pitfalls and potholes on the way and by design, <code>{tidymodels}</code> helps us to avoid those.</p></li>
+<li><p><strong>Effectiveness:</strong> Once we get used to this new approach, we can develop our models more effectively.</p></li>
+<li><p><strong>Safety:</strong> Developing an ML model has many pitfalls and potholes on the way, and by design, <code>{tidymodels}</code> helps us to avoid those.</p></li>
 </ul>
-<p>We will introduce and explore some of the aforementioned concepts in this sessions exercises and dive deeper in later sessions.</p>
+<p>We will introduce and explore some of the concepts above in this session’s exercises and dive deeper in later sessions.</p>
 </section>
 </section>
 <section id="introduction-to-model-development-with-tidymodels" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="introduction-to-model-development-with-tidymodels"><span class="header-section-number">2.3</span> Introduction to model development with <code>{tidymodels}</code></h2>
-<p>In this section we briefly introduce the most important concepts when working with the <code>{tidymodels}</code> framework.</p>
-<p>The data set for this introduction is called “Wine Quality White” which contains roughly 5000 different white wines that were tested for their physicochemical properties like citric acid, pH value, and density. After assessing these properties, experts rated the wine quality and assigned a score between <span class="math inline">\(0\)</span> and <span class="math inline">\(10\)</span> where <span class="math inline">\(0\)</span> is the lowest and <span class="math inline">\(10\)</span> the highest score a wine can achieve.</p>
-<p>The data set can either be downloaded directly from the <a href="https://archive.ics.uci.edu/dataset/186/wine+quality">UC Irvine Machine Learning Repository</a> or the button below.</p>
+<p>This section briefly introduces the most important concepts when working with the <code>{tidymodels}</code> framework.</p>
+<p>The data set for this introduction is called “Wine Quality White,” and it contains roughly 5,000 different white wines tested for their physicochemical properties, such as citric acid, pH value, and density. After assessing these properties, experts rated the wine quality and assigned a score between <span class="math inline">\(0\)</span> and <span class="math inline">\(10\)</span>, where <span class="math inline">\(0\)</span> is the lowest, and <span class="math inline">\(10\)</span> is the highest score a wine can achieve.</p>
+<p>The data set can be downloaded directly from the <a href="https://archive.ics.uci.edu/dataset/186/wine+quality">UC Irvine Machine Learning Repository</a> or by clicking the button below.</p>
 <div style="text-align: center;">
 <p><a href="data/winequality-white.csv" class="btn btn-outline-primary" role="button" data-toggle="tooltip" title="270 KB">Download Wine Data</a></p>
 </div>
 <section id="data-exploration" class="level3" data-number="2.3.1">
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="data-exploration"><span class="header-section-number">2.3.1</span> Data Exploration</h3>
-<p>Since the data set is relatively nice in the sense that we do not have to do a lot of cleaning, we will keep this section relatively short.</p>
+<p>Since the data set is relatively nice in that we do not have to do much cleaning, we will keep this section relatively short.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tidyverse"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tidymodels"</span>)</span>
