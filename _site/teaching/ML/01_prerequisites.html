@@ -560,6 +560,13 @@ Pro Tip
 <p>An important data type that can handle both ordinal (data with some notion of order) and nominal data are so-called <code>factor</code> variables.</p>
 <p>Consider the following toy data set containing seven people with corresponding age groups and eye colors.</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data_example <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a> <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="st">"Charlie"</span>, <span class="st">"Diana"</span>, <span class="st">"Eve"</span>, <span class="st">"Frank"</span>, <span class="st">"Grace"</span>),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a> <span class="at">age_groups =</span> <span class="fu">c</span>(<span class="st">"18-25"</span>, <span class="st">"&lt;18"</span>, <span class="st">"26-35"</span>, <span class="st">"36-45"</span>, <span class="st">"18-25"</span>, <span class="st">"60+"</span>, <span class="st">"26-35"</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a> <span class="at">eye_color =</span> <span class="fu">c</span>(<span class="st">"Blue"</span>, <span class="st">"Brown"</span>, <span class="st">"Green"</span>, <span class="st">"Hazel"</span>, <span class="st">"Brown"</span>, <span class="st">"Blue"</span>, <span class="st">"Green"</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>data_example </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7 × 3
   names   age_groups eye_color
@@ -575,15 +582,15 @@ Pro Tip
 </div>
 <p>Since the variable <code>age_group</code> only specifies a range of ages, it does not make sense to encode them as integers rather than ordinal variables. The’ mutate’ function can encode age groups as ordinal variables. This involves setting the <code>age_groups</code> variable to a factor with levels and labels. Levels specify the order of the values, and labels can be used to rename these categories.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>data_example <span class="ot">&lt;-</span> data_example <span class="sc">%&gt;%</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>  <span class="fu">mutate</span>( </span>
-<span id="cb15-3"><a href="#cb15-3"></a>    <span class="at">age_groups =</span> <span class="fu">factor</span>(</span>
-<span id="cb15-4"><a href="#cb15-4"></a>      age_groups,</span>
-<span id="cb15-5"><a href="#cb15-5"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"&lt;18"</span>, <span class="st">"18-25"</span>, <span class="st">"26-35"</span>, <span class="st">"36-45"</span>, <span class="st">"60+"</span>),</span>
-<span id="cb15-6"><a href="#cb15-6"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"child"</span>,<span class="st">"adult"</span>,<span class="st">"adult"</span>,<span class="st">"adult"</span>,<span class="st">"senior"</span>),</span>
-<span id="cb15-7"><a href="#cb15-7"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
-<span id="cb15-8"><a href="#cb15-8"></a>    )</span>
-<span id="cb15-9"><a href="#cb15-9"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>data_example <span class="ot">&lt;-</span> data_example <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>  <span class="fu">mutate</span>( </span>
+<span id="cb16-3"><a href="#cb16-3"></a>    <span class="at">age_groups =</span> <span class="fu">factor</span>(</span>
+<span id="cb16-4"><a href="#cb16-4"></a>      age_groups,</span>
+<span id="cb16-5"><a href="#cb16-5"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"&lt;18"</span>, <span class="st">"18-25"</span>, <span class="st">"26-35"</span>, <span class="st">"36-45"</span>, <span class="st">"60+"</span>),</span>
+<span id="cb16-6"><a href="#cb16-6"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"child"</span>,<span class="st">"adult"</span>,<span class="st">"adult"</span>,<span class="st">"adult"</span>,<span class="st">"senior"</span>),</span>
+<span id="cb16-7"><a href="#cb16-7"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a>    )</span>
+<span id="cb16-9"><a href="#cb16-9"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol type="1">
 <li><p>Similar to the previous example, we should specify that we overwrite the <code>data_example</code> data set with a mutated version.</p></li>
@@ -595,14 +602,14 @@ Pro Tip
 </ol>
 <p>Similarly, the variable <code>eye_color</code> can also be converted to a nominal factor variable:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data_example <span class="ot">&lt;-</span> data_example <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">eye_color =</span> <span class="fu">factor</span>(eye_color)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data_example <span class="ot">&lt;-</span> data_example <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">eye_color =</span> <span class="fu">factor</span>(eye_color)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To confirm that the variable <code>age_group</code> is indeed ordered, calling the feature shows the ordered levels:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data_example<span class="sc">$</span>age_groups</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>data_example<span class="sc">$</span>age_groups</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] adult  child  adult  adult  adult  senior adult 
 Levels: child &lt; adult &lt; senior</code></pre>
@@ -618,7 +625,7 @@ Levels: child &lt; adult &lt; senior</code></pre>
 <ol type="1">
 <li><p>The data itself.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> netflix_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> netflix_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -630,7 +637,7 @@ Levels: child &lt; adult &lt; senior</code></pre>
 <p>Note, that the plot does not show any axis, ticks, and variables.</p></li>
 <li><p>A set of <em>aesthetics mappings</em> that describe how variables in the data are mapped to visual properties.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>release_year, <span class="at">y=</span>n), <span class="at">data =</span> netflix_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>release_year, <span class="at">y=</span>n), <span class="at">data =</span> netflix_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -642,10 +649,10 @@ Levels: child &lt; adult &lt; senior</code></pre>
 <p>Using the <code>aes</code> function, we have specified that the release year should be mapped to the <span class="math inline">\(x\)</span>-axis, and <span class="math inline">\(n\)</span> to the <span class="math inline">\(y\)</span>-axis.</p></li>
 <li><p>Lastly, the <em>geom</em>-layer (component) describes how each observation in the data set is represented.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>release_year, <span class="at">y=</span>n), <span class="at">data =</span> netflix_filtered)<span class="sc">+</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">geom_col</span>()<span class="sc">+</span></span>
-<span id="cb21-3"><a href="#cb21-3"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb21-4"><a href="#cb21-4"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>release_year, <span class="at">y=</span>n), <span class="at">data =</span> netflix_filtered)<span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a>  <span class="fu">geom_col</span>()<span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -674,11 +681,11 @@ Pro Tips
 <ol type="1">
 <li><p>As before, the data set can also directly be piped into the <code>ggplot</code> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>netflix_filtered <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>release_year, <span class="at">y=</span>n))<span class="sc">+</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_col</span>()<span class="sc">+</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>netflix_filtered <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>release_year, <span class="at">y=</span>n))<span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_col</span>()<span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 <li><p>By changing the order of the layers, you can specify which layer should be added first and last. In this example, since <code>geom_col</code> was added first and every other layer is placed on top of the column plot.</p></li>
 </ol>
@@ -703,9 +710,9 @@ Pro Tips
 <div id="exr-DEA2" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 1.2</strong></span> Assume that the data set has been imported and saved as an object called <code>credit_info</code>. Explain the following code snippet both syntactically and semantically. <em>Hint: Use the help function for any function you do not know.</em></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="sc">%&gt;%</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.character) <span class="sc">%&gt;%</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.character) <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$Attrition_Flag
 
@@ -755,8 +762,8 @@ $Card_Category
 <div id="exr-DEA6" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 1.6</strong></span> Use the following code snippet to modify the data set by incorporating it into the <code>mutate</code> function. The snippet converts all <code>"Unknown"</code> values contained in character or factor columns into <code>NA</code> values, which are easier to handle.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">across</span>(<span class="fu">where</span>(<span class="sc">~</span> <span class="fu">is.character</span>(.) <span class="sc">|</span> <span class="fu">is.factor</span>(.)),</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>       <span class="sc">~</span><span class="fu">na_if</span>(.,<span class="st">"Unknown"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">across</span>(<span class="fu">where</span>(<span class="sc">~</span> <span class="fu">is.character</span>(.) <span class="sc">|</span> <span class="fu">is.factor</span>(.)),</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>       <span class="sc">~</span><span class="fu">na_if</span>(.,<span class="st">"Unknown"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="exr-DEA7" class="theorem exercise">
@@ -790,8 +797,8 @@ $Card_Category
 <div id="exr-VDE5" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 1.15</strong></span> The histograms and density plots only provide limited insight into the demographics and customer status as it is relatively complex to figure out the proportions of each group. To take this one step further, consider the following histogram, which shows the <code>Education_Level</code> within every bin.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age, <span class="at">fill =</span> Education_Level))<span class="sc">+</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age, <span class="at">fill =</span> Education_Level))<span class="sc">+</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -810,17 +817,17 @@ $Card_Category
 <p>The following Code snippet reads the unmodified data, removes the features <code>Total_Revolving_Bal</code> and <code>Avg_Open_To_Buy</code> and trains a linear model with target variable <code>Credit_Limit</code> on all the remaining features. It’s important to note that the model is intentionally kept simple for demonstrative purposes, making it easier for you to grasp and apply the concepts.</p>
 <p>Copy the snippet into your own notebook and run it. <em>Hint: You might have to change the path in the <code>read.csv</code> function to your specified data path (<a href="02_linear_models.html#exr-DEA1" class="quarto-xref">Exercise&nbsp;<span>2.1</span></a>) and install the libraries that are attached.</em></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(yardstick)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>credit_info <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/BankChurners.csv"</span>)</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>model_linear_data <span class="ot">&lt;-</span> credit_info <span class="sc">%&gt;%</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Total_Revolving_Bal,Avg_Open_To_Buy))</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>model_linear_res <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Credit_Limit <span class="sc">~</span>., <span class="at">data =</span> model_linear_data) <span class="sc">%&gt;%</span></span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(model_linear_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(yardstick)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>credit_info <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/BankChurners.csv"</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>model_linear_data <span class="ot">&lt;-</span> credit_info <span class="sc">%&gt;%</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Total_Revolving_Bal,Avg_Open_To_Buy))</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>model_linear_res <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Credit_Limit <span class="sc">~</span>., <span class="at">data =</span> model_linear_data) <span class="sc">%&gt;%</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(model_linear_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The object <code>model_linear_res</code> now contains our model’s original data set and predictions. Do not worry if you do not understand every line in the snippet above. We will consider training models in future exercises more thoroughly.</p>
 <section id="mae-loss" class="level4" data-number="1.5.3.1">
@@ -855,15 +862,15 @@ $Card_Category
 <div id="sol-DEA1" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.1</em> (<a href="02_linear_models.html#exr-DEA1" class="quarto-xref">Exercise&nbsp;<span>2.1</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/BankChurners.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/BankChurners.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-DEA2" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.2</em> (<a href="02_linear_models.html#exr-DEA2" class="quarto-xref">Exercise&nbsp;<span>2.2</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="sc">%&gt;%</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.character) <span class="sc">%&gt;%</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.character) <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$Attrition_Flag
 
@@ -909,30 +916,30 @@ $Card_Category
 <div id="sol-DEA3" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.3</em> (<a href="#exr-DEA3" class="quarto-xref">Exercise&nbsp;<span>1.3</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="ot">&lt;-</span>credit_info <span class="sc">%&gt;%</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Income_Category =</span> <span class="fu">factor</span>(Income_Category,</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Unknown"</span>,<span class="st">"Less than $40K"</span>,</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"$40K - $60K"</span>,<span class="st">"$60K - $80K"</span>,</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"$80K - $120K"</span>,<span class="st">"$120K +"</span>),</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">ordered =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">Education_Level =</span> <span class="fu">factor</span>(Education_Level,</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Unknown"</span>,<span class="st">"Uneducated"</span>,</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"High School"</span>,<span class="st">"College"</span>,</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"Graduate"</span>, <span class="st">"Post-Graduate"</span>,</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"Doctorate"</span>)</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>                                  )</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="ot">&lt;-</span>credit_info <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Income_Category =</span> <span class="fu">factor</span>(Income_Category,</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Unknown"</span>,<span class="st">"Less than $40K"</span>,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"$40K - $60K"</span>,<span class="st">"$60K - $80K"</span>,</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"$80K - $120K"</span>,<span class="st">"$120K +"</span>),</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">ordered =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">Education_Level =</span> <span class="fu">factor</span>(Education_Level,</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Unknown"</span>,<span class="st">"Uneducated"</span>,</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"High School"</span>,<span class="st">"College"</span>,</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"Graduate"</span>, <span class="st">"Post-Graduate"</span>,</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"Doctorate"</span>)</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>                                  )</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-DEA4" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.4</em> (<a href="#exr-DEA4" class="quarto-xref">Exercise&nbsp;<span>1.4</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="sc">%&gt;%</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Income_Category) <span class="sc">%&gt;%</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">meanlim =</span> <span class="fu">mean</span>(Credit_Limit),</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">medlim =</span> <span class="fu">median</span>(Credit_Limit)</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Income_Category) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">meanlim =</span> <span class="fu">mean</span>(Credit_Limit),</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">medlim =</span> <span class="fu">median</span>(Credit_Limit)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   Income_Category meanlim medlim
@@ -949,11 +956,11 @@ $Card_Category
 <div id="sol-DEA5" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.5</em> (<a href="#exr-DEA5" class="quarto-xref">Exercise&nbsp;<span>1.5</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="sc">%&gt;%</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Income_Category) <span class="sc">%&gt;%</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_group =</span> <span class="fu">mean</span>(Credit_Limit)</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Income_Category) <span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_group =</span> <span class="fu">mean</span>(Credit_Limit)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 2
   Income_Category mean_group
@@ -971,22 +978,22 @@ $Card_Category
 <div id="sol-DEA6" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.6</em> (<a href="#exr-DEA6" class="quarto-xref">Exercise&nbsp;<span>1.6</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="ot">&lt;-</span> credit_info_clean <span class="sc">%&gt;%</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">where</span>(<span class="sc">~</span> <span class="fu">is.character</span>(.) <span class="sc">|</span> <span class="fu">is.factor</span>(.)),</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span> <span class="fu">na_if</span>(., <span class="st">"Unknown"</span>)</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="ot">&lt;-</span> credit_info_clean <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">where</span>(<span class="sc">~</span> <span class="fu">is.character</span>(.) <span class="sc">|</span> <span class="fu">is.factor</span>(.)),</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span> <span class="fu">na_if</span>(., <span class="st">"Unknown"</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-DEA7" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.7</em> (<a href="#exr-DEA7" class="quarto-xref">Exercise&nbsp;<span>1.7</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>nrow_old <span class="ot">&lt;-</span> <span class="fu">nrow</span>(credit_info_clean)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="ot">&lt;-</span> credit_info_clean <span class="sc">%&gt;%</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"{nrow_old-nrow(credit_info_clean)} samples were removed."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>nrow_old <span class="ot">&lt;-</span> <span class="fu">nrow</span>(credit_info_clean)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="ot">&lt;-</span> credit_info_clean <span class="sc">%&gt;%</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"{nrow_old-nrow(credit_info_clean)} samples were removed."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3046 samples were removed.</code></pre>
 </div>
@@ -995,9 +1002,9 @@ $Card_Category
 <div id="sol-DEA8" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.8</em> (<a href="#exr-DEA8" class="quarto-xref">Exercise&nbsp;<span>1.8</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="sc">%&gt;%</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Card_Category) <span class="sc">%&gt;%</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Card_Category) <span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
   Card_Category     n
@@ -1012,18 +1019,18 @@ $Card_Category
 <div id="sol-DEA9" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.9</em> (<a href="#exr-DEA9" class="quarto-xref">Exercise&nbsp;<span>1.9</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>credit_info_blue <span class="ot">&lt;-</span> credit_info_clean <span class="sc">%&gt;%</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Card_Category <span class="sc">==</span> <span class="st">"Blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>credit_info_blue <span class="ot">&lt;-</span> credit_info_clean <span class="sc">%&gt;%</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Card_Category <span class="sc">==</span> <span class="st">"Blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-DEA10" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.10</em> (<a href="#exr-DEA10" class="quarto-xref">Exercise&nbsp;<span>1.10</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>credit_info_blue <span class="sc">%&gt;%</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"F"</span> <span class="sc">&amp;</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>           Customer_Age <span class="sc">&lt;=</span> <span class="dv">40</span> <span class="sc">&amp;</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>           Credit_Limit <span class="sc">&gt;</span> <span class="dv">10000</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>credit_info_blue <span class="sc">%&gt;%</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"F"</span> <span class="sc">&amp;</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>           Customer_Age <span class="sc">&lt;=</span> <span class="dv">40</span> <span class="sc">&amp;</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>           Credit_Limit <span class="sc">&gt;</span> <span class="dv">10000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  n
 1 7</code></pre>
@@ -1033,8 +1040,8 @@ $Card_Category
 <div id="sol-VDE1" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.11</em> (<a href="#exr-VDE1" class="quarto-xref">Exercise&nbsp;<span>1.11</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age))<span class="sc">+</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age))<span class="sc">+</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
@@ -1050,8 +1057,8 @@ $Card_Category
 <div id="sol-VDE2" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.12</em> (<a href="#exr-VDE2" class="quarto-xref">Exercise&nbsp;<span>1.12</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age))<span class="sc">+</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age))<span class="sc">+</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1064,8 +1071,8 @@ $Card_Category
 <div id="sol-VDE3" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.13</em> (<a href="#exr-VDE3" class="quarto-xref">Exercise&nbsp;<span>1.13</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age, <span class="at">fill =</span> Gender))<span class="sc">+</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age, <span class="at">fill =</span> Gender))<span class="sc">+</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1078,8 +1085,8 @@ $Card_Category
 <div id="sol-VDE4" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.14</em> (<a href="#exr-VDE4" class="quarto-xref">Exercise&nbsp;<span>1.14</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Credit_Limit))<span class="sc">+</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Credit_Limit))<span class="sc">+</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1092,11 +1099,11 @@ $Card_Category
 <div id="sol-VDE5" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.15</em> (<a href="#exr-VDE5" class="quarto-xref">Exercise&nbsp;<span>1.15</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean,</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(Customer_Age, <span class="at">fill =</span> Education_Level)</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>       )<span class="sc">+</span></span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="st">"Education_Level"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean,</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(Customer_Age, <span class="at">fill =</span> Education_Level)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>       )<span class="sc">+</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="st">"Education_Level"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1112,7 +1119,7 @@ $Card_Category
 <div id="sol-MAE2" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.17</em> (<a href="#exr-MAE2" class="quarto-xref">Exercise&nbsp;<span>1.17</span></a>). </span>The <code>model_linear_res</code> data set contains the <code>.pred</code> column, where predictions of the linear model are saved. We can use the predictions and the outcome variable <code>Credit_Limit</code> to calculate the MAE.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>model_linear_res <span class="sc">%&gt;%</span> <span class="fu">mae</span>(.pred,Credit_Limit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>model_linear_res <span class="sc">%&gt;%</span> <span class="fu">mae</span>(.pred,Credit_Limit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric .estimator .estimate
@@ -1127,7 +1134,7 @@ $Card_Category
 <ol type="1">
 <li><p>Similar to the MAE loss, the RMSE can be interpreted in terms of the scale of the target features. It also measures the average difference between the observed and predicted values, but its unique feature is that it emphasizes outliers more. Greater distances are weighted more heavily due to the square term, thereby enhancing prediction accuracy.</p></li>
 <li><div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>model_linear_res <span class="sc">%&gt;%</span> yardstick<span class="sc">::</span><span class="fu">rmse</span>(.pred,Credit_Limit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>model_linear_res <span class="sc">%&gt;%</span> yardstick<span class="sc">::</span><span class="fu">rmse</span>(.pred,Credit_Limit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric .estimator .estimate
@@ -1138,9 +1145,9 @@ $Card_Category
 <p>An RMSE of 5628 indicates that, on average, a customer’s predicted credit limit deviates 5628 USD.</p></li>
 <li><p>As for the MSE, the error units are expressed as squared terms. Therefore, the scales can not be interpreted directly. MSE is usually deployed in practice since it has some nice properties like differentiability at <span class="math inline">\(0\)</span>, which the MAE lacks. Moreover, MSE is easier to compute, thanks to the absence of a square root, which reduces computational time.</p></li>
 <li><div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>model_linear_rmse <span class="ot">&lt;-</span> model_linear_res <span class="sc">%&gt;%</span> <span class="fu">rmse</span>(.pred,Credit_Limit) <span class="sc">%&gt;%</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">".estimate"</span>)</span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>model_linear_rmse<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>model_linear_rmse <span class="ot">&lt;-</span> model_linear_res <span class="sc">%&gt;%</span> <span class="fu">rmse</span>(.pred,Credit_Limit) <span class="sc">%&gt;%</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">".estimate"</span>)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>model_linear_rmse<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 31676421</code></pre>
 </div>
@@ -1152,7 +1159,7 @@ $Card_Category
 <h2 data-number="1.7" class="anchored" data-anchor-id="session-info"><span class="header-section-number">1.7</span> Session Info</h2>
 <p>The <code>sessionInfo()</code> function captures detailed information about the current R session, including the version of R and loaded packages. This is useful for ensuring reproducibility of analyses and troubleshooting code, as it provides a snapshot of the environment in which the code was executed.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.3 (2023-03-15 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
@@ -1169,37 +1176,37 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] yardstick_1.2.0    workflowsets_1.0.1 workflows_1.1.3    tune_1.1.2        
- [5] rsample_1.2.0      recipes_1.0.8      parsnip_1.1.1      modeldata_1.2.0   
- [9] infer_1.0.5        dials_1.2.0        scales_1.3.0       broom_1.0.5       
-[13] tidymodels_1.1.1   lubridate_1.9.2    forcats_1.0.0      stringr_1.5.0     
-[17] dplyr_1.1.2        purrr_1.0.2        readr_2.1.4        tidyr_1.3.0       
+ [1] yardstick_1.3.1    workflowsets_1.1.0 workflows_1.1.4    tune_1.2.1        
+ [5] rsample_1.2.1      recipes_1.1.0      parsnip_1.2.1      modeldata_1.4.0   
+ [9] infer_1.0.7        dials_1.3.0        scales_1.3.0       broom_1.0.7       
+[13] tidymodels_1.2.0   lubridate_1.9.3    forcats_1.0.0      stringr_1.5.1     
+[17] dplyr_1.1.4        purrr_1.0.2        readr_2.1.5        tidyr_1.3.1       
 [21] tibble_3.2.1       ggplot2_3.5.1      tidyverse_2.0.0   
 
 loaded via a namespace (and not attached):
  [1] foreach_1.5.2       jsonlite_1.8.8      splines_4.2.3      
  [4] prodlim_2023.08.28  GPfit_1.0-8         yaml_2.3.8         
- [7] globals_0.16.2      ipred_0.9-14        pillar_1.9.0       
-[10] backports_1.4.1     lattice_0.20-45     glue_1.6.2         
-[13] digest_0.6.31       hardhat_1.3.0       colorspace_2.1-0   
-[16] htmltools_0.5.5     Matrix_1.6-0        timeDate_4022.108  
-[19] pkgconfig_2.0.3     lhs_1.1.6           DiceDesign_1.9     
-[22] listenv_0.9.0       gower_1.0.1         lava_1.7.2.1       
-[25] tzdb_0.4.0          timechange_0.2.0    generics_0.1.3     
-[28] farver_2.1.1        furrr_0.3.1         withr_3.0.0        
-[31] nnet_7.3-18         cli_3.6.1           crayon_1.5.2       
-[34] survival_3.5-3      magrittr_2.0.3      evaluate_0.20      
-[37] fansi_1.0.4         future_1.33.0       parallelly_1.36.0  
-[40] MASS_7.3-58.2       class_7.3-21        tools_4.2.3        
-[43] data.table_1.14.8   hms_1.1.3           lifecycle_1.0.4    
-[46] munsell_0.5.1       compiler_4.2.3      rlang_1.1.1        
-[49] grid_4.2.3          iterators_1.0.14    rstudioapi_0.15.0  
-[52] htmlwidgets_1.6.2   labeling_0.4.3      rmarkdown_2.21     
-[55] gtable_0.3.5        codetools_0.2-19    R6_2.5.1           
-[58] knitr_1.43          fastmap_1.1.1       future.apply_1.11.0
-[61] utf8_1.2.3          stringi_1.7.12      parallel_4.2.3     
-[64] Rcpp_1.0.10         vctrs_0.6.3         rpart_4.1.19       
-[67] tidyselect_1.2.0    xfun_0.39          </code></pre>
+ [7] globals_0.16.3      ipred_0.9-14        pillar_1.9.0       
+[10] backports_1.4.1     lattice_0.22-6      glue_1.6.2         
+[13] digest_0.6.35       hardhat_1.4.0       colorspace_2.1-0   
+[16] htmltools_0.5.8.1   Matrix_1.6-0        timeDate_4041.110  
+[19] pkgconfig_2.0.3     lhs_1.1.6           DiceDesign_1.10    
+[22] listenv_0.9.1       gower_1.0.1         lava_1.8.0         
+[25] tzdb_0.4.0          timechange_0.3.0    generics_0.1.3     
+[28] farver_2.1.1        furrr_0.3.1         withr_3.0.1        
+[31] nnet_7.3-19         cli_3.6.2           crayon_1.5.3       
+[34] survival_3.6-4      magrittr_2.0.3      evaluate_1.0.1     
+[37] fansi_1.0.4         future_1.33.0       parallelly_1.37.1  
+[40] MASS_7.3-58.2       class_7.3-22        tools_4.2.3        
+[43] data.table_1.15.4   hms_1.1.3           lifecycle_1.0.4    
+[46] munsell_0.5.1       compiler_4.2.3      rlang_1.1.3        
+[49] grid_4.2.3          iterators_1.0.14    rstudioapi_0.17.0  
+[52] htmlwidgets_1.6.4   labeling_0.4.3      rmarkdown_2.28     
+[55] gtable_0.3.5        codetools_0.2-20    R6_2.5.1           
+[58] knitr_1.43          fastmap_1.1.1       future.apply_1.11.2
+[61] utf8_1.2.3          stringi_1.8.3       parallel_4.2.3     
+[64] Rcpp_1.0.12         vctrs_0.6.5         rpart_4.1.23       
+[67] tidyselect_1.2.1    xfun_0.43          </code></pre>
 </div>
 </div>
 
