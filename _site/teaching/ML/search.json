@@ -178,5 +178,45 @@
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Linear Models</span>"
     ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Machine Learning Supplementary Material",
+    "section": "",
+    "text": "Preface\nThis (exercise) manuscript supplements the lecture notes provided for Prof. Dr. Yarema Okhrin’s lecture Machine Learning at the University of Augsburg.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#what-this-manuscript-is",
+    "href": "index.html#what-this-manuscript-is",
+    "title": "Machine Learning Supplementary Material",
+    "section": "What this manuscript is",
+    "text": "What this manuscript is\nThe manuscript intends to provide more context to different areas usually neglected in lecture and exercise sessions. The exercise sessions can especially suffer from an imbalance between repeating the theoretical aspects of the lecture and applying the concepts thoroughly. Moreover, this manuscript is comprehensive, containing every exercise and solution presented in the exercise sessions. The solutions will be more detailed than the ones presented in the in-person sessions, which can help you prepare for the exam.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#what-this-manuscript-isnt",
+    "href": "index.html#what-this-manuscript-isnt",
+    "title": "Machine Learning Supplementary Material",
+    "section": "What this manuscript isn’t",
+    "text": "What this manuscript isn’t\nThe manuscript is not a replacement for the lecture and exercise sessions. This manuscript especially lacks is the interaction between the students and lecturers which is an important aspect of the in-person exercise sessions.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#structure-of-the-manuscript",
+    "href": "index.html#structure-of-the-manuscript",
+    "title": "Machine Learning Supplementary Material",
+    "section": "Structure of the manuscript",
+    "text": "Structure of the manuscript\nDepending on the complexity of the topic, each chapter starts with a more or less technical summary and motivation. Following these summaries there will be examples that feature functions and concepts needed for the exercises. The exercises and solutions can be found subsequent to these examples.",
+    "crumbs": [
+      "Preface"
+    ]
   }
 ]
