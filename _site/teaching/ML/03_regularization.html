@@ -65,8 +65,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./02_linear_models.html" rel="prev">
-<script src="site_libs/cookie-consent/cookie-consent.js"></script>
-<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -105,31 +103,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RKE6FHR659"></script>
 
-<script type="text/plain" cookie-consent="tracking">
+<script type="text/javascript">
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-RKE6FHR659', { 'anonymize_ip': true});
 </script>
-
-<script type="text/javascript" charset="UTF-8">
-document.addEventListener('DOMContentLoaded', function () {
-cookieconsent.run({
-  "notice_banner_type":"simple",
-  "consent_type":"implied",
-  "palette":"light",
-  "language":"en",
-  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
-  "notice_banner_reject_button_hide":false,
-  "preferences_center_close_button_hide":false,
-  "website_name":""
-  ,
-"language":"en"
-  });
-});
-</script> 
-  
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -426,7 +406,7 @@ Model: None
 <figcaption>Components of a workflow object</figcaption>
 </figure>
 </div>
-<p>The gear box symbolizes that the model specification can be swapped, meaning that we can simply specify a different model and replace it in the workflow.</p>
+<p>The circling arrows symbolize that the model specification can be swapped, meaning that we can simply specify a different model and replace it in the workflow.</p>
 </section>
 </section>
 <section id="tuning-a-ridge-regression-model" class="level3" data-number="3.1.2">
@@ -453,12 +433,34 @@ Model: None
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_model</span>(lm_ridge_spec) <span class="sc">%&gt;%</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(data_train_wine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>The estimated coefficients can then be viewed using the <code>tidy()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>lm_ridge_fit_res <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 3
+   term                 estimate penalty
+   &lt;chr&gt;                   &lt;dbl&gt;   &lt;dbl&gt;
+ 1 (Intercept)           10.5       0.05
+ 2 fixed.acidity          0.199     0.05
+ 3 volatile.acidity       0.162     0.05
+ 4 citric.acid            0.0532    0.05
+ 5 residual.sugar         0.462     0.05
+ 6 chlorides             -0.127     0.05
+ 7 free.sulfur.dioxide   -0.0181    0.05
+ 8 total.sulfur.dioxide  -0.0922    0.05
+ 9 density               -1.15      0.05
+10 pH                     0.185     0.05
+11 sulphates              0.0613    0.05
+12 quality                0.202     0.05</code></pre>
+</div>
+</div>
 <p>Comparing the model coefficients of the penalized model with the unpenalized model yields:</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="03_regularization_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="03_regularization_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -481,42 +483,42 @@ Model: None
 <h4 data-number="3.1.2.3" class="anchored" data-anchor-id="tuning-for-an-optimal-penalty-value"><span class="header-section-number">3.1.2.3</span> Tuning for an optimal penalty value</h4>
 <p>When computational resources are available, it is encouraged to perform hyperparameter tuning via cross-validation instead of a single train/validation/test split.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>folds_wine <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(data_train_wine,<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>folds_wine <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(data_train_wine,<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Using the <code>{tidymodels}</code> framework makes hyperparameter tuning fairly uncomplicated, even when using cross-validation. By setting a hyperparameter in the model specification to <code>tune()</code>, we indicate that this parameter should later be tuned.</p>
 <p>For the specific example of ridge regression, this can be achieved by the following code snippet:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>lm_ridge_spec_tune <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">penalty =</span> <span class="fu">tune</span>(),</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mixture =</span> <span class="dv">0</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glmnet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>lm_ridge_spec_tune <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">penalty =</span> <span class="fu">tune</span>(),</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mixture =</span> <span class="dv">0</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glmnet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>By updating the workflow and subsequently training the model for different hyperparameters on each split using the <code>tune_grid</code> function, we obtain the results of hyperparameter tuning.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>lm_ridge_tune_fit_res <span class="ot">&lt;-</span> wf_wine <span class="sc">%&gt;%</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_model</span>(lm_ridge_spec_tune) <span class="sc">%&gt;%</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds_wine,</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> <span class="dv">20</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>lm_ridge_tune_fit_res <span class="ot">&lt;-</span> wf_wine <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_model</span>(lm_ridge_spec_tune) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds_wine,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> <span class="dv">20</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Setting <code>grid = 20</code> automatically generates <span class="math inline">\(20\)</span> different candidate hyperparameters. If we want to set a grid manually, we have to specify the parameters and values to be tuned explicitly:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>penalty_grid <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">penalty =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">length.out=</span><span class="dv">100</span>))</span>
-<span id="cb27-2"><a href="#cb27-2"></a></span>
-<span id="cb27-3"><a href="#cb27-3"></a>lm_ridge_tune_fit_res <span class="ot">&lt;-</span> wf_wine <span class="sc">%&gt;%</span></span>
-<span id="cb27-4"><a href="#cb27-4"></a>  <span class="fu">update_model</span>(lm_ridge_spec_tune) <span class="sc">%&gt;%</span></span>
-<span id="cb27-5"><a href="#cb27-5"></a>  <span class="fu">tune_grid</span>(</span>
-<span id="cb27-6"><a href="#cb27-6"></a>    <span class="at">resamples =</span> folds_wine,</span>
-<span id="cb27-7"><a href="#cb27-7"></a>    <span class="at">grid =</span> penalty_grid,</span>
-<span id="cb27-8"><a href="#cb27-8"></a>    <span class="at">metrics =</span> <span class="fu">metric_set</span>(mae)</span>
-<span id="cb27-9"><a href="#cb27-9"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>penalty_grid <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">penalty =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">length.out=</span><span class="dv">100</span>))</span>
+<span id="cb29-2"><a href="#cb29-2"></a></span>
+<span id="cb29-3"><a href="#cb29-3"></a>lm_ridge_tune_fit_res <span class="ot">&lt;-</span> wf_wine <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a>  <span class="fu">update_model</span>(lm_ridge_spec_tune) <span class="sc">%&gt;%</span></span>
+<span id="cb29-5"><a href="#cb29-5"></a>  <span class="fu">tune_grid</span>(</span>
+<span id="cb29-6"><a href="#cb29-6"></a>    <span class="at">resamples =</span> folds_wine,</span>
+<span id="cb29-7"><a href="#cb29-7"></a>    <span class="at">grid =</span> penalty_grid,</span>
+<span id="cb29-8"><a href="#cb29-8"></a>    <span class="at">metrics =</span> <span class="fu">metric_set</span>(mae)</span>
+<span id="cb29-9"><a href="#cb29-9"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In line <code>8</code> of the snippet above, the <code>metrics</code> argument is passed. By setting <code>metrics = metric_set(mae)</code>, we specify that the metric for evaluating the model is the mean absolute error.</p>
 <p>Calling the results of model tuning returns a nested data frame consisting of <span class="math inline">\(10\)</span> rows and <span class="math inline">\(4\)</span> columns. Each row contains information information like the metric about the underlying split for each tested hyperparameter.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>lm_ridge_tune_fit_res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>lm_ridge_tune_fit_res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Tuning results
 # 10-fold cross-validation 
@@ -537,11 +539,11 @@ Model: None
 </div>
 <p>By using the <code>autoplot</code> function we can visualize some finding right away:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>lm_ridge_tune_fit_res <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>lm_ridge_tune_fit_res <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="03_regularization_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="03_regularization_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -549,9 +551,9 @@ Model: None
 <p>Considering the figure above, the cross-validation MAE (CV-MAE) is not reduced when the model parameters are penalized. For <span class="math inline">\(\lambda \in [0,0.1)\)</span> the CV-MAE is influenced at all. Even worse, the CV-MAE seems to increase for any <span class="math inline">\(\lambda \geq 0.1\)</span>!</p>
 <p>This is an example where penalizing model parameters is not beneficial. However, if we wish to extract the optimal hyperparameter value, we can proceed as follows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(penalty_opt <span class="ot">&lt;-</span> <span class="fu">select_best</span>(lm_ridge_tune_fit_res,</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">metric =</span> <span class="st">"mae"</span>)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>(penalty_opt <span class="ot">&lt;-</span> <span class="fu">select_best</span>(lm_ridge_tune_fit_res,</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">metric =</span> <span class="st">"mae"</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
   penalty .config               
@@ -562,10 +564,10 @@ Model: None
 <p>Unsurprisingly, the optimal penalty is <span class="math inline">\(\lambda = 0\)</span>.</p>
 <p>We can also choose <span class="math inline">\(\lambda\)</span> according to the “one-standard error” rule:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>(penalty_opt_osr <span class="ot">&lt;-</span> <span class="fu">select_by_one_std_err</span>(lm_ridge_tune_fit_res,</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">metric =</span> <span class="st">"mae"</span>,</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">desc</span>(penalty))</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>(penalty_opt_osr <span class="ot">&lt;-</span> <span class="fu">select_by_one_std_err</span>(lm_ridge_tune_fit_res,</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">metric =</span> <span class="st">"mae"</span>,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">desc</span>(penalty))</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
   penalty .config               
@@ -586,15 +588,15 @@ Pro Tip
 <div class="callout-body-container callout-body">
 <p>You can use the <code>pull</code> function in a similar fashion as <code>$</code> to extract a single vector:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>(penalty_opt <span class="ot">&lt;-</span> penalty_opt <span class="sc">%&gt;%</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(penalty)</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>(penalty_opt <span class="ot">&lt;-</span> penalty_opt <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(penalty)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>(penalty_opt_osr <span class="ot">&lt;-</span> penalty_opt_osr <span class="sc">%&gt;%</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(penalty)</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>(penalty_opt_osr <span class="ot">&lt;-</span> penalty_opt_osr <span class="sc">%&gt;%</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(penalty)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.09090909</code></pre>
 </div>
@@ -607,26 +609,26 @@ Pro Tip
 <p>After determining the best hyperparameter, a final model can be trained on the whole training data and evaluated on the testing data.</p>
 <p>First, specify a final model specification with the determined hyperparameter.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>lm_ridge_spec_final <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">penalty =</span> penalty_opt,</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">mixture =</span> <span class="fl">1.0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glmnet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>lm_ridge_spec_final <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">penalty =</span> penalty_opt,</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">mixture =</span> <span class="fl">0.0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glmnet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Use the <code>last_fit</code> function to fit the final model to the entire training data. This function automatically fits the model to the training data and evaluates it on the test data with the provided metrics.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>lm_ridge_spec_final_fit <span class="ot">&lt;-</span> wf_wine <span class="sc">%&gt;%</span> </span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_model</span>(lm_ridge_spec_final) <span class="sc">%&gt;%</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split_wine,</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">metrics =</span> <span class="fu">metric_set</span>(mae))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>lm_ridge_spec_final_fit <span class="ot">&lt;-</span> wf_wine <span class="sc">%&gt;%</span> </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_model</span>(lm_ridge_spec_final) <span class="sc">%&gt;%</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split_wine,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">metrics =</span> <span class="fu">metric_set</span>(mae))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The metrics can then be extracted using the <code>collect_metrics</code> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>lm_ridge_spec_final_fit <span class="sc">%&gt;%</span> </span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>lm_ridge_spec_final_fit <span class="sc">%&gt;%</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 4
   .metric .estimator .estimate .config             
   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
-1 mae     standard       0.303 Preprocessor1_Model1</code></pre>
+1 mae     standard       0.418 Preprocessor1_Model1</code></pre>
 </div>
 </div>
 <p>A visualization of the steps for effectively tuning the penalty value in a ridge regression setting can be found below.</p>
@@ -645,10 +647,10 @@ Pro Tip
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="theoretical-exercises"><span class="header-section-number">3.2.1</span> Theoretical Exercises</h3>
 <div id="exr-lossmle" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 3.1</strong></span> The goal of this initial exercise is to review some theoretical aspects of OLS, ridge, and lasso regression.</p>
-<p>In Statistics I/II, we learned that OLS is the cornerstone of linear regression analysis. It allows us to explore and quantify the relationship between the response variable and the regressors in a relatively simple but meaningful way. We can extend the idea of a simple linear regression by adding a penalty term to the loss function we want to minimize. This process is called regularization and has been introduced in the lecture in terms of ridge and lasso regression.</p>
-<p>Consider a simple linear model, with a quantitative response variable <span class="math inline">\(Y\)</span> and a single predictor <span class="math inline">\(X\)</span>. The simple linear model then assumes (among other things) that there is approximately a linear relationship between <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span>, i.e.,</p>
+<p>In Statistics I/II, we learned that OLS is the cornerstone of linear regression analysis. It allows us to explore and quantify the relationship between the response variable and the regressors in a relatively simple but meaningful way. We can extend the idea of a simple linear regression by adding a penalty term to the loss function we want to minimize. This process is called regularization and has been introduced in the lecture regarding ridge and lasso regression.</p>
+<p>Consider a simple linear model with a quantitative response variable <span class="math inline">\(Y\)</span> and a single predictor <span class="math inline">\(X\)</span>. The simple linear model then assumes (among other things) that there is approximately a linear relationship between <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span>, i.e.,</p>
 <p><span class="math display">\[ Y \approx \beta_0 + \beta_1 X. \]</span></p>
-<p>with unknown coefficients <span class="math inline">\(\beta_0,\beta_1\)</span>. In order to obtain the best estimate <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> for a given sample we can minimize the MSE</p>
+<p>with unknown coefficients <span class="math inline">\(\beta_0,\beta_1\)</span>. To obtain the best estimate <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> for a given sample we can minimize the MSE</p>
 <p><span class="math display">\[ \begin{equation} \min_{\beta_0,\beta_1} MSE = \frac{1}{N}\sum_{n=1}^{N} (y_n - (\beta_0 + \beta_1 x_n))^2 \end{equation} \]</span></p>
 <p>where <span class="math inline">\(N = \mathrm{length(Y)}\)</span>, <span class="math inline">\(y_1,…,y_N\)</span> is a realized sample of <span class="math inline">\(Y\)</span>, and <span class="math inline">\(x_1,…,x_N\)</span> is a realized sample of <span class="math inline">\(X\)</span>.</p>
 <p>Show, that</p>
@@ -706,34 +708,34 @@ where $\lambda \in [0,\infty)$ .
 </section>
 <section id="programming-exercises" class="level3" data-number="3.2.2">
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="programming-exercises"><span class="header-section-number">3.2.2</span> Programming Exercises</h3>
-<p>In the following exercises, we will revisit the ImmoScout data set <a href="https://www.kaggle.com/datasets/corrieaar/apartment-rental-offers-in-germany">Apartment rental offers in Germany</a>, but instead of considering rent prices in Augsburg, we will now consider rent prices in Munich. The data set that can be downloaded using the button below.</p>
+<p>In the following exercises, we will revisit the ImmoScout data set <a href="https://www.kaggle.com/datasets/corrieaar/apartment-rental-offers-in-germany">Apartment rental offers in Germany</a>, but instead of considering rent prices in Augsburg, we will now consider rent prices in Munich. The data set can be downloaded using the button below.</p>
 <div style="text-align: center;">
 <p><a href="data/rent_muc.csv" class="btn btn-outline-primary" role="button" data-toggle="tooltip" title="700 KB">Download MunichRental</a></p>
 </div>
-<p>It contains 4383 unique rental listings for flats in Munich which were sourced at three different dates in 2018 and 2019 and contains 28 different variables. We will briefly prepare the dataset, create a recipe, and finally a workflow before training and tuning different models.</p>
+<p>It contains 4383 unique rental listings for flats in Munich, sourced on three dates in 2018 and 2019, and 28 different variables. We will briefly prepare the data set, create a recipe, and create a workflow before training and tuning different models.</p>
 <div id="exr-preproc" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 3.5</strong></span> Import the data set and apply the following steps to the data:</p>
 <ol type="1">
 <li><p>Remove the following columns from the data set</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"serviceCharge"</span>,<span class="st">"heatingType"</span>,<span class="st">"picturecount"</span>,<span class="st">"totalRent"</span>,</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>        <span class="st">"firingTypes"</span>,<span class="st">"typeOfFlat"</span>,<span class="st">"noRoomsRange"</span>, <span class="st">"petsAllowed"</span>,</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"livingSpaceRange"</span>,<span class="st">"regio3"</span>,<span class="st">"heatingCosts"</span>, <span class="st">"floor"</span>,</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"date"</span>, <span class="st">"pricetrend"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"serviceCharge"</span>,<span class="st">"heatingType"</span>,<span class="st">"picturecount"</span>,<span class="st">"totalRent"</span>,</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>        <span class="st">"firingTypes"</span>,<span class="st">"typeOfFlat"</span>,<span class="st">"noRoomsRange"</span>, <span class="st">"petsAllowed"</span>,</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"livingSpaceRange"</span>,<span class="st">"regio3"</span>,<span class="st">"heatingCosts"</span>, <span class="st">"floor"</span>,</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"date"</span>, <span class="st">"pricetrend"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 <li><p>Remove all the <code>NA</code> values.</p></li>
 <li><p>Next, mutate the data as follows:</p>
 <ol type="1">
 <li><p>Convert the feature <code>interiorQual</code> to an ordered factor variable using the following levels:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"simple"</span>, <span class="st">"normal"</span>, <span class="st">"sophisticated"</span>, <span class="st">"luxury"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"simple"</span>, <span class="st">"normal"</span>, <span class="st">"sophisticated"</span>, <span class="st">"luxury"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 <li><p>Convert the feature <code>condition</code> to an ordered factor variable using the following levels:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"need_of_renovation"</span>, <span class="st">"negotiable"</span>,<span class="st">"well_kept"</span>,<span class="st">"refurbished"</span>,</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>         <span class="st">"first_time_use_after_refurbishment"</span>,</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">"modernized"</span>, <span class="st">"fully_renovated"</span>, <span class="st">"mint_condition"</span>,</span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>         <span class="st">"first_time_use"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"need_of_renovation"</span>, <span class="st">"negotiable"</span>,<span class="st">"well_kept"</span>,<span class="st">"refurbished"</span>,</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>         <span class="st">"first_time_use_after_refurbishment"</span>,</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">"modernized"</span>, <span class="st">"fully_renovated"</span>, <span class="st">"mint_condition"</span>,</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>         <span class="st">"first_time_use"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 <li><p>Convert the feature <code>geo_plz</code> to an unordered factor.</p></li>
 <li><p>Convert every logical feature into a numerical feature such that <code>TRUE</code> corresponds to <code>1</code> and <code>FALSE</code> to <code>0</code>.</p></li>
@@ -742,56 +744,83 @@ where $\lambda \in [0,\infty)$ .
 </ol>
 </div>
 <div id="exr-resampling01" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.6</strong></span> Use the seed <code>24</code> and create a training and test split consisting of <span class="math inline">\(80\%\)</span> training data based on the newly mutated data set. Then, with the same seed, create a <span class="math inline">\(5\)</span>-fold cross-validation data set from the training data.</p>
+<p><span class="theorem-title"><strong>Exercise 3.6</strong></span> Use the seed <code>24</code> and create a training and test split with <span class="math inline">\(80\%\)</span> training data based on the newly mutated data set. Then, with the same seed, create a <span class="math inline">\(5\)</span>-fold cross-validation data set from the training data.</p>
 </div>
 <div id="exr-recipe01" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 3.7</strong></span> Explain the following recipe by describing each function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>rec_rent <span class="ot">&lt;-</span> <span class="fu">recipe</span>(</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> baseRent <span class="sc">~</span>., </span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data_train</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_role</span>(scoutId, <span class="at">new_role =</span> <span class="st">"ID"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_ordinalscore</span>(interiorQual, condition)<span class="sc">%&gt;%</span></span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(geo_plz)<span class="sc">%&gt;%</span></span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>rec_rent <span class="ot">&lt;-</span> <span class="fu">recipe</span>(</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> baseRent <span class="sc">~</span>., </span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data_train</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_role</span>(scoutId, <span class="at">new_role =</span> <span class="st">"ID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_ordinalscore</span>(interiorQual, condition)<span class="sc">%&gt;%</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(geo_plz)<span class="sc">%&gt;%</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="exr-recipe02" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.8</strong></span> In the previous exercises we mutated the data set initially (cf. <a href="#exr-preproc" class="quarto-xref">Exercise&nbsp;<span>3.5</span></a>), before applying additional mutations using the <code>recipe</code> function. This procedure can add unnecessary complexity or confusion since the preprocessing steps are spread out across the markdown document.</p>
-<p>Therefore, modify the code of Exercises <a href="#exr-resampling01" class="quarto-xref">Exercise&nbsp;<span>3.6</span></a> and <a href="#exr-recipe01" class="quarto-xref">Exercise&nbsp;<span>3.7</span></a>, such that the preprocessing steps of <a href="#exr-preproc" class="quarto-xref">Exercise&nbsp;<span>3.5</span></a> are included in the recipe.</p>
+<p><span class="theorem-title"><strong>Exercise 3.8</strong></span> In the previous exercises, we initially mutated the data set (cf. <a href="#exr-preproc" class="quarto-xref">Exercise&nbsp;<span>3.5</span></a>) before adding mutations using the <code>recipe</code> function. This procedure can add unnecessary complexity or confusion since the preprocessing steps are spread across the markdown document.</p>
+<p>Therefore, modify the code of Exercises <a href="#exr-resampling01" class="quarto-xref">Exercise&nbsp;<span>3.6</span></a> and <a href="#exr-recipe01" class="quarto-xref">Exercise&nbsp;<span>3.7</span></a> so that the preprocessing steps of <a href="#exr-preproc" class="quarto-xref">Exercise&nbsp;<span>3.5</span></a> are included in the recipe.</p>
 <p><em>Hint: You can use the <code>step_select</code>, <code>step_mutate</code>, <code>step_naomit</code>, <code>step_novel</code>, and <code>step_dummy</code> functions for incorporating the preprocessing steps.</em></p>
 </div>
 <div id="exr-lasso01" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 3.9</strong></span> Create a lasso model with penalty set to <code>tune</code>. Then, use the following penalty values for tuning the lasso model. Finally, create a new workflow object to add the model specification and recipe.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>penalty_vals <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">penalty =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="at">length.out =</span> <span class="dv">500</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>penalty_vals <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">penalty =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="at">length.out =</span> <span class="dv">500</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<p>In this last exercise we will make use of the previously performed data preparation by modeling a workflow and selecting the best model based on some performance metrics we will specify later.</p>
-<p>First, create an instance of the <code>linear_reg</code> class called <code>model_lasso</code> with parameters <code>penalty = tune()</code> and <code>mixture = 1.0</code>. By setting the <code>penalty</code> parameter to <code>tune()</code>, we specify that the penalty is a tuning parameter that we want to optimize later. By setting the <code>mixture</code> parameter to <code>1.0</code> we specify that the model should be a pure lasso regression (setting it to 0.0 indicates that we are using a pure ridge regression). If calling the model <code>model_lasso</code> results in the same output as below, you solved the exercise correctly.</p>
-<p>Since we have set the penalty value to <code>tune()</code> we have to specify a grid in which want to check for the best value. We can pass the grid values to our model by using the <code>set_engine</code> function.</p>
-<p>Update the model <code>model_lasso</code> by completing the following Code snippet. Fill the gap by piping <code>model_lasso</code>to the <code>set_engine</code> function where you pass the parameters <code>engine = "glmnet"</code> and <code>path_values = penalty</code>. If you are interested in why we specifically have to use the <code>path_values</code> argument, you can check out this <a href="https://parsnip.tidymodels.org/reference/glmnet-details.html">manual</a>.</p>
-<p>You can check whether you have successfully updated the model by calling <code>model_lasso</code> and comparing your output to the one below. If they coincide you have solved the exercise correctly.</p>
-<p>Similarly to Exercise 2c i on Exercise Sheet 02, create a workflow called <code>glmnet_wflow</code> by creating an instance of the <code>workflow</code> class without passing any additional arguments, piping it to the <code>add_model</code> function with <code>model_lasso</code> as an argument, and finally piping it to the <code>add_recipe</code> function with <code>rec_rent</code> as an argument.</p>
-<p>You can check whether you have successfully set up the workflow by calling <code>glmnet_wflow</code> and comparing your output to the one below. If they coincide you have solved the exercise correctly.</p>
-<p>Given the following metric set and the previously created workflow, we can now finally train our lasso model.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>multi_metric <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(rsq,mae)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>In order to do so, create an object called <code>glmnet_res</code> (res stands for resampling in that context) by assigning the <code>glmnet_wflow</code> object to it and piping it to the <code>tune_grid</code> function. Recall, that this is the exact same process as in Exercise 2c i on Sheet 02. As arguments for the <code>tune_grid</code> function, you have to pass <code>tibble(penalty), multi_metric</code>, and <code>folds</code>.</p>
-<p>You can check whether you have successfully trained the model by calling <code>head(glmnet_res)</code> and comparing your output to the one below. If they coincide you have solved the exercise correctly.</p>
+<!--
+
+In this last exercise we will make use of the previously performed data preparation by modeling a workflow and selecting the best model based on some performance metrics we will specify later.
+
+First, create an instance of the `linear_reg` class called `model_lasso` with parameters `penalty = tune()` and `mixture = 1.0`.
+By setting the `penalty` parameter to `tune()`, we specify that the penalty is a tuning parameter that we want to optimize later.
+By setting the `mixture` parameter to `1.0` we specify that the model should be a pure lasso regression (setting it to 0.0 indicates that we are using a pure ridge regression).
+If calling the model `model_lasso` results in the same output as below, you solved the exercise correctly.
+
+Since we have set the penalty value to `tune()` we have to specify a grid in which want to check for the best value. We can pass the grid values to our model by using the `set_engine` function.
+
+Update the model `model_lasso` by completing the following Code snippet. Fill the gap by piping `model_lasso`to the `set_engine` function where you pass the parameters `engine = "glmnet"` and `path_values = penalty`. If you are interested in why we specifically have to use the `path_values` argument, you can check out this [manual](https://parsnip.tidymodels.org/reference/glmnet-details.html).
+
+You can check whether you have successfully updated the model by calling `model_lasso` and comparing your output to the one below. If they coincide you have solved the exercise correctly.
+
+Similarly to Exercise 2c i on Exercise Sheet 02, create a workflow called `glmnet_wflow` by creating an instance of the `workflow` class without passing any additional arguments, piping it to the `add_model` function with `model_lasso` as an argument, and finally piping it to the `add_recipe` function with `rec_rent` as an argument.
+
+You can check whether you have successfully set up the workflow by calling `glmnet_wflow` and comparing your output to the one below. If they coincide you have solved the exercise correctly.
+
+
+Given the following metric set and the previously created workflow, we can now finally train our lasso model.
+
+
+
+
+::: {.cell}
+
+```{.r .cell-code}
+multi_metric <- metric_set(rsq,mae)
+```
+:::
+
+
+
+
+In order to do so, create an object called `glmnet_res` (res stands for resampling in that context) by assigning the `glmnet_wflow` object to it and piping it to the `tune_grid` function. Recall, that this is the exact same process as in Exercise 2c i on Sheet 02. As arguments for the `tune_grid` function, you have to pass `tibble(penalty), multi_metric`, and `folds`.
+
+You can check whether you have successfully trained the model by calling `head(glmnet_res)` and comparing your output to the one below. If they coincide you have solved the exercise correctly.
+
+-->
 <div id="exr-lasso02" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.10</strong></span> Train the lasso model using cross-validation across all penalty values. Then, evaluate the results by finding the <em>optimal penalty value</em> and the <em>optimal penalty value according to the one standard error rule</em>.</p>
+<p><span class="theorem-title"><strong>Exercise 3.10</strong></span> Train the lasso model using cross-validation across all penalty values. Then, evaluate the results by finding the <em>optimal penalty value</em> and the <em>optimal penalty value according to the one standard error rule</em> with respect to the metric MAE.</p>
 </div>
 <div id="exr-lasso03" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.11</strong></span> Consider the following plot that depicts the mean out-of-sample RMSE for different penalty values. The dashed lines represent the optimal penalty and the largest value of the penalty such that the mean MSE is within one standard error of the optimum.</p>
+<p><span class="theorem-title"><strong>Exercise 3.11</strong></span> Consider the following plot, which depicts the mean out-of-sample RMSE for different penalty values. The dashed lines represent the optimal penalty and the largest penalty value, such that the mean MSE is within one standard error of the optimum.</p>
 <p>Decide and present an argument for which line is the optimal penalty. Furthermore, explain why we would choose the non-optimal penalty in lasso regression.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="03_regularization_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="03_regularization_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1033,41 +1062,41 @@ By growing the parameter <span class="math inline">\(\lambda\)</span>, we reduce
 <div id="sol-preproc" class="proof solution">
 <p><span class="proof-title"><em>Solution 3.5</em> (<a href="#exr-preproc" class="quarto-xref">Exercise&nbsp;<span>3.5</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>data_muc_filtered <span class="ot">&lt;-</span> data_muc <span class="sc">%&gt;%</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(<span class="st">"serviceCharge"</span>,<span class="st">"heatingType"</span>,<span class="st">"picturecount"</span>,<span class="st">"totalRent"</span>,</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">"firingTypes"</span>,<span class="st">"typeOfFlat"</span>,<span class="st">"noRoomsRange"</span>, <span class="st">"petsAllowed"</span>,</span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">"livingSpaceRange"</span>,<span class="st">"regio3"</span>,<span class="st">"heatingCosts"</span>, <span class="st">"floor"</span>,</span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">"date"</span>, <span class="st">"pricetrend"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  na.omit <span class="sc">%&gt;%</span></span>
-<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">interiorQual =</span> <span class="fu">factor</span>(</span>
-<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>      interiorQual,</span>
-<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"simple"</span>, <span class="st">"normal"</span>, <span class="st">"sophisticated"</span>, <span class="st">"luxury"</span>),</span>
-<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
-<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> <span class="fu">factor</span>(</span>
-<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>      condition,</span>
-<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"need_of_renovation"</span>, <span class="st">"negotiable"</span>,<span class="st">"well_kept"</span>,<span class="st">"refurbished"</span>,</span>
-<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"first_time_use_after_refurbishment"</span>,</span>
-<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"modernized"</span>, <span class="st">"fully_renovated"</span>, <span class="st">"mint_condition"</span>,</span>
-<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"first_time_use"</span>),</span>
-<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
-<span id="cb49-20"><a href="#cb49-20" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb49-21"><a href="#cb49-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">geo_plz =</span> <span class="fu">factor</span>(geo_plz)</span>
-<span id="cb49-22"><a href="#cb49-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb49-23"><a href="#cb49-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(baseRent <span class="sc">&lt;=</span> <span class="dv">4000</span>, livingSpace <span class="sc">&lt;=</span> <span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>data_muc_filtered <span class="ot">&lt;-</span> data_muc <span class="sc">%&gt;%</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(<span class="st">"serviceCharge"</span>,<span class="st">"heatingType"</span>,<span class="st">"picturecount"</span>,<span class="st">"totalRent"</span>,</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">"firingTypes"</span>,<span class="st">"typeOfFlat"</span>,<span class="st">"noRoomsRange"</span>, <span class="st">"petsAllowed"</span>,</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">"livingSpaceRange"</span>,<span class="st">"regio3"</span>,<span class="st">"heatingCosts"</span>, <span class="st">"floor"</span>,</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">"date"</span>, <span class="st">"pricetrend"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>  na.omit <span class="sc">%&gt;%</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">interiorQual =</span> <span class="fu">factor</span>(</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>      interiorQual,</span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"simple"</span>, <span class="st">"normal"</span>, <span class="st">"sophisticated"</span>, <span class="st">"luxury"</span>),</span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> <span class="fu">factor</span>(</span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>      condition,</span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"need_of_renovation"</span>, <span class="st">"negotiable"</span>,<span class="st">"well_kept"</span>,<span class="st">"refurbished"</span>,</span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"first_time_use_after_refurbishment"</span>,</span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"modernized"</span>, <span class="st">"fully_renovated"</span>, <span class="st">"mint_condition"</span>,</span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"first_time_use"</span>),</span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">geo_plz =</span> <span class="fu">factor</span>(geo_plz)</span>
+<span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb50-23"><a href="#cb50-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(baseRent <span class="sc">&lt;=</span> <span class="dv">4000</span>, livingSpace <span class="sc">&lt;=</span> <span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-resampling01" class="proof solution">
 <p><span class="proof-title"><em>Solution 3.6</em> (<a href="#exr-resampling01" class="quarto-xref">Exercise&nbsp;<span>3.6</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">24</span>)</span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(data_muc_filtered, <span class="fl">0.8</span>)</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>data_train <span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(data_train, <span class="at">v =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">24</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(data_muc_filtered, <span class="fl">0.8</span>)</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>data_train <span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(data_train, <span class="at">v =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-recipe01" class="proof solution">
@@ -1083,13 +1112,13 @@ By growing the parameter <span class="math inline">\(\lambda\)</span>, we reduce
 <div id="sol-recipe02" class="proof solution">
 <p><span class="proof-title"><em>Solution 3.8</em> (<a href="#exr-recipe02" class="quarto-xref">Exercise&nbsp;<span>3.8</span></a>). </span>Creating a new data split based on the unmutated data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">24</span>)</span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(data_muc, <span class="fl">0.8</span>)</span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>data_train <span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(data_train, <span class="at">v =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">24</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(data_muc, <span class="fl">0.8</span>)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>data_train <span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(data_train, <span class="at">v =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Inserting the previous preprocessing steps into the recipe framework. Note, that this only requires changing:</p>
 <ul>
@@ -1099,78 +1128,78 @@ By growing the parameter <span class="math inline">\(\lambda\)</span>, we reduce
 <li><code>filter</code> to <code>step_filter</code>.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>rec_rent <span class="ot">&lt;-</span> <span class="fu">recipe</span>(</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> baseRent <span class="sc">~</span>., </span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data_train</span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_role</span>(scoutId, <span class="at">new_role =</span> <span class="st">"ID"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_select</span>(<span class="sc">!</span><span class="fu">c</span>(<span class="st">"serviceCharge"</span>,<span class="st">"heatingType"</span>,<span class="st">"picturecount"</span>,<span class="st">"totalRent"</span>,</span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">"firingTypes"</span>,<span class="st">"typeOfFlat"</span>,<span class="st">"noRoomsRange"</span>, <span class="st">"petsAllowed"</span>,</span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"livingSpaceRange"</span>,<span class="st">"regio3"</span>,<span class="st">"heatingCosts"</span>, <span class="st">"floor"</span>,</span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"date"</span>, <span class="st">"pricetrend"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_naomit</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_mutate</span>(</span>
-<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">interiorQual =</span> <span class="fu">factor</span>(</span>
-<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>      interiorQual,</span>
-<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"simple"</span>, <span class="st">"normal"</span>, <span class="st">"sophisticated"</span>, <span class="st">"luxury"</span>),</span>
-<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
-<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> <span class="fu">factor</span>(</span>
-<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>      condition,</span>
-<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"need_of_renovation"</span>, <span class="st">"negotiable"</span>,<span class="st">"well_kept"</span>,<span class="st">"refurbished"</span>,</span>
-<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"first_time_use_after_refurbishment"</span>,</span>
-<span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"modernized"</span>, <span class="st">"fully_renovated"</span>, <span class="st">"mint_condition"</span>,</span>
-<span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"first_time_use"</span>),</span>
-<span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
-<span id="cb52-24"><a href="#cb52-24" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb52-25"><a href="#cb52-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">geo_plz =</span> <span class="fu">factor</span>(geo_plz),</span>
-<span id="cb52-26"><a href="#cb52-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">where</span>(is.logical),as.numeric)</span>
-<span id="cb52-27"><a href="#cb52-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb52-28"><a href="#cb52-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_filter</span>(baseRent <span class="sc">&lt;=</span> <span class="dv">4000</span>, livingSpace <span class="sc">&lt;=</span> <span class="dv">200</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb52-29"><a href="#cb52-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_ordinalscore</span>(interiorQual, condition)<span class="sc">%&gt;%</span></span>
-<span id="cb52-30"><a href="#cb52-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_novel</span>(geo_plz)<span class="sc">%&gt;%</span></span>
-<span id="cb52-31"><a href="#cb52-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(geo_plz)<span class="sc">%&gt;%</span></span>
-<span id="cb52-32"><a href="#cb52-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>rec_rent <span class="ot">&lt;-</span> <span class="fu">recipe</span>(</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> baseRent <span class="sc">~</span>., </span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data_train</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_role</span>(scoutId, <span class="at">new_role =</span> <span class="st">"ID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_select</span>(<span class="sc">!</span><span class="fu">c</span>(<span class="st">"serviceCharge"</span>,<span class="st">"heatingType"</span>,<span class="st">"picturecount"</span>,<span class="st">"totalRent"</span>,</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">"firingTypes"</span>,<span class="st">"typeOfFlat"</span>,<span class="st">"noRoomsRange"</span>, <span class="st">"petsAllowed"</span>,</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"livingSpaceRange"</span>,<span class="st">"regio3"</span>,<span class="st">"heatingCosts"</span>, <span class="st">"floor"</span>,</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"date"</span>, <span class="st">"pricetrend"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_naomit</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_mutate</span>(</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">interiorQual =</span> <span class="fu">factor</span>(</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>      interiorQual,</span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"simple"</span>, <span class="st">"normal"</span>, <span class="st">"sophisticated"</span>, <span class="st">"luxury"</span>),</span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> <span class="fu">factor</span>(</span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a>      condition,</span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"need_of_renovation"</span>, <span class="st">"negotiable"</span>,<span class="st">"well_kept"</span>,<span class="st">"refurbished"</span>,</span>
+<span id="cb53-20"><a href="#cb53-20" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"first_time_use_after_refurbishment"</span>,</span>
+<span id="cb53-21"><a href="#cb53-21" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"modernized"</span>, <span class="st">"fully_renovated"</span>, <span class="st">"mint_condition"</span>,</span>
+<span id="cb53-22"><a href="#cb53-22" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"first_time_use"</span>),</span>
+<span id="cb53-23"><a href="#cb53-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb53-24"><a href="#cb53-24" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb53-25"><a href="#cb53-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">geo_plz =</span> <span class="fu">factor</span>(geo_plz),</span>
+<span id="cb53-26"><a href="#cb53-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">where</span>(is.logical),as.numeric)</span>
+<span id="cb53-27"><a href="#cb53-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb53-28"><a href="#cb53-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_filter</span>(baseRent <span class="sc">&lt;=</span> <span class="dv">4000</span>, livingSpace <span class="sc">&lt;=</span> <span class="dv">200</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb53-29"><a href="#cb53-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_ordinalscore</span>(interiorQual, condition)<span class="sc">%&gt;%</span></span>
+<span id="cb53-30"><a href="#cb53-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_novel</span>(geo_plz)<span class="sc">%&gt;%</span></span>
+<span id="cb53-31"><a href="#cb53-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(geo_plz)<span class="sc">%&gt;%</span></span>
+<span id="cb53-32"><a href="#cb53-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-lasso01" class="proof solution">
 <p><span class="proof-title"><em>Solution 3.9</em> (<a href="#exr-lasso01" class="quarto-xref">Exercise&nbsp;<span>3.9</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>model_lasso <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">penalty =</span> <span class="fu">tune</span>(), <span class="at">mixture =</span> <span class="fl">1.0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="at">engine =</span> <span class="st">"glmnet"</span>, <span class="at">path_values =</span> penalty_vals<span class="sc">$</span>penalty )</span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>wf_rent <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_rent) <span class="sc">%&gt;%</span></span>
-<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(model_lasso)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>model_lasso <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">penalty =</span> <span class="fu">tune</span>(), <span class="at">mixture =</span> <span class="fl">1.0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="at">engine =</span> <span class="st">"glmnet"</span>, <span class="at">path_values =</span> penalty_vals<span class="sc">$</span>penalty )</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>wf_rent <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_rent) <span class="sc">%&gt;%</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(model_lasso)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-lasso02" class="proof solution">
 <p><span class="proof-title"><em>Solution 3.10</em> (<a href="#exr-lasso02" class="quarto-xref">Exercise&nbsp;<span>3.10</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>lasso_tune_res <span class="ot">&lt;-</span> </span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  wf_rent <span class="sc">%&gt;%</span> </span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(</span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> penalty_vals,</span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">metrics =</span> multi_metric,</span>
-<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds</span>
-<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>tib <span class="ot">&lt;-</span> lasso_tune_res <span class="sc">%&gt;%</span> collect_metrics <span class="sc">%&gt;%</span></span>
-<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
-<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> .metric,</span>
-<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> <span class="fu">c</span>(mean, std_err)</span>
-<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>penalty_one_std <span class="ot">&lt;-</span> <span class="fu">select_by_one_std_err</span>(</span>
-<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>  lasso_tune_res,</span>
-<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="st">"mae"</span>,</span>
-<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">desc</span>(penalty)</span>
-<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(penalty)</span>
-<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a>penalty_opt <span class="ot">&lt;-</span> <span class="fu">select_best</span>(lasso_tune_res, <span class="at">metric =</span> <span class="st">"mae"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(penalty)</span>
-<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a>glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"The optimal penalty is {round(penalty_opt,2)} and </span><span class="sc">\n</span><span class="st"> the optimal penalty according to the one standard error rule is {round(penalty_one_std,2)}."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>lasso_tune_res <span class="ot">&lt;-</span> </span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  wf_rent <span class="sc">%&gt;%</span> </span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> penalty_vals,</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">metrics =</span> multi_metric,</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>tib <span class="ot">&lt;-</span> lasso_tune_res <span class="sc">%&gt;%</span> collect_metrics <span class="sc">%&gt;%</span></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> .metric,</span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> <span class="fu">c</span>(mean, std_err)</span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>penalty_one_std <span class="ot">&lt;-</span> <span class="fu">select_by_one_std_err</span>(</span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>  lasso_tune_res,</span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="st">"mae"</span>,</span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">desc</span>(penalty)</span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb55-20"><a href="#cb55-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(penalty)</span>
+<span id="cb55-21"><a href="#cb55-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-22"><a href="#cb55-22" aria-hidden="true" tabindex="-1"></a>penalty_opt <span class="ot">&lt;-</span> <span class="fu">select_best</span>(lasso_tune_res, <span class="at">metric =</span> <span class="st">"mae"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(penalty)</span>
+<span id="cb55-23"><a href="#cb55-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-24"><a href="#cb55-24" aria-hidden="true" tabindex="-1"></a>glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"The optimal penalty is {round(penalty_opt,2)} and </span><span class="sc">\n</span><span class="st"> the optimal penalty according to the one standard error rule is {round(penalty_one_std,2)}."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>The optimal penalty is 0 and 
 the optimal penalty according to the one standard error rule is 20.</code></pre>
@@ -1183,25 +1212,25 @@ the optimal penalty according to the one standard error rule is 20.</code></pre>
 <div id="sol-lasso04" class="proof solution">
 <p><span class="proof-title"><em>Solution 3.12</em> (<a href="#exr-lasso04" class="quarto-xref">Exercise&nbsp;<span>3.12</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>glm_res_best<span class="ot">&lt;-</span> lasso_tune_res <span class="sc">%&gt;%</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_by_one_std_err</span>(<span class="at">metric =</span> <span class="st">"mae"</span>, <span class="fu">desc</span>(penalty))</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>best_penalty <span class="ot">&lt;-</span> glm_res_best<span class="sc">$</span>penalty</span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>last_glm_model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">penalty =</span> best_penalty, <span class="at">mixture =</span> <span class="fl">1.0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glmnet"</span>)</span>
-<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>wf_rent_final <span class="ot">&lt;-</span> wf_rent <span class="sc">%&gt;%</span> </span>
-<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_model</span>(last_glm_model)</span>
-<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>last_glm_fit <span class="ot">&lt;-</span> </span>
-<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>  wf_rent_final <span class="sc">%&gt;%</span> </span>
-<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split,</span>
-<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>           <span class="at">metrics =</span> multi_metric)</span>
-<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a>last_glm_fit <span class="sc">%&gt;%</span> </span>
-<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>glm_res_best<span class="ot">&lt;-</span> lasso_tune_res <span class="sc">%&gt;%</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_by_one_std_err</span>(<span class="at">metric =</span> <span class="st">"mae"</span>, <span class="fu">desc</span>(penalty))</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>best_penalty <span class="ot">&lt;-</span> glm_res_best<span class="sc">$</span>penalty</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>last_glm_model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">penalty =</span> best_penalty, <span class="at">mixture =</span> <span class="fl">1.0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glmnet"</span>)</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>wf_rent_final <span class="ot">&lt;-</span> wf_rent <span class="sc">%&gt;%</span> </span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_model</span>(last_glm_model)</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>last_glm_fit <span class="ot">&lt;-</span> </span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>  wf_rent_final <span class="sc">%&gt;%</span> </span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split,</span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>           <span class="at">metrics =</span> multi_metric)</span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>last_glm_fit <span class="sc">%&gt;%</span> </span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 4
   .metric .estimator .estimate .config             
@@ -1646,19 +1675,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">
-      &nbsp;
-    </div>   
-    <div class="nav-footer-center">
-
-<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
-    <div class="nav-footer-right">
-      &nbsp;
-    </div>
-  </div>
-</footer>
 
 
 
