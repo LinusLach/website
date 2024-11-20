@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>4&nbsp; Regression Trees – Machine Learning Supplementary Material</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03_regularization.html" rel="prev">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RKE6FHR659"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-RKE6FHR659', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04_regression_trees.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regression Trees</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Machine Learning Supplementary Material</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Important R concepts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_linear_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_regression_trees.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regression Trees</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#intermezzo-imputation" id="toc-intermezzo-imputation" class="nav-link active" data-scroll-target="#intermezzo-imputation"><span class="header-section-number">4.1</span> Intermezzo: Imputation</a></li>
+  <li><a href="#regression-trees-in-r" id="toc-regression-trees-in-r" class="nav-link" data-scroll-target="#regression-trees-in-r"><span class="header-section-number">4.2</span> Regression trees in R</a>
+  <ul>
+  <li><a href="#data-preprocessing-recipe-and-workflow-creation" id="toc-data-preprocessing-recipe-and-workflow-creation" class="nav-link" data-scroll-target="#data-preprocessing-recipe-and-workflow-creation"><span class="header-section-number">4.2.1</span> Data preprocessing, recipe and workflow creation</a></li>
+  <li><a href="#fitting-a-basic-tree" id="toc-fitting-a-basic-tree" class="nav-link" data-scroll-target="#fitting-a-basic-tree"><span class="header-section-number">4.2.2</span> Fitting a basic tree</a></li>
+  <li><a href="#visualizing-results" id="toc-visualizing-results" class="nav-link" data-scroll-target="#visualizing-results"><span class="header-section-number">4.2.3</span> Visualizing results</a></li>
+  <li><a href="#cp-table" id="toc-cp-table" class="nav-link" data-scroll-target="#cp-table"><span class="header-section-number">4.2.4</span> <code>cp</code>-table</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4.3</span> Exercises</a>
+  <ul>
+  <li><a href="#theoretical-exercises" id="toc-theoretical-exercises" class="nav-link" data-scroll-target="#theoretical-exercises"><span class="header-section-number">4.3.1</span> Theoretical exercises</a></li>
+  <li><a href="#programming-exercises" id="toc-programming-exercises" class="nav-link" data-scroll-target="#programming-exercises"><span class="header-section-number">4.3.2</span> Programming Exercises</a></li>
+  </ul></li>
+  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions"><span class="header-section-number">4.4</span> Solutions</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regression Trees</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In this fourth exercise session, we want to introduce regression trees. Regression trees, up to this day, are still one of the most important statistical models as they address important aspects like interpretability but also versatility in terms of the prediction approach since they are non-linear. Another important aspect is their integration with other, more powerful statistical models like random forests, which we will cover in a later session.</p>
+<p>Besides regression, tree-based models can also be used for classification tasks, however, in this exercise in particular, we will focus on the regression case and consider classification tasks later on.</p>
+<p>Some of the packages we will use throughout the session.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tidymodels"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggtext' was built under R version 4.4.1</code></pre>
+</div>
+</div>
+<section id="intermezzo-imputation" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="intermezzo-imputation"><span class="header-section-number">4.1</span> Intermezzo: Imputation</h2>
+<p>When working with data sets, missing values can disrupt analysis and modeling processes. In previous exercises when working with the rental listing data set, we resorted to either remove missing values completely or (in case of numerical or ordinal features) assign the worst possible value. Both of these approaches have significant drawbacks:</p>
+<ul>
+<li><p>By removing every <code>NA</code> value we potentially remove a large chunk of the underlying data which weakens the training capabilities.</p></li>
+<li><p>Assigning the worst possible value to each missing observation introduces a bias which can distort the true underlying distribution.</p></li>
+</ul>
+<p>To handle these drawbacks, several imputation techniques are commonly used:</p>
+<ol type="1">
+<li><p>Mean imputation replaces missing values with the average of the observed data for a given feature, offering simplicity but also risking distortion if the data contains outliers.</p></li>
+<li><p>Median imputation substitutes missing entries with the median value, making it more robust against extreme values.</p></li>
+<li><p>Linear imputation estimates the missing values using a linear model making it particularly robust if there are highly correlated features.</p></li>
+</ol>
+<p>The approaches above require the missing data to be numerical, else we can’t really calculate a mean or median.</p>
+<ol start="4" type="1">
+<li>k-nearest neighbors imputation identifies the k most similar records and fills missing values using their observed data. This approach can also handle ordinal or even nominal data.</li>
+</ol>
+<p>Consider the following two synthetic data set examples:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>n<span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>data_synth_high_corr <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="at">length.out =</span> n),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> x<span class="sc">+</span><span class="fu">rnorm</span>(n,<span class="dv">0</span>,<span class="fl">1.5</span>),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> x<span class="sc">+</span><span class="fu">rnorm</span>(n),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>data_synth_low_corr <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="at">length.out =</span> n),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> <span class="fu">exp</span>(<span class="fu">cos</span>(x)),</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> x<span class="sc">+</span><span class="fu">rnorm</span>(n),</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Both data sets consist of three variables <span class="math inline">\(x,y,z\)</span>, where both, <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span> are generated using <span class="math inline">\(x\)</span>. In the first data set all three variables are highly correlated, whereas in the second data set only <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are highly correlated. Depending on the complexity of the imputation technique, correlation between variables can determine how well they perform.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_regression_trees_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="1056"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Consider the case where <span class="math inline">\(10\%\)</span> of the <span class="math inline">\(x\)</span>-values are removed. We can apply all four imputation techniques to impute those missing values:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_regression_trees_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In the figure above we can observe that the highly correlated data is estimated better using the more sophisticated imputation models compared to the simple mean and median imputation.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_regression_trees_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>While sophisticated imputation techniques seem to outperform simple techniques on highly correlated data, simple imputation techniques seem to be a good choice if the different features are less correlated.</p>
+<p>However, as a rule of thumb, if computational resources are available, I recommend trying different techniques and choose the one that yields best validation results.</p>
+</section>
+<section id="regression-trees-in-r" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="regression-trees-in-r"><span class="header-section-number">4.2</span> Regression trees in R</h2>
+<p>We use the same white wine data set as in Session 02 for the introduction.</p>
+<section id="data-preprocessing-recipe-and-workflow-creation" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="data-preprocessing-recipe-and-workflow-creation"><span class="header-section-number">4.2.1</span> Data preprocessing, recipe and workflow creation</h3>
+<p>For detailed description of each parameter see <a href="https://www.semanticscholar.org/paper/Modeling-wine-preferences-by-data-mining-from-Cortez-Cerdeira/bf15a0ccc14ac1deb5cea570c870389c16be019c">Cortez et al.</a></p>
+<p>The goal is to predict the alcohol contents of each wine given different attributes like density and residual sugar.</p>
+<p>The following code cell contains the usual preprocessing steps required for fitting a model. For details, see <a href="https://linus-lach.de/teaching/ml/03_regularization#recipes-and-workflows">tutorial on recipes and workflows</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>data_wine <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/winequality-white.csv"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>split_wine <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(data_wine)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>data_train_wine<span class="ot">&lt;-</span> <span class="fu">training</span>(split_wine)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>data_test_wine<span class="ot">&lt;-</span> <span class="fu">testing</span>(split_wine)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>rec_wine <span class="ot">&lt;-</span> <span class="fu">recipe</span>(</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  alcohol <span class="sc">~</span>.,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_train_wine</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>wf_wine <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_wine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="fitting-a-basic-tree" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="fitting-a-basic-tree"><span class="header-section-number">4.2.2</span> Fitting a basic tree</h3>
+<p>Fitting a basic tree model is as simple as fitting any other model using the tidymodels framework. The <code>decision_tree</code> function creates an <code>{rpart}</code> tree object. Since decision entail regression and classification trees, we have to specify the mode as <code>"regression"</code>. Using the <code>fit</code> function, we can directly fit the model and evaluate it on the test set using the <code>augment</code> function and a preferred metric:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tree_spec_basic<span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"regression"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>wf_wine <span class="ot">&lt;-</span> wf_wine <span class="sc">%&gt;%</span> <span class="fu">add_model</span>(tree_spec_basic)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>tree_res_basic <span class="ot">&lt;-</span> wf_wine <span class="sc">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(data_train_wine)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>tree_res_basic <span class="sc">%&gt;%</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_test_wine) <span class="sc">%&gt;%</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rmse</span>(.pred,alcohol)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard       0.632</code></pre>
+</div>
+</div>
+<p>Since we have not passed any hyperparameters, the following <code>rpart</code> specific default parameters are used:</p>
+<ul>
+<li><code>min_n = 20</code>,</li>
+<li><code>tree_depth = round(minsplit/3)</code>, and</li>
+<li><code>cost_complexity = 0.01</code>,</li>
+</ul>
+<p>To potentially obtain better results, the parameters should be tuned. We, therefore, have to define a new model specification and set the tuneable parameters to <code>tune()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tree_spec_tune <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"regression"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n =</span> <span class="fu">tune</span>(),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">tree_depth =</span> <span class="fu">tune</span>(),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">cost_complexity =</span> <span class="fu">tune</span>()</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In <a href="https://linus-lach.de/teaching/ml/03_regularization#tuning-for-an-optimal-penalty-value">Exercise 03, Section 3.1.2.3</a>, we specified the candidate hyperparameters by defining a data frame with the respective hyperparameter names and candidate values, or by setting the <code>grid</code> attribute in the <code>tune_grid</code> function to a positive number indicating the number of automatically created candidate parameters.</p>
+<p>Instead of manually creating a data frame, we can use the <code>extract_parameter_set_dials()</code> function to extract all tuneable parameters and pass the output into the <code>grid_regular()</code> function. The <code>grid_regular()</code> function takes a positiv number <code>levels</code> <span class="math inline">\(=n\)</span> as an input and returns a data frame where each column contains <span class="math inline">\(n^{m}\)</span> candidate values, where <span class="math inline">\(m\)</span> is the number of tunable hyperparameters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tree_grid <span class="ot">&lt;-</span> tree_spec_tune <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_parameter_set_dials</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grid_regular</span>(<span class="at">levels =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Since there are <span class="math inline">\(m = 3\)</span> hyperparameters and <code>levels</code> is set to <span class="math inline">\(5\)</span>, the data frame <code>tree_grid</code> contains <span class="math inline">\(125\)</span> combinations of candidate hyperparameters.</p>
+<p>After specifying the candidate hyperparameters, we can tune the models following the standard procedure:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>folds_wine <span class="ot">&lt;-</span><span class="fu">vfold_cv</span>(data_train_wine,<span class="dv">5</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>multi_metric <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(rmse,rsq)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>wf_wine <span class="ot">&lt;-</span> wf_wine <span class="sc">%&gt;%</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_model</span>(tree_spec_tune)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>tree_res_tune <span class="ot">&lt;-</span> wf_wine <span class="sc">%&gt;%</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> tree_grid,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds_wine,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">metrics =</span> multi_metric</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Given the tuning results, we can visualize our finding with the <code>autoplot()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>tree_res_tune <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_regression_trees_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Using the <code>select_best()</code> function, we can select the best set of hyperparameters. After extracting these, passing them to the <code>finalize_workflow()</code> function together with the workflow object, updates the finalizes the workflow object by replacing the hyperparameters set to <code>tune()</code> with the selected hyperparameters. Passing the finalized workflow into the <code>last_fit()</code> function together with the whole data split fits the final model on the whole training data and evaluates it on the test data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>tree_res_final <span class="ot">&lt;-</span> tree_res_tune <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">"rmse"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(wf_wine,.) <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split_wine) </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>tree_res_final <span class="sc">%&gt;%</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  .metric .estimator .estimate .config             
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
+1 rmse    standard       0.496 Preprocessor1_Model1
+2 rsq     standard       0.837 Preprocessor1_Model1</code></pre>
+</div>
+</div>
+<p>Comparing the RMSE of the basic model (<span class="math inline">\(0.632\)</span>) with the tuned model’s RMSE (<span class="math inline">\(0.496\)</span>) shows that the tuning improved the performance of the tree!</p>
+</section>
+<section id="visualizing-results" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="visualizing-results"><span class="header-section-number">4.2.3</span> Visualizing results</h3>
+<p>Since the basic tree only has a depth parameter with value <span class="math inline">\(5\)</span> compared to the tuned tree with depth <span class="math inline">\(15\)</span>, we will consider the basic tree for a visualization. The <code>{rpart.plot}</code> library contains the <a href="https://www.merriam-webster.com/dictionary/eponymous">eponymous</a> function <code>rpart.plot()</code> that visualizes trees in a top-down fashion. Note: Before applying the <code>rpart.plot()</code> function, the <code>fit_engine</code> has to be extracted from the model. Strictly speaking, the object <code>tree_res_basic</code> contains a workflow object which in turns contains the actual model.</p>
+<p>Each node contains the percentage of samples at the specific level in the bottom entry and an estimate in the top entry. For example, after the first split, the left node contains <span class="math inline">\(63\%\)</span> of all samples and the estimate for the alcohol contents is <span class="math inline">\(9.8\)</span> percent. The node on the right contains the remaining <span class="math inline">\(37\%\)</span> percent with an estimated alcohol content of <span class="math inline">\(12\)</span> percent. The branches of the tree contain splitting conditions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>tree_res_basic <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rpart.plot</span>(<span class="at">roundint=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_regression_trees_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="cp-table" class="level3" data-number="4.2.4">
+<h3 data-number="4.2.4" class="anchored" data-anchor-id="cp-table"><span class="header-section-number">4.2.4</span> <code>cp</code>-table</h3>
+<p>The complexity parameter (cp) table is a useful tool for asessing model performance as well. It contains the complecity parameter itself, and for each value the respective split, relative error, cross-validation error and cross-validation standard deviation.</p>
+<p>The relative error for split <span class="math inline">\(k&gt;1\)</span> can be calculated according to the formula</p>
+<p><span class="math display">\[\begin{equation}
+  \mathrm{relative error}_k = \mathrm{relative error}_{k-1}-\mathrm{CP}_{k-1}
+\end{equation}\]</span></p>
+<p>and the relative error for <span class="math inline">\(k=0\)</span> is set to <span class="math inline">\(1\)</span>.</p>
+<p>The last entry of the column <code>rel error</code> contains the unexplained variance in the data, i.e.&nbsp;<span class="math inline">\(1-R^2\)</span>. We can, therefore, calculate <span class="math inline">\(R^2 = 1-\mathrm{rel error}_n\)</span>, where <span class="math inline">\(n\)</span> is the last row of the <code>cp</code>-table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tree_res_basic <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">printcp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Regression tree:
+rpart::rpart(formula = ..y ~ ., data = data)
+
+Variables actually used in tree construction:
+[1] chlorides      density        residual.sugar
+
+Root node error: 5587.9/3673 = 1.5213
+
+n= 3673 
+
+        CP nsplit rel error  xerror      xstd
+1 0.524872      0   1.00000 1.00029 0.0186933
+2 0.065803      1   0.47513 0.48862 0.0114048
+3 0.063815      2   0.40932 0.41249 0.0100885
+4 0.030752      3   0.34551 0.36373 0.0091955
+5 0.024820      4   0.31476 0.33361 0.0087150
+6 0.022225      5   0.28994 0.31958 0.0081634
+7 0.010587      6   0.26771 0.29882 0.0076719
+8 0.010347      7   0.25713 0.27522 0.0074280
+9 0.010000      8   0.24678 0.27426 0.0074155</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="exercises"><span class="header-section-number">4.3</span> Exercises</h2>
+<section id="theoretical-exercises" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="theoretical-exercises"><span class="header-section-number">4.3.1</span> Theoretical exercises</h3>
+<p>In this first exercise, we want to gain intuition for the theoretical aspects of regression trees.</p>
+<p>Before diving into the process of building and evaluating a tree rigorously, we first consider different representations of binary trees, check their validity, and decide for simple datasets, whether they are suitable for regression trees.</p>
+<div id="exr-tree_theory_01" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.1</strong></span> Consider the following two splits of the feature space generated by two features <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span>. Argue, which one of the splits was generated by a binary splitting tree!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pictures/Tree_examples.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+</div>
+<div id="exr-tree_theory_02" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.2</strong></span> Consider the following split generated by a binary tree. <span class="math inline">\(t_1,…,t_4\)</span> denote the splitting conditions, <span class="math inline">\(R_1,…,R_4\)</span> the final regions, and <span class="math inline">\(X_1,X_2\)</span> the variables used for evaluating the splitting conditions.</p>
+<p>Draw a binary tree that corresponds to the split given below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pictures/Split.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+</div>
+<div id="exr-tree_theory_03" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.3</strong></span> For the following scatterplots, decide whether a simple linear model ( <span class="math inline">\(y=\hat \beta_1x+\hat \beta_0\)</span> ) or a regression tree should be chosen for modeling the data.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_regression_trees_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="exr-tree_theory_04" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.4</strong></span> Now, that we have considered some visual examples of trees and gained an intuition of situations where trees might be a suitable model, we now want to focus on the process of building a tree.</p>
+<p>Consider the following dataset. Calculate the first optimal splitting point with respect to <span class="math inline">\(x\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.5</span>,<span class="fl">2.0</span>,<span class="fl">5.5</span>,<span class="fl">4.5</span>),</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">3</span>,<span class="dv">4</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+      x     y
+  &lt;dbl&gt; &lt;dbl&gt;
+1   1      10
+2   0.5     7
+3   2       8
+4   5.5     3
+5   4.5     4</code></pre>
+</div>
+</div>
+<p>In order to do so, you have to proceed as follows:</p>
+<ol type="1">
+<li>Derive the order statistics of <span class="math inline">\(\{x_1,...,x_n\}\)</span></li>
+<li>Derive the set <span class="math inline">\(S := \left\{\frac{1}{2}(x_{(r)}+x_{(r+1)}):r=1,...,n-1\right\}\)</span> of all potential splitting points.</li>
+<li>For each potential splitting point, derive the regions <span class="math inline">\(R_1\)</span> and <span class="math inline">\(R_2\)</span> and calculate the estimate <span class="math inline">\(\hat y_1\)</span> and <span class="math inline">\(\hat y_2\)</span> for the respective regions.</li>
+<li>Calculate the loss <span class="math inline">\(\mathcal{L}(y,\hat y) := \sum_{i:x_i\in R_1} (y_i-\hat y)^2 + \sum_{i:x_i\in R_2}(y_i-\hat y)^2\)</span>.</li>
+<li>Derive the optimal splitting point by settling for the splitting point leading to the smallest loss <span class="math inline">\(\mathcal{L}\)</span>.</li>
+</ol>
+</div>
+<div id="exr-tree_theory_05" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.5</strong></span> Given the tibble <code>data</code>, create a simple scatter plot and add a dashed line indicating the initial splitting point. An example of what such a plot could look like can be found below.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_regression_trees_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="exr-tree_theory_06" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.6</strong></span> Calculate the improvement of the given split. Recall, that the improvement of a split is given by</p>
+<p><span class="math display">\[
+\frac{\mathrm{MSE}_1 \cdot n_1 - (\mathrm{MSE}_2 \cdot n_2 +  \mathrm{MSE}_3 \cdot n_3)}{\mathrm{MSE_1}\cdot n_1},
+\]</span></p>
+<p>where <span class="math inline">\(\mathrm{MSE}_1\)</span> denotes the mean squared error of the region before the split and <span class="math inline">\(\mathrm{MSE_2}\)</span> and <span class="math inline">\(\mathrm{MSE_3}\)</span> are the mean square errors of the respective regions after the split. <span class="math inline">\(n_i,\, i=1,2,3\)</span> denotes the number of samples in the respective region.</p>
+</div>
+</section>
+<section id="programming-exercises" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="programming-exercises"><span class="header-section-number">4.3.2</span> Programming Exercises</h3>
+<p>In this exercise, we want to apply our theoretical knowledge to training a tree-based model on the <a href="https://www.kaggle.com/datasets/corrieaar/apartment-rental-offers-in-germany">Apartment rental offers in Germany</a> dataset. As in Session 03 we will be using the rental offers in Munich to build a predictive model for the base rent.</p>
+<div id="exr-data_split" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.7</strong></span> Import the data set, create a training/testing split and a <span class="math inline">\(5\)</span>-fold CV object on the training data using <code>set.seed(2)</code>.</p>
+</div>
+<div id="exr-findNAs" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.8</strong></span> Explain the syntax and semantics of the following code snippet.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>data_muc <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a>  <span class="fu">select_if</span>(<span class="fu">where</span>(<span class="sc">~</span><span class="fu">sum</span>(<span class="fu">is.na</span>(.))<span class="sc">&gt;</span><span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3"></a>  <span class="fu">is.na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a>  <span class="fu">colSums</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a>  <span class="fu">tibble</span>( <span class="at">names =</span> <span class="fu">names</span>(.),</span>
+<span id="cb18-6"><a href="#cb18-6"></a>          <span class="at">n =</span> .) <span class="sc">%&gt;%</span></span>
+<span id="cb18-7"><a href="#cb18-7"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 2
+   names               n
+   &lt;chr&gt;           &lt;dbl&gt;
+ 1 heatingCosts     3565
+ 2 petsAllowed      2013
+ 3 interiorQual     1584
+ 4 firingTypes      1243
+ 5 condition        1206
+ 6 heatingType      1108
+ 7 typeOfFlat        847
+ 8 yearConstructed   751
+ 9 floor             631
+10 totalRent         440
+11 serviceCharge     150
+12 pricetrend         22</code></pre>
+</div>
+</div>
+</div>
+<div id="exr-recipe" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.9</strong></span> Create a recipe based on the following description:</p>
+<ol type="1">
+<li><p>Create a recipe for a regression model with baseRent as the target variable and all other columns as predictors.</p></li>
+<li><p>Update the role of the scoutId column to “ID”.</p></li>
+<li><p>Remove the following specified columns from the dataset:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"serviceCharge"</span>,<span class="st">"heatingType"</span>,<span class="st">"picturecount"</span>,<span class="st">"totalRent"</span>,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>      <span class="st">"firingTypes"</span>,<span class="st">"typeOfFlat"</span>,<span class="st">"noRoomsRange"</span>, <span class="st">"petsAllowed"</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>      <span class="st">"livingSpaceRange"</span>,<span class="st">"regio3"</span>,<span class="st">"heatingCosts"</span>, <span class="st">"floor"</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">"date"</span>, <span class="st">"pricetrend"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "serviceCharge"    "heatingType"      "picturecount"     "totalRent"       
+ [5] "firingTypes"      "typeOfFlat"       "noRoomsRange"     "petsAllowed"     
+ [9] "livingSpaceRange" "regio3"           "heatingCosts"     "floor"           
+[13] "date"             "pricetrend"      </code></pre>
+</div>
+</div></li>
+<li><p>Convert <code>interiorQual</code> and <code>condition</code> into ordered factors with specified levels and <code>geo_plz</code> into an unordered factor.</p></li>
+<li><p>Create a specification that assigns a previously unseen factor level to <code>new</code> using the <code>step_novel()</code> function.</p></li>
+<li><p>Convert <code>geo_plz</code> into dummy variables.</p></li>
+<li><p>Create ordinal scores for every ordered predictor.</p></li>
+<li><p>Impute missing values for all ordered predictors using k-nearest neighbors.</p></li>
+<li><p>Filter rows in the dataset to retain only observations where <code>baseRent</code> is at most <span class="math inline">\(4000\)</span> EUR and <code>livingSpace</code> is at most <span class="math inline">\(200\)</span> sqm.</p></li>
+</ol>
+</div>
+<div id="exr-model_spec" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.10</strong></span> Create an instance of the <code>decision_tree</code> class where the parameters <code>min_n</code>,<code>tree_depth</code>, and <code>cost_complexity</code> are set to tune.</p>
+</div>
+<div id="exr-wf_spec" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.11</strong></span> Create a workflow and add the previously specified model and recipe.</p>
+</div>
+<div id="exr-generate_grid" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.12</strong></span> Instead of specifying the grid manually, use the <code>extract_parameter_set_dials</code> function to create a regular grid with <span class="math inline">\(4\)</span> levels.</p>
+</div>
+<!--
+
+
+#### Exercise 2a iv: Setting up a tune-grid
+
+Now, that we have set up the model, specified the recipe, and created a workflow, we need to define a grid for the grid search of the tuning parameters `min_n`,`tree_depth`, and `cost_complexity`. Instead of defining one manually, we can use the `grid_regular` function of the `{dials}` package instead. The `grid_regular` function creates a tibble with one column for each parameter and a row for every parameter combination. One advantage of this function is, that we can pass our tuning parameters directly into it and the `grid_regular` function creates a range of valid values. Consider the following example: The `min_n` parameter, which determines the minimum number of data points in a node that is required for the node to be split further, takes values between $0$ and $40$. Calling the `grid_regular` function with `min_n()` and `levels = 5`, creates a grid with five values ranging from $0$ to $40$, as you can see in the code chunk below.
+
+
+
+
+::: {.cell}
+
+```{.r .cell-code}
+grid_regular(min_n(),levels = 5)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 5 × 1
+  min_n
+  <int>
+1     2
+2    11
+3    21
+4    30
+5    40
+```
+
+
+:::
+:::
+
+
+
+
+Instead of passing the tuning parameters manually as we have done in the example above, we can also simply use the `extract_parameter_set_dials` function, which returns all the parameters we have specified for the tuning process.
+
+-->
+<div id="exr-model_tuning" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.13</strong></span> Tune the model on the cross-validation set created in <a href="#exr-data_split" class="quarto-xref">Exercise&nbsp;<span>4.7</span></a>. As for the Use the following metric set for evaluating the tuning results.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>multi_metric <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(rmse,rsq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="exr-autoplot_results" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.14</strong></span> Given the following plot. What can you say about the relationship between the tree parameters <code>Tree Depth</code>, <code>Minimal Node Size</code>, and <code>Cost-Complexity Parameter</code> with respect to the RMSE?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pictures/Tree_tune_autoplot.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+</div>
+<div id="exr-select_best" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.15</strong></span> Select the best model with respect to the metric MAE and fit a final model using these parameters. Then, fit the best model on the whole training data and evaluate it on the test data using the previously defined metrics set.</p>
+</div>
+<div id="exr-eval_perf" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.16</strong></span> It is usually easier to get a feeling for model performance by visualizing the results. One way to do that would be to plot the predicted values of our model against the true values. By adding a simple line through the origin with slope one, we can then evaluate the estimates as follows:</p>
+<p>Points that are closely scattered around this line are well predicted, whereas points further away from this line indicate that the model performed badly.</p>
+<p>The goal of this exercise is for you to rebuild the plot that is depicted below.</p>
+</div>
+</section>
+</section>
+<section id="solutions" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="solutions"><span class="header-section-number">4.4</span> Solutions</h2>
+<div id="sol-tree_theory_01" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.1</em> (<a href="#exr-tree_theory_01" class="quarto-xref">Exercise&nbsp;<span>4.1</span></a>). </span>Split 1 can’t be produced by a binary tree, because the bottom-center rectangle is overlapping the left-most rectangle.</p>
+</div>
+<div id="sol-tree_theory_02" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.2</em> (<a href="#exr-tree_theory_02" class="quarto-xref">Exercise&nbsp;<span>4.2</span></a>). </span><img src="pictures/Tree_from_split.jpg" class="img-fluid quarto-figure quarto-figure-center"></p>
+</div>
+<div id="sol-tree_theory_03" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.3</em> (<a href="#exr-tree_theory_03" class="quarto-xref">Exercise&nbsp;<span>4.3</span></a>). </span></p>
+<ol type="1">
+<li>For the data in the first plot, we should use a simple linear model, as the data seems to follow a simple linear trend.</li>
+<li>A linear model is most likely not suitable for modelling this data, as the shape of the cloud of points looks more like a parabola instead of a line.</li>
+<li>As the third plot consists of points that can be assigned to four (almost) distinct regions, a regression tree seems to be more suitable than a linear model.</li>
+<li>At first, the data in the fourth plot seems to be too messy to make a decision. However, upon closer inspection, there are several indicators that a linear model might perform better:
+<ol type="1">
+<li>The points in the center seem to follow a positive linear trend.</li>
+<li>The deviations of points around this linear trend seem to be distributed in a way, that there are more points towards the line than further away. So the residuals could be assumed to be normally distributed.</li>
+</ol></li>
+</ol>
+</div>
+<div id="sol-tree_theory_04" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.4</em> (<a href="#exr-tree_theory_04" class="quarto-xref">Exercise&nbsp;<span>4.4</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>loss_x<span class="ot">&lt;-</span> <span class="cf">function</span>(data,r) {</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  xr <span class="ot">=</span> <span class="fu">sort</span>(data<span class="sc">$</span>x)[r]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  y1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data<span class="sc">$</span>y[data<span class="sc">$</span>x<span class="sc">&lt;=</span>xr])</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  y2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data<span class="sc">$</span>y[data<span class="sc">$</span>x<span class="sc">&gt;</span>xr])</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  loss<span class="ot">&lt;-</span><span class="fu">sum</span>((data<span class="sc">$</span>y[data<span class="sc">$</span>x<span class="sc">&lt;=</span>xr]<span class="sc">-</span>y1)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">sum</span>((data<span class="sc">$</span>y[data<span class="sc">$</span>x<span class="sc">&gt;</span>xr]<span class="sc">-</span>y2)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(loss)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Since we are interested in finding the optimal split with respect to <span class="math inline">\(x_1=x\)</span>, consider the sets of all possible splits <span class="math display">\[\begin{equation*}
+  S := \left\{\frac{1}{2}(x_{(r)}+x_{(r+1)}):r=1,...,n-1\right\} = \{0.75,1.5,3.25,5\}.
+\end{equation*}\]</span></p>
+<p>Here, <span class="math inline">\(\{x_{(r)},\, r = 1,...,n\} = \{0.5,1,2,4.5,5.5\}\)</span> denotes the order statistic of <span class="math inline">\(x\)</span>.</p>
+<p>For <span class="math inline">\(r=1\)</span> we have <span class="math inline">\(s = 0.75\)</span> and <span class="math display">\[\begin{align*}
+R_1(1,0.75) &amp;= \{x: x \leq 0.75\} = \{0.5\},\\
+R_2(1,0.75) &amp;= \{x: x &gt; 0.75\} = \{1.0,2.5,5.5,4.5\}.
+\end{align*}\]</span></p>
+<p>Then,</p>
+<p><span class="math display">\[\begin{align*}
+\hat y_1 &amp;= \frac{1}{|R_1|}\sum_{i:x_{i}\in R_1} y_i = \frac{1}{1}\cdot 7 = 7,\\
+\hat y_2 &amp;= \frac{1}{|R_2|}\sum_{i:x_{i}\in R_2} y_i = \frac{1}{4}(10+8+3+4) = 6.25.
+\end{align*}\]</span></p>
+<p>Given the above, we can calculate the Loss with respect to <span class="math inline">\(s = 0.75\)</span>, which is given by</p>
+<p><span class="math display">\[\begin{align*}
+\mathcal{L}(y,\hat y) &amp;= \sum_{i:x_{i}\in R_1} (y_i-\hat y_{R_1})^2 + \sum_{i:x_{i}\in R_2} (y_i-\hat y_{R_2})^2 \\
+&amp;= (7 -7)^2 + (10-6.25)^2 + (8-6.25)^2 + (3-6.25)^2 + (4-6.25)^2\\
+&amp;= 32.75
+\end{align*}\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">loss_x</span>(data,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 32.75</code></pre>
+</div>
+</div>
+<p>For <span class="math inline">\(r=2\)</span> we have <span class="math inline">\(s = 1.5\)</span> and <span class="math display">\[\begin{align*}
+R_1(1,1.5) &amp;= \{x: x \leq 1.5\} = \{0.5,1.0\},\\
+R_2(1,1.5) &amp;= \{x: x &gt; 1.5\} = \{2.5,5.5,4.5\}.
+\end{align*}\]</span> Then, <span class="math display">\[\begin{align*}
+\hat y_1 &amp;= \frac{1}{|R_1|}\sum_{i:x_{i}\in R_1} y_i = \frac{1}{2}\cdot (7+10) = 8.5,\\
+\hat y_2 &amp;= \frac{1}{|R_2|}\sum_{i:x_{i}\in R_2} y_i = \frac{1}{3}(8+3+4) = 5.
+\end{align*}\]</span> Given the above, we can calculate the Loss with respect to <span class="math inline">\(s = 1.5\)</span>, which is given by</p>
+<p><span class="math display">\[\begin{align*}
+\mathcal{L}(y,\hat y) &amp;= \sum_{i:x_{i}\in R_1} (y_i-\hat y_{R_1})^2 + \sum_{i:x_{i}\in R_2} (y_i-\hat y_{R_2})^2 \\
+&amp;= (7-8.5)^2 + (10-8.5)^2  + (8-5)^2 + (3-5)^2 + (4-5)^2\\
+&amp;= 18.5
+\end{align*}\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">loss_x</span>(data,<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18.5</code></pre>
+</div>
+</div>
+<p>For <span class="math inline">\(r=3\)</span> we have <span class="math inline">\(s = 3.25\)</span> and <span class="math display">\[\begin{align*}
+R_1(1,3.25) &amp;= \{x: x \leq 3.25\} = \{0.5,1.0, 2.5 \},\\
+R_2(1,3.25) &amp;= \{x: x &gt; 3.25\} = \{5.5,4.5\}.
+\end{align*}\]</span> Then, <span class="math display">\[\begin{align*}
+\hat y_1 &amp;= \frac{1}{|R_1|}\sum_{i:x_{i}\in R_1} y_i = \frac{1}{3}\cdot (7+10+8) = 8.333,\\
+\hat y_2 &amp;= \frac{1}{|R_2|}\sum_{i:x_{i}\in R_2} y_i = \frac{1}{2}(3+4) = 3.5.
+\end{align*}\]</span> Given the above, we can calculate the Loss with respect to <span class="math inline">\(s = 4\)</span>, which is given by</p>
+<p><span class="math display">\[\begin{align*}
+\mathcal{L}(y,\hat y) &amp;= \sum_{i:x_{i}\in R_1} (y_i-\hat y_{R_1})^2 + \sum_{i:x_{i}\in R_2} (y_i-\hat y_{R_2})^2 \\
+&amp;= (7-8.333)^2 + (10-8.333)^2  + (8-8.333)^2 + (3-3.5)^2 + (4-3.5)^2\\
+&amp;= 5.167
+\end{align*}\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">loss_x</span>(data,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.166667</code></pre>
+</div>
+</div>
+<p>For <span class="math inline">\(r=4\)</span> we have <span class="math inline">\(s = 5\)</span> and <span class="math display">\[\begin{align*}
+R_1(1,5) &amp;= \{x: x \leq 5\} = \{0.5,1.0, 2.5,4.5 \},\\
+R_2(1,5) &amp;= \{x: x &gt; 5\} = \{5.5\}.
+\end{align*}\]</span> Then, <span class="math display">\[\begin{align*}
+\hat y_1 &amp;= \frac{1}{|R_1|}\sum_{i:x_{i}\in R_1} y_i = \frac{1}{4}\cdot (7+10+8+4) = 7.25,\\
+\hat y_2 &amp;= \frac{1}{|R_2|}\sum_{i:x_{i}\in R_2} y_i = \frac{1}{1}\cdot 3 = 3.
+\end{align*}\]</span> Given the above, we can calculate the Loss with respect to <span class="math inline">\(s = 5\)</span>, which is given by</p>
+<p><span class="math display">\[\begin{align*}
+\mathcal{L}(y,\hat y) &amp;= \sum_{i:x_{i}\in R_1} (y_i-\hat y_{R_1})^2 + \sum_{i:x_{i}\in R_2} (y_i-\hat y_{R_2})^2 \\
+&amp;= (7-7.25)^2 + (10-7.25)^2  + (8-7.25)^2 + (4-7.25)^2 + (3-3)^2\\
+&amp;= 18.75
+\end{align*}\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">loss_x</span>(data,<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18.75</code></pre>
+</div>
+</div>
+<p>Since <span class="math inline">\(\mathcal{L}(y,\hat y)\)</span> is the lowest for <span class="math inline">\(r=3\)</span>, i.e., <span class="math inline">\(\mathcal{L}(y,\hat y) = 5.167\)</span>, <span class="math inline">\(s = 3.25\)</span> is the optimal splitting point with respect to <span class="math inline">\(x\)</span>.</p>
+</div>
+<div id="sol-tree_theory_05" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.5</em> (<a href="#exr-tree_theory_05" class="quarto-xref">Exercise&nbsp;<span>4.5</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>title_text <span class="ot">=</span> <span class="st">"Scatterplot showing the &lt;span style='color:red'&gt;optimal threshold&lt;/span&gt; for an initial split with respect to x"</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(x,y))<span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">3.25</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_markdown</span>()</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>( <span class="at">x =</span> <span class="st">"x"</span>,</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> title_text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_regression_trees_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="sol-tree_theory_06" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.6</em> (<a href="#exr-tree_theory_06" class="quarto-xref">Exercise&nbsp;<span>4.6</span></a>). </span>The improvement is given by the following term.</p>
+<p><span class="math display">\[\begin{equation*}
+\frac{\mathrm{MSE}_1 \cdot n_1 - (\mathrm{MSE}_2 \cdot n_2 +  \mathrm{MSE}_3 \cdot n_3)}{\mathrm{MSE_1}\cdot n_1}
+\end{equation*}\]</span></p>
+<p>Calculating <span class="math inline">\(MSE_i\)</span> for <span class="math inline">\(i=1,2,3\)</span> yields</p>
+<p><span class="math display">\[\begin{align*}
+n_1 \cdot \mathrm{MSE}_1 &amp;= (10-6.4)^2 + (7-6.4)^2 + (8-6.4)^2 + (3-6.4)^2 + (4-6.4)^2 = 33.2, \\
+n_2 \cdot \mathrm{MSE}_2 &amp;= (7-8.333)^2 + (10-8.333)^2  + (8-8.333)^2 = 4.667, \\
+n_3 \cdot \mathrm{MSE}_3 &amp;= (3-3.5)^2 + (4-3.5)^2 = 0.5\ .
+\end{align*}\]</span></p>
+<p>The improvement for this split is therefore</p>
+<p><span class="math display">\[\begin{equation*}
+  \frac{\mathrm{MSE}_1 \cdot n_1 - (\mathrm{MSE}_2 \cdot n_2 +  \mathrm{MSE}_3 \cdot n_3)}{\mathrm{MSE_1}\cdot n_1} = \frac{33.2 - (4.667 + 0.5)}{33.2} = 0.8444
+\end{equation*}\]</span></p>
+</div>
+<div id="sol-data_split" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.7</em> (<a href="#exr-data_split" class="quarto-xref">Exercise&nbsp;<span>4.7</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>data_muc <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/rent_muc.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">24</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>split_rent <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(data_muc)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>data_train <span class="ot">&lt;-</span> <span class="fu">training</span>(split_rent)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_rent)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(data_train, <span class="at">v =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-findNAs" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.8</em> (<a href="#exr-findNAs" class="quarto-xref">Exercise&nbsp;<span>4.8</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>data_muc <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2"></a>  <span class="fu">select_if</span>(<span class="fu">where</span>(<span class="sc">~</span><span class="fu">sum</span>(<span class="fu">is.na</span>(.))<span class="sc">&gt;</span><span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="#cb35-3"></a>  <span class="fu">is.na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb35-4"><a href="#cb35-4"></a>  <span class="fu">colSums</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb35-5"><a href="#cb35-5"></a>  <span class="fu">tibble</span>( <span class="at">names =</span> <span class="fu">names</span>(.),</span>
+<span id="cb35-6"><a href="#cb35-6"></a>          <span class="at">n =</span> .) <span class="sc">%&gt;%</span></span>
+<span id="cb35-7"><a href="#cb35-7"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li><p>The <code>%&gt;%</code> operator passes the data set <code>data_muc</code> to the next function.</p></li>
+<li><p><code>select_if</code> selects columns in a data frame based on the condition that <code>where(~ sum(is.na(.)) &gt; 0)</code> which checks if the sum of <code>NA</code> values in a column is greater than 0.</p></li>
+<li><p>The <code>is.na()</code> function checks whether an entry in the data set is <code>NA</code> or not and returns <code>True</code> or <code>FALSE</code> respectively. Therefore, by applying the <code>is.na()</code> function, a data set containing only boolean values is returned.</p></li>
+<li><p>The <code>colSums</code> function adds up all values in each column, where <code>TRUE = 1</code> and <code>FALSE = 0</code>, returning a named vector containing the sum of all <code>TRUE</code> values and the respective variable names.</p></li>
+<li><p>Then, the data set is transformed using the <code>tibble()</code> function such that the returned tibble only consists of two columns containing the variable name and column sum.</p></li>
+<li><p>In the last step, the data set is ordered with respect to the number of missing values in descending order using the <code>arrange()</code> and <code>desc()</code> function.</p></li>
+</ol>
+</div>
+<div id="sol-exr-recipe" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.9</em> (<a href="#exr-recipe" class="quarto-xref">Exercise&nbsp;<span>4.9</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>rec_rent <span class="ot">&lt;-</span> <span class="fu">recipe</span>(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> baseRent <span class="sc">~</span>., </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data_train</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_role</span>(scoutId, <span class="at">new_role =</span> <span class="st">"ID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_select</span>(<span class="sc">!</span><span class="fu">c</span>(<span class="st">"serviceCharge"</span>,<span class="st">"heatingType"</span>,<span class="st">"picturecount"</span>,<span class="st">"totalRent"</span>,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">"firingTypes"</span>,<span class="st">"typeOfFlat"</span>,<span class="st">"noRoomsRange"</span>, <span class="st">"petsAllowed"</span>,</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"livingSpaceRange"</span>,<span class="st">"regio3"</span>,<span class="st">"heatingCosts"</span>, <span class="st">"floor"</span>,</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"date"</span>, <span class="st">"pricetrend"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_mutate</span>(</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">interiorQual =</span> <span class="fu">factor</span>(</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>      interiorQual,</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"simple"</span>, <span class="st">"normal"</span>, <span class="st">"sophisticated"</span>, <span class="st">"luxury"</span>),</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> <span class="fu">factor</span>(</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>      condition,</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"need_of_renovation"</span>, <span class="st">"negotiable"</span>,<span class="st">"well_kept"</span>,</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"refurbished"</span>,<span class="st">"first_time_use_after_refurbishment"</span>,</span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"modernized"</span>,<span class="st">"fully_renovated"</span>, <span class="st">"mint_condition"</span>,</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"first_time_use"</span>),</span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">geo_plz =</span> <span class="fu">factor</span>(geo_plz)</span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">%&gt;%</span></span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_novel</span>(geo_plz)<span class="sc">%&gt;%</span></span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(geo_plz)<span class="sc">%&gt;%</span></span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_ordinalscore</span>(<span class="fu">all_ordered_predictors</span>())<span class="sc">%&gt;%</span></span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_impute_knn</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_filter</span>(baseRent <span class="sc">&lt;=</span> <span class="dv">4000</span>, livingSpace <span class="sc">&lt;=</span> <span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-model_spec" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.10</em>. </span>##exr-model_spec</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>model_rt_tune <span class="ot">&lt;-</span>  </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">decision_tree</span>(</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_n =</span> <span class="fu">tune</span>(),</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">tree_depth =</span> <span class="fu">tune</span>(),</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">cost_complexity =</span> <span class="fu">tune</span>()</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"rpart"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-wf_spec" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.11</em> (<a href="#exr-wf_spec" class="quarto-xref">Exercise&nbsp;<span>4.11</span></a>). </span></p>
+</div>
+<div id="sol-generate_grid" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.12</em> (<a href="#exr-generate_grid" class="quarto-xref">Exercise&nbsp;<span>4.12</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>tree_grid <span class="ot">&lt;-</span> wf_rent <span class="sc">%&gt;%</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  extract_parameter_set_dials <span class="sc">%&gt;%</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grid_regular</span>(<span class="at">levels =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-model_tuning" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.13</em> (<a href="#exr-model_tuning" class="quarto-xref">Exercise&nbsp;<span>4.13</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>multi_metric <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(rmse,rsq,mae)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>rt_res <span class="ot">&lt;-</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  wf_rent <span class="sc">%&gt;%</span> </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> tree_grid,</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">metrics =</span> multi_metric,</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To speed things up, the following tibble already contains the optimal parameters according to the tuning procedure:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>rt_res_tune_best <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n =</span> <span class="dv">14</span>,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">tree_depth =</span> <span class="dv">10</span>,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">cost_complexity =</span> <span class="fl">0.0001</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-autoplot_results" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.14</em>. </span>##<a href="#exr-autoplot_results" class="quarto-xref">Exercise&nbsp;<span>4.14</span></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(rt_res) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-select_best" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.15</em> (<a href="#exr-select_best" class="quarto-xref">Exercise&nbsp;<span>4.15</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>rt_res_best<span class="ot">&lt;-</span> rt_res <span class="sc">%&gt;%</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">"mae"</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>last_rt_fit <span class="ot">&lt;-</span> wf_rent <span class="sc">%&gt;%</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(rt_res_best) <span class="sc">%&gt;%</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split_rent)</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>last_rt_fit <span class="sc">%&gt;%</span> <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Using the parameters from the pre-specified tibble to avoid tuning time:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>last_rt_fit <span class="ot">&lt;-</span> wf_rent <span class="sc">%&gt;%</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(rt_res_tune_best) <span class="sc">%&gt;%</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split_rent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>→ A | warning: skipping variable with zero or non-finite range.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>There were issues with some computations   A: x1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>There were issues with some computations   A: x2
+There were issues with some computations   A: x2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>last_rt_fit <span class="sc">%&gt;%</span> <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  .metric .estimator .estimate .config             
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
+1 rmse    standard     622.    Preprocessor1_Model1
+2 rsq     standard       0.616 Preprocessor1_Model1</code></pre>
+</div>
+</div>
+</div>
+<div id="sol-eval_perf" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.16</em>. </span>##<a href="#exr-eval_perf" class="quarto-xref">Exercise&nbsp;<span>4.16</span></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>title_text <span class="ot">&lt;-</span> <span class="st">"Predictions of the test set plotted against the actual values"</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>last_rt_fit <span class="sc">%&gt;%</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(baseRent, .pred)) <span class="sc">+</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">alpha =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">"green"</span>)<span class="sc">+</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"True base rent"</span>,</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Estimated base rent"</span>,</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> title_text</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_regression_trees_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid figure-img" width="1056"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./03_regularization.html" class="pagination-link" aria-label="Regularization">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regularization</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
