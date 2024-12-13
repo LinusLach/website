@@ -594,7 +594,7 @@ Note
 </section>
 <section id="cross-validation" class="level3" data-number="2.3.5">
 <h3 data-number="2.3.5" class="anchored" data-anchor-id="cross-validation"><span class="header-section-number">2.3.5</span> Cross validation</h3>
-<p>A popular approach we will use in most exercises extends the procedure described in <a href="#fig-trainingsplit" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-trainingsplit</span></a> and <a href="#fig-trainingproc" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-trainingproc</span></a>. Instead of using a single training and validation data set, we create <strong>multiple instances</strong> of training and validation data by randomly assigning a data point to the training or validation set. More formally, <span class="math inline">\(v\)</span>-fold cross validation randomly splits the training and validation data into <span class="math inline">\(v\)</span> equally sized subsets. In each iteration, one of these subsets is set aside to be the validation data, while the other <span class="math inline">\(v-1\)</span> subsets are used for training. The figure below depicts how that process works for <code>v = 5</code>.</p>
+<p>A popular approach we will use in most exercises extends the procedure described in <a href="#fig-trainingsplit" class="quarto-xref">Figure&nbsp;<span>2.1</span></a> and <a href="#fig-trainingproc" class="quarto-xref">Figure&nbsp;<span>2.2</span></a>. Instead of using a single training and validation data set, we create <strong>multiple instances</strong> of training and validation data by randomly assigning a data point to the training or validation set. More formally, <span class="math inline">\(v\)</span>-fold cross validation randomly splits the training and validation data into <span class="math inline">\(v\)</span> equally sized subsets. In each iteration, one of these subsets is set aside to be the validation data, while the other <span class="math inline">\(v-1\)</span> subsets are used for training. The figure below depicts how that process works for <code>v = 5</code>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="pictures/grid_search_cv.png" class="img-fluid figure-img"></p>
@@ -813,7 +813,7 @@ Note
 <p><span class="theorem-title"><strong>Exercise 2.7</strong></span> Create a <span class="math inline">\(10\)</span>-fold cross validation split of the training data using the same seed as before and retrain the simple linear model. Compare the cross validation MAE to the OOS MAE and interpret the result.</p>
 </div>
 <div id="exr-linear_model4" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 2.8</strong></span> Repeat Exercises <a href="#exr-linear_model3" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-linear_model3</span></a> and <a href="#exr-linear_model4" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-linear_model4</span></a> for a polynomial model of degree 20. Compare the test and cross-validation MAE of the linear model with the polynomial model.</p>
+<p><span class="theorem-title"><strong>Exercise 2.8</strong></span> Repeat Exercises <a href="#exr-linear_model3" class="quarto-xref">Exercise&nbsp;<span>2.6</span></a> and <a href="#exr-linear_model4" class="quarto-xref">Exercise&nbsp;<span>2.8</span></a> for a polynomial model of degree 20. Compare the test and cross-validation MAE of the linear model with the polynomial model.</p>
 </div>
 <div id="exr-linear_model5" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 2.9</strong></span> Create a scatter plot of the training data and insert both fitted curves using the <code>geom_smooth</code> function.</p>
@@ -839,7 +839,7 @@ Note
 <section id="solutions" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="solutions"><span class="header-section-number">2.5</span> Solutions</h2>
 <div id="sol-DEA1" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.1</em> (<a href="#exr-DEA1" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-DEA1</span></a>). </span>The data set can be imported using the <code>read_csv</code> function.</p>
+<p><span class="proof-title"><em>Solution 2.1</em> (<a href="#exr-DEA1" class="quarto-xref">Exercise&nbsp;<span>2.1</span></a>). </span>The data set can be imported using the <code>read_csv</code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>data_aux <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/rent_aux.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -862,14 +862,14 @@ Note
 </div>
 </div>
 <div id="sol-DEA2" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.2</em> (<a href="#exr-DEA2" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-DEA2</span></a>). </span>To select all listings with base rent lower than <span class="math inline">\(2500\)</span> EUR and living space less than <span class="math inline">\(200\)</span> sqm, we can use the <code>filter</code> function and overwrite the old data set.</p>
+<p><span class="proof-title"><em>Solution 2.2</em> (<a href="#exr-DEA2" class="quarto-xref">Exercise&nbsp;<span>2.2</span></a>). </span>To select all listings with base rent lower than <span class="math inline">\(2500\)</span> EUR and living space less than <span class="math inline">\(200\)</span> sqm, we can use the <code>filter</code> function and overwrite the old data set.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>data_aux <span class="ot">&lt;-</span> data_aux <span class="sc">%&gt;%</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(baseRent <span class="sc">&lt;=</span> <span class="dv">2500</span>, livingSpace <span class="sc">&lt;=</span> <span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-split" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.3</em> (<a href="#exr-split" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-split</span></a>). </span>By setting <code>set.seed(2)</code> we can make sure that the following results are reproducible. Similar to <a href="#sec-tts" class="quarto-xref"><span class="quarto-unresolved-ref">sec-tts</span></a>, we can define a split object using the <code>initial_split</code> function and select the training and test portion using the <code>training</code> and <code>testing</code> functions respectively.</p>
+<p><span class="proof-title"><em>Solution 2.3</em> (<a href="#exr-split" class="quarto-xref">Exercise&nbsp;<span>2.3</span></a>). </span>By setting <code>set.seed(2)</code> we can make sure that the following results are reproducible. Similar to <a href="#sec-tts" class="quarto-xref"><span>Section 2.3.4</span></a>, we can define a split object using the <code>initial_split</code> function and select the training and test portion using the <code>training</code> and <code>testing</code> functions respectively.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span><span class="fu">initial_split</span>(data_aux,<span class="fl">0.8</span>)</span>
@@ -878,14 +878,14 @@ Note
 </div>
 </div>
 <div id="sol-linear_model1" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.4</em> (<a href="#exr-linear_model1" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-linear_model1</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 2.4</em> (<a href="#exr-linear_model1" class="quarto-xref">Exercise&nbsp;<span>2.4</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>lm_mod <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(baseRent <span class="sc">~</span> livingSpace, data_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-linear_model2" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.5</em> (<a href="#exr-linear_model2" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-linear_model2</span></a>). </span>A simple model summary can be created by passing the trained model into the <code>tidy</code> function.</p>
+<p><span class="proof-title"><em>Solution 2.5</em> (<a href="#exr-linear_model2" class="quarto-xref">Exercise&nbsp;<span>2.5</span></a>). </span>A simple model summary can be created by passing the trained model into the <code>tidy</code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>lm_mod <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -899,7 +899,7 @@ Note
 <p>The estimated parameter <span class="math inline">\(\hat{\beta_1} = 10.4\)</span> indicates that according to the linear model, we expect the base rent to rise <span class="math inline">\(10.4\)</span> EUR for every additional square meter of living space.</p>
 </div>
 <div id="sol-linear_model3" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.6</em> (<a href="#exr-linear_model3" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-linear_model3</span></a>). </span>We can calculate the adjusted <span class="math inline">\(R^2\)</span> and <span class="math inline">\(MAE\)</span> using the <code>metric_set</code> function.</p>
+<p><span class="proof-title"><em>Solution 2.6</em> (<a href="#exr-linear_model3" class="quarto-xref">Exercise&nbsp;<span>2.6</span></a>). </span>We can calculate the adjusted <span class="math inline">\(R^2\)</span> and <span class="math inline">\(MAE\)</span> using the <code>metric_set</code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>multi_metric<span class="ot">&lt;-</span> <span class="fu">metric_set</span>(rsq,mae)</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>lm_mod <span class="sc">%&gt;%</span></span>
@@ -916,7 +916,7 @@ Note
 <p>MAE<span class="math inline">\(=108\)</span> indicates that on average our estimated base rent is off by <span class="math inline">\(108\)</span> EUR.</p>
 </div>
 <div id="sol-linear_model4" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.8</em> (<a href="#exr-linear_model4" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-linear_model4</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 2.8</em> (<a href="#exr-linear_model4" class="quarto-xref">Exercise&nbsp;<span>2.8</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(data_train)</span>
@@ -938,7 +938,7 @@ Note
 <p>The cross-validation MAE of <span class="math inline">\(116\)</span> EUR compared to the test MAE of <span class="math inline">\(108\)</span> EUR indicates that the cross-validation error is overestimating the true test error. This is in fact favorable, since it is preferable to have a pessimistic bias towards an estimated error. In other words, overestimating an error is always better than underestimating an error.</p>
 </div>
 <div id="sol-linear_model4" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.8</em> (<a href="#exr-linear_model4" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-linear_model4</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 2.8</em> (<a href="#exr-linear_model4" class="quarto-xref">Exercise&nbsp;<span>2.8</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>lm_poly_mod <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span> <span class="fu">fit</span>(</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> baseRent <span class="sc">~</span> <span class="fu">poly</span>(livingSpace, <span class="dv">20</span>), </span>
@@ -972,7 +972,7 @@ Note
 <p>Compared to the simple linear model, the polynomial model performs a lot worse on the test data as it severely ovefits on the training data. The CV MAE of <span class="math inline">\(1541\)</span> compared to the test MAE of <span class="math inline">\(153\)</span> is another redflag we should consider when evaluating model performance.</p>
 </div>
 <div id="sol-linear_model5" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.9</em> (<a href="#exr-linear_model5" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-linear_model5</span></a>). </span>We can directly pipe the training data <code>data_train</code> into the <code>ggplot</code> function to create the plot. The <code>color</code> argument in the <code>geom_point</code> function changes the color of the points and the <code>size</code> argument toggles the point sizes in the figure. When using <code>geom_smooth</code> have to express the formula in terms of <code>x</code> and <code>y</code> instead of using <code>livingSpace</code> and <code>baseRent</code>. Setting <code>se=FALSE</code> removes the confidence band of the estimated lines. <code>color = "black"</code>, <code>linetype=2</code>, and <code>linewidth=1.5</code> specifies the visual characteristics of the line. As with the previous plot, we can also change the axis labels using <code>labs</code>.</p>
+<p><span class="proof-title"><em>Solution 2.9</em> (<a href="#exr-linear_model5" class="quarto-xref">Exercise&nbsp;<span>2.9</span></a>). </span>We can directly pipe the training data <code>data_train</code> into the <code>ggplot</code> function to create the plot. The <code>color</code> argument in the <code>geom_point</code> function changes the color of the points and the <code>size</code> argument toggles the point sizes in the figure. When using <code>geom_smooth</code> have to express the formula in terms of <code>x</code> and <code>y</code> instead of using <code>livingSpace</code> and <code>baseRent</code>. Setting <code>se=FALSE</code> removes the confidence band of the estimated lines. <code>color = "black"</code>, <code>linetype=2</code>, and <code>linewidth=1.5</code> specifies the visual characteristics of the line. As with the previous plot, we can also change the axis labels using <code>labs</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>data_train <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>livingSpace,<span class="at">y=</span>baseRent))<span class="sc">+</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">"#f07167"</span>,</span>
@@ -1002,10 +1002,10 @@ Note
 </div>
 </div>
 <div id="sol-theoretical1" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.10</em> (<a href="#exr-theoretical1" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-theoretical1</span></a>). </span>A <span class="math inline">\(p\)</span>-value of <span class="math inline">\(1e-16\)</span> (<span class="math inline">\(=1\cdot 10^{-16}\)</span>) indicates that we can reject the null hypotheses <span class="math inline">\(H_0: \beta_1 = 0\)</span> to the significance level <span class="math inline">\(1-(10^{-16})\)</span>.</p>
+<p><span class="proof-title"><em>Solution 2.10</em> (<a href="#exr-theoretical1" class="quarto-xref">Exercise&nbsp;<span>2.10</span></a>). </span>A <span class="math inline">\(p\)</span>-value of <span class="math inline">\(1e-16\)</span> (<span class="math inline">\(=1\cdot 10^{-16}\)</span>) indicates that we can reject the null hypotheses <span class="math inline">\(H_0: \beta_1 = 0\)</span> to the significance level <span class="math inline">\(1-(10^{-16})\)</span>.</p>
 </div>
 <div id="sol-theoretical2" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.11</em> (<a href="#exr-theoretical2" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-theoretical2</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 2.11</em> (<a href="#exr-theoretical2" class="quarto-xref">Exercise&nbsp;<span>2.11</span></a>). </span></p>
 <ol type="1">
 <li><p>Since the polynomial model has more flexibility due to the additional terms, it will likely fit the training data better than the linear model, resulting in a lower training RMSE.</p></li>
 <li><p>The linear model is simpler and less prone to overfitting, so it will likely produce a lower test RMSE compared to the polynomial model.</p></li>

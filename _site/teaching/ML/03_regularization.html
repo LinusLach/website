@@ -800,8 +800,8 @@ where $\lambda \in [0,\infty)$ .
 </div>
 </div>
 <div id="exr-recipe02" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.8</strong></span> In the previous exercises, we initially mutated the data set (cf. <a href="#exr-preproc" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-preproc</span></a>) before adding mutations using the <code>recipe</code> function. This procedure can add unnecessary complexity or confusion since the preprocessing steps are spread across the markdown document.</p>
-<p>Therefore, modify the code of Exercises <a href="#exr-resampling01" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-resampling01</span></a> and <a href="#exr-recipe01" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-recipe01</span></a> so that the preprocessing steps of <a href="#exr-preproc" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-preproc</span></a> are included in the recipe.</p>
+<p><span class="theorem-title"><strong>Exercise 3.8</strong></span> In the previous exercises, we initially mutated the data set (cf. <a href="#exr-preproc" class="quarto-xref">Exercise&nbsp;<span>3.5</span></a>) before adding mutations using the <code>recipe</code> function. This procedure can add unnecessary complexity or confusion since the preprocessing steps are spread across the markdown document.</p>
+<p>Therefore, modify the code of Exercises <a href="#exr-resampling01" class="quarto-xref">Exercise&nbsp;<span>3.6</span></a> and <a href="#exr-recipe01" class="quarto-xref">Exercise&nbsp;<span>3.7</span></a> so that the preprocessing steps of <a href="#exr-preproc" class="quarto-xref">Exercise&nbsp;<span>3.5</span></a> are included in the recipe.</p>
 <p><em>Hint: You can use the <code>step_select</code>, <code>step_mutate</code>, <code>step_naomit</code>, <code>step_novel</code>, and <code>step_dummy</code> functions for incorporating the preprocessing steps.</em></p>
 </div>
 <div id="exr-lasso01" class="theorem exercise">
@@ -1019,7 +1019,7 @@ ridge_metrics %>% filter(.metric == "rsq") %>%
 <section id="solutions" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="solutions"><span class="header-section-number">3.3</span> Solutions</h2>
 <div id="sol-lossmle" class="proof solution">
-<p><span class="proof-title"><em>Solution 3.1</em> (<a href="#exr-lossmle" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-lossmle</span></a>). </span>First, calculate the partial derivatives of</p>
+<p><span class="proof-title"><em>Solution 3.1</em> (<a href="#exr-lossmle" class="quarto-xref">Exercise&nbsp;<span>3.1</span></a>). </span>First, calculate the partial derivatives of</p>
 <p><span id="eq-Loss_sol"><span class="math display">\[
 L(\beta_0,\beta_1) = \frac{1}{N}\sum_{n=1}^{N} (y_n - (\beta_0 + \beta_1 x_n))^2
 \tag{3.1}\]</span></span></p>
@@ -1075,7 +1075,7 @@ L(\beta_0,\beta_1) = \frac{1}{N}\sum_{n=1}^{N} (y_n - (\beta_0 + \beta_1 x_n))^2
 \]</span></p>
 </div>
 <div id="sol-BVTradeOffer" class="proof solution">
-<p><span class="proof-title"><em>Solution 3.2</em> (<a href="#exr-BVTradeOffer" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-BVTradeOffer</span></a>). </span>The key point addresses the bias-variance trade-off.</p>
+<p><span class="proof-title"><em>Solution 3.2</em> (<a href="#exr-BVTradeOffer" class="quarto-xref">Exercise&nbsp;<span>3.2</span></a>). </span>The key point addresses the bias-variance trade-off.</p>
 <p>From the lecture, we know that</p>
 <p><span class="math display">\[
 \hat \beta_{\mathrm{ridge}}(\lambda) = \frac{\hat\beta_{\mathrm{OLS}}}{1+\lambda}
@@ -1089,7 +1089,7 @@ By growing the parameter <span class="math inline">\(\lambda\)</span>, we reduce
 </ul>
 </div>
 <div id="sol-RidgeLasso" class="proof solution">
-<p><span class="proof-title"><em>Solution 3.3</em> (<a href="#exr-RidgeLasso" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-RidgeLasso</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 3.3</em> (<a href="#exr-RidgeLasso" class="quarto-xref">Exercise&nbsp;<span>3.3</span></a>). </span></p>
 <ol type="1">
 <li><p>Lasso regression should be used in this scenario because it can perform feature selection by driving some coefficients to zero. This is especially helpful if there are many features as it helps in dealing with correlated predictors.</p></li>
 <li><p>Ridge regression is more suitable because it provides a smoother and more continuous shrinkage of coefficients, which reduces the risk of overfitting.</p></li>
@@ -1097,10 +1097,10 @@ By growing the parameter <span class="math inline">\(\lambda\)</span>, we reduce
 </ol>
 </div>
 <div id="sol-Scenario" class="proof solution">
-<p><span class="proof-title"><em>Solution 3.4</em> (<a href="#exr-Scenario" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-Scenario</span></a>). </span>A healthcare dataset is given to predict a patient’s readmission probability with numerous correlated features. The aim is to build a model that predicts accurately, selects the most relevant features, and mitigates multicollinearity. Here, an elastic net is the preferred choice because it combines Ridge and Lasso regression, effectively handling multicollinearity while performing feature selection, making it ideal for this complex healthcare dataset.</p>
+<p><span class="proof-title"><em>Solution 3.4</em> (<a href="#exr-Scenario" class="quarto-xref">Exercise&nbsp;<span>3.4</span></a>). </span>A healthcare dataset is given to predict a patient’s readmission probability with numerous correlated features. The aim is to build a model that predicts accurately, selects the most relevant features, and mitigates multicollinearity. Here, an elastic net is the preferred choice because it combines Ridge and Lasso regression, effectively handling multicollinearity while performing feature selection, making it ideal for this complex healthcare dataset.</p>
 </div>
 <div id="sol-preproc" class="proof solution">
-<p><span class="proof-title"><em>Solution 3.5</em> (<a href="#exr-preproc" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-preproc</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 3.5</em> (<a href="#exr-preproc" class="quarto-xref">Exercise&nbsp;<span>3.5</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>data_muc_filtered <span class="ot">&lt;-</span> data_muc <span class="sc">%&gt;%</span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(<span class="st">"serviceCharge"</span>,<span class="st">"heatingType"</span>,<span class="st">"picturecount"</span>,<span class="st">"totalRent"</span>,</span>
@@ -1128,7 +1128,7 @@ By growing the parameter <span class="math inline">\(\lambda\)</span>, we reduce
 </div>
 </div>
 <div id="sol-resampling01" class="proof solution">
-<p><span class="proof-title"><em>Solution 3.6</em> (<a href="#exr-resampling01" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-resampling01</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 3.6</em> (<a href="#exr-resampling01" class="quarto-xref">Exercise&nbsp;<span>3.6</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">24</span>)</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1140,7 +1140,7 @@ By growing the parameter <span class="math inline">\(\lambda\)</span>, we reduce
 </div>
 </div>
 <div id="sol-recipe01" class="proof solution">
-<p><span class="proof-title"><em>Solution 3.7</em> (<a href="#exr-recipe01" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-recipe01</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 3.7</em> (<a href="#exr-recipe01" class="quarto-xref">Exercise&nbsp;<span>3.7</span></a>). </span></p>
 <ol type="1">
 <li><p>We first set up the recipe by specifying the formula and data used in each step. Note, that by using the expression <code>baseRent ~.</code> we indicate that we want to fit every variable in the <code>data_train</code> dataset on the dependent variable <code>baseRent</code>.</p></li>
 <li><p>The <code>update_role</code> function assigns the feature <code>scoutId</code> to a new role called <code>ID</code>. By doing so, the feature <code>scoutId</code> is no longer used as a predictor and will no longer influence our model. We will still keep it in the loop, however in case we want to access a specific listing that is only accessible using the unique <code>scoutId</code>.</p></li>
@@ -1150,7 +1150,7 @@ By growing the parameter <span class="math inline">\(\lambda\)</span>, we reduce
 </ol>
 </div>
 <div id="sol-recipe02" class="proof solution">
-<p><span class="proof-title"><em>Solution 3.8</em> (<a href="#exr-recipe02" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-recipe02</span></a>). </span>Creating a new data split based on the unmutated data.</p>
+<p><span class="proof-title"><em>Solution 3.8</em> (<a href="#exr-recipe02" class="quarto-xref">Exercise&nbsp;<span>3.8</span></a>). </span>Creating a new data split based on the unmutated data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">24</span>)</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1203,7 +1203,7 @@ By growing the parameter <span class="math inline">\(\lambda\)</span>, we reduce
 </div>
 </div>
 <div id="sol-lasso01" class="proof solution">
-<p><span class="proof-title"><em>Solution 3.9</em> (<a href="#exr-lasso01" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-lasso01</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 3.9</em> (<a href="#exr-lasso01" class="quarto-xref">Exercise&nbsp;<span>3.9</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>model_lasso <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">penalty =</span> <span class="fu">tune</span>(), <span class="at">mixture =</span> <span class="fl">1.0</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="at">engine =</span> <span class="st">"glmnet"</span>, <span class="at">path_values =</span> penalty_vals<span class="sc">$</span>penalty )</span>
@@ -1214,7 +1214,7 @@ By growing the parameter <span class="math inline">\(\lambda\)</span>, we reduce
 </div>
 </div>
 <div id="sol-lasso02" class="proof solution">
-<p><span class="proof-title"><em>Solution 3.10</em> (<a href="#exr-lasso02" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-lasso02</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 3.10</em> (<a href="#exr-lasso02" class="quarto-xref">Exercise&nbsp;<span>3.10</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>lasso_tune_res <span class="ot">&lt;-</span> </span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  wf_rent <span class="sc">%&gt;%</span> </span>
@@ -1247,10 +1247,10 @@ the optimal penalty according to the one standard error rule is 20.</code></pre>
 </div>
 </div>
 <div id="sol-lasso03" class="proof solution">
-<p><span class="proof-title"><em>Solution 3.11</em> (<a href="#exr-lasso03" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-lasso03</span></a>). </span>The red line depicts the optimal penalty, since it intersects the minimum of the RMSE. Especially in Lasso regression an optimal penalty parameter is often smaller than we desire. The effect of a smaller penalty parameter is, that we do not eliminate as many features as we anticipated. By increasing the penalty we can effectively overcome this problem as more features are eliminated. A disadvantage however is, that we sacrefice out-of-sample performance, as the newly chosen penalty is not optimal anymore.</p>
+<p><span class="proof-title"><em>Solution 3.11</em> (<a href="#exr-lasso03" class="quarto-xref">Exercise&nbsp;<span>3.11</span></a>). </span>The red line depicts the optimal penalty, since it intersects the minimum of the RMSE. Especially in Lasso regression an optimal penalty parameter is often smaller than we desire. The effect of a smaller penalty parameter is, that we do not eliminate as many features as we anticipated. By increasing the penalty we can effectively overcome this problem as more features are eliminated. A disadvantage however is, that we sacrefice out-of-sample performance, as the newly chosen penalty is not optimal anymore.</p>
 </div>
 <div id="sol-lasso04" class="proof solution">
-<p><span class="proof-title"><em>Solution 3.12</em> (<a href="#exr-lasso04" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-lasso04</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 3.12</em> (<a href="#exr-lasso04" class="quarto-xref">Exercise&nbsp;<span>3.12</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>glm_res_best<span class="ot">&lt;-</span> lasso_tune_res <span class="sc">%&gt;%</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_by_one_std_err</span>(<span class="at">metric =</span> <span class="st">"mae"</span>, <span class="fu">desc</span>(penalty))</span>

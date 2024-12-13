@@ -673,7 +673,7 @@ Levels: child &lt; adult &lt; senior</code></pre>
 <section id="visualizing-data-with-ggplot" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="visualizing-data-with-ggplot"><span class="header-section-number">1.4</span> Visualizing data with ggplot</h2>
 <p>Another critical aspect of data science and machine learning is graphical storytelling. Describing an algorithm strictly using mathematical notation or exploring a data set using descriptive and inductive statistics alone can make it challenging to understand the message. While R offers some base functions for creating graphics, this course primarily uses the library <code>{ggplot2}</code>. A comprehensive introduction to <code>{ggplot2}</code> can be found in Hadley Wickham’s book <a href="https://ggplot2-book.org/">Elegant Graphics for Data Analysis</a>. A short summary can be found below.</p>
-<p>For the following example, we will use the <code>netflix_filtered</code> data set (see <a href="#sec-filtering" class="quarto-xref"><span class="quarto-unresolved-ref">sec-filtering</span></a>)</p>
+<p>For the following example, we will use the <code>netflix_filtered</code> data set (see <a href="#sec-filtering" class="quarto-xref"><span>Section 1.3.2.1</span></a>)</p>
 <p>A graphic created with <code>{ggplot2}</code> consists of the following three base components:</p>
 <ol type="1">
 <li><p>The data itself.</p>
@@ -868,7 +868,7 @@ $Card_Category
 <p>In future exercises, different loss functions will be deployed to measure how far some regression results deviate from actual values. This exercise, therefore, briefly discusses the advantages and disadvantages of some loss functions and introduces them in R.</p>
 <p>Data-wise, we will consider the <code>credit_info</code> dataset and a simple linear model that is used to predict each customer’s credit limit.</p>
 <p>The following Code snippet reads the unmodified data, removes the features <code>Total_Revolving_Bal</code> and <code>Avg_Open_To_Buy</code> and trains a linear model with target variable <code>Credit_Limit</code> on all the remaining features. It’s important to note that the model is intentionally kept simple for demonstrative purposes, making it easier for you to grasp and apply the concepts.</p>
-<p>Copy the snippet into your own notebook and run it. <em>Hint: You might have to change the path in the <code>read.csv</code> function to your specified data path (<a href="#exr-DEA1" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-DEA1</span></a>) and install the libraries that are attached.</em></p>
+<p>Copy the snippet into your own notebook and run it. <em>Hint: You might have to change the path in the <code>read.csv</code> function to your specified data path (<a href="02_linear_models.html#exr-DEA1" class="quarto-xref">Exercise&nbsp;<span>2.1</span></a>) and install the libraries that are attached.</em></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(yardstick)</span>
@@ -905,7 +905,7 @@ $Card_Category
   \mathrm{MSE} &amp;:= \mathrm{MSE}(y,\hat{y}) := \frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y_i})^2
 \end{align*}\]</span></p>
 <div id="exr-RMSE" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.18</strong></span> Repeat the exercise <a href="#exr-MAE1" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-MAE1</span></a> and <a href="#exr-MAE2" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-MAE2</span></a> for the RMSE and MSE.</p>
+<p><span class="theorem-title"><strong>Exercise 1.18</strong></span> Repeat the exercise <a href="#exr-MAE1" class="quarto-xref">Exercise&nbsp;<span>1.16</span></a> and <a href="#exr-MAE2" class="quarto-xref">Exercise&nbsp;<span>1.17</span></a> for the RMSE and MSE.</p>
 </div>
 </section>
 </section>
@@ -913,13 +913,13 @@ $Card_Category
 <section id="solutions" class="level2" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="solutions"><span class="header-section-number">1.6</span> Solutions</h2>
 <div id="sol-DEA1" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.1</em> (<a href="#exr-DEA1" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-DEA1</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.1</em> (<a href="02_linear_models.html#exr-DEA1" class="quarto-xref">Exercise&nbsp;<span>2.1</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/BankChurners.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-DEA2" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.2</em> (<a href="#exr-DEA2" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-DEA2</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.2</em> (<a href="02_linear_models.html#exr-DEA2" class="quarto-xref">Exercise&nbsp;<span>2.2</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="sc">%&gt;%</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.character) <span class="sc">%&gt;%</span></span>
@@ -967,7 +967,7 @@ $Card_Category
 </ol>
 </div>
 <div id="sol-DEA3" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.3</em> (<a href="#exr-DEA3" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-DEA3</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.3</em> (<a href="#exr-DEA3" class="quarto-xref">Exercise&nbsp;<span>1.3</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="ot">&lt;-</span>credit_info <span class="sc">%&gt;%</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Income_Category =</span> <span class="fu">factor</span>(Income_Category,</span>
@@ -985,7 +985,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-DEA4" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.4</em> (<a href="#exr-DEA4" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-DEA4</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.4</em> (<a href="#exr-DEA4" class="quarto-xref">Exercise&nbsp;<span>1.4</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="sc">%&gt;%</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Income_Category) <span class="sc">%&gt;%</span></span>
@@ -1007,7 +1007,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-DEA5" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.5</em> (<a href="#exr-DEA5" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-DEA5</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.5</em> (<a href="#exr-DEA5" class="quarto-xref">Exercise&nbsp;<span>1.5</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="sc">%&gt;%</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Income_Category) <span class="sc">%&gt;%</span></span>
@@ -1029,7 +1029,7 @@ $Card_Category
 <p>Unsurprisingly, the highest income category also has the highest mean credit limit (19,717 USD).</p>
 </div>
 <div id="sol-DEA6" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.6</em> (<a href="#exr-DEA6" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-DEA6</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.6</em> (<a href="#exr-DEA6" class="quarto-xref">Exercise&nbsp;<span>1.6</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="ot">&lt;-</span> credit_info_clean <span class="sc">%&gt;%</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(</span>
@@ -1039,7 +1039,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-DEA7" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.7</em> (<a href="#exr-DEA7" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-DEA7</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.7</em> (<a href="#exr-DEA7" class="quarto-xref">Exercise&nbsp;<span>1.7</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>nrow_old <span class="ot">&lt;-</span> <span class="fu">nrow</span>(credit_info_clean)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1053,7 +1053,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-DEA8" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.8</em> (<a href="#exr-DEA8" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-DEA8</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.8</em> (<a href="#exr-DEA8" class="quarto-xref">Exercise&nbsp;<span>1.8</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>credit_info_clean <span class="sc">%&gt;%</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Card_Category) <span class="sc">%&gt;%</span></span>
@@ -1070,14 +1070,14 @@ $Card_Category
 </div>
 </div>
 <div id="sol-DEA9" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.9</em> (<a href="#exr-DEA9" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-DEA9</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.9</em> (<a href="#exr-DEA9" class="quarto-xref">Exercise&nbsp;<span>1.9</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>credit_info_blue <span class="ot">&lt;-</span> credit_info_clean <span class="sc">%&gt;%</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Card_Category <span class="sc">==</span> <span class="st">"Blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-DEA10" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.10</em> (<a href="#exr-DEA10" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-DEA10</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.10</em> (<a href="#exr-DEA10" class="quarto-xref">Exercise&nbsp;<span>1.10</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>credit_info_blue <span class="sc">%&gt;%</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Gender <span class="sc">==</span> <span class="st">"F"</span> <span class="sc">&amp;</span></span>
@@ -1091,7 +1091,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-VDE1" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.11</em> (<a href="#exr-VDE1" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-VDE1</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.11</em> (<a href="#exr-VDE1" class="quarto-xref">Exercise&nbsp;<span>1.11</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age))<span class="sc">+</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1108,7 +1108,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-VDE2" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.12</em> (<a href="#exr-VDE2" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-VDE2</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.12</em> (<a href="#exr-VDE2" class="quarto-xref">Exercise&nbsp;<span>1.12</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age))<span class="sc">+</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1122,7 +1122,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-VDE3" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.13</em> (<a href="#exr-VDE3" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-VDE3</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.13</em> (<a href="#exr-VDE3" class="quarto-xref">Exercise&nbsp;<span>1.13</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Customer_Age, <span class="at">fill =</span> Gender))<span class="sc">+</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1136,7 +1136,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-VDE4" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.14</em> (<a href="#exr-VDE4" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-VDE4</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.14</em> (<a href="#exr-VDE4" class="quarto-xref">Exercise&nbsp;<span>1.14</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean, <span class="fu">aes</span>(Credit_Limit))<span class="sc">+</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1150,7 +1150,7 @@ $Card_Category
 </div>
 </div>
 <div id="sol-VDE5" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.15</em> (<a href="#exr-VDE5" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-VDE5</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.15</em> (<a href="#exr-VDE5" class="quarto-xref">Exercise&nbsp;<span>1.15</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> credit_info_clean,</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(Customer_Age, <span class="at">fill =</span> Education_Level)</span>
@@ -1167,10 +1167,10 @@ $Card_Category
 </div>
 </div>
 <div id="sol-MAE1" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.16</em> (<a href="#exr-MAE1" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-MAE1</span></a>). </span>The Mean Absolute Error (MAE) loss can be interpreted in terms of the scale of the target features because it directly measures the average absolute difference between predicted and actual target values. Thus, if the target variable is on a large scale (e.g., thousands), MAE will also be large. Conversely, for small target values, the MAE will be correspondingly smaller. This makes MAE sensitive to the scale of the target features, and it is essential to normalize or scale data if different features or targets are on very different scales to ensure the MAE provides meaningful comparisons across models or data sets.</p>
+<p><span class="proof-title"><em>Solution 1.16</em> (<a href="#exr-MAE1" class="quarto-xref">Exercise&nbsp;<span>1.16</span></a>). </span>The Mean Absolute Error (MAE) loss can be interpreted in terms of the scale of the target features because it directly measures the average absolute difference between predicted and actual target values. Thus, if the target variable is on a large scale (e.g., thousands), MAE will also be large. Conversely, for small target values, the MAE will be correspondingly smaller. This makes MAE sensitive to the scale of the target features, and it is essential to normalize or scale data if different features or targets are on very different scales to ensure the MAE provides meaningful comparisons across models or data sets.</p>
 </div>
 <div id="sol-MAE2" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.17</em> (<a href="#exr-MAE2" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-MAE2</span></a>). </span>The <code>model_linear_res</code> data set contains the <code>.pred</code> column, where predictions of the linear model are saved. We can use the predictions and the outcome variable <code>Credit_Limit</code> to calculate the MAE.</p>
+<p><span class="proof-title"><em>Solution 1.17</em> (<a href="#exr-MAE2" class="quarto-xref">Exercise&nbsp;<span>1.17</span></a>). </span>The <code>model_linear_res</code> data set contains the <code>.pred</code> column, where predictions of the linear model are saved. We can use the predictions and the outcome variable <code>Credit_Limit</code> to calculate the MAE.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>model_linear_res <span class="sc">%&gt;%</span> <span class="fu">mae</span>(.pred,Credit_Limit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1183,7 +1183,7 @@ $Card_Category
 <p>An MAE of 4114 indicates that on average, the predicted credit limit of a customer deviates 4114 USD.</p>
 </div>
 <div id="sol-RMSE" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.18</em> (<a href="#exr-RMSE" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-RMSE</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.18</em> (<a href="#exr-RMSE" class="quarto-xref">Exercise&nbsp;<span>1.18</span></a>). </span></p>
 <ol type="1">
 <li><p>Similar to the MAE loss, the RMSE can be interpreted in terms of the scale of the target features. It also measures the average difference between the observed and predicted values, but its unique feature is that it emphasizes outliers more. Greater distances are weighted more heavily due to the square term, thereby enhancing prediction accuracy.</p></li>
 <li><div class="cell">

@@ -555,7 +555,7 @@ Warning
 </blockquote>
 </div>
 <div id="exr-rf01" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.3</strong></span> Random forests can solve the problem mentioned in <a href="#exr-bagging01" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-bagging01</span></a> of having trees that are too similar. Describe how this is achieved!</p>
+<p><span class="theorem-title"><strong>Exercise 5.3</strong></span> Random forests can solve the problem mentioned in <a href="#exr-bagging01" class="quarto-xref">Exercise&nbsp;<span>5.2</span></a> of having trees that are too similar. Describe how this is achieved!</p>
 </div>
 </section>
 <section id="programming-exercises" class="level3" data-number="5.3.2">
@@ -699,7 +699,7 @@ $ Avg_Utilization_Ratio    &lt;dbl&gt; 0.061, 0.105, 0.000, 0.760, 0.000, 0.311,
 <ol type="1">
 <li><p>Utilize the <code>logistic_reg</code> function to create a lasso model.</p></li>
 <li><p>Create a regular grid for the logistic model penalty with <span class="math inline">\(30\)</span> levels.</p></li>
-<li><p>Tune the linear model using the 5-fold CV object created in <a href="#exr-data_prep" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-data_prep</span></a>, the grid specified in 2., and the metric set specified in <a href="#exr-wf_metric_set" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-wf_metric_set</span></a>.</p></li>
+<li><p>Tune the linear model using the 5-fold CV object created in <a href="#exr-data_prep" class="quarto-xref">Exercise&nbsp;<span>5.5</span></a>, the grid specified in 2., and the metric set specified in <a href="#exr-wf_metric_set" class="quarto-xref">Exercise&nbsp;<span>5.7</span></a>.</p></li>
 </ol>
 </div>
 <div id="exr-eval_log_tuning" class="theorem exercise">
@@ -714,13 +714,13 @@ $ Avg_Utilization_Ratio    &lt;dbl&gt; 0.061, 0.105, 0.000, 0.760, 0.000, 0.311,
 <p><span class="theorem-title"><strong>Exercise 5.10 (Bonus Exercise)</strong></span> The following exercise is not mandatory but still helps for gaining a deeper understanding of the penalization behavior. Since we have used a lasso logistic regression, some of the parameters might have been driven to 0. Find if there were any!</p>
 </div>
 <div id="exr-decision_tree" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.11</strong></span> Repeat <a href="#exr-log_mod_tune" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-log_mod_tune</span></a> - <a href="#exr-eval_log_tuning" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-eval_log_tuning</span></a> by tuning a classification tree. Tune the parameters <code>min_n</code>, <code>tree_depth</code>, and <code>cost_complexity</code> using 5-fold CV and a regular grid with four levels. Instead of using the one standard error rule, use the <code>select_best</code> function instead.</p>
+<p><span class="theorem-title"><strong>Exercise 5.11</strong></span> Repeat <a href="#exr-log_mod_tune" class="quarto-xref">Exercise&nbsp;<span>5.8</span></a> - <a href="#exr-eval_log_tuning" class="quarto-xref">Exercise&nbsp;<span>5.9</span></a> by tuning a classification tree. Tune the parameters <code>min_n</code>, <code>tree_depth</code>, and <code>cost_complexity</code> using 5-fold CV and a regular grid with four levels. Instead of using the one standard error rule, use the <code>select_best</code> function instead.</p>
 </div>
 <div id="exr-vip_ct" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 5.12</strong></span> Use the <code>vip::vip</code> function to find the most important features of the final classification tree.</p>
 </div>
 <div id="exr-rf" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.13</strong></span> Repeat <a href="#exr-decision_tree" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-decision_tree</span></a> and <a href="#exr-vip_ct" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-vip_ct</span></a> for a random forest model with <span class="math inline">\(1000\)</span> trees. Tune the parameters <code>mtry</code> and <code>min_n</code> with a grid of size <span class="math inline">\(10\)</span> using 5-fold CV.</p>
+<p><span class="theorem-title"><strong>Exercise 5.13</strong></span> Repeat <a href="#exr-decision_tree" class="quarto-xref">Exercise&nbsp;<span>5.11</span></a> and <a href="#exr-vip_ct" class="quarto-xref">Exercise&nbsp;<span>5.12</span></a> for a random forest model with <span class="math inline">\(1000\)</span> trees. Tune the parameters <code>mtry</code> and <code>min_n</code> with a grid of size <span class="math inline">\(10\)</span> using 5-fold CV.</p>
 </div>
 <div id="exr-model_comparison" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 5.14</strong></span> Given the following plots, answer the following questions:</p>
@@ -736,23 +736,23 @@ $ Avg_Utilization_Ratio    &lt;dbl&gt; 0.061, 0.105, 0.000, 0.760, 0.000, 0.311,
 </div>
 </div>
 <div id="exr-rocpr_plot" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.15 (Bonus exercise)</strong></span> Use the previously saved data frames containing the ROC- and PR-curve data for each model to recreate the plot in exercise <a href="#exr-model_comparison" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-model_comparison</span></a></p>
+<p><span class="theorem-title"><strong>Exercise 5.15 (Bonus exercise)</strong></span> Use the previously saved data frames containing the ROC- and PR-curve data for each model to recreate the plot in exercise <a href="#exr-model_comparison" class="quarto-xref">Exercise&nbsp;<span>5.14</span></a></p>
 </div>
 </section>
 </section>
 <section id="solutions" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="solutions"><span class="header-section-number">5.4</span> Solutions</h2>
 <div id="sol-bootstrap01" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.1</em> (<a href="#exr-bootstrap01" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-bootstrap01</span></a>). </span>For <span class="math inline">\(n\)</span> sufficiently big, the estimate <span class="math inline">\(\left(1-\frac{1}{n}\right)^n \approx \exp(-1)\)</span> holds. Since the probability of any sample not being in the data set is therefore approximately <span class="math inline">\(\exp(-1)\)</span>, we can simply calculate the complementary probability. The complementary probability is given by <span class="math inline">\(1-\exp(-1)\approx 0.63212\)</span>.</p>
+<p><span class="proof-title"><em>Solution 5.1</em> (<a href="#exr-bootstrap01" class="quarto-xref">Exercise&nbsp;<span>5.1</span></a>). </span>For <span class="math inline">\(n\)</span> sufficiently big, the estimate <span class="math inline">\(\left(1-\frac{1}{n}\right)^n \approx \exp(-1)\)</span> holds. Since the probability of any sample not being in the data set is therefore approximately <span class="math inline">\(\exp(-1)\)</span>, we can simply calculate the complementary probability. The complementary probability is given by <span class="math inline">\(1-\exp(-1)\approx 0.63212\)</span>.</p>
 </div>
 <div id="sol-bagging01" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.2</em> (<a href="#exr-bagging01" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-bagging01</span></a>). </span>Bagging trees leads to fitting many trees with similar structure as the same features tend to be selected in the same step in different trees. Given that the estimates are depending on the splits of a tree, the estimates can be highly correlated if the tree structures are similar.</p>
+<p><span class="proof-title"><em>Solution 5.2</em> (<a href="#exr-bagging01" class="quarto-xref">Exercise&nbsp;<span>5.2</span></a>). </span>Bagging trees leads to fitting many trees with similar structure as the same features tend to be selected in the same step in different trees. Given that the estimates are depending on the splits of a tree, the estimates can be highly correlated if the tree structures are similar.</p>
 </div>
 <div id="sol-rf01" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.3</em> (<a href="#exr-rf01" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-rf01</span></a>). </span>When bagging trees, the number of features for building a tree stays the same. A random forest on the other hand only selects a subset of all the features. This ensures that there is enough variability in the different trees and thus directly tackles the problem of the trees being too similar.</p>
+<p><span class="proof-title"><em>Solution 5.3</em> (<a href="#exr-rf01" class="quarto-xref">Exercise&nbsp;<span>5.3</span></a>). </span>When bagging trees, the number of features for building a tree stays the same. A random forest on the other hand only selects a subset of all the features. This ensures that there is enough variability in the different trees and thus directly tackles the problem of the trees being too similar.</p>
 </div>
 <div id="sol-NIR" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.4</em> (<a href="#exr-NIR" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-NIR</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 5.4</em> (<a href="#exr-NIR" class="quarto-xref">Exercise&nbsp;<span>5.4</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>NIR<span class="ot">&lt;-</span> credit_info <span class="sc">%&gt;%</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Attrition_Flag)<span class="sc">%&gt;%</span></span>
@@ -772,7 +772,7 @@ an accuracy of at least 0.839.</code></pre>
 </div>
 </div>
 <div id="sol-data_prep" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.5</em> (<a href="#exr-data_prep" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-data_prep</span></a>). </span>Create a training and test split using <code>set.seed(121)</code> and a 5-fold CV object based on the training data.</p>
+<p><span class="proof-title"><em>Solution 5.5</em> (<a href="#exr-data_prep" class="quarto-xref">Exercise&nbsp;<span>5.5</span></a>). </span>Create a training and test split using <code>set.seed(121)</code> and a 5-fold CV object based on the training data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">121</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(credit_info, <span class="at">strata =</span> Attrition_Flag)</span>
@@ -782,7 +782,7 @@ an accuracy of at least 0.839.</code></pre>
 </div>
 </div>
 <div id="sol-recipe" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.6</em> (<a href="#exr-recipe" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-recipe</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 5.6</em> (<a href="#exr-recipe" class="quarto-xref">Exercise&nbsp;<span>5.6</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>levels_income <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Less than $40K"</span>,<span class="st">"$40K - $60K"</span>,</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"$60K - $80K"</span>,<span class="st">"$80K - $120K"</span>,<span class="st">"$120K +"</span>)</span>
@@ -811,7 +811,7 @@ an accuracy of at least 0.839.</code></pre>
 </div>
 </div>
 <div id="sol-wf_metric_set" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.7</em> (<a href="#exr-wf_metric_set" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-wf_metric_set</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 5.7</em> (<a href="#exr-wf_metric_set" class="quarto-xref">Exercise&nbsp;<span>5.7</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ci_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_ci) </span>
@@ -820,7 +820,7 @@ an accuracy of at least 0.839.</code></pre>
 </div>
 </div>
 <div id="sol-log_mod_tune" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.8</em> (<a href="#exr-log_mod_tune" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-log_mod_tune</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 5.8</em> (<a href="#exr-log_mod_tune" class="quarto-xref">Exercise&nbsp;<span>5.8</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>log_mod_tune_spec <span class="ot">&lt;-</span><span class="fu">logistic_reg</span>(<span class="at">penalty =</span> <span class="fu">tune</span>(), <span class="at">mixture =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glmnet"</span>)</span>
@@ -840,7 +840,7 @@ an accuracy of at least 0.839.</code></pre>
 </div>
 </div>
 <div id="sol-eval_log_tuning" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.9</em> (<a href="#exr-eval_log_tuning" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-eval_log_tuning</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 5.9</em> (<a href="#exr-eval_log_tuning" class="quarto-xref">Exercise&nbsp;<span>5.9</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>lr_res_best <span class="ot">&lt;-</span> lr_tune_res <span class="sc">%&gt;%</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_by_one_std_err</span>(<span class="at">metric =</span> <span class="st">"pr_auc"</span>, <span class="fu">desc</span>(penalty))</span>
@@ -895,7 +895,7 @@ an accuracy of at least 0.839.</code></pre>
 </div>
 </div>
 <div id="exr-bonus_lasso" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.16 (<a href="#exr-bonus_lasso" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-bonus_lasso</span></a>)</strong></span> &nbsp;</p>
+<p><span class="theorem-title"><strong>Exercise 5.16 (<a href="#exr-bonus_lasso" class="quarto-xref">Exercise&nbsp;<span>5.16</span></a>)</strong></span> &nbsp;</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>last_lr_fit <span class="sc">%&gt;%</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span></span>
@@ -942,7 +942,7 @@ an accuracy of at least 0.839.</code></pre>
 </div>
 </div>
 <div id="sol-decision_tree" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.10</em> (<a href="#exr-decision_tree" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-decision_tree</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 5.10</em> (<a href="#exr-decision_tree" class="quarto-xref">Exercise&nbsp;<span>5.11</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>ct_model_spec <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n =</span> <span class="fu">tune</span>(),</span>
@@ -1016,7 +1016,7 @@ an accuracy of at least 0.839.</code></pre>
 </div>
 </div>
 <div id="sol-vip_ct" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.11</em> (<a href="#exr-vip_ct" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-vip_ct</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 5.11</em> (<a href="#exr-vip_ct" class="quarto-xref">Exercise&nbsp;<span>5.12</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>last_ct_fit <span class="sc">%&gt;%</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>()<span class="sc">%&gt;%</span></span>
@@ -1033,7 +1033,7 @@ an accuracy of at least 0.839.</code></pre>
 </div>
 </div>
 <div id="sol-rf" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.12</em> (<a href="#exr-rf" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-rf</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 5.12</em> (<a href="#exr-rf" class="quarto-xref">Exercise&nbsp;<span>5.13</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>cores <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1113,7 +1113,8 @@ an accuracy of at least 0.839.</code></pre>
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>last_rf_fit <span class="sc">%&gt;%</span></span>
 <span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_parsnip</span>()<span class="sc">%&gt;%</span></span>
 <span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vip</span>(<span class="at">geom =</span> <span class="st">"col"</span>, <span class="at">aesthetics =</span> <span class="fu">list</span>(<span class="at">fill =</span> <span class="st">"midnightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>)) <span class="sc">+</span></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))<span class="sc">+</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1121,340 +1122,42 @@ an accuracy of at least 0.839.</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>List of 136
- $ line                            :List of 6
-  ..$ colour       : chr "black"
-  ..$ linewidth    : num 0.636
-  ..$ linetype     : num 1
-  ..$ lineend      : chr "butt"
-  ..$ arrow        : logi FALSE
-  ..$ inherit.blank: logi TRUE
-  ..- attr(*, "class")= chr [1:2] "element_line" "element"
- $ rect                            :List of 5
-  ..$ fill         : chr "white"
-  ..$ colour       : chr "black"
-  ..$ linewidth    : num 0.636
-  ..$ linetype     : num 1
-  ..$ inherit.blank: logi TRUE
-  ..- attr(*, "class")= chr [1:2] "element_rect" "element"
- $ text                            :List of 11
-  ..$ family       : chr ""
-  ..$ face         : chr "plain"
-  ..$ colour       : chr "black"
-  ..$ size         : num 14
-  ..$ hjust        : num 0.5
-  ..$ vjust        : num 0.5
-  ..$ angle        : num 0
-  ..$ lineheight   : num 0.9
-  ..$ margin       : 'margin' num [1:4] 0points 0points 0points 0points
-  .. ..- attr(*, "unit")= int 8
-  ..$ debug        : logi FALSE
-  ..$ inherit.blank: logi TRUE
-  ..- attr(*, "class")= chr [1:2] "element_text" "element"
- $ title                           : NULL
- $ aspect.ratio                    : NULL
- $ axis.title                      : NULL
- $ axis.title.x                    :List of 11
-  ..$ family       : NULL
-  ..$ face         : NULL
-  ..$ colour       : NULL
-  ..$ size         : NULL
-  ..$ hjust        : NULL
-  ..$ vjust        : num 1
-  ..$ angle        : NULL
-  ..$ lineheight   : NULL
-  ..$ margin       : 'margin' num [1:4] 3.5points 0points 0points 0points
-  .. ..- attr(*, "unit")= int 8
-  ..$ debug        : NULL
-  ..$ inherit.blank: logi TRUE
-  ..- attr(*, "class")= chr [1:2] "element_text" "element"
- $ axis.title.x.top                :List of 11
-  ..$ family       : NULL
-  ..$ face         : NULL
-  ..$ colour       : NULL
-  ..$ size         : NULL
-  ..$ hjust        : NULL
-  ..$ vjust        : num 0
-  ..$ angle        : NULL
-  ..$ lineheight   : NULL
-  ..$ margin       : 'margin' num [1:4] 0points 0points 3.5points 0points
-  .. ..- attr(*, "unit")= int 8
-  ..$ debug        : NULL
-  ..$ inherit.blank: logi TRUE
-  ..- attr(*, "class")= chr [1:2] "element_text" "element"
- $ axis.title.x.bottom             : NULL
- $ axis.title.y                    :List of 11
-  ..$ family       : NULL
-  ..$ face         : NULL
-  ..$ colour       : NULL
-  ..$ size         : NULL
-  ..$ hjust        : NULL
-  ..$ vjust        : num 1
-  ..$ angle        : num 90
-  ..$ lineheight   : NULL
-  ..$ margin       : 'margin' num [1:4] 0points 3.5points 0points 0points
-  .. ..- attr(*, "unit")= int 8
-  ..$ debug        : NULL
-  ..$ inherit.blank: logi TRUE
-  ..- attr(*, "class")= chr [1:2] "element_text" "element"
- $ axis.title.y.left               : NULL
- $ axis.title.y.right              :List of 11
-  ..$ family       : NULL
-  ..$ face         : NULL
-  ..$ colour       : NULL
-  ..$ size         : NULL
-  ..$ hjust        : NULL
-  ..$ vjust        : num 1
-  ..$ angle        : num -90
-  ..$ lineheight   : NULL
-  ..$ margin       : 'margin' num [1:4] 0points 0points 0points 3.5points
-  .. ..- attr(*, "unit")= int 8
-  ..$ debug        : NULL
-  ..$ inherit.blank: logi TRUE
-  ..- attr(*, "class")= chr [1:2] "element_text" "element"
- $ axis.text                       :List of 11
-  ..$ family       : NULL
-  ..$ face         : NULL
-  ..$ colour       : chr "grey30"
-  ..$ size         : 'rel' num 0.8
-  ..$ hjust        : NULL
-  ..$ vjust        : NULL
-  ..$ angle        : NULL
-  ..$ lineheight   : NULL
-  ..$ margin       : NULL
-  ..$ debug        : NULL
-  ..$ inherit.blank: logi TRUE
-  ..- attr(*, "class")= chr [1:2] "element_text" "element"
- $ axis.text.x                     :List of 11
-  ..$ family       : NULL
-  ..$ face         : NULL
-  ..$ colour       : NULL
-  ..$ size         : NULL
-  ..$ hjust        : NULL
-  ..$ vjust        : num 1
-  ..$ angle        : NULL
-  ..$ lineheight   : NULL
-  ..$ margin       : 'margin' num [1:4] 2.8points 0points 0points 0points
-  .. ..- attr(*, "unit")= int 8
-  ..$ debug        : NULL
-  ..$ inherit.blank: logi TRUE
-  ..- attr(*, "class")= chr [1:2] "element_text" "element"
- $ axis.text.x.top                 :List of 11
-  ..$ family       : NULL
-  ..$ face         : NULL
-  ..$ colour       : NULL
-  ..$ size         : NULL
-  ..$ hjust        : NULL
-  ..$ vjust        : num 0
-  ..$ angle        : NULL
-  ..$ lineheight   : NULL
-  ..$ margin       : 'margin' num [1:4] 0points 0points 2.8points 0points
-  .. ..- attr(*, "unit")= int 8
-  ..$ debug        : NULL
-  ..$ inherit.blank: logi TRUE
-  ..- attr(*, "class")= chr [1:2] "element_text" "element"
- $ axis.text.x.bottom              : NULL
- $ axis.text.y                     :List of 11
-  ..$ family       : NULL
-  ..$ face         : NULL
-  ..$ colour       : NULL
-  ..$ size         : NULL
-  ..$ hjust        : num 1
-  ..$ vjust        : NULL
-  ..$ angle        : NULL
-  ..$ lineheight   : NULL
-  ..$ margin       : 'margin' num [1:4] 0points 2.8points 0points 0points
-  .. ..- attr(*, "unit")= int 8
-  ..$ debug        : NULL
-  ..$ inherit.blank: logi TRUE
-  ..- attr(*, "class")= chr [1:2] "element_text" "element"
- $ axis.text.y.left                : NULL
- $ axis.text.y.right               :List of 11
-  ..$ family       : NULL
-  ..$ face         : NULL
-  ..$ colour       : NULL
-  ..$ size         : NULL
-  ..$ hjust        : num 0
-  ..$ vjust        : NULL
-  ..$ angle        : NULL
-  ..$ lineheight   : NULL
-  ..$ margin       : 'margin' num [1:4] 0points 0points 0points 2.8points
-  .. ..- attr(*, "unit")= int 8
-  ..$ debug        : NULL
-  ..$ inherit.blank: logi TRUE
-  ..- attr(*, "class")= chr [1:2] "element_text" "element"
- $ axis.text.theta                 : NULL
- $ axis.text.r                     :List of 11
-  ..$ family       : NULL
-  ..$ face         : NULL
-  ..$ colour       : NULL
-  ..$ size         : NULL
-  ..$ hjust        : num 0.5
-  ..$ vjust        : NULL
-  ..$ angle        : NULL
-  ..$ lineheight   : NULL
-  ..$ margin       : 'margin' num [1:4] 0points 2.8points 0points 2.8points
-  .. ..- attr(*, "unit")= int 8
-  ..$ debug        : NULL
-  ..$ inherit.blank: logi TRUE
-  ..- attr(*, "class")= chr [1:2] "element_text" "element"
- $ axis.ticks                      : list()
-  ..- attr(*, "class")= chr [1:2] "element_blank" "element"
- $ axis.ticks.x                    : NULL
- $ axis.ticks.x.top                : NULL
- $ axis.ticks.x.bottom             : NULL
- $ axis.ticks.y                    : NULL
- $ axis.ticks.y.left               : NULL
- $ axis.ticks.y.right              : NULL
- $ axis.ticks.theta                : NULL
- $ axis.ticks.r                    : NULL
- $ axis.minor.ticks.x.top          : NULL
- $ axis.minor.ticks.x.bottom       : NULL
- $ axis.minor.ticks.y.left         : NULL
- $ axis.minor.ticks.y.right        : NULL
- $ axis.minor.ticks.theta          : NULL
- $ axis.minor.ticks.r              : NULL
- $ axis.ticks.length               : 'simpleUnit' num 3.5points
-  ..- attr(*, "unit")= int 8
- $ axis.ticks.length.x             : NULL
- $ axis.ticks.length.x.top         : NULL
- $ axis.ticks.length.x.bottom      : NULL
- $ axis.ticks.length.y             : NULL
- $ axis.ticks.length.y.left        : NULL
- $ axis.ticks.length.y.right       : NULL
- $ axis.ticks.length.theta         : NULL
- $ axis.ticks.length.r             : NULL
- $ axis.minor.ticks.length         : 'rel' num 0.75
- $ axis.minor.ticks.length.x       : NULL
- $ axis.minor.ticks.length.x.top   : NULL
- $ axis.minor.ticks.length.x.bottom: NULL
- $ axis.minor.ticks.length.y       : NULL
- $ axis.minor.ticks.length.y.left  : NULL
- $ axis.minor.ticks.length.y.right : NULL
- $ axis.minor.ticks.length.theta   : NULL
- $ axis.minor.ticks.length.r       : NULL
- $ axis.line                       : list()
-  ..- attr(*, "class")= chr [1:2] "element_blank" "element"
- $ axis.line.x                     : NULL
- $ axis.line.x.top                 : NULL
- $ axis.line.x.bottom              : NULL
- $ axis.line.y                     : NULL
- $ axis.line.y.left                : NULL
- $ axis.line.y.right               : NULL
- $ axis.line.theta                 : NULL
- $ axis.line.r                     : NULL
- $ legend.background               : list()
-  ..- attr(*, "class")= chr [1:2] "element_blank" "element"
- $ legend.margin                   : 'margin' num [1:4] 7points 7points 7points 7points
-  ..- attr(*, "unit")= int 8
- $ legend.spacing                  : 'simpleUnit' num 14points
-  ..- attr(*, "unit")= int 8
- $ legend.spacing.x                : NULL
- $ legend.spacing.y                : NULL
- $ legend.key                      : list()
-  ..- attr(*, "class")= chr [1:2] "element_blank" "element"
- $ legend.key.size                 : 'simpleUnit' num 1.2lines
-  ..- attr(*, "unit")= int 3
- $ legend.key.height               : NULL
- $ legend.key.width                : NULL
- $ legend.key.spacing              : 'simpleUnit' num 7points
-  ..- attr(*, "unit")= int 8
- $ legend.key.spacing.x            : NULL
- $ legend.key.spacing.y            : NULL
- $ legend.frame                    : NULL
- $ legend.ticks                    : NULL
- $ legend.ticks.length             : 'rel' num 0.2
- $ legend.axis.line                : NULL
- $ legend.text                     :List of 11
-  ..$ family       : NULL
-  ..$ face         : NULL
-  ..$ colour       : NULL
-  ..$ size         : 'rel' num 0.8
-  ..$ hjust        : NULL
-  ..$ vjust        : NULL
-  ..$ angle        : NULL
-  ..$ lineheight   : NULL
-  ..$ margin       : NULL
-  ..$ debug        : NULL
-  ..$ inherit.blank: logi TRUE
-  ..- attr(*, "class")= chr [1:2] "element_text" "element"
- $ legend.text.position            : NULL
- $ legend.title                    :List of 11
-  ..$ family       : NULL
-  ..$ face         : NULL
-  ..$ colour       : NULL
-  ..$ size         : NULL
-  ..$ hjust        : num 0
-  ..$ vjust        : NULL
-  ..$ angle        : NULL
-  ..$ lineheight   : NULL
-  ..$ margin       : NULL
-  ..$ debug        : NULL
-  ..$ inherit.blank: logi TRUE
-  ..- attr(*, "class")= chr [1:2] "element_text" "element"
- $ legend.title.position           : NULL
- $ legend.position                 : chr "right"
- $ legend.position.inside          : NULL
- $ legend.direction                : NULL
- $ legend.byrow                    : NULL
- $ legend.justification            : chr "center"
- $ legend.justification.top        : NULL
- $ legend.justification.bottom     : NULL
- $ legend.justification.left       : NULL
- $ legend.justification.right      : NULL
- $ legend.justification.inside     : NULL
- $ legend.location                 : NULL
- $ legend.box                      : NULL
- $ legend.box.just                 : NULL
- $ legend.box.margin               : 'margin' num [1:4] 0cm 0cm 0cm 0cm
-  ..- attr(*, "unit")= int 1
- $ legend.box.background           : list()
-  ..- attr(*, "class")= chr [1:2] "element_blank" "element"
- $ legend.box.spacing              : 'simpleUnit' num 14points
-  ..- attr(*, "unit")= int 8
-  [list output truncated]
- - attr(*, "class")= chr [1:2] "theme" "gg"
- - attr(*, "complete")= logi TRUE
- - attr(*, "validate")= logi TRUE</code></pre>
-</div>
 </div>
 </div>
 <div id="sol-model_comparison" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.13</em> (<a href="#exr-rocpr_plot" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-rocpr_plot</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 5.13</em> (<a href="#exr-rocpr_plot" class="quarto-xref">Exercise&nbsp;<span>5.15</span></a>). </span></p>
 </div>
 <div id="sol-rocpr_plot" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.14</em> (<a href="#exr-rocpr_plot" class="quarto-xref">Exercise&nbsp;<span class="quarto-unresolved-ref">exr-rocpr_plot</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 5.14</em> (<a href="#exr-rocpr_plot" class="quarto-xref">Exercise&nbsp;<span>5.15</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#80003A"</span>,<span class="st">"#506432"</span>,<span class="st">"#FFC500"</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(cols) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"cl"</span>, <span class="st">"lr"</span>, <span class="st">"rf"</span>)</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>plot_title <span class="ot">&lt;-</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"ROC- and PR-curve for &lt;span style='color:{cols['lr']};'&gt;penalized logistic regression&lt;/span&gt;,&lt;br&gt;</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="st">                         &lt;span style='color:{cols['cl']};'&gt;classification tree&lt;/span&gt;,</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="st">                         and &lt;span style='color:{cols['rf']};'&gt;random forest&lt;/span&gt;"</span>)</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(ct_auc, lr_auc, rf_auc) <span class="sc">%&gt;%</span> </span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span> <span class="sc">-</span> specificity, <span class="at">y =</span> sensitivity, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">lty =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">unname</span>(cols))<span class="sc">+</span></span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)<span class="sc">+</span></span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(ct_pr, lr_pr, rf_pr) <span class="sc">%&gt;%</span> </span>
-<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> recall, <span class="at">y =</span> precision, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
-<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
-<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">unname</span>(cols))<span class="sc">+</span></span>
-<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)<span class="sc">+</span></span>
-<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>(p1<span class="sc">|</span>p2) <span class="sc">+</span></span>
-<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(</span>
-<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> plot_title,</span>
-<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_markdown</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#80003A"</span>,<span class="st">"#506432"</span>,<span class="st">"#FFC500"</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(cols) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"cl"</span>, <span class="st">"lr"</span>, <span class="st">"rf"</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>plot_title <span class="ot">&lt;-</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"ROC- and PR-curve for &lt;span style='color:{cols['lr']};'&gt;penalized logistic regression&lt;/span&gt;,&lt;br&gt;</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="st">                         &lt;span style='color:{cols['cl']};'&gt;classification tree&lt;/span&gt;,</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="st">                         and &lt;span style='color:{cols['rf']};'&gt;random forest&lt;/span&gt;"</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(ct_auc, lr_auc, rf_auc) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span> <span class="sc">-</span> specificity, <span class="at">y =</span> sensitivity, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">lty =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">unname</span>(cols))<span class="sc">+</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)<span class="sc">+</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(ct_pr, lr_pr, rf_pr) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> recall, <span class="at">y =</span> precision, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">unname</span>(cols))<span class="sc">+</span></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)<span class="sc">+</span></span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>(p1<span class="sc">|</span>p2) <span class="sc">+</span></span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(</span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> plot_title,</span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_markdown</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1468,7 +1171,7 @@ an accuracy of at least 0.839.</code></pre>
 <section id="session-info" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="session-info"><span class="header-section-number">5.5</span> Session Info</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.3 (2023-03-15 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
