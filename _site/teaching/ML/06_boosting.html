@@ -118,10 +118,10 @@ gtag('config', 'G-RKE6FHR659', { 'anonymize_ip': true});
 document.addEventListener('DOMContentLoaded', function () {
 cookieconsent.run({
   "notice_banner_type":"simple",
-  "consent_type":"implied",
+  "consent_type":"express",
   "palette":"light",
   "language":"en",
-  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "page_load_consent_levels":["strictly-necessary"],
   "notice_banner_reject_button_hide":false,
   "preferences_center_close_button_hide":false,
   "website_name":""
@@ -244,6 +244,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="./07_MMc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Maximum Margin Classifier</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_SVM.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Support Vector Machines and Stacking</span></span></a>
   </div>
 </li>
     </ul>
@@ -430,7 +436,7 @@ Prediction Positive Negative
 <h5 data-number="6.1.2.0.1" class="anchored" data-anchor-id="loss_reduction"><span class="header-section-number">6.1.2.0.1</span> <code>loss_reduction</code> :</h5>
 <p>In <a href="#exr-exponential_loss" class="quarto-xref">Exercise&nbsp;<span>6.2</span></a>, we will derive the optimal expansion coefficient <span class="math inline">\(\alpha\)</span> (similar to the coefficients in linear regression) which solves the minimization problem</p>
 <p><span class="math display">\[
-(\alpha_b,h_b) = \arg \min_{\alpha &gt;0, h\in\mathcal{H}}\sum_{n=1}^N L(y_n,\hat{f}^{(b-1)}(x_i)+\alpha h(x_i))
+(\alpha_b,h_b) = \arg \min_{\alpha &gt;0, h\in\mathcal{H}}\sum_{n=1}^N L(y_n,\hat{f}^{(b-1)}(x_n)+\alpha h(x_n))
 \]</span></p>
 <p>Here, <span class="math inline">\(L\)</span> denotes a loss function that we aim to minimize with respect to <span class="math inline">\(\alpha\)</span> and an additional (potentially weak) learner <span class="math inline">\(h\)</span> that we add to the previous estimator.</p>
 <p>If the term</p>
@@ -633,11 +639,10 @@ Figure&nbsp;6.1: AdaBoost Algorithm
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="programming-exercises"><span class="header-section-number">6.2.2</span> Programming Exercises</h3>
 <p>The following exercise is similar to <a href="https://linus-lach.de/teaching/ml/05_bagging_rf#programming-exercises">Exercise 5.3.2</a>. However, instead of fitting penalized logistic regression and classification tree, we fit a XGBoost and LightGBM model on the credit card data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"vip"</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"finetune"</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"bonsai"</span>)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"patchwork"</span>)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggtext"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"finetune"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"bonsai"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"patchwork"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggtext"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The dataset we will consider in this exercise will be the <a href="https://www.kaggle.com/datasets/sakshigoyal7/credit-card-customers">Credit Card Customers</a> data set that we already used in previous exercises. You can either download it again using the provided link or the button below.</p>
 <div style="text-align: center;">
@@ -645,7 +650,7 @@ Figure&nbsp;6.1: AdaBoost Algorithm
 </div>
 <p>Recall that the data set consists of 10,127 entries that represent individual customers of a bank including but not limited to their age, salary, credit card limit, and credit card category.</p>
 <p>The goal is to find out whether a customer will stay or leave the bank given the above features.</p>
-<p>The following training, validation and test split should be used for training the models in of the subsequent exercises.</p>
+<p>The following training, validation and test split should be used for training the models of the subsequent exercises.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/BankChurners.csv"</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1094,13 +1099,13 @@ attached base packages:
 
 other attached packages:
  [1] lightgbm_4.3.0     ranger_0.16.0      ggtext_0.1.2       patchwork_1.3.0   
- [5] bonsai_0.3.1       finetune_1.2.0     vip_0.4.1          xgboost_1.7.7.1   
- [9] workflowsets_1.1.0 workflows_1.1.4    tune_1.2.1         rsample_1.2.1     
-[13] recipes_1.1.0      parsnip_1.2.1      modeldata_1.4.0    infer_1.0.7       
-[17] dials_1.3.0        scales_1.3.0       broom_1.0.7        tidymodels_1.2.0  
-[21] yardstick_1.3.1    lubridate_1.9.3    forcats_1.0.0      stringr_1.5.1     
-[25] dplyr_1.1.4        purrr_1.0.2        readr_2.1.5        tidyr_1.3.1       
-[29] tibble_3.2.1       ggplot2_3.5.1      tidyverse_2.0.0   
+ [5] bonsai_0.3.1       finetune_1.2.0     xgboost_1.7.7.1    workflowsets_1.1.0
+ [9] workflows_1.1.4    tune_1.2.1         rsample_1.2.1      recipes_1.1.0     
+[13] parsnip_1.2.1      modeldata_1.4.0    infer_1.0.7        dials_1.3.0       
+[17] scales_1.3.0       broom_1.0.7        tidymodels_1.2.0   yardstick_1.3.1   
+[21] lubridate_1.9.3    forcats_1.0.0      stringr_1.5.1      dplyr_1.1.4       
+[25] purrr_1.0.2        readr_2.1.5        tidyr_1.3.1        tibble_3.2.1      
+[29] ggplot2_3.5.1      tidyverse_2.0.0   
 
 loaded via a namespace (and not attached):
  [1] doParallel_1.0.17   DiceDesign_1.10     tools_4.2.3        
