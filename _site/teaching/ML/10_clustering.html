@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10&nbsp; Unsupervised Learning – Machine Learning Supplementary Material</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./09_NN.html" rel="prev">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RKE6FHR659"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-RKE6FHR659', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"express",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./10_clustering.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Machine Learning Supplementary Material</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Important R concepts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_linear_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_regression_trees.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regression Trees</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_bagging_rf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Random Forests</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_boosting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Boosting</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_MMc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Maximum Margin Classifier</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_SVM.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Support Vector Machines and Stacking</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_NN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Neural Networks</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_clustering.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">10.1</span> Introduction</a>
+  <ul>
+  <li><a href="#dimension-reduction" id="toc-dimension-reduction" class="nav-link" data-scroll-target="#dimension-reduction"><span class="header-section-number">10.1.1</span> Dimension reduction</a>
+  <ul class="collapse">
+  <li><a href="#principal-component-analysis-pca" id="toc-principal-component-analysis-pca" class="nav-link" data-scroll-target="#principal-component-analysis-pca"><span class="header-section-number">10.1.1.1</span> Principal Component Analysis (PCA)</a></li>
+  <li><a href="#pca-in-r" id="toc-pca-in-r" class="nav-link" data-scroll-target="#pca-in-r"><span class="header-section-number">10.1.1.2</span> PCA in R</a></li>
+  <li><a href="#autoencoders" id="toc-autoencoders" class="nav-link" data-scroll-target="#autoencoders"><span class="header-section-number">10.1.1.3</span> Autoencoders</a></li>
+  <li><a href="#sec-ae" id="toc-sec-ae" class="nav-link" data-scroll-target="#sec-ae"><span class="header-section-number">10.1.1.4</span> Autoencoders in R</a></li>
+  </ul></li>
+  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering"><span class="header-section-number">10.1.2</span> Clustering</a>
+  <ul class="collapse">
+  <li><a href="#k-means-in-r" id="toc-k-means-in-r" class="nav-link" data-scroll-target="#k-means-in-r"><span class="header-section-number">10.1.2.1</span> <span class="math inline">\(k\)</span>-means in R</a></li>
+  <li><a href="#dbscan-in-r" id="toc-dbscan-in-r" class="nav-link" data-scroll-target="#dbscan-in-r"><span class="header-section-number">10.1.2.2</span> DBSCAN in R</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">10.2</span> Exercises</a>
+  <ul>
+  <li><a href="#dimension-reduction-1" id="toc-dimension-reduction-1" class="nav-link" data-scroll-target="#dimension-reduction-1"><span class="header-section-number">10.2.1</span> Dimension Reduction</a></li>
+  <li><a href="#clustering-1" id="toc-clustering-1" class="nav-link" data-scroll-target="#clustering-1"><span class="header-section-number">10.2.2</span> Clustering</a></li>
+  </ul></li>
+  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions"><span class="header-section-number">10.3</span> Solutions</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">10.1</span> Introduction</h2>
+<p>In this last exercise session, we will consider a major subfield of machine learning: unsupervised learning. In particular, we will consider clustering with hierarchical methods, the k-means algorithm, and dbscan. Besides unsupervised learning, we will also consider dimension reduction algorithms such as principal component analysis and autoencoders.</p>
+<section id="dimension-reduction" class="level3" data-number="10.1.1">
+<h3 data-number="10.1.1" class="anchored" data-anchor-id="dimension-reduction"><span class="header-section-number">10.1.1</span> Dimension reduction</h3>
+<p>Many of the data sets we encountered so far have a dimension <span class="math inline">\(\gg 2\)</span>. We can therefore not directly visualize all features and the response variable in one figure. One solution is to build a facet plot (similar to <a href="https://linus-lach.de/teaching/ml/01_prerequisites#exr-VDE5">Exercise 1.15</a>) that displays every possible combination of variables. However, this is increasingly difficult: Consider the Credit Info data set we frequently use. There are <span class="math inline">\(n=10\)</span> variables we usually use and to display every variable combination, <span class="math inline">\(\begin{pmatrix} 10 \\ 2\end{pmatrix} = 45\)</span> subplots would be required. The idea of dimension reduction aims to solve this problem. Instead of considering every feature individually, dimension reduction usually merges feature values based on some rule set. Principal component analysis combines features linearly in a way that the resulting linear combinations explain most of the variability in the data set. Autoencoders on the other hand aim to map the features into a lower dimensional subspace (latent space) and rebuild the true features based on the features in the latent space.</p>
+<section id="principal-component-analysis-pca" class="level4" data-number="10.1.1.1">
+<h4 data-number="10.1.1.1" class="anchored" data-anchor-id="principal-component-analysis-pca"><span class="header-section-number">10.1.1.1</span> Principal Component Analysis (PCA)</h4>
+<p>Heuristically speaking, PCA assumes that in a <span class="math inline">\(n\)</span> dimensional (feature) space, not every variable is equally important in terms of variability. Consider a feature matrix <span class="math inline">\(X\in\mathbb{R}^{n\times p}\)</span> (<span class="math inline">\(p\)</span> features and <span class="math inline">\(n\)</span> observations) with normalized features. To find the features that explain the most variance, the following steps are performed:</p>
+<ol type="1">
+<li>Center the features such that <span class="math inline">\(\mathbb{E}(X_j) = \frac{1}{n}\sum_{i=1}^n x_{ij} = 0\)</span> for <span class="math inline">\(j=1,...,p\)</span>.</li>
+<li>Calculate the empirical covariance matrix <span class="math inline">\(X^\prime X =: \Sigma\in\mathbb{R}^{p\times p}\)</span> that measures the joint variability of each pair of features.</li>
+<li>Calculate the singular value decomposition of <span class="math inline">\(\Sigma\)</span>:
+<ol type="i">
+<li>Solve the system <span class="math inline">\(\mathrm{det}(\Sigma - \lambda I_p)= 0\)</span> where <span class="math display">\[\begin{align}
+  I_p &amp;= \begin{pmatrix}
+            1 &amp; 0 &amp; ... &amp; 0\\
+            0 &amp; 1 &amp; ... &amp; 0\\
+            \vdots &amp; ... &amp; \ddots &amp; \vdots \\
+            0 &amp; 0 &amp; ... &amp; 1
+        \end{pmatrix} \in \mathbb{R}^{p\times p} and\\
+  \lambda &amp;\in\mathbb{R}.
+\end{align}\]</span> for <span class="math inline">\(\lambda\)</span>. Here, we assume that there are <span class="math inline">\(p\)</span> distinct solutions.</li>
+<li>Reorder the solutions <span class="math inline">\(\lambda_j,\, j=1,...,p\)</span> descending such that <span class="math inline">\(\lambda_{(1)}\geq...\geq \lambda_{(q)}\)</span>.</li>
+<li>For each ordered solution <span class="math inline">\(\lambda_{(j)},\, j=1,...,p\)</span> that solves <span class="math inline">\(\mathrm{det}(\Sigma - \lambda I_p)= 0\)</span>, solve the system <span class="math display">\[\begin{align}
+(\Sigma - \lambda_{(j)} I_p)\gamma_{(j)} = 0,
+      \end{align}\]</span> where <span class="math inline">\(\gamma_{(j)} \in \mathbb{R}^p\)</span> for <span class="math inline">\(j=1,...,p\)</span>.</li>
+<li>Normalize the resulting vectors to obtain the principal components of the data. Note, that the normalizing constant of each vector <span class="math inline">\(\gamma_{(j)}\)</span> is given by <span class="math inline">\(\frac{1}{\|\gamma_{(j)}\|}\)</span>.</li>
+</ol>
+By choosing the first <span class="math inline">\(k\leq p\)</span> of the <span class="math inline">\(p\)</span> ordered principal components, we can map the feature matrix <span class="math inline">\(X\)</span> to the <span class="math inline">\(k\)</span>-dimensional subspace by multiplying <span class="math inline">\(X\)</span> with the respective matrix <span class="math inline">\((\gamma_{(1)},...,\gamma_{(k)})\in \mathbb{R}^{p\times k}\)</span>. The relative amount of variance explained by the first <span class="math inline">\(k\)</span> principal components is then given by the fraction <span class="math display">\[\begin{equation}
+  \frac{1}{\sum_{j=1}^p \lambda_{(j)}}\sum_{j=1}^k \lambda_{(j)}.
+\end{equation}\]</span></li>
+</ol>
+</section>
+<section id="pca-in-r" class="level4" data-number="10.1.1.2">
+<h4 data-number="10.1.1.2" class="anchored" data-anchor-id="pca-in-r"><span class="header-section-number">10.1.1.2</span> PCA in R</h4>
+<p>We will need the following libraries throughout the session:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tensorflow)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(keras)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggtext)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let us consider the Bank Churners or Credit Info data set that we already used in previous exercises. You can either download it again using the provided link or the button below.</p>
+<div style="text-align: center;">
+<p><a href="data/BankChurners.csv" class="btn btn-outline-primary" role="button" data-toggle="tooltip" title="1.2 MB">Download BankChurners</a></p>
+</div>
+<p>Recall that the data set consists of 10,127 entries that represent individual customers of a bank including but not limited to their age, salary, credit card limit, and credit card category.</p>
+<p>The goal is to reduce the dimensionality of the data set while leaving out the variable <code>Attrition_Flag</code>. By doing so, we might be able to get a better intuition on the distribution of attrited customers within the reduced data set.</p>
+<p>The following code snippet takes care of the pre processing:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/BankChurners.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>credit_info <span class="ot">&lt;-</span> credit_info <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(CLIENTNUM))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>levels_income <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Less than $40K"</span>,<span class="st">"$40K - $60K"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"$60K - $80K"</span>,<span class="st">"$80K - $120K"</span>,<span class="st">"$120K +"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>levels_education <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Uneducated"</span>, <span class="st">"High School"</span>,<span class="st">"College"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Graduate"</span>,  <span class="st">"Post-Graduate"</span>, <span class="st">"Doctorate"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>rec_ci <span class="ot">&lt;-</span> <span class="fu">recipe</span>(Attrition_Flag<span class="sc">~</span>., <span class="at">data =</span>credit_info ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_mutate_at</span>(<span class="fu">all_nominal_predictors</span>(),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">fn =</span> <span class="sc">~</span><span class="fu">if_else</span>(.<span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Unknown"</span>,<span class="st">"unknown"</span>),<span class="cn">NA</span>,.)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">%&gt;%</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_string2factor</span>(Income_Category,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels =</span> levels_income,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ordered =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_string2factor</span>(Education_Level,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels =</span> levels_education,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ordered =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_ordinalscore</span>(<span class="fu">all_ordered_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_unknown</span>(<span class="fu">all_factor_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_impute_knn</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_corr</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_normalize</span>(<span class="fu">all_predictors</span>())</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>credit_info_prepped <span class="ot">&lt;-</span> rec_ci <span class="sc">%&gt;%</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prep</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bake</span>(credit_info)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>credit_info_prepped <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 10,127
+Columns: 32
+$ Customer_Age                   &lt;dbl&gt; -0.16539741, 0.33355391, 0.58302958, -0…
+$ Dependent_count                &lt;dbl&gt; 0.5033433, 2.0430978, 0.5033433, 1.2732…
+$ Months_on_book                 &lt;dbl&gt; 0.38460189, 1.01066492, 0.00896407, -0.…
+$ Total_Relationship_Count       &lt;dbl&gt; 0.7639049, 1.4072367, 0.1205731, -0.522…
+$ Months_Inactive_12_mon         &lt;dbl&gt; -1.3270705, -1.3270705, -1.3270705, 1.6…
+$ Contacts_Count_12_mon          &lt;dbl&gt; 0.4923795, -0.4115957, -2.2195459, -1.3…
+$ Credit_Limit                   &lt;dbl&gt; 0.446599851, -0.041364610, -0.573669472…
+$ Total_Revolving_Bal            &lt;dbl&gt; -0.473398843, -0.366648718, -1.42678789…
+$ Total_Amt_Chng_Q4_Q1           &lt;dbl&gt; 2.6233649, 3.5631169, 8.3668007, 2.9426…
+$ Total_Trans_Amt                &lt;dbl&gt; -0.9596592, -0.9163874, -0.7409451, -0.…
+$ Total_Trans_Ct                 &lt;dbl&gt; -0.9738471, -1.3572734, -1.9111113, -1.…
+$ Total_Ct_Chng_Q4_Q1            &lt;dbl&gt; 3.833813303, 12.607950374, 6.807527542,…
+$ Avg_Utilization_Ratio          &lt;dbl&gt; -0.77584393, -0.61624523, -0.99710576, …
+$ Attrition_Flag                 &lt;fct&gt; Existing Customer, Existing Customer, E…
+$ Gender_M                       &lt;dbl&gt; 1.0599033, -0.9433891, 1.0599033, -0.94…
+$ Education_Level_Doctorate      &lt;dbl&gt; -0.2158832, -0.2158832, -0.2158832, -0.…
+$ Education_Level_Graduate       &lt;dbl&gt; -0.6684885, 1.4957644, 1.4957644, -0.66…
+$ Education_Level_High.School    &lt;dbl&gt; 2.0075861, -0.4980615, -0.4980615, 2.00…
+$ Education_Level_Post.Graduate  &lt;dbl&gt; -0.2316963, -0.2316963, -0.2316963, -0.…
+$ Education_Level_Uneducated     &lt;dbl&gt; -0.4148367, -0.4148367, -0.4148367, -0.…
+$ Education_Level_unknown        &lt;dbl&gt; -0.4200552, -0.4200552, -0.4200552, -0.…
+$ Marital_Status_Married         &lt;dbl&gt; 1.077285, -0.928168, 1.077285, -0.92816…
+$ Marital_Status_Single          &lt;dbl&gt; -0.7984674, 1.2522756, -0.7984674, -0.7…
+$ Marital_Status_unknown         &lt;dbl&gt; -0.2825949, -0.2825949, -0.2825949, 3.5…
+$ Income_Category_X.40K....60K   &lt;dbl&gt; -0.4633404, -0.4633404, -0.4633404, -0.…
+$ Income_Category_X.60K....80K   &lt;dbl&gt; 2.4945216, -0.4008389, -0.4008389, -0.4…
+$ Income_Category_X.80K....120K  &lt;dbl&gt; -0.4226546, -0.4226546, 2.3657644, -0.4…
+$ Income_Category_Less.than..40K &lt;dbl&gt; -0.7364005, 1.3578225, -0.7364005, 1.35…
+$ Income_Category_unknown        &lt;dbl&gt; -0.3511948, -0.3511948, -0.3511948, -0.…
+$ Card_Category_Gold             &lt;dbl&gt; -0.1076388, -0.1076388, -0.1076388, -0.…
+$ Card_Category_Platinum         &lt;dbl&gt; -0.04448181, -0.04448181, -0.04448181, …
+$ Card_Category_Silver           &lt;dbl&gt; -0.2407818, -0.2407818, -0.2407818, -0.…</code></pre>
+</div>
+</div>
+<p>We now have a preprocessed data set <code>credit_info_prepped</code> that can be applied to different dimension reduction algorithms.</p>
+<p>To fit a PCA model, we have to pass the preprocessed data into the <code>prcomp</code> function. The return value is a list containing the standard deviations of the principal components (the square roots of the singular values of the covariance matrix.) and the matrix of variable loadings.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pca_fit <span class="ot">&lt;-</span> credit_info_prepped <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Attrition_Flag) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prcomp</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can then use the <code>augment</code> function to create the reduced dataset. To access the first two principal components, we can use the <code>select</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data_reduced <span class="ot">&lt;-</span> pca_fit <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(credit_info_prepped) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(.fittedPC1,.fittedPC2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>title_text_p1 <span class="ot">&lt;-</span> <span class="st">"Visualisation of the first two principal components"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>subtitle_text_p1 <span class="ot">&lt;-</span> <span class="st">"The &lt;span style='color:#0000FF;'&gt; blue &lt;/span&gt; dots represent customers with positive attrition flag"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>title_text_p2 <span class="ot">&lt;-</span> <span class="st">"Visualisation of the explained variance &lt;br&gt; per principal component"</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>pca_fit_pos <span class="ot">&lt;-</span> data_reduced <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Attrition_Flag =</span> credit_info_prepped<span class="sc">$</span>Attrition_Flag) <span class="sc">%&gt;%</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Attrition_Flag <span class="sc">==</span> <span class="st">"Attrited Customer"</span>) </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>pca_fit_neg <span class="ot">&lt;-</span> data_reduced <span class="sc">%&gt;%</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Attrition_Flag =</span> credit_info_prepped<span class="sc">$</span>Attrition_Flag) <span class="sc">%&gt;%</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Attrition_Flag <span class="sc">!=</span> <span class="st">"Attrited Customer"</span>) </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> pca_fit_neg <span class="sc">%&gt;%</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(.fittedPC1,.fittedPC2)) <span class="sc">+</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>pca_fit_pos,<span class="fu">aes</span>(<span class="at">x=</span>.fittedPC1,<span class="at">y=</span>.fittedPC2),<span class="at">color=</span><span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> title_text_p1,</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> subtitle_text_p1,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"first PC"</span>,</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"second PC"</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    )<span class="sc">+</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.subtitle =</span> <span class="fu">element_markdown</span>())</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> pca_fit <span class="sc">%&gt;%</span> <span class="fu">tidy</span>(<span class="at">matrix =</span> <span class="st">"eigenvalues"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(PC, percent)) <span class="sc">+</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#aab5ee"</span>) <span class="sc">+</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">percent_format</span>(),</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.01</span>))</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> title_text_p2)<span class="sc">+</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_markdown</span>())</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>p1<span class="sc">|</span>p2 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10_clustering_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>It is evident from the figures above that PCA is not the best choice for this data set. Considering the figure on the left, the general point cloud looks quite “random” and there does not seem to be any sort of trend.</p>
+<p>Furthermore, the figure on the right implicates, that less than <span class="math inline">\(20\%\)</span> of the variance in the data set is explained by the first two principal components.</p>
+</section>
+<section id="autoencoders" class="level4" data-number="10.1.1.3">
+<h4 data-number="10.1.1.3" class="anchored" data-anchor-id="autoencoders"><span class="header-section-number">10.1.1.3</span> Autoencoders</h4>
+<p>An autoencoder consists of two feed forward neural networks, namely an encoder and decoder. As the names suggest, the encoder applies a mapping to some data which in this case reduces the dimension. On the other hand, the decoder aims to rebuild the encoded data to obtain the data that has originially been passed into the encoder. <a href="#fig-ae" class="quarto-xref">Figure&nbsp;<span>10.1</span></a> displays a general autoencoder architecture.</p>
+<div id="fig-ae" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ae-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="pictures/AE.svg" id="fig-ae" class="img-fluid quarto-figure quarto-figure-center anchored figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-ae-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.1
+</figcaption>
+</figure>
+</div>
+<p>On the left hand side, the encoder network is displayed. The input layer <span class="math inline">\(I^E\)</span> consists of <span class="math inline">\(N_I\)</span> neurons that is passed into <span class="math inline">\(K_E\)</span> hidden layers. Each hidden layer <span class="math inline">\(H_1^E,...,H_{K_E}^E\)</span> consists of <span class="math inline">\(N_1,...,N_{K_E}\)</span> neurons. The output layer of the encoder consists of <span class="math inline">\(N_L\)</span> neurons, where <span class="math inline">\(L\)</span> denotes the dimension of the (feature) latent space. It is important that <span class="math inline">\(L&lt;N_I\)</span> to ensure that the data is indeed compressed. The output <span class="math inline">\(O^E\)</span> of the encoder is directly passed into the input layer <span class="math inline">\(I^D\)</span>. Note that the dimension of the encoder output is equal to the dimension of the decoder input and that there are no cross connection between the neurons, meaning that <span class="math inline">\(O_i^E\)</span> only maps to <span class="math inline">\(I_i^D\)</span>. The architecture of the decoder is the same as the architecture as the encoder but mirrored.</p>
+<p>In simple terms, an autoencoder are two neural networks stitchted together, where the output approximates the input and the section where the networks are stitched together has fewer neurons than the input/output layers.</p>
+</section>
+<section id="sec-ae" class="level4" data-number="10.1.1.4">
+<h4 data-number="10.1.1.4" class="anchored" data-anchor-id="sec-ae"><span class="header-section-number">10.1.1.4</span> Autoencoders in R</h4>
+<p>We can use the <code>{keras}</code> and <code>{tensorflow}</code> framework to specify an autoencoder.</p>
+<p>Similar to the neural networks defined in <a href="https://linus-lach.de/teaching/ml/09_nn">Session 09</a>, we can create functions that aid us in building the autoencoder.</p>
+<p>The encoder network in this example consists of an input layer with dimension <code>n_imp</code>, two hidden layers with dimension <code>h1</code> and <code>h2</code>, activation function layers (ReLU) for the hidden layers, and two dropout layers with dropout probabilities <code>d1</code> and <code>d2</code> respectively that are applied to the output of the hidden layers.</p>
+<p>Instead of returning a <code>keras_sequential</code> model, we can also specify a model by passing the input and output into the <code>keras_model</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>encoder_spec <span class="ot">&lt;-</span> <span class="cf">function</span>(n_inp,h1,h2,d1,d2,n_out){</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  enc_input <span class="ot">&lt;-</span> <span class="fu">layer_input</span>(<span class="at">shape =</span> n_inp)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  enc_output <span class="ot">&lt;-</span> enc_input <span class="sc">%&gt;%</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(<span class="at">units=</span>h1) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_activation_relu</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dropout</span>(d1) <span class="sc">%&gt;%</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(<span class="at">units=</span>h2) <span class="sc">%&gt;%</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_activation_relu</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dropout</span>(d2)<span class="sc">%&gt;%</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(<span class="at">units=</span>n_out) </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">keras_model</span>(enc_input, enc_output)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The decoder specification function has the same input as the encoder specification function. Why we choose to do that can be seen in the auto encoder specification function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>decoder_spec <span class="ot">&lt;-</span> <span class="cf">function</span>(n_input,h1,h2,d1,d2,n_out){</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  dec_input <span class="ot">&lt;-</span> <span class="fu">layer_input</span>(<span class="at">shape =</span> n_input)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  dec_output <span class="ot">&lt;-</span> dec_input <span class="sc">%&gt;%</span> </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(<span class="at">units=</span>h1) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_activation_relu</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dropout</span>(d1) <span class="sc">%&gt;%</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(<span class="at">units=</span>h2) <span class="sc">%&gt;%</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_activation_relu</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dropout</span>(d2) <span class="sc">%&gt;%</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(<span class="at">units=</span>n_out) </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">keras_model</span>(dec_input, dec_output)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The function <code>aen_spec</code> specifies an autoencoder with input dimension <code>n_inp</code>, <strong>four</strong> hidden layers <code>(h1,h2,h2,h1)</code>, and a dense layer specifying the dimension of the latent space <code>n_latent</code>. Inside the function, we first specify the input <code>aen_input</code> of the autoencoder as an input layer with dimension <code>n_inp</code>. Then, we define an encoder using the previously defined <code>encoder_spec</code> function. Note, that we defined the encoder using the <code>&lt;&lt;-</code> symbol. This is not a typo! The <code>&lt;&lt;-</code> operator allows us to access the specified encoder outside the <code>aen_spec</code> function once the autoencoder has been trained.</p>
+<p>We then specify the decoder architecture where the output dimension (latent dimension) of the encoder is passed as the input dimension of the decoder. Additionally the dimension of the hidden layer are mirrored, meaning that the first hidden layer of the decoder has dimension <code>h2</code> and the second hidden layer has the dimension <code>d1</code>. When mirroring the dimensions of the hidden layers, we need to adapt the drop out rates accordingly. The output dimension of the decoder is given by the dimension of the input.</p>
+<p>The return value of the autoencoder specification is a keras model with input specified by an input layer and output specified as the sequence <code>aen_input %&gt;% encoder() %&gt;% decoder()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>aen_spec<span class="ot">&lt;-</span> <span class="cf">function</span>(n_inp,h1,h2,d1,d2,n_latent){</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a> aen_input <span class="ot">&lt;-</span> <span class="fu">layer_input</span>(<span class="at">shape =</span> n_inp)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a> encoder <span class="ot">&lt;&lt;-</span> <span class="fu">encoder_spec</span>(n_inp,h1,h2,d1,d2,n_latent)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> decoder <span class="ot">&lt;-</span> <span class="fu">decoder_spec</span>(n_latent,h2,h1,d2,d1,n_inp)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a> aen_output <span class="ot">&lt;-</span> aen_input <span class="sc">%&gt;%</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">encoder</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">decoder</span>()</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a> <span class="fu">keras_model</span>(aen_input, aen_output)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The training procedure of the autoencoder is the same as for any other neural network we previously considered:</p>
+<ol type="1">
+<li>Create training data.</li>
+<li>Use the autoencoder specification function to create an untrained autoencoder.</li>
+<li>Compile the model to prepare it for the training process.</li>
+<li>Pass the compiled model into the <code>fit</code> function to train the model.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>tensorflow<span class="sc">::</span><span class="fu">set_random_seed</span>(<span class="dv">6</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>train_features <span class="ot">&lt;-</span> credit_info_prepped <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Attrition_Flag)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>aen <span class="ot">&lt;-</span> <span class="fu">aen_spec</span>(<span class="at">n_inp =</span> <span class="fu">ncol</span>(train_features),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">h1 =</span> <span class="dv">256</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">h2 =</span> <span class="dv">128</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">d1 =</span> <span class="fl">0.2</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">d2 =</span> <span class="dv">0</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">n_latent =</span> <span class="dv">2</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>ed_nn <span class="ot">&lt;-</span> aen <span class="sc">%&gt;%</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">compile</span>(</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">loss =</span> <span class="st">'mse'</span>,</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">optimizer =</span> <span class="fu">optimizer_adam</span>(<span class="fl">1e-4</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>history_aen <span class="ot">&lt;-</span> ed_nn <span class="sc">%&gt;%</span> <span class="fu">fit</span>(</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.matrix</span>(train_features),</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.matrix</span>(train_features),</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">validation_split =</span> <span class="dv">0</span>,</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">epochs =</span> <span class="dv">100</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can access the trained encoder directly using the obejct name (<code>encoder</code>). To create the lower dimensional representation of the data, we have to pass the data set as a matrix into the <code>predict</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data_enc <span class="ot">&lt;-</span> encoder <span class="sc">%&gt;%</span> <span class="fu">predict</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    train_features</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can then plot the results in a similar fashion as with PCA:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data_enc <span class="ot">&lt;-</span> data_enc <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">groups =</span> credit_info<span class="sc">$</span>Attrition_Flag)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>data_enc_pos <span class="ot">&lt;-</span> data_enc <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(groups<span class="sc">==</span><span class="st">"Attrited Customer"</span>) </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>data_enc <span class="sc">%&gt;%</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(groups<span class="sc">==</span><span class="st">"Existing Customer"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>V1,<span class="at">y=</span>V2),<span class="at">alpha =</span> <span class="fl">0.5</span>,<span class="at">size=</span><span class="dv">2</span>, <span class="at">color =</span> <span class="st">"gray70"</span>)<span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> data_enc_pos,<span class="fu">aes</span>(<span class="at">x=</span>V1,<span class="at">y=</span>V2, <span class="at">color =</span> groups),<span class="at">size=</span><span class="dv">2</span>, <span class="at">color =</span> <span class="st">"blue"</span>)<span class="sc">+</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Visualisation of the samples in the two dimensional latent space"</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> subtitle_text_p1)<span class="sc">+</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_markdown</span>()</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10_clustering_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>While we do not have a direct comparisson in explained variance, we can still see that the resulting lower dimensional data set seems more refined.</p>
+</section>
+</section>
+<section id="clustering" class="level3" data-number="10.1.2">
+<h3 data-number="10.1.2" class="anchored" data-anchor-id="clustering"><span class="header-section-number">10.1.2</span> Clustering</h3>
+<p>Using the lower dimensional representations of the data from the previous sections, we can apply some clustering algorithms to find out more about the data.</p>
+<p>In simple terms, clustering aims to find subgroups in the data where members are similar to each other. How these subgroups are found is a bit more complex. There are a multitude of algorithms and metrices that can be used to describe how “far” different smaples are apart from each other and how they should be grouped.</p>
+<p>In this session, we will consider the <em>hard</em> clustering algorithm <span class="math inline">\(k\)</span>-means and density-based clustering algorithm DBSCAN. Both algorithms have their advantages and disadvanteges and as with any other machine learning model we considered so far, it is advisable to apply both algorithms and compare their performance to make a decision on which model to choose.</p>
+<p>Evaluating clustering methods is also not trivial. Since there is no target feature like in regression and classification, metrics like MSE or Accuracy do not make sense in this context. To measure how well a clustering algorithm performs, we can describe how homogeneous the clusters are.</p>
+<p>The <em>Silhouette Score</em> measures the separation distance between clusters by taking values between <span class="math inline">\([-1,1]\)</span>. If an object is close to its own cluster and far from other clusters, the Silhouette Score is closer to <span class="math inline">\(1\)</span>. On the other hand, if an observation has a low score, it is an indicator that the sample does not fit with the assigned cluster. Reasons for poor scores could be too many or too few clusters.</p>
+<p>To calculate the silhoutte score for each sample, we first have to calculate the mean distance between the considered sample <span class="math inline">\(i\)</span> and every other data point in the same cluster:</p>
+<p><span class="math display">\[\begin{equation*}
+  a(i) := \frac{1}{|C_I|-1}\sum_{j\in C_I, i\neq j}d(i,j)
+  
+\end{equation*}\]</span></p>
+<p>Then, we have to calculate the smallest mean distance of the considered sample <span class="math inline">\(i\)</span> to all points in any other cluster:</p>
+<p><span class="math display">\[\begin{equation*}
+  b(i) :=\min_{J\neq I}{\frac{1}{|C_{J}|}}\sum_{j\in C_{J}}d(i,j)
+\end{equation*}\]</span></p>
+<p>The silhouette score for a sample <span class="math inline">\(i\)</span> is then defined as:</p>
+<p><span class="math display">\[\begin{equation*}
+  s(i)={\frac {b(i)-a(i)}{\max\{a(i),b(i)\}}},
+\end{equation*}\]</span></p>
+<p>under the assumption that <span class="math inline">\(|C_I|&gt;1\)</span>.</p>
+<p>Finding the optimal number of clusters has to be done manually with algorithms like <span class="math inline">\(k\)</span>-means, whereas density based clustering algorithms determine the number of clusters on their own.</p>
+<p>The <code>{tidyclust}</code> library includes algorithms like k-means and <span class="math inline">\(k\)</span>-medoids. To apply density-based clustering algorithms like DBSCAN, we can use the <code>{dbscan}</code> library.</p>
+<p>For this introduction, we will only use the low dimensional dataset produced by the autoencoder.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data_clust <span class="ot">&lt;-</span> data_enc <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>groups)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>data_clust <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>V1,<span class="at">y=</span>V2))<span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="fl">1.5</span>)<span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10_clustering_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="k-means-in-r" class="level4" data-number="10.1.2.1">
+<h4 data-number="10.1.2.1" class="anchored" data-anchor-id="k-means-in-r"><span class="header-section-number">10.1.2.1</span> <span class="math inline">\(k\)</span>-means in R</h4>
+<p>A <span class="math inline">\(k\)</span>-means model can be trained in <code>{tidymodels}</code> fashion using the <code>{tidyclust}</code> library.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyclust)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To specify and tune a <span class="math inline">\(k\)</span>-means model, the <code>k_means</code> function has to be called and the number of clusters has to be set to <code>tune()</code>. The engine <code>"stats"</code> is the default engine. The <code>nstart</code> argument specifies how many times the algorithm should choose random starting values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>kmeans_spec <span class="ot">&lt;-</span> <span class="fu">k_means</span>(<span class="at">num_clusters =</span> <span class="fu">tune</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"stats"</span>, <span class="at">nstart =</span> <span class="dv">5</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>rec_kmeans <span class="ot">&lt;-</span> <span class="fu">recipe</span>(<span class="sc">~</span>., <span class="at">data =</span> data_clust)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(data_clust)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>kmeans_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_kmeans) <span class="sc">%&gt;%</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(kmeans_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Instead of using the <code>tune_grid</code> function, the <code>tune_cluster function can be used to tune the number of clusters. As for the metrics, the</code>sse_ratio` function determins the ratio between the within-cluster-sum (wss) and sum of squared errors (sse).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tune_res <span class="ot">&lt;-</span> kmeans_wf <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_cluster</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> <span class="dv">10</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">metrics =</span><span class="fu">cluster_metric_set</span>(sse_ratio)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can plot the <code>sse_ratio</code> and determine the optimal number of clusters by the considering each angle enclosed by three points. The point that is enclosed in the smalles angle between two other points can be chosen as a candidate.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tune_res <span class="sc">%&gt;%</span> <span class="fu">collect_metrics</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(.metric <span class="sc">==</span> <span class="st">"sse_ratio"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> num_clusters, <span class="at">y =</span> mean)) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"mean WSS/TSS ratio, over 5 folds"</span>) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Number of clusters"</span>) <span class="sc">+</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10_clustering_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Given the plot above, it is not entirely clear which point is enclosed in the smallest angle. However, based on the information given, we can try <code>num_clusters = 3</code>. This is also referred to as the <em>Elbow Method</em></p>
+<p>To visualize the clusters, we can use the <code>extract_cluster_assignment()</code> function on the final fit and bind the clusters to the data as a new column.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>kmeans_spec_final <span class="ot">&lt;-</span> <span class="fu">k_means</span>(<span class="at">num_clusters =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"stats"</span>, <span class="at">nstart =</span> <span class="dv">5</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>res_clust <span class="ot">&lt;-</span> kmeans_wf <span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_model</span>(kmeans_spec_final) <span class="sc">%&gt;%</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>( <span class="at">data =</span> data_clust)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>res_clust <span class="sc">%&gt;%</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_cluster_assignment</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(data_clust) <span class="sc">%&gt;%</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>V1,<span class="at">y=</span>V2, <span class="at">color =</span> .cluster)) <span class="sc">+</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>,<span class="at">size=</span><span class="fl">1.5</span>)<span class="sc">+</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)<span class="sc">+</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10_clustering_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Given the clusters, we could now analyze each cluster on their own, however this is also kept as an exercise for the reader :-).</p>
+<p>To build a Silhouette plot, consider the following code snippet:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dists <span class="ot">&lt;-</span> data_clust <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dist</span>()</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">silhouette</span>(res_clust, <span class="at">dists =</span> dists) <span class="sc">%&gt;%</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(cluster,sil_width) <span class="sc">%&gt;%</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">10127</span>,<span class="at">y=</span>sil_width, <span class="at">fill =</span> cluster))<span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()<span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"sample number"</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Silhouette Score"</span>)<span class="sc">+</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10_clustering_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="dbscan-in-r" class="level4" data-number="10.1.2.2">
+<h4 data-number="10.1.2.2" class="anchored" data-anchor-id="dbscan-in-r"><span class="header-section-number">10.1.2.2</span> DBSCAN in R</h4>
+<p>Fitting a DBSCAN model in R is also straightforward. The <code>{dbscan}</code> library contains functions that can make fitting a DBSCAN model easier. The <code>{dbscan}</code> algorithm has unfortunately not yet been incorporated in the <code>{tidyclust}</code> framework, so tuning the hyperparameters can be challenging.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbscan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Since the <code>dbscan()</code> function requires the parameters <code>eps</code> and <code>minPts</code> as arguments, choosing their values without relying on tuning requires additional analyses.</p>
+<p>The <code>kNNdist()</code> function calculates the <span class="math inline">\(k\)</span>-nearest neighbor distances for a given dataset. Choosing <span class="math inline">\(k=2\)</span> indicates, that the function returns the distance of every point to its k nearest neighbor. A larger distance between points and their respective neighbors indicates that a data point might be an outlier. We can visualize the distances with the following code snippet:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kNNdist</span>(data_clust,<span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(value) <span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(.)) <span class="sc">%&gt;%</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>x,<span class="at">y=</span>value))<span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10_clustering_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The point of the biggest increase in incline is usually referred to as the <em>knee-point</em>. This point can be used for the parameter <code>eps</code>. The parameter <code>eps</code> describes the radius of the neighborhood of every point.</p>
+<p>The second parameter <code>minPts</code> describes how many points need to be in the <span class="math inline">\(\varepsilon\)</span> neighborhood in order for it to be core point.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dbscan_res <span class="ot">&lt;-</span> <span class="fu">dbscan</span>(data_clust, <span class="at">eps =</span> <span class="fl">0.65</span>, <span class="at">minPts =</span> <span class="dv">4</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>dbscan_res<span class="sc">$</span>cluster <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_factor</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(data_clust) <span class="sc">%&gt;%</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">.cluster=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>V1,<span class="at">y=</span>V2, <span class="at">color =</span> .cluster)) <span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10_clustering_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="exercises"><span class="header-section-number">10.2</span> Exercises</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyclust)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="dimension-reduction-1" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="dimension-reduction-1"><span class="header-section-number">10.2.1</span> Dimension Reduction</h3>
+<div id="exr-dr01" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 10.1</strong></span> Given the covariance matrix <span class="math inline">\(\Sigma\)</span> of a sample <span class="math inline">\(x_1,x_2,x_3\in\mathbb{R}^3\)</span></p>
+<p><span class="math display">\[
+\Sigma = \begin{pmatrix}
+            2 &amp; 0 &amp; 1\\
+            0 &amp; 2 &amp; 0\\
+            0 &amp; 0 &amp; 3
+         \end{pmatrix},
+\]</span> calculate the principal components of this sample.</p>
+</div>
+<p>Consider the following data set:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pen <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year) <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The data set comprises various specific characteristics of a total of <span class="math inline">\(K=333\)</span> penguins. Calling the <code>glimpse()</code> function on the data set yields the following overview:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pen <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 333
+Columns: 7
+$ species           &lt;fct&gt; Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adel…
+$ island            &lt;fct&gt; Torgersen, Torgersen, Torgersen, Torgersen, Torgerse…
+$ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.6…
+$ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.2…
+$ flipper_length_mm &lt;int&gt; 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 18…
+$ body_mass_g       &lt;int&gt; 3750, 3800, 3250, 3450, 3650, 3625, 4675, 3200, 3800…
+$ sex               &lt;fct&gt; male, female, female, female, male, female, male, fe…</code></pre>
+</div>
+</div>
+<div id="exr-dr02" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 10.2</strong></span> Write a recipe that for a clustering pipeline that converts all nominal features into dummy variables and normalizes the underlying data.</p>
+<p>Use this recipe to create a preprocessed data set.</p>
+</div>
+<div id="exr-dr03" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 10.3</strong></span> &nbsp;</p>
+<ol type="1">
+<li>Using the functions described in <a href="#sec-ae" class="quarto-xref"><span>Section 10.1.1.4</span></a>, train an autoencoder with an architecture of your choice to map the transformed dataset on a two dimensional subspace.</li>
+<li>Plot the resulting two-dimensional dataset using a scatter plot.</li>
+</ol>
+</div>
+<div id="exr-dr04" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 10.4</strong></span> &nbsp;</p>
+<ol type="1">
+<li>Repeat <a href="#exr-dr03" class="quarto-xref">Exercise&nbsp;<span>10.3</span></a> but instead of training an autoencoder, reduce the dimension using PCA.</li>
+<li>How many principal components are needed to explain at least <span class="math inline">\(70\%\)</span> of the variance in the dataset?</li>
+</ol>
+</div>
+</section>
+<section id="clustering-1" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="clustering-1"><span class="header-section-number">10.2.2</span> Clustering</h3>
+<div id="exr-clustering01" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 10.5</strong></span> Heuristically, describe the iterative nature of the k-means algorithm.</p>
+</div>
+<div id="exr-clustering02" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 10.6</strong></span> Suppose you’re given the following Scree-Plot. Decide for an optimal number of clusters and justify your choice.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10_clustering_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="solutions" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="solutions"><span class="header-section-number">10.3</span> Solutions</h2>
+<div id="sol-dr01" class="proof solution">
+<p><span class="proof-title"><em>Solution 10.1</em> (<a href="#exr-dr01" class="quarto-xref">Exercise&nbsp;<span>10.1</span></a>). </span>To calculate principal components, we first need to find the eigenvalues of <span class="math inline">\(\Sigma\)</span>. The eigenvalues <span class="math inline">\(\lambda\)</span> are the solutions to the characteristic equation <span class="math inline">\(\text{det}(A - \lambda I) = 0\)</span>, where <span class="math inline">\(I\)</span> is the identity matrix, and <span class="math inline">\(\text{det}\)</span> denotes the determinant.</p>
+<p>For the given matrix <span class="math inline">\(\Sigma\)</span>, the characteristic equation is given by: <span class="math display">\[
+\text{det}(\Sigma - \lambda I) = \begin{vmatrix}
+            2 - \lambda &amp; 0 &amp; 1\\
+            0 &amp; 2 - \lambda &amp; 0\\
+            0 &amp; 0 &amp; 3 - \lambda
+\end{vmatrix} = (2 - \lambda)(2 - \lambda)(3 - \lambda)
+\]</span></p>
+<p>Setting this equation to zero and solving for <span class="math inline">\(\lambda\)</span>, we find three eigenvalues:</p>
+<span class="math display">\[\begin{align*}
+\lambda_1 &amp;= 2 \\
+\lambda_2 &amp;= 2 \\
+\lambda_3 &amp;= 3
+\end{align*}\]</span>
+<p>Next, we need to find the eigenvectors for each eigenvalue by solving the system of linear equations <span class="math inline">\((\Sigma - \lambda I) \nu = 0\)</span>, where <span class="math inline">\(\nu\)</span> is the eigenvector corresponding to eigenvalue <span class="math inline">\(\lambda\)</span>.</p>
+<p><strong>For <span class="math inline">\(\lambda = 2\)</span>:</strong></p>
+<p>Note, that for <span class="math inline">\(\lambda = 2\)</span> we need two eigenvectors, since the characteristic polynomial has a root of degree two at <span class="math inline">\(\lambda = 2\)</span>. By substituting <span class="math inline">\(\lambda = 2\)</span> into <span class="math inline">\((\Sigma  - \lambda I)\nu = 0\)</span> and solving for <span class="math inline">\(\nu_{1,2}\)</span> we obtain:</p>
+<p><span class="math display">\[
+(\Sigma - 2I)\nu = \begin{pmatrix}
+            0 &amp; 0 &amp; 1\\
+            0 &amp; 0 &amp; 0\\
+            0 &amp; 0 &amp; 1
+\end{pmatrix} \nu = 0.
+\]</span></p>
+<p>The general solution is:</p>
+<p><span class="math display">\[
+\nu_1 = \begin{pmatrix}
+            x_1\\
+            x_2\\
+            0
+\end{pmatrix} \quad
+\nu_2 = \begin{pmatrix}
+            x_3\\
+            x_4\\
+            0
+\end{pmatrix},
+\]</span></p>
+<p>where <span class="math inline">\(x_1,x_2, x_3, x_4\)</span> are arbitrary real constants.</p>
+<p><strong>For <span class="math inline">\(\lambda = 3\)</span>:</strong></p>
+<p>Substitute <span class="math inline">\(\lambda = 3\)</span> into <span class="math inline">\((\Sigma - \lambda I)\nu=0\)</span> and solve for <span class="math inline">\(\nu\)</span>: <span class="math display">\[
+(\Sigma - 3I)\nu = \begin{pmatrix}
+            -1 &amp; 0 &amp; 1\\
+            0 &amp; -1 &amp; 0\\
+            0 &amp; 0 &amp; 0
+\end{pmatrix} \mathbf{v} = 0
+\]</span></p>
+<p>The general solution is:</p>
+<p><span class="math display">\[
+\nu = \begin{pmatrix}
+            x_5\\
+            0\\
+            x_6
+\end{pmatrix}
+\]</span></p>
+<p>where <span class="math inline">\(x_5\)</span> and <span class="math inline">\(x_6\)</span> are arbitrary real constants.</p>
+<p>We have to ensure, that the vectors are orthonormal, i.e.&nbsp;<span class="math inline">\(\|\nu_i\| = 1\)</span> for <span class="math inline">\(i=1,2,3\)</span> and <span class="math inline">\(\langle \nu_i, \nu_j\rangle = 0\)</span> if <span class="math inline">\(i\neq j\)</span>. Thus, the eigenvectors for the matrix <span class="math inline">\(\Sigma\)</span> are:</p>
+<p><span class="math display">\[
+\nu_1 =\begin{pmatrix}
+            1\\
+            0\\
+            0
+\end{pmatrix}, \quad
+\nu_2 = \begin{pmatrix}
+            0\\
+            1\\
+            0
+\end{pmatrix} \quad
+\nu_3 = \begin{pmatrix}
+            0\\
+            0\\
+            1
+\end{pmatrix}
+\]</span> Those also correspond to the Principal components of the sample that generated <span class="math inline">\(\Sigma\)</span>.</p>
+</div>
+<div id="sol-dr02" class="proof solution">
+<p><span class="proof-title"><em>Solution 10.2</em> (<a href="#exr-dr02" class="quarto-xref">Exercise&nbsp;<span>10.2</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>rec_pen <span class="ot">&lt;-</span> <span class="fu">recipe</span>(<span class="sc">~</span>.,<span class="at">data=</span>pen) <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_normalize</span>(<span class="fu">all_predictors</span>())</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>pen_prepped <span class="ot">&lt;-</span> rec_pen <span class="sc">%&gt;%</span> <span class="fu">prep</span>() <span class="sc">%&gt;%</span> <span class="fu">bake</span>(pen)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-dr03" class="proof solution">
+<p><span class="proof-title"><em>Solution 10.3</em> (<a href="#exr-dr03" class="quarto-xref">Exercise&nbsp;<span>10.3</span></a>). </span></p>
+<ol type="1">
+<li><!-- Lorem -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>tensorflow<span class="sc">::</span><span class="fu">set_random_seed</span>(<span class="dv">6</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>aen <span class="ot">&lt;-</span> <span class="fu">aen_spec</span>(<span class="at">n_inp =</span> <span class="fu">ncol</span>(pen_prepped),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">h1 =</span> <span class="dv">256</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">h2 =</span> <span class="dv">128</span>,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">d1 =</span> <span class="fl">0.2</span>,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">d2 =</span> <span class="dv">0</span>,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">n_latent =</span> <span class="dv">2</span>)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>ed_nn <span class="ot">&lt;-</span> aen <span class="sc">%&gt;%</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">compile</span>(</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">loss =</span> <span class="st">'mse'</span>,</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">optimizer =</span> <span class="fu">optimizer_adam</span>(<span class="fl">1e-4</span>)</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>history_aen <span class="ot">&lt;-</span> ed_nn <span class="sc">%&gt;%</span> <span class="fu">fit</span>(</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.matrix</span>(pen_prepped),</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.matrix</span>(pen_prepped),</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">validation_split =</span> <span class="dv">0</span>,</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">epochs =</span> <span class="dv">100</span></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1/100
+11/11 - 1s - loss: 0.9898 - 1s/epoch - 135ms/step
+Epoch 2/100
+11/11 - 0s - loss: 0.9765 - 50ms/epoch - 5ms/step
+Epoch 3/100
+11/11 - 0s - loss: 0.9519 - 50ms/epoch - 5ms/step
+Epoch 4/100
+11/11 - 0s - loss: 0.9155 - 52ms/epoch - 5ms/step
+Epoch 5/100
+11/11 - 0s - loss: 0.8656 - 51ms/epoch - 5ms/step
+Epoch 6/100
+11/11 - 0s - loss: 0.7933 - 48ms/epoch - 4ms/step
+Epoch 7/100
+11/11 - 0s - loss: 0.7089 - 47ms/epoch - 4ms/step
+Epoch 8/100
+11/11 - 0s - loss: 0.6174 - 38ms/epoch - 3ms/step
+Epoch 9/100
+11/11 - 0s - loss: 0.5307 - 39ms/epoch - 4ms/step
+Epoch 10/100
+11/11 - 0s - loss: 0.4512 - 39ms/epoch - 4ms/step
+Epoch 11/100
+11/11 - 0s - loss: 0.3917 - 41ms/epoch - 4ms/step
+Epoch 12/100
+11/11 - 0s - loss: 0.3419 - 39ms/epoch - 4ms/step
+Epoch 13/100
+11/11 - 0s - loss: 0.3148 - 85ms/epoch - 8ms/step
+Epoch 14/100
+11/11 - 0s - loss: 0.2954 - 79ms/epoch - 7ms/step
+Epoch 15/100
+11/11 - 0s - loss: 0.2793 - 85ms/epoch - 8ms/step
+Epoch 16/100
+11/11 - 0s - loss: 0.2781 - 91ms/epoch - 8ms/step
+Epoch 17/100
+11/11 - 0s - loss: 0.2644 - 72ms/epoch - 7ms/step
+Epoch 18/100
+11/11 - 0s - loss: 0.2560 - 64ms/epoch - 6ms/step
+Epoch 19/100
+11/11 - 0s - loss: 0.2516 - 57ms/epoch - 5ms/step
+Epoch 20/100
+11/11 - 0s - loss: 0.2392 - 58ms/epoch - 5ms/step
+Epoch 21/100
+11/11 - 0s - loss: 0.2371 - 62ms/epoch - 6ms/step
+Epoch 22/100
+11/11 - 0s - loss: 0.2361 - 67ms/epoch - 6ms/step
+Epoch 23/100
+11/11 - 0s - loss: 0.2288 - 66ms/epoch - 6ms/step
+Epoch 24/100
+11/11 - 0s - loss: 0.2203 - 63ms/epoch - 6ms/step
+Epoch 25/100
+11/11 - 0s - loss: 0.2161 - 78ms/epoch - 7ms/step
+Epoch 26/100
+11/11 - 0s - loss: 0.2133 - 64ms/epoch - 6ms/step
+Epoch 27/100
+11/11 - 0s - loss: 0.2104 - 61ms/epoch - 6ms/step
+Epoch 28/100
+11/11 - 0s - loss: 0.2043 - 53ms/epoch - 5ms/step
+Epoch 29/100
+11/11 - 0s - loss: 0.2014 - 55ms/epoch - 5ms/step
+Epoch 30/100
+11/11 - 0s - loss: 0.1959 - 58ms/epoch - 5ms/step
+Epoch 31/100
+11/11 - 0s - loss: 0.1964 - 58ms/epoch - 5ms/step
+Epoch 32/100
+11/11 - 0s - loss: 0.1893 - 61ms/epoch - 6ms/step
+Epoch 33/100
+11/11 - 0s - loss: 0.1886 - 48ms/epoch - 4ms/step
+Epoch 34/100
+11/11 - 0s - loss: 0.1888 - 45ms/epoch - 4ms/step
+Epoch 35/100
+11/11 - 0s - loss: 0.1865 - 57ms/epoch - 5ms/step
+Epoch 36/100
+11/11 - 0s - loss: 0.1857 - 60ms/epoch - 5ms/step
+Epoch 37/100
+11/11 - 0s - loss: 0.1804 - 44ms/epoch - 4ms/step
+Epoch 38/100
+11/11 - 0s - loss: 0.1828 - 65ms/epoch - 6ms/step
+Epoch 39/100
+11/11 - 0s - loss: 0.1804 - 73ms/epoch - 7ms/step
+Epoch 40/100
+11/11 - 0s - loss: 0.1800 - 69ms/epoch - 6ms/step
+Epoch 41/100
+11/11 - 0s - loss: 0.1754 - 51ms/epoch - 5ms/step
+Epoch 42/100
+11/11 - 0s - loss: 0.1749 - 42ms/epoch - 4ms/step
+Epoch 43/100
+11/11 - 0s - loss: 0.1684 - 46ms/epoch - 4ms/step
+Epoch 44/100
+11/11 - 0s - loss: 0.1677 - 44ms/epoch - 4ms/step
+Epoch 45/100
+11/11 - 0s - loss: 0.1734 - 46ms/epoch - 4ms/step
+Epoch 46/100
+11/11 - 0s - loss: 0.1686 - 39ms/epoch - 4ms/step
+Epoch 47/100
+11/11 - 0s - loss: 0.1621 - 43ms/epoch - 4ms/step
+Epoch 48/100
+11/11 - 0s - loss: 0.1632 - 47ms/epoch - 4ms/step
+Epoch 49/100
+11/11 - 0s - loss: 0.1589 - 55ms/epoch - 5ms/step
+Epoch 50/100
+11/11 - 0s - loss: 0.1573 - 62ms/epoch - 6ms/step
+Epoch 51/100
+11/11 - 0s - loss: 0.1611 - 74ms/epoch - 7ms/step
+Epoch 52/100
+11/11 - 0s - loss: 0.1601 - 58ms/epoch - 5ms/step
+Epoch 53/100
+11/11 - 0s - loss: 0.1553 - 50ms/epoch - 5ms/step
+Epoch 54/100
+11/11 - 0s - loss: 0.1574 - 53ms/epoch - 5ms/step
+Epoch 55/100
+11/11 - 0s - loss: 0.1555 - 52ms/epoch - 5ms/step
+Epoch 56/100
+11/11 - 0s - loss: 0.1514 - 51ms/epoch - 5ms/step
+Epoch 57/100
+11/11 - 0s - loss: 0.1529 - 50ms/epoch - 5ms/step
+Epoch 58/100
+11/11 - 0s - loss: 0.1488 - 44ms/epoch - 4ms/step
+Epoch 59/100
+11/11 - 0s - loss: 0.1497 - 42ms/epoch - 4ms/step
+Epoch 60/100
+11/11 - 0s - loss: 0.1476 - 38ms/epoch - 3ms/step
+Epoch 61/100
+11/11 - 0s - loss: 0.1430 - 37ms/epoch - 3ms/step
+Epoch 62/100
+11/11 - 0s - loss: 0.1429 - 43ms/epoch - 4ms/step
+Epoch 63/100
+11/11 - 0s - loss: 0.1440 - 40ms/epoch - 4ms/step
+Epoch 64/100
+11/11 - 0s - loss: 0.1484 - 42ms/epoch - 4ms/step
+Epoch 65/100
+11/11 - 0s - loss: 0.1402 - 38ms/epoch - 3ms/step
+Epoch 66/100
+11/11 - 0s - loss: 0.1424 - 37ms/epoch - 3ms/step
+Epoch 67/100
+11/11 - 0s - loss: 0.1372 - 37ms/epoch - 3ms/step
+Epoch 68/100
+11/11 - 0s - loss: 0.1406 - 44ms/epoch - 4ms/step
+Epoch 69/100
+11/11 - 0s - loss: 0.1358 - 41ms/epoch - 4ms/step
+Epoch 70/100
+11/11 - 0s - loss: 0.1343 - 41ms/epoch - 4ms/step
+Epoch 71/100
+11/11 - 0s - loss: 0.1314 - 37ms/epoch - 3ms/step
+Epoch 72/100
+11/11 - 0s - loss: 0.1323 - 35ms/epoch - 3ms/step
+Epoch 73/100
+11/11 - 0s - loss: 0.1308 - 39ms/epoch - 4ms/step
+Epoch 74/100
+11/11 - 0s - loss: 0.1290 - 39ms/epoch - 4ms/step
+Epoch 75/100
+11/11 - 0s - loss: 0.1280 - 37ms/epoch - 3ms/step
+Epoch 76/100
+11/11 - 0s - loss: 0.1245 - 38ms/epoch - 3ms/step
+Epoch 77/100
+11/11 - 0s - loss: 0.1245 - 37ms/epoch - 3ms/step
+Epoch 78/100
+11/11 - 0s - loss: 0.1274 - 34ms/epoch - 3ms/step
+Epoch 79/100
+11/11 - 0s - loss: 0.1211 - 37ms/epoch - 3ms/step
+Epoch 80/100
+11/11 - 0s - loss: 0.1244 - 35ms/epoch - 3ms/step
+Epoch 81/100
+11/11 - 0s - loss: 0.1232 - 36ms/epoch - 3ms/step
+Epoch 82/100
+11/11 - 0s - loss: 0.1222 - 38ms/epoch - 3ms/step
+Epoch 83/100
+11/11 - 0s - loss: 0.1189 - 34ms/epoch - 3ms/step
+Epoch 84/100
+11/11 - 0s - loss: 0.1171 - 37ms/epoch - 3ms/step
+Epoch 85/100
+11/11 - 0s - loss: 0.1168 - 37ms/epoch - 3ms/step
+Epoch 86/100
+11/11 - 0s - loss: 0.1157 - 35ms/epoch - 3ms/step
+Epoch 87/100
+11/11 - 0s - loss: 0.1133 - 37ms/epoch - 3ms/step
+Epoch 88/100
+11/11 - 0s - loss: 0.1160 - 73ms/epoch - 7ms/step
+Epoch 89/100
+11/11 - 0s - loss: 0.1118 - 36ms/epoch - 3ms/step
+Epoch 90/100
+11/11 - 0s - loss: 0.1134 - 35ms/epoch - 3ms/step
+Epoch 91/100
+11/11 - 0s - loss: 0.1140 - 35ms/epoch - 3ms/step
+Epoch 92/100
+11/11 - 0s - loss: 0.1086 - 36ms/epoch - 3ms/step
+Epoch 93/100
+11/11 - 0s - loss: 0.1106 - 36ms/epoch - 3ms/step
+Epoch 94/100
+11/11 - 0s - loss: 0.1075 - 37ms/epoch - 3ms/step
+Epoch 95/100
+11/11 - 0s - loss: 0.1088 - 34ms/epoch - 3ms/step
+Epoch 96/100
+11/11 - 0s - loss: 0.1085 - 34ms/epoch - 3ms/step
+Epoch 97/100
+11/11 - 0s - loss: 0.1074 - 35ms/epoch - 3ms/step
+Epoch 98/100
+11/11 - 0s - loss: 0.1073 - 32ms/epoch - 3ms/step
+Epoch 99/100
+11/11 - 0s - loss: 0.1093 - 34ms/epoch - 3ms/step
+Epoch 100/100
+11/11 - 0s - loss: 0.1031 - 35ms/epoch - 3ms/step</code></pre>
+</div>
+</div></li>
+<li><!-- Lorem -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>data_enc <span class="ot">&lt;-</span> encoder <span class="sc">%&gt;%</span> <span class="fu">predict</span>(</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    pen_prepped</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>11/11 - 0s - 79ms/epoch - 7ms/step</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>data_enc <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>V1,<span class="at">y=</span>V2))<span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Two-dimensional representation of the penguins data set"</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)<span class="sc">+</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10_clustering_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div></li>
+</ol>
+</div>
+<div id="sol-dr04" class="proof solution">
+<p><span class="proof-title"><em>Solution 10.4</em> (<a href="#exr-dr04" class="quarto-xref">Exercise&nbsp;<span>10.4</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pca_fit <span class="ot">&lt;-</span> pen_prepped <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prcomp</span>() </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>data_reduced <span class="ot">&lt;-</span> pca_fit <span class="sc">%&gt;%</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(pen_prepped) <span class="sc">%&gt;%</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(.fittedPC1,.fittedPC2))</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> data_reduced <span class="sc">%&gt;%</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(.fittedPC1,.fittedPC2)) <span class="sc">+</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Visualization of the first two Principal Components"</span>,</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"first PC"</span>,</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"second PC"</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>    )<span class="sc">+</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> pca_fit <span class="sc">%&gt;%</span> <span class="fu">tidy</span>(<span class="at">matrix =</span> <span class="st">"eigenvalues"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(PC, percent)) <span class="sc">+</span></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#aab5ee"</span>) <span class="sc">+</span></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">percent_format</span>(),</span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.01</span>))</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Visualisation of the explained variance &lt;br&gt; per principal component"</span>)<span class="sc">+</span></span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_markdown</span>())</span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a>p1<span class="sc">|</span>p2 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10_clustering_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>pca_fit <span class="sc">%&gt;%</span> <span class="fu">tidy</span>(<span class="at">matrix =</span> <span class="st">"eigenvalues"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 4
+     PC std.dev percent cumulative
+  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+1     1   2.03  0.456        0.456
+2     2   1.46  0.237        0.693
+3     3   1.19  0.157        0.85 
+4     4   0.845 0.0794       0.929
+5     5   0.488 0.0264       0.956
+6     6   0.414 0.0190       0.975
+7     7   0.315 0.011        0.986
+8     8   0.301 0.0101       0.996
+9     9   0.192 0.00409      1    </code></pre>
+</div>
+</div>
+<p>To explain at least <span class="math inline">\(70\%\)</span> of the variance, we need to consider the first three principal components.</p>
+</div>
+<div id="sol-clustering01" class="proof solution">
+<p><span class="proof-title"><em>Solution 10.5</em> (<a href="#exr-clustering01" class="quarto-xref">Exercise&nbsp;<span>10.5</span></a>). </span>The iterative nature of the k-means algorithm finds its origin in the calculation of the means in each step: Initially, we set a predetermined number of centers randomly in the dataset and assign points to each center (cluster) for which the distance is minimal. Once every point has been assigned we calculate the mean of each cluster and set it as the new center. This iterative process is repeated until the algorithm has either converged (no new cluster assignments after a step), or a predetermined number of steps has been performed.</p>
+</div>
+<div id="sol-clustering02" class="proof solution">
+<p><span class="proof-title"><em>Solution 10.6</em> (<a href="#exr-clustering02" class="quarto-xref">Exercise&nbsp;<span>10.6</span></a>). </span>Using the elbow method, we should choose 6 clusters, as the angle enclosing the 5th and 7th cluster at this point is the smallest.</p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./09_NN.html" class="pagination-link" aria-label="Neural Networks">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Neural Networks</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./10_clustering.html" rel="next">
 <link href="./08_SVM.html" rel="prev">
 <script src="site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
@@ -255,6 +256,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="./09_NN.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Neural Networks</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
   </div>
 </li>
     </ul>
@@ -593,7 +600,7 @@ Troubleshooting
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(test_labels)</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>35/35 - 0s - loss: 236652.1875 - root_mean_squared_error: 486.4691 - 147ms/epoch - 4ms/step</code></pre>
+<pre><code>35/35 - 0s - loss: 236652.1875 - root_mean_squared_error: 486.4691 - 143ms/epoch - 4ms/step</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>test_results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -651,7 +658,7 @@ Attache Paket: 'Matrix'</code></pre>
 <pre><code>Lade nötiges Paket: gower</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>98/98 - 0s - 191ms/epoch - 2ms/step</code></pre>
+<pre><code>98/98 - 0s - 213ms/epoch - 2ms/step</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in gower_work(x = x, y = y, pair_x = pair_x, pair_y = pair_y, n = NULL,
@@ -696,7 +703,7 @@ geo_plz_X80469 geo_plz_X80469 geo_plz_X80469=-0.186813467294386</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(loc.mod)<span class="sc">+</span><span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1/1 - 0s - 26ms/epoch - 26ms/step</code></pre>
+<pre><code>1/1 - 0s - 28ms/epoch - 28ms/step</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -1085,7 +1092,7 @@ y_1 = \sigma_2\left(\sum_{i=1}^{n}w_{i1}^{(2)}h_i^{(1)}+b_2\right)
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>(test_labels)</span>
 <span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>80/80 - 0s - loss: 0.7566 - Accuracy: 0.9021 - 84ms/epoch - 1ms/step</code></pre>
+<pre><code>80/80 - 0s - loss: 0.7566 - Accuracy: 0.9021 - 110ms/epoch - 1ms/step</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>test_results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1107,7 +1114,7 @@ y_1 = \sigma_2\left(\sum_{i=1}^{n}w_{i1}^{(2)}h_i^{(1)}+b_2\right)
 <span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> <span class="fu">if_else</span>(test_labels <span class="sc">==</span> <span class="dv">1</span>,<span class="st">"Positive"</span>,<span class="st">"Negative"</span>) <span class="sc">%&gt;%</span> <span class="fu">factor</span>()</span>
 <span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>80/80 - 0s - 113ms/epoch - 1ms/step</code></pre>
+<pre><code>80/80 - 0s - 134ms/epoch - 2ms/step</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>cm_nn <span class="ot">&lt;-</span> test_pred <span class="sc">%&gt;%</span> <span class="fu">conf_mat</span>(<span class="at">estimate =</span> pred_class,<span class="at">truth=</span>truth)</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1199,7 +1206,7 @@ y_1 = \sigma_2\left(\sum_{i=1}^{n}w_{i1}^{(2)}h_i^{(1)}+b_2\right)
 <p>Using this threshold produces the following confusion matrix:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>80/80 - 0s - 75ms/epoch - 936us/step</code></pre>
+<pre><code>80/80 - 0s - 98ms/epoch - 1ms/step</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -1702,6 +1709,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./10_clustering.html" class="pagination-link" aria-label="Unsupervised Learning">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
