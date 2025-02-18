@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Machine Learning Supplementary Material",
     "section": "",
-    "text": "Preface\nThis (exercise) manuscript supplements the lecture notes provided for Prof. Dr. Yarema Okhrin’s lecture Machine Learning at the University of Augsburg.",
+    "text": "Preface\nThis exercise manuscript supplements the lecture notes provided for Prof. Dr. Yarema Okhrin’s lecture Machine Learning at the University of Augsburg. Please note that this is still a work in progress and subject to change.\nThe idea to develop such a manuscript stems from Albert Rapp who not only helped me with starting this project but also provided me with his thoughtful feedback.",
     "crumbs": [
       "Preface"
     ]
@@ -14,7 +14,7 @@
     "href": "index.html#what-this-manuscript-is",
     "title": "Machine Learning Supplementary Material",
     "section": "What this manuscript is",
-    "text": "What this manuscript is\nThe manuscript intends to provide more context to different areas usually neglected in lecture and exercise sessions. The exercise sessions can especially suffer from an imbalance between repeating the theoretical aspects of the lecture and applying the concepts thoroughly. Moreover, this manuscript is comprehensive, containing every exercise and solution presented in the exercise sessions. The solutions will be more detailed than the ones presented in the in-person sessions, which can help you prepare for the exam.",
+    "text": "What this manuscript is\nThe manuscript intends to provide more context to different areas usually neglected in lecture and exercise sessions. The exercise sessions can especially suffer from an imbalance between repeating the theoretical aspects of the lecture and applying the concepts thoroughly. Moreover, this manuscript is comprehensive, containing every exercise and solution presented in the exercise sessions. The solutions will be more detailed than the ones presented in the in-person sessions, which can help if the goal is to partake in the exam.",
     "crumbs": [
       "Preface"
     ]
@@ -24,7 +24,7 @@
     "href": "index.html#what-this-manuscript-isnt",
     "title": "Machine Learning Supplementary Material",
     "section": "What this manuscript isn’t",
-    "text": "What this manuscript isn’t\nThe manuscript is not a replacement for the lecture and exercise sessions. This manuscript especially lacks is the interaction between the students and lecturers which is an important aspect of the in-person exercise sessions.",
+    "text": "What this manuscript isn’t\nThis manuscript generally lacks is the interaction between the students and lecturers which I believe is an important aspect of the in-person exercise sessions. As the goal of this course is to provide a broad summary for important topics on machine learning, it should not be seen as comprehensive. For a more detailed introduction, see An Introduction to Statistical Learning by James et al.",
     "crumbs": [
       "Preface"
     ]
