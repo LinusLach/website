@@ -337,9 +337,9 @@ window.Quarto = {
   I_p &amp;= \begin{pmatrix}
             1 &amp; 0 &amp; ... &amp; 0\\
             0 &amp; 1 &amp; ... &amp; 0\\
-            \vdots &amp; ... &amp; \ddots &amp; \vdots \\
+            \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
             0 &amp; 0 &amp; ... &amp; 1
-        \end{pmatrix} \in \mathbb{R}^{p\times p} and\\
+        \end{pmatrix} \in \mathbb{R}^{p\times p} \text{ and}\\
   \lambda &amp;\in\mathbb{R}.
 \end{align}\]</span> for <span class="math inline">\(\lambda\)</span>. Here, we assume that there are <span class="math inline">\(p\)</span> distinct solutions.</li>
 <li>Reorder the solutions <span class="math inline">\(\lambda_j,\, j=1,...,p\)</span> descending such that <span class="math inline">\(\lambda_{(1)}\geq...\geq \lambda_{(q)}\)</span>.</li>
@@ -1048,7 +1048,7 @@ $ sex               &lt;fct&gt; male, female, female, female, male, female, male
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>11/11 - 0s - 75ms/epoch - 7ms/step</code></pre>
+<pre><code>11/11 - 0s - 65ms/epoch - 6ms/step</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>data_enc <span class="sc">%&gt;%</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>V1,<span class="at">y=</span>V2))<span class="sc">+</span></span>
