@@ -825,12 +825,13 @@ L_D = \sum_{i=1}^{n} \alpha_i-\frac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^n\alpha_i\alph
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>stack_ci <span class="ot">&lt;-</span> <span class="fu">stacks</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_candidates</span>(rf_tune_res) <span class="sc">%&gt;%</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">blend_predictions</span>(</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">mixture =</span> <span class="fl">1.0</span>,</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">penalty =</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">6</span><span class="sc">:-</span><span class="dv">2</span>),</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>   <span class="at">metric =</span> <span class="fu">metric_set</span>(accuracy),</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>   <span class="at">times =</span> <span class="dv">20</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a> ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_candidates</span>(xgb_tune_res) <span class="sc">%&gt;%</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">blend_predictions</span>(</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">mixture =</span> <span class="fl">1.0</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>   <span class="at">penalty =</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">6</span><span class="sc">:-</span><span class="dv">2</span>),</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>   <span class="at">metric =</span> <span class="fu">metric_set</span>(accuracy),</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>   <span class="at">times =</span> <span class="dv">20</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a> ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 <li><!-- Lorem -->
 <div class="cell">
@@ -879,12 +880,12 @@ L_D = \sum_{i=1}^{n} \alpha_i-\frac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^n\alpha_i\alph
 </div>
 </div>
 <p><span class="math display">\[
-  \mathrm{Sensitivity} = \frac{358}{358+49} = 0.8796069
+  \mathrm{Sensitivity} = \frac{373}{373+34} = 0.9164619
 \]</span> <span class="math display">\[
-  \mathrm{Prescision} = \frac{358}{358+20} = 0.9470899
+  \mathrm{Prescision} = \frac{373}{370+20} = 0.9564103
 \]</span></p>
 <p><span class="math display">\[
-  \mathrm{Accuracy} = \frac{358+2105}{2532} = 0.9727488
+  \mathrm{Accuracy} = \frac{373+2105}{2532} = 0.978673
 \]</span></p></li>
 </ol>
 </div>
