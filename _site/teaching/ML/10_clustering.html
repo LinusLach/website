@@ -965,23 +965,24 @@ $ sex               &lt;fct&gt; male, female, female, female, male, female, male
 \]</span></p>
 <p>where <span class="math inline">\(x_1,x_2, x_3, x_4\)</span> are arbitrary real constants.</p>
 <p><strong>For <span class="math inline">\(\lambda = 3\)</span>:</strong></p>
-<p>Substitute <span class="math inline">\(\lambda = 3\)</span> into <span class="math inline">\((\Sigma - \lambda I)\nu=0\)</span> and solve for <span class="math inline">\(\nu\)</span>: <span class="math display">\[
-(\Sigma - 3I)\nu = \begin{pmatrix}
+<p>Substitute <span class="math inline">\(\lambda = 3\)</span> into <span class="math inline">\((\Sigma - \lambda I)\nu=0\)</span> and solve for <span class="math inline">\(\nu_3\)</span>: <span class="math display">\[
+(\Sigma - 3I)\nu_3 = \begin{pmatrix}
             -1 &amp; 0 &amp; 1\\
             0 &amp; -1 &amp; 0\\
             0 &amp; 0 &amp; 0
-\end{pmatrix} \mathbf{v} = 0
+\end{pmatrix} \nu_3 = \begin{pmatrix} 0 \\ 0 \\0 \end{pmatrix}
 \]</span></p>
 <p>The general solution is:</p>
 <p><span class="math display">\[
-\nu = \begin{pmatrix}
+\nu_3 = \begin{pmatrix}
             x_5\\
             0\\
             x_6
 \end{pmatrix}
 \]</span></p>
-<p>where <span class="math inline">\(x_5\)</span> and <span class="math inline">\(x_6\)</span> are arbitrary real constants.</p>
-<p>We have to ensure, that the vectors are orthonormal, i.e.&nbsp;<span class="math inline">\(\|\nu_i\| = 1\)</span> for <span class="math inline">\(i=1,2,3\)</span> and <span class="math inline">\(\langle \nu_i, \nu_j\rangle = 0\)</span> if <span class="math inline">\(i\neq j\)</span>. Thus, the eigenvectors for the matrix <span class="math inline">\(\Sigma\)</span> are:</p>
+<p>where <span class="math inline">\(x_5\)</span> and <span class="math inline">\(x_6\)</span> are arbitrary real constants with <span class="math inline">\(x_5=x_6\)</span>.</p>
+<p>We have to ensure, that the vectors are orthonormal, i.e.&nbsp;<span class="math inline">\(\|\nu_i\| = 1\)</span> for <span class="math inline">\(i=1,2,3\)</span> and <span class="math inline">\(\langle \nu_i, \nu_j\rangle = 0\)</span> if <span class="math inline">\(i\neq j\)</span>.</p>
+<p>Setting <span class="math inline">\(x_1=...=x_5=1\)</span> and <span class="math inline">\(x_6=-1\)</span> yields:</p>
 <p><span class="math display">\[
 \nu_1 =\begin{pmatrix}
             1\\
@@ -994,11 +995,28 @@ $ sex               &lt;fct&gt; male, female, female, female, male, female, male
             0
 \end{pmatrix} \quad
 \nu_3 = \begin{pmatrix}
-            0\\
+            -1\\
             0\\
             1
 \end{pmatrix}
-\]</span> Those also correspond to the Principal components of the sample that generated <span class="math inline">\(\Sigma\)</span>.</p>
+\]</span> The given vectors <span class="math inline">\(\nu_1,\nu_2\)</span> are already normalized but not orthogonal to vector <span class="math inline">\(\nu_3\)</span>, i.e.&nbsp;<span class="math inline">\(\langle \nu_1,\nu_3\rangle = -1 \neq 0\)</span>. To orthogonalize the three vectors, we have to employ an algorithm like <a href="https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process">Gram-Schmidt</a>. This yields the principal components</p>
+<p><span class="math display">\[
+\tilde\nu_1 =\begin{pmatrix}
+            1\\
+            0\\
+            0
+\end{pmatrix}, \quad
+\tilde\nu_2 = \begin{pmatrix}
+            0\\
+            1\\
+            0
+\end{pmatrix} \quad
+\tilde\nu_3 = \begin{pmatrix}
+           0\\
+            0\\
+            1
+\end{pmatrix}
+\]</span> which are normal and orthogonal to each other.</p>
 </div>
 <div id="sol-dr02" class="proof solution">
 <p><span class="proof-title"><em>Solution 10.2</em> (<a href="#exr-dr02" class="quarto-xref">Exercise&nbsp;<span>10.2</span></a>). </span></p>
@@ -1048,7 +1066,7 @@ $ sex               &lt;fct&gt; male, female, female, female, male, female, male
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>11/11 - 0s - 65ms/epoch - 6ms/step</code></pre>
+<pre><code>11/11 - 0s - 66ms/epoch - 6ms/step</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>data_enc <span class="sc">%&gt;%</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>V1,<span class="at">y=</span>V2))<span class="sc">+</span></span>
