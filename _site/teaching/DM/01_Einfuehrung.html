@@ -248,7 +248,13 @@ window.Quarto = {
   <li><a href="#faktor-variablen" id="toc-faktor-variablen" class="nav-link" data-scroll-target="#faktor-variablen"><span class="header-section-number">1.3.4</span> Faktor Variablen</a></li>
   </ul></li>
   <li><a href="#datenvisualisierung-mit-ggplot2" id="toc-datenvisualisierung-mit-ggplot2" class="nav-link" data-scroll-target="#datenvisualisierung-mit-ggplot2"><span class="header-section-number">1.4</span> Datenvisualisierung mit <code>{ggplot2}</code></a></li>
-  <li><a href="#übungsaufgaben" id="toc-übungsaufgaben" class="nav-link" data-scroll-target="#übungsaufgaben"><span class="header-section-number">1.5</span> Übungsaufgaben</a></li>
+  <li><a href="#übungsaufgaben" id="toc-übungsaufgaben" class="nav-link" data-scroll-target="#übungsaufgaben"><span class="header-section-number">1.5</span> Übungsaufgaben</a>
+  <ul>
+  <li><a href="#r-als-taschenrechner" id="toc-r-als-taschenrechner" class="nav-link" data-scroll-target="#r-als-taschenrechner"><span class="header-section-number">1.5.1</span> R als Taschenrechner</a></li>
+  <li><a href="#listen-und-vektoren" id="toc-listen-und-vektoren" class="nav-link" data-scroll-target="#listen-und-vektoren"><span class="header-section-number">1.5.2</span> Listen und Vektoren</a></li>
+  <li><a href="#datensätze" id="toc-datensätze" class="nav-link" data-scroll-target="#datensätze"><span class="header-section-number">1.5.3</span> Datensätze</a></li>
+  <li><a href="#grafiken" id="toc-grafiken" class="nav-link" data-scroll-target="#grafiken"><span class="header-section-number">1.5.4</span> Grafiken</a></li>
+  </ul></li>
   <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">1.6</span> Session Info</a></li>
   </ul>
 </nav>
@@ -718,6 +724,19 @@ $ stars   &lt;dbl&gt; 3.75, 1.00, 2.25, 2.75, 3.75, 4.75, 4.00, 3.75, 0.25, 2.50
 7 Grace   26-35      Green    </code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Im obigen Code Snippet wurde die <code>tibble::tibble</code> Funktion verwendet. Tibbles werden ähnlich wie <code>data.frame</code> Objekte zum speichern von Datensätzen verwendet. Tibbles haben allerdings zum Beispiel den Vorteil, dass sie bei der Ausgabe in der Konsole übersichtlicher dargestellt werden.</p>
+</div>
+</div>
 <p>Da die Variable <code>age_group</code> nur eine Altersspanne angibt, ist es nicht sinnvoll, sie als Zahl und nicht als Ordinalvariable zu kodieren. Mit der Funktion <code>mutate</code> können wir deshalb die Altersgruppen als Ordinalvariablen (ordered factors) kodiert werden. Dazu wird die Variable <code>age_groups</code> in einen Faktor mit Stufen und Label gesetzt. Die Stufen geben die Reihenfolge der Werte an, und die Label können zur Umbenennung dieser Kategorien verwendet werden.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a>data_example <span class="ot">&lt;-</span> data_example <span class="sc">%&gt;%</span></span>
@@ -825,12 +844,146 @@ $ stars   &lt;dbl&gt; 3.75, 1.00, 2.25, 2.75, 3.75, 4.75, 4.00, 3.75, 0.25, 2.50
 </section>
 <section id="übungsaufgaben" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="übungsaufgaben"><span class="header-section-number">1.5</span> Übungsaufgaben</h2>
+<section id="r-als-taschenrechner" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="r-als-taschenrechner"><span class="header-section-number">1.5.1</span> R als Taschenrechner</h3>
+<div id="exr-calc" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1.1</strong></span> Geben Sie folgende Ausdrücke in die R-Console ein und erklären Sie jeweils das Ergebnis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> <span class="dv">4</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span>) <span class="sc">*</span> <span class="dv">4</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="fl">0.2</span> <span class="sc">*</span> <span class="dv">3</span> <span class="sc">-</span> <span class="fl">1.1</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span>,<span class="dv">2</span> <span class="sc">*</span> <span class="dv">3</span> <span class="sc">-</span> <span class="fl">1.1</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">3</span><span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span><span class="sc">^</span><span class="dv">3</span>)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="dv">1</span>)</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>?log</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="fu">exp</span>(<span class="dv">1</span>))</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">16</span>)</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span><span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a><span class="fu">Sqrt</span>(<span class="dv">16</span>)</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Das ist ein Kommentar.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="exr-equation" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1.2</strong></span> Weise einer neuen Variable <code>x</code> den Wert <span class="math inline">\(4\)</span> zu. Weise dann einer neuen Variable <code>x2</code> den folgenden Wert zu:</p>
+<p><span class="math display">\[\begin{equation}
+
+\sqrt{3x^2 + \ln\left(\frac{1}{\text{e}^x}\right) + 5}
+
+\end{equation}\]</span></p>
+<p>Überlege was folgende Zeilen ausgeben und führe diese dann aus, um das Ergebnis zu überprüfen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>x</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>x2</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>X</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> x2</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>x.Produkt <span class="ot">&lt;-</span> x <span class="sc">*</span> x2</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>x.Produkt</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>x.Produkt <span class="ot">&lt;-</span> x.Produkt <span class="sc">*</span> x</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(x)</span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="exr-strings" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1.3</strong></span> Kopiere den folgenden Code. Welche Ausgabe bewirkt der Code?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>pet1 <span class="ot">&lt;-</span> <span class="st">"Hund"</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>pet2 <span class="ot">&lt;-</span> <span class="st">"Katze"</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>Zahl <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>keine.Zahl <span class="ot">&lt;-</span> <span class="st">"10"</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>Zahl <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>keine.Zahl <span class="sc">+</span> <span class="dv">1</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="listen-und-vektoren" class="level3" data-number="1.5.2">
+<h3 data-number="1.5.2" class="anchored" data-anchor-id="listen-und-vektoren"><span class="header-section-number">1.5.2</span> Listen und Vektoren</h3>
+<div id="exr-lists" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1.4</strong></span> Erzeuge folgende Vektoren:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5 6 7 8 9</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 10  9  8  7  6  5  4  3  2  1</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.10 -0.08 -0.06 -0.04 -0.02  0.00</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10000 12500 15000 17500 20000</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -3 -2 -1  0  1  2 -3 -2 -1  0  1  2 -3 -2 -1  0  1  2</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  5.0  6.0  7.0  8.0  9.0 10.0 10.1 10.2 10.3 10.4 10.5</code></pre>
+</div>
+</div>
+</div>
+<div id="exr-vectorcalc" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1.5</strong></span> Gegeben sind die Vektoren:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="fl">0.1</span>, <span class="at">to=</span><span class="fl">0.5</span>, <span class="at">by=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Erkläre, was folgende Ausdrücke ergeben und überprüfe das Ergebnis:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y </span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>x <span class="sc">*</span> y</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>x<span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">*</span>x <span class="sc">-</span> <span class="dv">3</span><span class="sc">*</span>y</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(x <span class="sc">+</span> y)</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x<span class="sc">+</span>y)<span class="sc">/</span>n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="exr-vectorindices" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1.6</strong></span> Gegeben seien die beiden folgenden Vektoren:\[-2ex]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">0</span>, <span class="at">to=</span><span class="dv">100</span>, <span class="at">by=</span><span class="dv">2</span>)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">100</span><span class="sc">:</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Schreibe die Ergebnisse folgender Ausdrücke auf und überprüfen anschließend das Ergebnis in R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">3</span>]</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>y[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">10</span>)]</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>x[x <span class="sc">&gt;</span> <span class="dv">91</span>]</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>x[x <span class="sc">&gt;</span> <span class="dv">20</span> <span class="sc">&amp;</span> x <span class="sc">&lt;=</span> <span class="dv">30</span>]</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>y[y<span class="sc">==</span><span class="dv">5</span> <span class="sc">|</span> y<span class="sc">&gt;</span><span class="dv">95</span> <span class="sc">|</span> y<span class="sc">&lt;</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="datensätze" class="level3" data-number="1.5.3">
+<h3 data-number="1.5.3" class="anchored" data-anchor-id="datensätze"><span class="header-section-number">1.5.3</span> Datensätze</h3>
+<p>Für die folgenden Übungen verwenden wir wieder den <code>data_ramen</code> Datensatz aus Sektion <a href="#sec-essentials" class="quarto-xref"><span>Section 1.3.2</span></a>.</p>
+<p>Wende hierfür die zuvor durchgeführten Datenmanipulationen auf den Datensatz an, so dass die Spalte <code>top_ten</code> entfernt wurde und die Spalte <code>stars</code> in den Datentyp <code>&lt;dbl&gt;</code> umgewandelt wurden.</p>
+<div id="exr-df1" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1.7</strong></span> Finde heraus, aus welchen fünf Länder die meisten Ramen stammen. <em>Hinweis: Verwende die <code>arrange</code> Funktion in Kombination mit der <code>desc</code> Funktion um die Ergebnisse absteigend nach der Größe zu sortieren</em>.</p>
+</div>
+<div id="exr-df2" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1.8</strong></span> Finde heraus, wie viele verschiedene Ramen sorten in Deutschland (<code>country == "Germany"</code>) verfügbar sind.</p>
+</div>
+</section>
+<section id="grafiken" class="level3" data-number="1.5.4">
+<h3 data-number="1.5.4" class="anchored" data-anchor-id="grafiken"><span class="header-section-number">1.5.4</span> Grafiken</h3>
+<div id="exr-ggplot1" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1.9</strong></span> &nbsp;</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>data_ramen <span class="sc">%&gt;%</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(style <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Bowl"</span>,<span class="st">"Cup"</span>,<span class="st">"Pack"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">style =</span> <span class="fu">if_else</span>(style<span class="sc">==</span><span class="st">"Pack"</span>,<span class="st">"Pack"</span>,<span class="st">"Container"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
 </section>
 <section id="session-info" class="level2" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="session-info"><span class="header-section-number">1.6</span> Session Info</h2>
 <p>Die Funktion <code>sessionInfo()</code> erfasst detaillierte Informationen über die aktuelle R-Sitzung, einschließlich der Version von R und der geladenen Pakete. Dies ist nützlich, um die Reproduzierbarkeit von Analysen und die Fehlersuche im Code sicherzustellen, da es eine Momentaufnahme der Umgebung liefert, in der der Code ausgeführt wurde.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.3 (2023-03-15 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
