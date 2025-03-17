@@ -255,7 +255,8 @@ window.Quarto = {
   <li><a href="#datensätze" id="toc-datensätze" class="nav-link" data-scroll-target="#datensätze"><span class="header-section-number">1.5.3</span> Datensätze</a></li>
   <li><a href="#grafiken" id="toc-grafiken" class="nav-link" data-scroll-target="#grafiken"><span class="header-section-number">1.5.4</span> Grafiken</a></li>
   </ul></li>
-  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">1.6</span> Session Info</a></li>
+  <li><a href="#lösungen" id="toc-lösungen" class="nav-link" data-scroll-target="#lösungen"><span class="header-section-number">1.6</span> Lösungen</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">1.7</span> Session Info</a></li>
   </ul>
 </nav>
     </div>
@@ -606,7 +607,7 @@ Caused by warning:
 </ol>
 <p>Das ausführen der vorherigen Code Zelle wirft folgende Warnung:</p>
 <blockquote class="blockquote">
-<p>Warning message: There was 1 warning in <code>mutate()</code>. ℹ In argument: <code>stars = as.double(stars)</code>. Caused by warning: ! NAs introduced by coercion</p>
+<p>Warning message: There was 1 warning in <code>mutate()</code>. i In argument: <code>stars = as.double(stars)</code>. Caused by warning: ! NAs introduced by coercion</p>
 </blockquote>
 <p>Dies liegt daran, dass in der Variable <code>stars</code> fehlende Werte vorhanden sind. Durch das Anwenden der <code>as.double</code> Funktion wurden die Fehlenden werte in <code>NA</code> Werte umgewandelt, was aber erstmal kein Problem darstellt.</p>
 </section>
@@ -755,7 +756,7 @@ Note
 <li><p>Durch das Setzen von <code>age_groups = factor(age_groups, ...)</code> wird die Variable <code>age_groups</code> in einen (bisher ungeordneten) Faktor umgewandelt, der das setzen von Stufen (<code>levels</code>) und Labels ermöglicht.</p></li>
 <li><p>So wird durch das Setzen von <code>levels = c("&lt;18", "18-25",...)</code> eine Ordnung auf die Variable auferlegt.</p></li>
 <li><p><code>ordered=TRUE</code> gibt an, dass die Altersgruppen nach den im <code>levels</code>Vektor angegebenen Stufen aufsteigend sortiert sind.</p></li>
-<li><p>Zu guter Letzt gibt <code>labels = c("child", "adult", ...)</code> die Bezeichnungen an, welche die numerischen Altersgruppen ersetzen. Zum Beispiel wird <span class="math inline">\(&lt;18\)</span> als <code>"child"</code> bezeichnet, die Bereiche <code>18-25</code>, <code>26-35</code> und <code>36-45</code> als “adult“, und <code>&gt;60</code> als <code>"senior"</code>.</p></li>
+<li><p>Zu guter Letzt gibt <code>labels = c("child", "adult", ...)</code> die Bezeichnungen an, welche die numerischen Altersgruppen ersetzen. Zum Beispiel wird <span class="math inline">\(&lt;18\)</span> als <code>"child"</code> bezeichnet, die Bereiche <code>18-25</code>, <code>26-35</code> und <code>36-45</code> als “adult“, und <span class="math inline">\(&gt;60\)</span> als <code>"senior"</code>.</p></li>
 </ol>
 <p>Analog kann auch die Variable <code>eye_color</code> in eine nominale Faktorvariable umgewandelt werden:</p>
 <div class="cell">
@@ -856,44 +857,38 @@ Note
 <span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">3</span><span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span><span class="sc">^</span><span class="dv">3</span>)<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="dv">1</span>)</span>
-<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>?log</span>
-<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="fu">exp</span>(<span class="dv">1</span>))</span>
-<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">16</span>)</span>
-<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span><span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a><span class="fu">Sqrt</span>(<span class="dv">16</span>)</span>
-<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Das ist ein Kommentar.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="fu">exp</span>(<span class="dv">1</span>))</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">16</span>)</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span><span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a><span class="fu">Sqrt</span>(<span class="dv">16</span>)</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Das ist ein Kommentar.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="exr-equation" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 1.2</strong></span> Weise einer neuen Variable <code>x</code> den Wert <span class="math inline">\(4\)</span> zu. Weise dann einer neuen Variable <code>x2</code> den folgenden Wert zu:</p>
-<p><span class="math display">\[\begin{equation}
-
-\sqrt{3x^2 + \ln\left(\frac{1}{\text{e}^x}\right) + 5}
-
-\end{equation}\]</span></p>
+<p><span class="math display">\[
+\sqrt{3x^2 + \log\left(\frac{1}{e^x}\right) + 5}
+\]</span></p>
 <p>Überlege was folgende Zeilen ausgeben und führe diese dann aus, um das Ergebnis zu überprüfen.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>x</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>x2</span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>X</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> x2</span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>x.Produkt <span class="ot">&lt;-</span> x <span class="sc">*</span> x2</span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>x.Produkt</span>
-<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>x.Produkt <span class="ot">&lt;-</span> x.Produkt <span class="sc">*</span> x</span>
-<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span>
-<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(x)</span>
-<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> x2</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>x.Produkt <span class="ot">&lt;-</span> x <span class="sc">*</span> x2</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>x.Produkt</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>x.Produkt <span class="ot">&lt;-</span> x.Produkt <span class="sc">*</span> x</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(x)</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="exr-strings" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 1.3</strong></span> Kopiere den folgenden Code. Welche Ausgabe bewirkt der Code?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>pet1 <span class="ot">&lt;-</span> <span class="st">"Hund"</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>pet2 <span class="ot">&lt;-</span> <span class="st">"Katze"</span></span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>Zahl <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>keine.Zahl <span class="ot">&lt;-</span> <span class="st">"10"</span></span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>Zahl <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>keine.Zahl <span class="sc">+</span> <span class="dv">1</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>Zahl <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>keine.Zahl <span class="ot">&lt;-</span> <span class="st">"10"</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>Zahl <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>keine.Zahl <span class="sc">+</span> <span class="dv">1</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -969,21 +964,391 @@ Note
 <section id="grafiken" class="level3" data-number="1.5.4">
 <h3 data-number="1.5.4" class="anchored" data-anchor-id="grafiken"><span class="header-section-number">1.5.4</span> Grafiken</h3>
 <div id="exr-ggplot1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.9</strong></span> &nbsp;</p>
+<p><span class="theorem-title"><strong>Exercise 1.9</strong></span> Erkläre die Funktionen und Argumente des folgenden Code Snippets und erkläre was sich im Verlgeich zum unbearbeiteten Datensatz inhaltlich geändert hat.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>data_ramen <span class="sc">%&gt;%</span></span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(style <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Bowl"</span>,<span class="st">"Cup"</span>,<span class="st">"Pack"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">style =</span> <span class="fu">if_else</span>(style<span class="sc">==</span><span class="st">"Pack"</span>,<span class="st">"Pack"</span>,<span class="st">"Container"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a>data_ramen_filtered <span class="ot">&lt;-</span> data_ramen <span class="sc">%&gt;%</span></span>
+<span id="cb62-2"><a href="#cb62-2"></a>  <span class="fu">filter</span>(style <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Bowl"</span>,<span class="st">"Cup"</span>,<span class="st">"Pack"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb62-3"><a href="#cb62-3"></a>  <span class="fu">mutate</span>(<span class="at">style =</span> <span class="fu">if_else</span>(</span>
+<span id="cb62-4"><a href="#cb62-4"></a>    style<span class="sc">==</span><span class="st">"Pack"</span>,<span class="st">"Pack"</span>,<span class="st">"Container"</span></span>
+<span id="cb62-5"><a href="#cb62-5"></a>    ),</span>
+<span id="cb62-6"><a href="#cb62-6"></a>    <span class="at">style=</span> <span class="fu">factor</span>(style)</span>
+<span id="cb62-7"><a href="#cb62-7"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
+<div id="exr-ggplot2" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1.10</strong></span> Beschreibe die folgende Grafik. Verlgeiche dabei auch die beiden Gruppen untereinander.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_Einfuehrung_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="exr-ggplot3" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1.11</strong></span> Verwende den Datensatz <code>data_ramen_filtered</code> um die Dichte der Variable <code>stars</code> mit <code>{ggplot2}</code> darzustellen.</p>
 </div>
 </section>
 </section>
-<section id="session-info" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="session-info"><span class="header-section-number">1.6</span> Session Info</h2>
+<section id="lösungen" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="lösungen"><span class="header-section-number">1.6</span> Lösungen</h2>
+<div id="sol-calc" class="proof solution">
+<p><span class="proof-title"><em>Solution 1.1</em> (<a href="#exr-calc" class="quarto-xref">Exercise&nbsp;<span>1.1</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 14</code></pre>
+</div>
+</div>
+<p>Mit diesen Befehlen wird die Rechnung <span class="math inline">\(2+3*4\)</span> durchgeführt.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span>) <span class="sc">*</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20</code></pre>
+</div>
+</div>
+<p>Im Vergleich zur vorherigen Aufgabe werden hier Klammern gesetzt, um zuerst <span class="math inline">\(2+3\)</span> zu berechnen, bevor das Ergebnis mit <span class="math inline">\(4\)</span> multipliziert wird.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.2</span> <span class="sc">*</span> <span class="dv">3</span> <span class="sc">-</span> <span class="fl">1.1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.5</code></pre>
+</div>
+</div>
+<p>Neben ganzzahligen Werten, kann R auch Rechnungen mit Dezimalzahlen durchführen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span>,<span class="dv">2</span> <span class="sc">*</span> <span class="dv">3</span> <span class="sc">-</span> <span class="fl">1.1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in parse(text = input): &lt;text&gt;:1:2: Unerwartete(s) ','
+1: 0,
+     ^</code></pre>
+</div>
+</div>
+<p>Bei der obigen Rechnung wird ein Fehler ausgegeben, da das Dezimaltrennzeichen in R nicht <code>,</code>, sondern <code>.</code> ist.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">3</span><span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 512</code></pre>
+</div>
+</div>
+<p>Die obige Code Zeile führt die Rechnung <span class="math inline">\(2^{3^2} = 2^9\)</span> aus.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span><span class="sc">^</span><span class="dv">3</span>)<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 64</code></pre>
+</div>
+</div>
+<p>Wie zuvor wird durch Klammern bewirkt, dass die erste Potenzierung zuerst durchgeführt wird.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.718282</code></pre>
+</div>
+</div>
+<p>Die <code>exp(x)</code> Funktion führt die Rechnung <span class="math inline">\(e^x\)</span> durch, wobei <span class="math inline">\(e\approx 2.718282\)</span> die eulersche Konstante ist.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="fu">exp</span>(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p>Die <code>log</code> Funktion berechnet den natürlichen Logarithmus. Die Rechnung <span class="math inline">\(\log\circ\exp\)</span> ist somit die Identitätsfunktion, also <span class="math inline">\(x\mapsto x\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>Die <code>sqrt(x)</code> Funktion führt die Rechnung <span class="math inline">\(\sqrt{x}\)</span> durch.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span><span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>Da <span class="math inline">\(\sqrt{16} = 16^{0.5} = 16^{\frac{1}{2}}\)</span> ist das Ergebnis identisch zur vorherigen Code Zelle.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sqrt</span>(<span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in Sqrt(16): konnte Funktion "Sqrt" nicht finden</code></pre>
+</div>
+</div>
+<p>Hier wird ein Fehler ausgegeben, da R ist. Case Sensitivity führt dazu, dass bei dem Eingeben von Funktionen auch auf Groß- und Kleinschreibung geachtet werden muss.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Das ist ein Kommentar.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Kommentare in R werden durch das <code>#</code> Symbol intiiert. Kommentare werden nicht ausgewertet, so dass hinter dem <code>#</code> Symbol jegliche Folge von Zeichen stehen kann.</p>
+</div>
+<div id="sol-equation" class="proof solution">
+<p><span class="proof-title"><em>Solution 1.2</em> (<a href="#exr-equation" class="quarto-xref">Exercise&nbsp;<span>1.2</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">3</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span><span class="sc">+</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">/</span><span class="fu">exp</span>(x))<span class="sc">+</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>x.Produkt <span class="ot">&lt;-</span> x <span class="sc">*</span> x2</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>x.Produkt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 28</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>x.Produkt <span class="ot">&lt;-</span> x.Produkt <span class="sc">*</span> x</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "data"                "data_example"        "data_ramen"         
+ [4] "data_ramen_filtered" "data_ramen_ratings"  "x"                  
+ [7] "x.Produkt"           "x1"                  "x2"                 
+[10] "x3"                  "y"                  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Durch die <code>rm</code> Funktion wird die Variable <code>x</code> entfernt und kann somit nicht mehr aufgerufen werden. Deshalb wird beim versuchten Aufruf in der folgenden Zeile eine Fehlermeldung ausgegeben.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error: Objekt 'x' nicht gefunden</code></pre>
+</div>
+</div>
+</div>
+<div id="sol-strings" class="proof solution">
+<p><span class="proof-title"><em>Solution 1.3</em> (<a href="#exr-strings" class="quarto-xref">Exercise&nbsp;<span>1.3</span></a>). </span>Die Variable <code>keine.Zahl</code> ist vom Datentyp <code>&lt;char&gt;</code> und kann somit nicht ohne weiteres wie ein tatsächlicher Zahlenwert gehandhabt werden. Das führt dazu, dass in der folgende Code Zelle eine Fehlermeldung ausgegeben wird.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>Zahl <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>keine.Zahl <span class="ot">&lt;-</span> <span class="st">"10"</span></span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a>Zahl <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>keine.Zahl <span class="sc">+</span> <span class="dv">1</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in keine.Zahl + 1: nicht-numerisches Argument für binären Operator</code></pre>
+</div>
+</div>
+</div>
+<div id="sol-lists" class="proof solution">
+<p><span class="proof-title"><em>Solution 1.4</em> (<a href="#exr-lists" class="quarto-xref">Exercise&nbsp;<span>1.4</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span><span class="sc">:</span><span class="dv">9</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5 6 7 8 9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span><span class="sc">:</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 10  9  8  7  6  5  4  3  2  1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="at">from=</span><span class="sc">-</span><span class="fl">0.1</span>, <span class="at">to=</span><span class="dv">0</span>, <span class="at">by=</span><span class="fl">0.02</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.10 -0.08 -0.06 -0.04 -0.02  0.00</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="at">from=</span><span class="dv">10000</span>, <span class="at">to=</span><span class="dv">20000</span>, <span class="at">length.out=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10000 12500 15000 17500 20000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">2</span>, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -3 -2 -1  0  1  2 -3 -2 -1  0  1  2 -3 -2 -1  0  1  2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">seq</span>(<span class="at">from=</span><span class="fl">10.1</span>, <span class="at">by=</span>.<span class="dv">1</span>, <span class="at">to=</span><span class="fl">10.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  5.0  6.0  7.0  8.0  9.0 10.0 10.1 10.2 10.3 10.4 10.5</code></pre>
+</div>
+</div>
+</div>
+<div id="sol-vectorcalc" class="proof solution">
+<p><span class="proof-title"><em>Solution 1.5</em> (<a href="#exr-vectorcalc" class="quarto-xref">Exercise&nbsp;<span>1.5</span></a>). </span>Gegeben sind die Vektoren:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="fl">0.1</span>, <span class="at">to=</span><span class="fl">0.5</span>, <span class="at">by=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Da die Objeke <code>x</code> und <code>y</code> nicht die selbe Länge besitzen, werden in der folgenden Zelle die Einträge des kürzeren Vektors bis zur Länge des längeren Vektors wiederholt. Anschließend werden die einzelnen Einträge komponentenweise addiert.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in x + y: Länge des längeren Objektes
+     ist kein Vielfaches der Länge des kürzeren Objektes</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.1 3.2 2.3 4.4 3.5</code></pre>
+</div>
+</div>
+<p>In der folgenden Code Zelle werden die Listeneinträge von <code>x</code> analog erweitert und dann komponentenweise mit den Einträgen von <code>y</code> multipliziert.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">*</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in x * y: Länge des längeren Objektes
+     ist kein Vielfaches der Länge des kürzeren Objektes</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4 0.6 0.6 1.6 1.5</code></pre>
+</div>
+</div>
+<p>Durch den <code>^</code> Operator werden zuerst alle Elemente der Liste <code>x</code> potenziert und anschlißend mit dem Wert <code>1</code> addiert.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 65 28  9</code></pre>
+</div>
+</div>
+<p>Analog wie in den vorherigen Teilaufgaben werden die konstanten Faktoren zuerst komponentenweise multipliziert, bevor die Liste <code>x</code> erweitert werden und von <code>3*y</code> komponentenweise abgezogen werden.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">*</span>x <span class="sc">-</span> <span class="dv">3</span><span class="sc">*</span>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in 2 * x - 3 * y: Länge des längeren Objektes
+     ist kein Vielfaches der Länge des kürzeren Objektes</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7.7 5.4 3.1 6.8 4.5</code></pre>
+</div>
+</div>
+<p>Die Länge der Liste <code>x+y</code> is gegeben durch die Länge des längsten Elements in der Summe. Also durch die Länge von <code>y</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(x <span class="sc">+</span> y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in x + y: Länge des längeren Objektes
+     ist kein Vielfaches der Länge des kürzeren Objektes</code></pre>
+</div>
+</div>
+<p>Analog wie in den vorherigen Teilaufgaben wird die Summe von <code>x</code> und <code>y</code> berechnet, dann die Summe der einzelnen komponenten und zum Schluss wird die Summe durch <code>n</code> geteilt.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x<span class="sc">+</span>y)<span class="sc">/</span>n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in x + y: Länge des längeren Objektes
+     ist kein Vielfaches der Länge des kürzeren Objektes</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.5</code></pre>
+</div>
+</div>
+</div>
+<div id="sol-vectorindices" class="proof solution">
+<p><span class="proof-title"><em>Solution 1.6</em> (<a href="#exr-vectorindices" class="quarto-xref">Exercise&nbsp;<span>1.6</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">0</span>, <span class="at">to=</span><span class="dv">100</span>, <span class="at">by=</span><span class="dv">2</span>)</span>
+<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">100</span><span class="sc">:</span><span class="dv">1</span></span>
+<span id="cb133-3"><a href="#cb133-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb133-4"><a href="#cb133-4" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>y[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">10</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 100  98  91</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0 2 4 6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a>x[x <span class="sc">&gt;</span> <span class="dv">91</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  92  94  96  98 100</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>x[x <span class="sc">&gt;</span> <span class="dv">20</span> <span class="sc">&amp;</span> x <span class="sc">&lt;=</span> <span class="dv">30</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 22 24 26 28 30</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>y[y<span class="sc">==</span><span class="dv">5</span> <span class="sc">|</span> y<span class="sc">&gt;</span><span class="dv">95</span> <span class="sc">|</span> y<span class="sc">&lt;</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 100  99  98  97  96   5   2   1</code></pre>
+</div>
+</div>
+</div>
+<div id="sol-df1" class="proof solution">
+<p><span class="proof-title"><em>Solution 1.7</em> (<a href="#exr-df1" class="quarto-xref">Exercise&nbsp;<span>1.7</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>data_ramen <span class="sc">%&gt;%</span></span>
+<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
+<span id="cb145-3"><a href="#cb145-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb145-4"><a href="#cb145-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">%&gt;%</span></span>
+<span id="cb145-5"><a href="#cb145-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  country         n
+  &lt;chr&gt;       &lt;int&gt;
+1 Japan         352
+2 USA           323
+3 South Korea   307
+4 Taiwan        224
+5 Thailand      191</code></pre>
+</div>
+</div>
+</div>
+<div id="sol-df2" class="proof solution">
+<p><span class="proof-title"><em>Solution 1.8</em> (<a href="#exr-df2" class="quarto-xref">Exercise&nbsp;<span>1.8</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a>data_ramen <span class="sc">%&gt;%</span></span>
+<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country<span class="sc">==</span><span class="st">"Germany"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 27</code></pre>
+</div>
+</div>
+</div>
+<div id="sol-ggplot1" class="proof solution">
+<p><span class="proof-title"><em>Solution 1.9</em> (<a href="#exr-ggplot1" class="quarto-xref">Exercise&nbsp;<span>1.9</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1"></a>data_ramen_filtered <span class="ot">&lt;-</span> data_ramen <span class="sc">%&gt;%</span></span>
+<span id="cb149-2"><a href="#cb149-2"></a>  <span class="fu">filter</span>(style <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Bowl"</span>,<span class="st">"Cup"</span>,<span class="st">"Pack"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb149-3"><a href="#cb149-3"></a>  <span class="fu">mutate</span>(<span class="at">style =</span> <span class="fu">if_else</span>(</span>
+<span id="cb149-4"><a href="#cb149-4"></a>    style<span class="sc">==</span><span class="st">"Pack"</span>,<span class="st">"Pack"</span>,<span class="st">"Container"</span></span>
+<span id="cb149-5"><a href="#cb149-5"></a>    ),</span>
+<span id="cb149-6"><a href="#cb149-6"></a>    <span class="at">style=</span> <span class="fu">factor</span>(style)</span>
+<span id="cb149-7"><a href="#cb149-7"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li>In der ersten Zeile wird ein neuer Datenesatz <code>data_ramen_filtered</code> erzeugt indem der Datensatz <code>data_ramen</code> modifiziert wird.</li>
+<li>In der zweiten Zeile wird die <code>filter</code> Funktion auf den Datensatz <code>data_ramen</code> angewandt. Der <code>%in%</code> Operator prüft hierbei, ob in der Spalte <code>style</code> die Werte <code>"Bowl","Cup","Pack"</code> vorhanden sind und geben den Wert <code>TRUE</code> oder <code>FALSE</code> zurück. D.h., es werden alle Einträge selektiert, welche den Style <code>"Bowl","Cup"</code>, oder <code>"Pack"</code> enthalten.</li>
+<li>In der dritten Zeile wird die <code>mutate</code> Funktion auf die Variable <code>style</code> angewendet.</li>
+<li>Die Transformation erfolgt hierbei in der vierten und fünften Zeile durch die <code>if_else</code> Funktion, welche die Kondition <code>style=="Pack"</code> überprüft. Falls der Style eines Eintrags <code>"Pack"</code> ist, so wird diesem wieder der Wert <code>"Pack"</code> zugeschrieben. Falls allerdings der Style <code>"Cup"</code> oder <code>"Bowl"</code> beträgt, so wird der Wert mit <code>"Container"</code> überschrieben.</li>
+<li>In der sechsten Zeile wird wird die Variable <code>"Style"</code> dann in eine Faktorvariable umgewandelt.</li>
+</ol>
+</div>
+<div id="sol-ggplot2" class="proof solution">
+<p><span class="proof-title"><em>Solution 1.10</em>. </span>Beschreibe die folgende Grafik. Verlgeiche dabei auch die beiden Gruppen untereinander.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_Einfuehrung_files/figure-html/unnamed-chunk-70-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Die Grafik zeigt zwei Boxplots für die Variable <code>star</code>. Auf der linken Seite wird ein Boxplot für alle Einträge welche den Style <code>"Container"</code> besitzen angezeigt und auf der rechten Seite ein Boxplot für alle Einträge welche den Style <code>"Pack"</code> besitzen. Es lässt sich an den Boxplots ablesen, dass die beiden Dtyles einen ähnlichen Median bezüglich der Bewertung besitzen. Allerdings ist das <span class="math inline">\(25\%\)</span> Quartil beim Style <code>"Container"</code> etwas kleiner als beim Style <code>"Pack"</code>. Beim Style <code>"Pack"</code> werden auf der anderen Seite aber mehr Ausreißer nach Unten abgebildet.</p>
+</div>
+<div id="exr-ggplot3" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1.12</strong></span> Verwende den Datensatz <code>data_ramen_filtered</code> um die Dichte der Variable <code>stars</code> mit <code>{ggplot2}</code> darzustellen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a>data_ramen_filtered <span class="sc">%&gt;%</span></span>
+<span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>stars))<span class="sc">+</span></span>
+<span id="cb150-3"><a href="#cb150-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">fill=</span><span class="st">"#69b3a2"</span>, <span class="at">color=</span><span class="st">"#69b3a2"</span>)<span class="sc">+</span></span>
+<span id="cb150-4"><a href="#cb150-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01_Einfuehrung_files/figure-html/unnamed-chunk-71-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="session-info" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="session-info"><span class="header-section-number">1.7</span> Session Info</h2>
 <p>Die Funktion <code>sessionInfo()</code> erfasst detaillierte Informationen über die aktuelle R-Sitzung, einschließlich der Version von R und der geladenen Pakete. Dies ist nützlich, um die Reproduzierbarkeit von Analysen und die Fehlersuche im Code sicherzustellen, da es eine Momentaufnahme der Umgebung liefert, in der der Code ausgeführt wurde.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.3 (2023-03-15 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
