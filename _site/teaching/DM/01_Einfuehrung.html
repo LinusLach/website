@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./02_Lineare_Regression.html" rel="next">
 <link href="./index.html" rel="prev">
 <script src="site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
@@ -209,6 +210,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">(Kurz)Einführung in R</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Lineare_Regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lineare Regression</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -256,7 +263,6 @@ window.Quarto = {
   <li><a href="#grafiken" id="toc-grafiken" class="nav-link" data-scroll-target="#grafiken"><span class="header-section-number">1.5.4</span> Grafiken</a></li>
   </ul></li>
   <li><a href="#lösungen" id="toc-lösungen" class="nav-link" data-scroll-target="#lösungen"><span class="header-section-number">1.6</span> Lösungen</a></li>
-  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">1.7</span> Session Info</a></li>
   </ul>
 </nav>
     </div>
@@ -848,7 +854,7 @@ Note
 <section id="r-als-taschenrechner" class="level3" data-number="1.5.1">
 <h3 data-number="1.5.1" class="anchored" data-anchor-id="r-als-taschenrechner"><span class="header-section-number">1.5.1</span> R als Taschenrechner</h3>
 <div id="exr-calc" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.1</strong></span> Geben Sie folgende Ausdrücke in die R-Console ein und erklären Sie jeweils das Ergebnis.</p>
+<p><span class="theorem-title"><strong>Aufgabe 1.1</strong></span> Geben Sie folgende Ausdrücke in die R-Console ein und erklären Sie jeweils das Ergebnis.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> <span class="dv">4</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span>) <span class="sc">*</span> <span class="dv">4</span></span>
@@ -865,7 +871,7 @@ Note
 </div>
 </div>
 <div id="exr-equation" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.2</strong></span> Weise einer neuen Variable <code>x</code> den Wert <span class="math inline">\(4\)</span> zu. Weise dann einer neuen Variable <code>x2</code> den folgenden Wert zu:</p>
+<p><span class="theorem-title"><strong>Aufgabe 1.2</strong></span> Weise einer neuen Variable <code>x</code> den Wert <span class="math inline">\(4\)</span> zu. Weise dann einer neuen Variable <code>x2</code> den folgenden Wert zu:</p>
 <p><span class="math display">\[
 \sqrt{3x^2 + \log\left(\frac{1}{e^x}\right) + 5}
 \]</span></p>
@@ -883,7 +889,7 @@ Note
 </div>
 </div>
 <div id="exr-strings" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.3</strong></span> Kopiere den folgenden Code. Welche Ausgabe bewirkt der Code?</p>
+<p><span class="theorem-title"><strong>Aufgabe 1.3</strong></span> Kopiere den folgenden Code. Welche Ausgabe bewirkt der Code?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>Zahl <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>keine.Zahl <span class="ot">&lt;-</span> <span class="st">"10"</span></span>
@@ -895,7 +901,7 @@ Note
 <section id="listen-und-vektoren" class="level3" data-number="1.5.2">
 <h3 data-number="1.5.2" class="anchored" data-anchor-id="listen-und-vektoren"><span class="header-section-number">1.5.2</span> Listen und Vektoren</h3>
 <div id="exr-lists" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.4</strong></span> Erzeuge folgende Vektoren:</p>
+<p><span class="theorem-title"><strong>Aufgabe 1.4</strong></span> Erzeuge folgende Vektoren:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5 6 7 8 9</code></pre>
@@ -918,7 +924,7 @@ Note
 </div>
 </div>
 <div id="exr-vectorcalc" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.5</strong></span> Gegeben sind die Vektoren:</p>
+<p><span class="theorem-title"><strong>Aufgabe 1.5</strong></span> Gegeben sind die Vektoren:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">2</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="fl">0.1</span>, <span class="at">to=</span><span class="fl">0.5</span>, <span class="at">by=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -934,7 +940,7 @@ Note
 </div>
 </div>
 <div id="exr-vectorindices" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.6</strong></span> Gegeben seien die beiden folgenden Vektoren:\[-2ex]</p>
+<p><span class="theorem-title"><strong>Aufgabe 1.6</strong></span> Gegeben seien die beiden folgenden Vektoren:\[-2ex]</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">0</span>, <span class="at">to=</span><span class="dv">100</span>, <span class="at">by=</span><span class="dv">2</span>)</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">100</span><span class="sc">:</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -955,16 +961,16 @@ Note
 <p>Für die folgenden Übungen verwenden wir wieder den <code>data_ramen</code> Datensatz aus Sektion <a href="#sec-essentials" class="quarto-xref"><span>Section 1.3.2</span></a>.</p>
 <p>Wende hierfür die zuvor durchgeführten Datenmanipulationen auf den Datensatz an, so dass die Spalte <code>top_ten</code> entfernt wurde und die Spalte <code>stars</code> in den Datentyp <code>&lt;dbl&gt;</code> umgewandelt wurden.</p>
 <div id="exr-df1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.7</strong></span> Finde heraus, aus welchen fünf Länder die meisten Ramen stammen. <em>Hinweis: Verwende die <code>arrange</code> Funktion in Kombination mit der <code>desc</code> Funktion um die Ergebnisse absteigend nach der Größe zu sortieren</em>.</p>
+<p><span class="theorem-title"><strong>Aufgabe 1.7</strong></span> Finde heraus, aus welchen fünf Länder die meisten Ramen stammen. <em>Hinweis: Verwende die <code>arrange</code> Funktion in Kombination mit der <code>desc</code> Funktion um die Ergebnisse absteigend nach der Größe zu sortieren</em>.</p>
 </div>
 <div id="exr-df2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.8</strong></span> Finde heraus, wie viele verschiedene Ramen sorten in Deutschland (<code>country == "Germany"</code>) verfügbar sind.</p>
+<p><span class="theorem-title"><strong>Aufgabe 1.8</strong></span> Finde heraus, wie viele verschiedene Ramen sorten in Deutschland (<code>country == "Germany"</code>) verfügbar sind.</p>
 </div>
 </section>
 <section id="grafiken" class="level3" data-number="1.5.4">
 <h3 data-number="1.5.4" class="anchored" data-anchor-id="grafiken"><span class="header-section-number">1.5.4</span> Grafiken</h3>
 <div id="exr-ggplot1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.9</strong></span> Erkläre die Funktionen und Argumente des folgenden Code Snippets und erkläre was sich im Verlgeich zum unbearbeiteten Datensatz inhaltlich geändert hat.</p>
+<p><span class="theorem-title"><strong>Aufgabe 1.9</strong></span> Erkläre die Funktionen und Argumente des folgenden Code Snippets und erkläre was sich im Verlgeich zum unbearbeiteten Datensatz inhaltlich geändert hat.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a>data_ramen_filtered <span class="ot">&lt;-</span> data_ramen <span class="sc">%&gt;%</span></span>
 <span id="cb62-2"><a href="#cb62-2"></a>  <span class="fu">filter</span>(style <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Bowl"</span>,<span class="st">"Cup"</span>,<span class="st">"Pack"</span>)) <span class="sc">%&gt;%</span></span>
@@ -976,7 +982,7 @@ Note
 </div>
 </div>
 <div id="exr-ggplot2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.10</strong></span> Beschreibe die folgende Grafik. Verlgeiche dabei auch die beiden Gruppen untereinander.</p>
+<p><span class="theorem-title"><strong>Aufgabe 1.10</strong></span> Beschreibe die folgende Grafik. Verlgeiche dabei auch die beiden Gruppen untereinander.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -988,14 +994,14 @@ Note
 </div>
 </div>
 <div id="exr-ggplot3" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.11</strong></span> Verwende den Datensatz <code>data_ramen_filtered</code> um die Dichte der Variable <code>stars</code> mit <code>{ggplot2}</code> darzustellen.</p>
+<p><span class="theorem-title"><strong>Aufgabe 1.11</strong></span> Verwende den Datensatz <code>data_ramen_filtered</code> um die Dichte der Variable <code>stars</code> mit <code>{ggplot2}</code> darzustellen.</p>
 </div>
 </section>
 </section>
 <section id="lösungen" class="level2" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="lösungen"><span class="header-section-number">1.6</span> Lösungen</h2>
 <div id="sol-calc" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.1</em> (<a href="#exr-calc" class="quarto-xref">Exercise&nbsp;<span>1.1</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.1</em> (<a href="#exr-calc" class="quarto-xref">Aufgabe&nbsp;<span>1.1</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1081,7 +1087,7 @@ Note
 <p>Kommentare in R werden durch das <code>#</code> Symbol intiiert. Kommentare werden nicht ausgewertet, so dass hinter dem <code>#</code> Symbol jegliche Folge von Zeichen stehen kann.</p>
 </div>
 <div id="sol-equation" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.2</em> (<a href="#exr-equation" class="quarto-xref">Exercise&nbsp;<span>1.2</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.2</em> (<a href="#exr-equation" class="quarto-xref">Aufgabe&nbsp;<span>1.2</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">4</span></span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">3</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span><span class="sc">+</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">/</span><span class="fu">exp</span>(x))<span class="sc">+</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1123,7 +1129,7 @@ Note
 </div>
 </div>
 <div id="sol-strings" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.3</em> (<a href="#exr-strings" class="quarto-xref">Exercise&nbsp;<span>1.3</span></a>). </span>Die Variable <code>keine.Zahl</code> ist vom Datentyp <code>&lt;char&gt;</code> und kann somit nicht ohne weiteres wie ein tatsächlicher Zahlenwert gehandhabt werden. Das führt dazu, dass in der folgende Code Zelle eine Fehlermeldung ausgegeben wird.</p>
+<p><span class="proof-title"><em>Solution 1.3</em> (<a href="#exr-strings" class="quarto-xref">Aufgabe&nbsp;<span>1.3</span></a>). </span>Die Variable <code>keine.Zahl</code> ist vom Datentyp <code>&lt;char&gt;</code> und kann somit nicht ohne weiteres wie ein tatsächlicher Zahlenwert gehandhabt werden. Das führt dazu, dass in der folgende Code Zelle eine Fehlermeldung ausgegeben wird.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>Zahl <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>keine.Zahl <span class="ot">&lt;-</span> <span class="st">"10"</span></span>
@@ -1138,7 +1144,7 @@ Note
 </div>
 </div>
 <div id="sol-lists" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.4</em> (<a href="#exr-lists" class="quarto-xref">Exercise&nbsp;<span>1.4</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.4</em> (<a href="#exr-lists" class="quarto-xref">Aufgabe&nbsp;<span>1.4</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span><span class="sc">:</span><span class="dv">9</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1167,7 +1173,7 @@ Note
 </div>
 </div>
 <div id="sol-vectorcalc" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.5</em> (<a href="#exr-vectorcalc" class="quarto-xref">Exercise&nbsp;<span>1.5</span></a>). </span>Gegeben sind die Vektoren:</p>
+<p><span class="proof-title"><em>Solution 1.5</em> (<a href="#exr-vectorcalc" class="quarto-xref">Aufgabe&nbsp;<span>1.5</span></a>). </span>Gegeben sind die Vektoren:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">2</span></span>
 <span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="fl">0.1</span>, <span class="at">to=</span><span class="fl">0.5</span>, <span class="at">by=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1233,7 +1239,7 @@ Note
 </div>
 </div>
 <div id="sol-vectorindices" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.6</em> (<a href="#exr-vectorindices" class="quarto-xref">Exercise&nbsp;<span>1.6</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.6</em> (<a href="#exr-vectorindices" class="quarto-xref">Aufgabe&nbsp;<span>1.6</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">0</span>, <span class="at">to=</span><span class="dv">100</span>, <span class="at">by=</span><span class="dv">2</span>)</span>
 <span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">100</span><span class="sc">:</span><span class="dv">1</span></span>
@@ -1265,7 +1271,7 @@ Note
 </div>
 </div>
 <div id="sol-df1" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.7</em> (<a href="#exr-df1" class="quarto-xref">Exercise&nbsp;<span>1.7</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.7</em> (<a href="#exr-df1" class="quarto-xref">Aufgabe&nbsp;<span>1.7</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>data_ramen <span class="sc">%&gt;%</span></span>
 <span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
@@ -1285,7 +1291,7 @@ Note
 </div>
 </div>
 <div id="sol-df2" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.8</em> (<a href="#exr-df2" class="quarto-xref">Exercise&nbsp;<span>1.8</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.8</em> (<a href="#exr-df2" class="quarto-xref">Aufgabe&nbsp;<span>1.8</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a>data_ramen <span class="sc">%&gt;%</span></span>
 <span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country<span class="sc">==</span><span class="st">"Germany"</span>) <span class="sc">%&gt;%</span></span>
@@ -1296,7 +1302,7 @@ Note
 </div>
 </div>
 <div id="sol-ggplot1" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.9</em> (<a href="#exr-ggplot1" class="quarto-xref">Exercise&nbsp;<span>1.9</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 1.9</em> (<a href="#exr-ggplot1" class="quarto-xref">Aufgabe&nbsp;<span>1.9</span></a>). </span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb149"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1"></a>data_ramen_filtered <span class="ot">&lt;-</span> data_ramen <span class="sc">%&gt;%</span></span>
 <span id="cb149-2"><a href="#cb149-2"></a>  <span class="fu">filter</span>(style <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Bowl"</span>,<span class="st">"Cup"</span>,<span class="st">"Pack"</span>)) <span class="sc">%&gt;%</span></span>
@@ -1315,7 +1321,7 @@ Note
 </ol>
 </div>
 <div id="sol-ggplot2" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.10</em>. </span>Beschreibe die folgende Grafik. Verlgeiche dabei auch die beiden Gruppen untereinander.</p>
+<p><span class="proof-title"><em>Solution 1.10</em> (<a href="#exr-ggplot2" class="quarto-xref">Aufgabe&nbsp;<span>1.10</span></a>). </span>Beschreibe die folgende Grafik. Verlgeiche dabei auch die beiden Gruppen untereinander.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -1327,8 +1333,8 @@ Note
 </div>
 <p>Die Grafik zeigt zwei Boxplots für die Variable <code>star</code>. Auf der linken Seite wird ein Boxplot für alle Einträge welche den Style <code>"Container"</code> besitzen angezeigt und auf der rechten Seite ein Boxplot für alle Einträge welche den Style <code>"Pack"</code> besitzen. Es lässt sich an den Boxplots ablesen, dass die beiden Dtyles einen ähnlichen Median bezüglich der Bewertung besitzen. Allerdings ist das <span class="math inline">\(25\%\)</span> Quartil beim Style <code>"Container"</code> etwas kleiner als beim Style <code>"Pack"</code>. Beim Style <code>"Pack"</code> werden auf der anderen Seite aber mehr Ausreißer nach Unten abgebildet.</p>
 </div>
-<div id="exr-ggplot3" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 1.12</strong></span> Verwende den Datensatz <code>data_ramen_filtered</code> um die Dichte der Variable <code>stars</code> mit <code>{ggplot2}</code> darzustellen.</p>
+<div id="sol-ggplot3" class="proof solution">
+<p><span class="proof-title"><em>Solution 1.11</em> (<a href="#exr-ggplot3" class="quarto-xref">Aufgabe&nbsp;<span>1.11</span></a>). </span>Verwende den Datensatz <code>data_ramen_filtered</code> um die Dichte der Variable <code>stars</code> mit <code>{ggplot2}</code> darzustellen. <em>Hinweis: Die Dichte einer Variable kann mithilfe der Funktion <code>geom_density</code> dargestellt werden.</em></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a>data_ramen_filtered <span class="sc">%&gt;%</span></span>
 <span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>stars))<span class="sc">+</span></span>
@@ -1343,14 +1349,26 @@ Note
 </div>
 </div>
 </div>
-</section>
-<section id="session-info" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="session-info"><span class="header-section-number">1.7</span> Session Info</h2>
-<p>Die Funktion <code>sessionInfo()</code> erfasst detaillierte Informationen über die aktuelle R-Sitzung, einschließlich der Version von R und der geladenen Pakete. Dies ist nützlich, um die Reproduzierbarkeit von Analysen und die Fehlersuche im Code sicherzustellen, da es eine Momentaufnahme der Umgebung liefert, in der der Code ausgeführt wurde.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>R version 4.2.3 (2023-03-15 ucrt)
+<!--
+## Session Info
+
+Die Funktion `sessionInfo()` erfasst detaillierte Informationen über die aktuelle R-Sitzung, einschließlich der Version von R und der geladenen Pakete.
+Dies ist nützlich, um die Reproduzierbarkeit von Analysen und die Fehlersuche im Code sicherzustellen, da es eine Momentaufnahme der Umgebung liefert, in der der Code ausgeführt wurde.
+
+
+
+
+
+::: {.cell}
+
+```{.r .cell-code}
+sessionInfo()
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+R version 4.2.3 (2023-03-15 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 Running under: Windows 10 x64 (build 22631)
 
@@ -1379,9 +1397,17 @@ loaded via a namespace (and not attached):
 [25] tidyselect_1.2.1  snakecase_0.11.1  glue_1.6.2        R6_2.5.1         
 [29] fansi_1.0.4       rmarkdown_2.28    farver_2.1.1      tzdb_0.4.0       
 [33] magrittr_2.0.3    scales_1.3.0      htmltools_0.5.8.1 colorspace_2.1-0 
-[37] labeling_0.4.3    utf8_1.2.3        stringi_1.8.3     munsell_0.5.1    </code></pre>
-</div>
-</div>
+[37] labeling_0.4.3    utf8_1.2.3        stringi_1.8.3     munsell_0.5.1    
+```
+
+
+:::
+:::
+
+
+
+
+-->
 
 
 </section>
@@ -1814,6 +1840,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./02_Lineare_Regression.html" class="pagination-link" aria-label="Lineare Regression">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lineare Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
