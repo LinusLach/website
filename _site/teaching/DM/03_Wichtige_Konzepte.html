@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Linus Lach">
-<meta name="dcterms.date" content="2025-04-01">
 
-<title>Data Mining Übungsmaterial</title>
+<title>3&nbsp; Weiterführende Konzepte des Dataminings – Data Mining Übungsmaterial</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -32,7 +64,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01_Einfuehrung.html" rel="next">
+<link href="./02_Lineare_Regression.html" rel="prev">
 <script src="site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -99,6 +131,35 @@ cookieconsent.run({
 </script> 
   
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -111,7 +172,7 @@ cookieconsent.run({
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Vorwort</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03_Wichtige_Konzepte.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Weiterführende Konzepte des Dataminings</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -138,7 +199,7 @@ cookieconsent.run({
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Vorwort</span></a>
   </div>
 </li>
@@ -156,7 +217,7 @@ cookieconsent.run({
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03_Wichtige_Konzepte.html" class="sidebar-item-text sidebar-link">
+  <a href="./03_Wichtige_Konzepte.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Weiterführende Konzepte des Dataminings</span></span></a>
   </div>
 </li>
@@ -170,12 +231,8 @@ cookieconsent.run({
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#vorwort" id="toc-vorwort" class="nav-link active" data-scroll-target="#vorwort">Vorwort</a>
-  <ul>
-  <li><a href="#warum-sollte-ich-mir-r-anschauen" id="toc-warum-sollte-ich-mir-r-anschauen" class="nav-link" data-scroll-target="#warum-sollte-ich-mir-r-anschauen">Warum sollte ich mir R anschauen?</a></li>
-  <li><a href="#hilfe-mein-code-macht-nicht-das-was-ich-will" id="toc-hilfe-mein-code-macht-nicht-das-was-ich-will" class="nav-link" data-scroll-target="#hilfe-mein-code-macht-nicht-das-was-ich-will">Hilfe, mein Code macht nicht das, was ich will!</a></li>
-  <li><a href="#aufbau-des-manuskripts" id="toc-aufbau-des-manuskripts" class="nav-link" data-scroll-target="#aufbau-des-manuskripts">Aufbau des Manuskripts</a></li>
-  </ul></li>
+  <li><a href="#training-und-test-split" id="toc-training-und-test-split" class="nav-link active" data-scroll-target="#training-und-test-split"><span class="header-section-number">3.1</span> Training und Test Split</a></li>
+  <li><a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation"><span class="header-section-number">3.2</span> Cross-Validation</a></li>
   </ul>
 </nav>
     </div>
@@ -184,26 +241,14 @@ cookieconsent.run({
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data Mining Übungsmaterial</h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Weiterführende Konzepte des Dataminings</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Linus Lach </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">April 1, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -213,40 +258,80 @@ cookieconsent.run({
 </header>
 
 
-<section id="vorwort" class="level1 unnumbered">
-<h1 class="unnumbered">Vorwort</h1>
-<p>Dieses Übungsmanuskript ergänzt das Vorlesungsskript zur Vorlesung <em>Data Mining</em> von <a href="https://www.uni-augsburg.de/de/fakultaet/wiwi/prof/stat/okhrin/team/yarema-okhrin/">Prof.&nbsp;Dr.&nbsp;Yarema Okhrin</a> an der Universität Augsburg. Da dieses Manuskript noch in Arbeit ist sind Änderungen unter vorbehalt möglich und wahrscheinlich.</p>
-<section id="warum-sollte-ich-mir-r-anschauen" class="level2">
-<h2 class="anchored" data-anchor-id="warum-sollte-ich-mir-r-anschauen">Warum sollte ich mir R anschauen?</h2>
-<p>In fast allen Übungen werden wir mit der (statistischen) Programmiersprache R arbeiten. Data Mining lebt von der Arbeit mit Daten - sei es die explorative Datenanalyse (EDA), oder das entwickeln von Statistischen Modellen für Vorhersagen. R ist besonders für EDA geeignet, da es sich durch verschiedene Zusatzpakete (Libraries) wie dem Tidyverse und Tidymodels auszeichnet. Zum erfolgreichen abschließen dieses Moduls ist deshalb unerlässlich, dass man sich in der Vorlesung sowie der Übung mit der Programmiersprache R auseinander setzt. Sowohl die Theoretischen Konzepte als auch die Anwendung sollen hierbei durch die verschiedenen Übungen vertieft werden.</p>
+<p>In diesem Kapitel werden wir uns mit weiterführenden Konzepten des Data Minings auseinandersetzen. Diese umfassen das Aufteilen der Daten in Trainings- und Testdaten, Cross-Validation (Kreuzvalidierung), die Imputation von fehlenden Werten sowie die Merkmalsselektion.</p>
+<section id="training-und-test-split" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="training-und-test-split"><span class="header-section-number">3.1</span> Training und Test Split</h2>
+<p>Die Parameter der linearen Regressionsmodelle aus <a href="02_Lineare_Regression.html" class="quarto-xref">Kapitel&nbsp;<span>2</span></a> haben wir unter Verwendung aller Daten geschätzt. Falls wir allerdings erwarten, dass neue Daten zu den Datensätzen hinzugefügt werden, ist das nicht die beste Idee, da wir nicht wissen wie gut unser Modell auf zuvor ungesehenen Daten funktioniert. Eine gängige Praxis ist deshalb die Daten in ein Trainings- und Test Set aufzuteilen. Mit den Trainingsdaten werden die Parameter des Modells geschätzt und mit den Testdaten wird die sogenannte Out-Of-Sample (OOS) Performance gemessen.</p>
+<p>Beim Aufteilen der Daten sollte beachtet werden, dass das Verhältnis zwischen den beiden Teilen sinnvoll gewählt wird und die Aufteilungs zufällig gewählt wird.</p>
+<div id="exm-TrainTestSplit" class="theorem example">
+<p><span class="theorem-title"><strong>Beispiel 3.1</strong></span> In einem gegebenen Datensatz sind 101 Observationen <span class="math inline">\((x,y)\in\mathbb{R}\)</span>. Nun werden die letzten <span class="math inline">\(20\%\)</span> diese Daten als Testdaten festgelegt und die ersten <span class="math inline">\(80\%\)</span> der Daten als Trainingsdaten. Mit den Trainingsdaten schätzen wir die Parameter eins linearen Regressionsmodells und generieren Vorhersagen auf Basis der Testdaten. Wir können dann die Vorhersagegüte des Modells auf den Testdaten visuell evaluieren und uns ein</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03_Wichtige_Konzepte_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Im obigen Beispiel ist klar zu erkennen, dass der Split (also das Aufteilen der Daten) nicht optimal war. Zwar erzeugen die geschätzten Parameter gute vorhersagen auf den Trainingsdaten, allerdings sind die Vorhersagefehler in den Testdaten sehr hoch.</p>
+<p>Wenn wir stattdessen die Daten in zufällige Trainings- und Testdaten aufteilen, ist für das gegebene Modell der In-Sample Fehler (IS-Fehler) zwar höher, allerdings der OOS-Fehler niedriger:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03_Wichtige_Konzepte_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>Im obigen Beispiel haben wir gesehen, dass ein zufälliger Split zu besseren Ergebnissen führen kann. Die Frage ist nun, wie wir in R einen zufälligen Split erzeugen können!</p>
+<p>Die <code>rsample::initial_split(), rsample::training()</code> und <code>rsample::testing()</code> Funktionen erlauben ein einfaches und effizientes Aufteilen der Daten in Trainings- und Testdaten. Das <code>{rsample}</code> Paket ist teil des <code>{tidymodels}</code> Ökosystems, weshalb wir auch einfach mit dem Befehl <code>library(tidymodels)</code> dieses hinzufügen können. In <a href="02_Lineare_Regression.html#sec-MLRR" class="quarto-xref"><span>Section 2.3.1</span></a> haben wir den <code>penguins</code> Datensatz verwendet, um die Parameter eines multiplen linearen Regressionsmodells zu schätzen. Des weiteren haben wir in <a href="02_Lineare_Regression.html#sec-MSE" class="quarto-xref"><span>Section 2.3.4.3</span></a> das MLR Modell auf dem gesamten Datensatz anhand der RMSE Metrik evaluiert. Hierbei hat sich ein RMSE Wert von <code>282</code> ergeben. Im Folgenden wollen wir das gleiche Modell erstellen, allerdings die Parameter nur mit den Trainingsdaten schätzen und die Performance dann auf den Testdaten evaluieren.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>data_penguin <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>split_penguin <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(<span class="at">data =</span> data_penguin, <span class="at">prop =</span> <span class="fl">0.8</span>)</span>
+<span id="cb1-6"><a href="#cb1-6"></a>data_train <span class="ot">&lt;-</span> <span class="fu">training</span>(split_penguin)</span>
+<span id="cb1-7"><a href="#cb1-7"></a>data_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_penguin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In der dritten Zeile wenden wir den <code>set.seed()</code> Befehl an. Diese Funktion ist wichtig um die Reproduzierbarkeit der Resultate zu gewährleisten, wenn zufällige Prozesse im Programmablauf involviert sind. Dadurch, dass wir im folgenden die Daten zufällig aufteilen, wird unter der Verwendung der <code>set.seed()</code> Funktion gewährleistet, dass bei jedem durchführen der darauffolgenden Zeilen, der gleiche zufällige Split durchgeführt wird.</p>
+<p>In Zeile 5 verwenden wir die <code>initial_split()</code> Funktion, um die Daten aufzuteilen. Das Argument <code>data = data_penguin</code> beschreibt welche daten Aufgeteilt werden sollen und das Argument <code>prop=0.8</code> steuert die Proportionalität des Splits. Der Wert <code>prop = 0.8</code> teilt die Daten somit zufällig in <span class="math inline">\(80\%\)</span> Trainings und <span class="math inline">\(20\%\)</span> Testdaten ein.</p>
+<p>In Zeile 6 und 7 verwenden wir dann die <code>training()</code> und <code>testing()</code> Funktionen um aus dem <code>split_pinguin</code> Objekt die Trainings- und Testdaten zu extrahieren. Die Trainings- und Testdaten sind daraufhin in einem Data-Frame bzw. Tibble gespeichert und können wie gewohnt verwendet werden.</p>
+<p>Wir können nun die Parameter des MLR Modells schätzen wie wir es in #sec-MLRR getan haben:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>mlr_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>()</span>
+<span id="cb2-2"><a href="#cb2-2"></a>mlr_fit <span class="ot">&lt;-</span> mlr_spec <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="fu">fit</span>(<span class="at">data =</span> data_train,</span>
+<span id="cb2-4"><a href="#cb2-4"></a>      <span class="at">formula =</span> body_mass_g <span class="sc">~</span>.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Lediglich in Zeile 3 haben wir anstatt des <code>data_penguin</code> Datensatzes nun den <code>data_train</code> Datensatz verwendet. Da wir nur an der Modellgüte auf Basis der Testdaten interessiert sind, evaluieren wir an dieser Stelle nicht weiter das Modell auf Basis der Trainingsdaten.</p>
+<p>Mit der <code>augment()</code> Funktion können wir nun wieder Vorhersagen und die dazugehörigen Residuen und mithilfe der <code>rmse()</code> Funktion den RMSE berechnen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mlr_fit <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rmse</span>(<span class="at">truth =</span> .pred, <span class="at">estimate =</span> body_mass_g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard        289.</code></pre>
+</div>
+</div>
+<p>Der Test Fehler mit dem Wert <code>289</code> ist also nur knapp größer als der Fehler welchen wir in <a href="02_Lineare_Regression.html#sec-MSE" class="quarto-xref"><span>Section 2.3.4.3</span></a> beobachten konnten (<code>282</code>). Wir können deshalb also für zuvor ungesehene Pinguine erwarten, dass das Gewicht im Schnitt <span class="math inline">\(289\)</span> g höher oder niedriger als der tatsächliche Wert geschätzt wird.</p>
 </section>
-<section id="hilfe-mein-code-macht-nicht-das-was-ich-will" class="level2">
-<h2 class="anchored" data-anchor-id="hilfe-mein-code-macht-nicht-das-was-ich-will">Hilfe, mein Code macht nicht das, was ich will!</h2>
-<p>Debugging, auch bekannt als die Kunst, herauszufinden, warum sich der Code nicht wie erwartet verhält, spielt beim Programmieren eine wesentliche Rolle. Auch nach jahrelanger Übung werden (gelegentlich) Fehler beim Programmieren auftreten.</p>
-<p>Es gibt viele mehr oder weniger effektive Ansätze zur Lösung von progamiertechnischen Problemen im Rahmen dieses Kurses. Die meisten Probleme werden von der Form</p>
-<blockquote class="blockquote">
-<p>Ich habe den Code bei mir in ein R Skript kopiert und es funktioniert nicht.</p>
-</blockquote>
-<p>sein.</p>
-<p>Die meisten dieser Fehler bzw. Probleme lassen sich mithilfe der folgenden vier Ansätzen lösen. Wichtig an dieser Stelle ist zu erwähnen, dass die meisten Foren, Websites und Dokumentation für R in englischer Sprache verfasst wurden, weshalb es sich lohnt die Fehler in der englischen Form zu untersuchen.</p>
-<ol type="1">
-<li><p>Viele der häufig auftretenden Fehlermeldungen wurden wahrscheinlich schon in Foren wie <a href="https://stackoverflow.com">Stack Overflow</a> disskutiert. Alternativ können die Suchergebnisse auch Websites wie <a href="https://www.datacamp.com">DataCamp</a> oder <a href="https://www.geeksforgeeks.org/">GeeksforGeeks</a> enthalten. Diese Websites bieten für die meisten Probleme und Fehler eine schnelle Lösung welche in der regel einfach exakt wie vorgeschlagen in die eigenen Code Skripte übernommen werden können.</p></li>
-<li><p>Verwendung eines großen Sprachmodells wie <a href="https://chat.mistral.ai/chat">leChat</a>. Wenn es um Fragen zur Fehlersuche oder zur Programmierung im Allgemeinen geht, sind Sprachmodelle hilfreich. Indem man eine Frage als Prompt eingiebt wird in den meisten Fällen die Ausgabe der Sprachmodelle bereits eine zufriedenstellende Antwort liefern.</p></li>
-<li><p>Die interne „Hilfe“-Funktion mag zwar als altmodisch gelten, ist aber ein äußerst effektiver Ansatz zur Fehlersuche. Sie kann wertvolle Erkenntnisse liefern, wenn sich eine Funktion nicht wie erwartet verhält. Wenn sich eine Funktion nicht wie erwartet verhält, öffnet die Eingabe von <code>?Funktionsname</code> im Konsolen Panel die entsprechende Hilfeseite. Der Abschnitt <code>arguments</code> auf der Hilfeseite erklärt die verschiedenen Eingabeparameter einer Funktion. Der Abschnitt <code>value</code> beschreibt, was für einen Rückgabewert die Funktion hat. Beispiele für die Verwendung einer Funktion können im letzten Abshcnitt der Hilfe Funktion gefunden werden.</p></li>
-<li><p>Wenn jeder der oben genannten Schritte fehlschlägt, können natürlich auch Fragen im entsprechenden Digicampus Kurs gestellt werden.</p></li>
-</ol>
-</section>
-<section id="aufbau-des-manuskripts" class="level2">
-<h2 class="anchored" data-anchor-id="aufbau-des-manuskripts">Aufbau des Manuskripts</h2>
-<p>Jedes Kapitel beginnt, je nach Komplexität des Themas, mit einer mehr oder weniger technischen Zusammenfassung und Motivation. Nach diesen Zusammenfassungen folgen Beispiele, welche die Funktionen und Konzepte ergänzen. Die Übungsaufgaben und Lösungen finden sich im Anschluss an diese Beispiele.</p>
-<ol type="1">
-<li>Im ersten Kapitel werden wir die wichtigsten R Konzepte wiederholen, welche in der Übung und Vorlesung regelmäßig angewendet werden.</li>
-<li>Im zweiten Kapitel betrachten wir die Einfache und Multiple Lineare Regression. Wir gehen dabei auf die Annahmen ein, diskutieren warum diese wichtig sind und wie man prüft, ob diese Annahmen bei einem gegebenen Datensatz erfüllt sind, oder nicht.</li>
-<li>Im dritten Kapitel setzen wir uns mit essenziellen Techniken des Data Minings auseinander, welche direkt mit dem entwickeln von Modellen verwandt sind. Es geht hierbei um das Aufteilen der Daten in Trainings- und Testdaten, was robustere Vorhersagen für zuvor ungesehene Ausprägungen ermöglicht. Außerdem führen wir die Imputation von fehlenden Daten sowie die effiziente Merkmalsselektion ein.</li>
-</ol>
+<section id="cross-validation" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="cross-validation"><span class="header-section-number">3.2</span> Cross-Validation</h2>
+<p>Das Konzpet der Cross-Validation (Kreuzvalidierung) knüpft direkt an das des Aufteilens der Trainings- und Testdaten an.</p>
+<!-- 
+## Imputation
+
+## Merkmalsselektion
+-->
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -672,11 +757,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./02_Lineare_Regression.html" class="pagination-link" aria-label="Lineare Regression">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lineare Regression</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01_Einfuehrung.html" class="pagination-link" aria-label="(Kurz)Einführung in R">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">(Kurz)Einführung in R</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
