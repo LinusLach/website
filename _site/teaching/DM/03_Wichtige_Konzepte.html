@@ -239,6 +239,14 @@ window.Quarto = {
   <ul>
   <li><a href="#cross-validation-in-r" id="toc-cross-validation-in-r" class="nav-link" data-scroll-target="#cross-validation-in-r"><span class="header-section-number">3.2.1</span> Cross-Validation in R</a></li>
   </ul></li>
+  <li><a href="#umgang-mit-fehlenden-daten" id="toc-umgang-mit-fehlenden-daten" class="nav-link" data-scroll-target="#umgang-mit-fehlenden-daten"><span class="header-section-number">3.3</span> Umgang mit fehlenden Daten</a>
+  <ul>
+  <li><a href="#sec-imputation" id="toc-sec-imputation" class="nav-link" data-scroll-target="#sec-imputation"><span class="header-section-number">3.3.1</span> Imputation</a>
+  <ul class="collapse">
+  <li><a href="#imputation-durch-lagemaße-cold-imputation" id="toc-imputation-durch-lagemaße-cold-imputation" class="nav-link" data-scroll-target="#imputation-durch-lagemaße-cold-imputation"><span class="header-section-number">3.3.1.1</span> Imputation durch Lagemaße (cold imputation)</a></li>
+  <li><a href="#imputation-durch-regression" id="toc-imputation-durch-regression" class="nav-link" data-scroll-target="#imputation-durch-regression"><span class="header-section-number">3.3.1.2</span> Imputation durch Regression</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -855,13 +863,99 @@ window.Quarto = {
 </div>
 </div>
 <p>Da wir keine weiteren Metriken spezifiziert haben, werden automatisch der RMSE, sowie <span class="math inline">\(R^2_\text{adj}\)</span> berechnet. Die Namen der Metriken sind in der Spalte <code>.metric</code> gespeichert. In der Spalte <code>mean</code> können wir den CV-Loss einsehen. Die Spalte <code>n</code> gibt die Anzahl der Folds an und <code>std_error</code> den entsprechenden Standardfehler der Metrik auf Basis der Folds. Die <code>.config</code> Spalte ist für diesen Kurs ebenso nicht relevant.</p>
-<!-- 
-## Imputation
+</section>
+</section>
+<section id="umgang-mit-fehlenden-daten" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="umgang-mit-fehlenden-daten"><span class="header-section-number">3.3</span> Umgang mit fehlenden Daten</h2>
+<p>In <a href="01_Einfuehrung.html#sec-pipe" class="quarto-xref"><span>Section 1.3.3.2</span></a> haben wir bereits die <code>dplyr::na.omit()</code> Funktion kennengelernt, welche ganze Einträge entfernt, wenn mindestens eine Variable in des Eintrags nicht vorhanden ist. Diese Art des Umgangs mit fehlenden Daten ist zwar einfach, birgt allerdings auf Risiken:</p>
+<ul>
+<li><p>Falls wir durch diese Methode eine oder mehrere Einflussreiche Variablen entfernen, können die Ergebnisse bei einer anschließenden Regression stark verzerrt sein.</p></li>
+<li><p>Falls wir vorher nicht prüfen, wie viele Einträge durch das Anwenden der Funktion entfernt werden, kann unter Umständen ein Großteil der Daten entfernt werden.</p></li>
+<li><p>Falls wir in den Daten ein Muster nicht erkennen, welches durch das entfernen der Einträge mit fehlenden Daten entfernt wird, kann das ebenso zu verzerrten Ergebnissen bei einer anschließenden Regression führen.</p></li>
+</ul>
+<p>Aufgrund der obigen Aspekte sollten wir uns also auch mit einer anderen Methode auseinandersetzen, welche sich mit dem Umgang von fehlenden Werten beschäftigt.</p>
+<!-- KA ?-->
+<p>Als Beispieldatensatz verwenden wir wieder den Pinguin Datensatz <code>data_penguin</code>. Zuerst sollten wir herausfinden, wie viele Einträge im Datensatz nicht vorhanden sind:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data_penguin <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">is.na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colSums</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  [,1]
+species              0
+island               0
+bill_length_mm       2
+bill_depth_mm        2
+flipper_length_mm    2
+body_mass_g          2
+sex                 11
+year                 0</code></pre>
+</div>
+</div>
+<p>Im Datensatz sind also sowohl numerische als auch nominale Werte teilweise nicht vorhanden.</p>
+<section id="sec-imputation" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="sec-imputation"><span class="header-section-number">3.3.1</span> Imputation</h3>
+<p>Eine Methode für den Umgang mit fehlenden Daten ist die <em>Imputation</em>. Die grundlegende Idee hierbei ist simpel: Wir ergänzen die fehlenden Werte. Das sinnvolle Ergänzen der Werte ist hierbei die größte Schwierigkeit, weshalb wir im Folgenden einige Ansätze besprechen.</p>
+<section id="imputation-durch-lagemaße-cold-imputation" class="level4" data-number="3.3.1.1">
+<h4 data-number="3.3.1.1" class="anchored" data-anchor-id="imputation-durch-lagemaße-cold-imputation"><span class="header-section-number">3.3.1.1</span> Imputation durch Lagemaße (cold imputation)</h4>
+<p>Das wohl einfachste Imputationsverfahren ergänzt fehlende Werte durch Lagemaße wie den Mittelwert, den Median, oder den Modus. Hierbei gilt allerdings zu beachten, dass der Mittelwert und Median ausschließlich für numerische Variablen verwendet werden kann. Das folgende Code Snippet illustriert wie wir im Falle des Pinguin Datensatzes Mean- bzw. Modusimputation durchführen können:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>data_penguin_imputed <span class="ot">&lt;-</span> data_penguin <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-3"><a href="#cb10-3"></a>    <span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">where</span>(is.numeric),</span>
+<span id="cb10-4"><a href="#cb10-4"></a>           <span class="at">.fns =</span> <span class="sc">~</span><span class="fu">if_else</span>(</span>
+<span id="cb10-5"><a href="#cb10-5"></a>             <span class="fu">is.na</span>(.),</span>
+<span id="cb10-6"><a href="#cb10-6"></a>             <span class="fu">mean</span>(.,<span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-7"><a href="#cb10-7"></a>             .)</span>
+<span id="cb10-8"><a href="#cb10-8"></a>    ),</span>
+<span id="cb10-9"><a href="#cb10-9"></a>    <span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">where</span>(is.factor),</span>
+<span id="cb10-10"><a href="#cb10-10"></a>           <span class="at">.fns =</span> <span class="sc">~</span><span class="fu">if_else</span>(</span>
+<span id="cb10-11"><a href="#cb10-11"></a>           <span class="fu">is.na</span>(.),</span>
+<span id="cb10-12"><a href="#cb10-12"></a>             (</span>
+<span id="cb10-13"><a href="#cb10-13"></a>               data_penguin <span class="sc">%&gt;%</span></span>
+<span id="cb10-14"><a href="#cb10-14"></a>               <span class="fu">select</span>(sex) <span class="sc">%&gt;%</span></span>
+<span id="cb10-15"><a href="#cb10-15"></a>               <span class="fu">table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-16"><a href="#cb10-16"></a>               <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-17"><a href="#cb10-17"></a>               <span class="fu">filter</span>(n<span class="sc">==</span><span class="fu">max</span>(n)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-18"><a href="#cb10-18"></a>               <span class="fu">select</span>(sex) <span class="sc">%&gt;%</span></span>
+<span id="cb10-19"><a href="#cb10-19"></a>               <span class="fu">pluck</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-20"><a href="#cb10-20"></a>               <span class="fu">factor</span>()</span>
+<span id="cb10-21"><a href="#cb10-21"></a>               ),</span>
+<span id="cb10-22"><a href="#cb10-22"></a>             .)</span>
+<span id="cb10-23"><a href="#cb10-23"></a>    )</span>
+<span id="cb10-24"><a href="#cb10-24"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li>Im ersten Schritt erstellen wir einen neuen Datensatz <code>data_penguin_imputed</code>.</li>
+<li>Danach übergeben wir den <code>data_penguin</code> Datensatz an die <code>mutate</code> Funktion.</li>
+<li>In den Zeilen 3-7 überschreiben wir in den numerischen Spalten die fehlenden Werte mit dem entsprechenden Durchschnitt der Spalte.
+<ol type="1">
+<li>Hierbei verwenden wir die <code>across</code> und <code>where</code> Funktionen. Sinngemäß kann die Kombination dieser beiden Funktion als “wähle alle Spalten aus, bei welcher die Bedingung <code>...</code> gilt.” interpretiert werden. <code>...</code> ist hierbei ein Platzhalter für eine Bedingung oder Funktion. In Ziele 3 ist die Bedingung durch die <code>is.numeric()</code> Funktion gegeben, welche prüft, ob eine Spalte einen numerischen Datentyp hat.</li>
+<li>Falls eine der <code>data_penguin</code> Spalten einen numerischen Datentyp besitzt, wird die <code>if_else</code> Funktion auf diese angewendet. Die <code>if_else()</code> Funktion überprüft ebenso eine Kondition, welche als erstes Argument übergeben wird. Falls die Kondition erfüllt ist, so wird das zweite Argument angewendet und falls nicht, entsprechend das dritte.</li>
+<li>Wir prüfen also mithilfe der <code>if_else()</code> und <code>is.na()</code> Funktionen, ob ein Eintrag in einer Spalte den Wert <code>NA</code> oder <code>NaN</code> besitzt. Falls das der Fall ist, wird dieser Wert mit dem durchschnittlichen Wert dieser Spalte befüllt (berechnet mithilfe der <code>mean</code> Funktion). Falls der Wert nicht <code>NA</code> oder <code>NaN</code> ist, so wird der ursprüngliche Wert beibehalten.</li>
+</ol>
+Die Bedeutung der <code>.</code> und <code>~</code> Operatoren sind hierbei die folgenden:
+<ul>
+<li>Der <code>.</code> Operator wird als Platzhalter für alle Spalten verwendet, welche aus der vorherigen Operation zurückgegeben wurden. So wird zum Beispiel beim Funktionsaufruf <code>is.na(.)</code> in Zeile 5 mithilfe des <code>.</code> symbolisiert, dass jene Spalten ausgewertet werden, welche zuvor durch den <code>where(is.numeric)</code> selektiert wurden.</li>
+<li>Der <code>~</code> Operator wird verwendet um eine <a href="https://en.wikipedia.org/wiki/Anonymous_function">anonyme Funktion</a> zu erstellen und anzuwenden. Da das <code>.fn</code> Argument der <code>across()</code> Funktion eine Funktion selbst erwartet, übergeben wir nicht den ausgewerteten Funktionsaufruf <code>is.na(.)</code> direkt, sondern symbolisieren mithilfe des <code>~</code> Operators, dass diese Funktion auf Basis der vorherigen Argumente ausgewertet werden soll.</li>
+</ul></li>
+<li>In den Zeilen 9-22 wird das Prozedere für die Faktor Variablen wiederholt mit dem entscheidenem Unterschied, dass hier nicht der Durchschnitt, sondern der Modus in den Zeilen 13-20 berechnet wird. Als zweites Argument der <code>if_else</code> Funktion wird der Modus der Spalte <code>sex</code> berechnet.</li>
+</ol>
+<p>Vorteile der Lagemaßimputation umfassen die Einfachheit der Implementierung, schnelle Berechenbarkeit und Stabilität.</p>
+</section>
+<section id="imputation-durch-regression" class="level4" data-number="3.3.1.2">
+<h4 data-number="3.3.1.2" class="anchored" data-anchor-id="imputation-durch-regression"><span class="header-section-number">3.3.1.2</span> Imputation durch Regression</h4>
+<p>Neben der Imputation durch Lagemaße werden heutzutage auch oft komplexere Algorithmen verwendet, welche die fehlenden Daten genauer approximieren können. Eine relativ einfache, aber dennoch fortgeschrittene Methode ist die Imputation mithilfe eines linearen Modells. Falls in einem Datensatz mit unabhängigen Variablen <span class="math inline">\(X = (X_1, X_2, ..., X_J)\)</span> zum Beispiel Werte in der Spalte <span class="math inline">\(X_j, 1\leq j\leq J\)</span> vorhanden sind, so kann mithilfe eines MLR Modells mit der Modellgleichung</p>
+<p><span class="math display">\[ X_j = \sum_{i=1,\\ i\neq j}^J \beta_iX_i+\beta_0+\varepsilon\]</span> geschätzt werden. Zum schätzen der Parameter können wir hierbei alle Einträge verwenden, in welcher die Variable <span class="math inline">\(X_j\)</span> vorhanden ist. Dieser Ansatz funktioniert vor allem dann gut, wenn die unterliegenden Daten alle Annahmen des MLR Modells erfüllen und auch genug Daten vorhanden sind.</p>
+<!--
 
 ## Merkmalsselektion
 -->
 
 
+</section>
 </section>
 </section>
 

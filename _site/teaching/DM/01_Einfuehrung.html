@@ -255,7 +255,7 @@ window.Quarto = {
   <li><a href="#anpassen-von-datensätzen" id="toc-anpassen-von-datensätzen" class="nav-link" data-scroll-target="#anpassen-von-datensätzen"><span class="header-section-number">1.3.3</span> Anpassen von Datensätzen</a>
   <ul class="collapse">
   <li><a href="#die-mutatefunktion" id="toc-die-mutatefunktion" class="nav-link" data-scroll-target="#die-mutatefunktion"><span class="header-section-number">1.3.3.1</span> Die <code>mutate</code>Funktion</a></li>
-  <li><a href="#der-pipe-operator" id="toc-der-pipe-operator" class="nav-link" data-scroll-target="#der-pipe-operator"><span class="header-section-number">1.3.3.2</span> Der Pipe Operator <code>%&gt;%</code></a></li>
+  <li><a href="#sec-pipe" id="toc-sec-pipe" class="nav-link" data-scroll-target="#sec-pipe"><span class="header-section-number">1.3.3.2</span> Der Pipe Operator <code>%&gt;%</code></a></li>
   <li><a href="#sec-filtering" id="toc-sec-filtering" class="nav-link" data-scroll-target="#sec-filtering"><span class="header-section-number">1.3.3.3</span> Filtern, Gruppieren und Zusammenfassen von Datasets</a></li>
   </ul></li>
   <li><a href="#faktor-variablen" id="toc-faktor-variablen" class="nav-link" data-scroll-target="#faktor-variablen"><span class="header-section-number">1.3.4</span> Faktor Variablen</a></li>
@@ -623,8 +623,8 @@ Caused by warning:
 </blockquote>
 <p>Dies liegt daran, dass in der Variable <code>stars</code> fehlende Werte vorhanden sind. Durch das Anwenden der <code>as.double</code> Funktion wurden die Fehlenden werte in <code>NA</code> Werte umgewandelt, was aber erstmal kein Problem darstellt.</p>
 </section>
-<section id="der-pipe-operator" class="level4" data-number="1.3.3.2">
-<h4 data-number="1.3.3.2" class="anchored" data-anchor-id="der-pipe-operator"><span class="header-section-number">1.3.3.2</span> Der Pipe Operator <code>%&gt;%</code></h4>
+<section id="sec-pipe" class="level4" data-number="1.3.3.2">
+<h4 data-number="1.3.3.2" class="anchored" data-anchor-id="sec-pipe"><span class="header-section-number">1.3.3.2</span> Der Pipe Operator <code>%&gt;%</code></h4>
 <p>In der Code Zelle</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>data_ramen <span class="ot">&lt;-</span> data_ramen <span class="sc">%&gt;%</span> </span>
@@ -1365,6 +1365,7 @@ Dies ist nützlich, um die Reproduzierbarkeit von Analysen und die Fehlersuche i
 
 
 
+
 ::: {.cell}
 
 ```{.r .cell-code}
@@ -1409,6 +1410,7 @@ loaded via a namespace (and not attached):
 
 :::
 :::
+
 
 
 
