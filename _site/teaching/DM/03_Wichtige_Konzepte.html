@@ -243,10 +243,13 @@ window.Quarto = {
   <ul>
   <li><a href="#sec-imputation" id="toc-sec-imputation" class="nav-link" data-scroll-target="#sec-imputation"><span class="header-section-number">3.3.1</span> Imputation</a>
   <ul class="collapse">
-  <li><a href="#imputation-durch-lagemaße-cold-imputation" id="toc-imputation-durch-lagemaße-cold-imputation" class="nav-link" data-scroll-target="#imputation-durch-lagemaße-cold-imputation"><span class="header-section-number">3.3.1.1</span> Imputation durch Lagemaße (cold imputation)</a></li>
+  <li><a href="#sec-coldimp" id="toc-sec-coldimp" class="nav-link" data-scroll-target="#sec-coldimp"><span class="header-section-number">3.3.1.1</span> Imputation durch Lagemaße (cold imputation)</a></li>
   <li><a href="#imputation-durch-regression" id="toc-imputation-durch-regression" class="nav-link" data-scroll-target="#imputation-durch-regression"><span class="header-section-number">3.3.1.2</span> Imputation durch Regression</a></li>
   </ul></li>
   </ul></li>
+  <li><a href="#merkmalsselektion-mithilfe-von-lasso-regression" id="toc-merkmalsselektion-mithilfe-von-lasso-regression" class="nav-link" data-scroll-target="#merkmalsselektion-mithilfe-von-lasso-regression"><span class="header-section-number">3.4</span> Merkmalsselektion mithilfe von Lasso-Regression</a></li>
+  <li><a href="#übungsaufgaben" id="toc-übungsaufgaben" class="nav-link" data-scroll-target="#übungsaufgaben"><span class="header-section-number">3.5</span> Übungsaufgaben</a></li>
+  <li><a href="#lösungen" id="toc-lösungen" class="nav-link" data-scroll-target="#lösungen"><span class="header-section-number">3.6</span> Lösungen</a></li>
   </ul>
 </nav>
     </div>
@@ -843,17 +846,17 @@ window.Quarto = {
 <tr class="odd">
 <td class="gt_row gt_left" headers=".metric">rmse</td>
 <td class="gt_row gt_left" headers=".estimator">standard</td>
-<td class="gt_row gt_right" headers="mean">287.4591766</td>
-<td class="gt_row gt_right" headers="n">5</td>
-<td class="gt_row gt_right" headers="std_err">9.545448579</td>
+<td class="gt_row gt_right" headers="mean">287.459</td>
+<td class="gt_row gt_right" headers="n">5.000</td>
+<td class="gt_row gt_right" headers="std_err">9.545</td>
 <td class="gt_row gt_left" headers=".config">Preprocessor1_Model1</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers=".metric">rsq</td>
 <td class="gt_row gt_left" headers=".estimator">standard</td>
-<td class="gt_row gt_right" headers="mean">0.8732929</td>
-<td class="gt_row gt_right" headers="n">5</td>
-<td class="gt_row gt_right" headers="std_err">0.006853351</td>
+<td class="gt_row gt_right" headers="mean">0.873</td>
+<td class="gt_row gt_right" headers="n">5.000</td>
+<td class="gt_row gt_right" headers="std_err">0.007</td>
 <td class="gt_row gt_left" headers=".config">Preprocessor1_Model1</td>
 </tr>
 </tbody>
@@ -898,8 +901,8 @@ year                 0</code></pre>
 <section id="sec-imputation" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="sec-imputation"><span class="header-section-number">3.3.1</span> Imputation</h3>
 <p>Eine Methode für den Umgang mit fehlenden Daten ist die <em>Imputation</em>. Die grundlegende Idee hierbei ist simpel: Wir ergänzen die fehlenden Werte. Das sinnvolle Ergänzen der Werte ist hierbei die größte Schwierigkeit, weshalb wir im Folgenden einige Ansätze besprechen.</p>
-<section id="imputation-durch-lagemaße-cold-imputation" class="level4" data-number="3.3.1.1">
-<h4 data-number="3.3.1.1" class="anchored" data-anchor-id="imputation-durch-lagemaße-cold-imputation"><span class="header-section-number">3.3.1.1</span> Imputation durch Lagemaße (cold imputation)</h4>
+<section id="sec-coldimp" class="level4" data-number="3.3.1.1">
+<h4 data-number="3.3.1.1" class="anchored" data-anchor-id="sec-coldimp"><span class="header-section-number">3.3.1.1</span> Imputation durch Lagemaße (cold imputation)</h4>
 <p>Das wohl einfachste Imputationsverfahren ergänzt fehlende Werte durch Lagemaße wie den Mittelwert, den Median, oder den Modus. Hierbei gilt allerdings zu beachten, dass der Mittelwert und Median ausschließlich für numerische Variablen verwendet werden kann. Das folgende Code Snippet illustriert wie wir im Falle des Pinguin Datensatzes Mean- bzw. Modusimputation durchführen können:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>data_penguin_imputed <span class="ot">&lt;-</span> data_penguin <span class="sc">%&gt;%</span></span>
@@ -948,15 +951,1273 @@ Die Bedeutung der <code>.</code> und <code>~</code> Operatoren sind hierbei die 
 <section id="imputation-durch-regression" class="level4" data-number="3.3.1.2">
 <h4 data-number="3.3.1.2" class="anchored" data-anchor-id="imputation-durch-regression"><span class="header-section-number">3.3.1.2</span> Imputation durch Regression</h4>
 <p>Neben der Imputation durch Lagemaße werden heutzutage auch oft komplexere Algorithmen verwendet, welche die fehlenden Daten genauer approximieren können. Eine relativ einfache, aber dennoch fortgeschrittene Methode ist die Imputation mithilfe eines linearen Modells. Falls in einem Datensatz mit unabhängigen Variablen <span class="math inline">\(X = (X_1, X_2, ..., X_J)\)</span> zum Beispiel Werte in der Spalte <span class="math inline">\(X_j, 1\leq j\leq J\)</span> vorhanden sind, so kann mithilfe eines MLR Modells mit der Modellgleichung</p>
-<p><span class="math display">\[ X_j = \sum_{i=1,\\ i\neq j}^J \beta_iX_i+\beta_0+\varepsilon\]</span> geschätzt werden. Zum schätzen der Parameter können wir hierbei alle Einträge verwenden, in welcher die Variable <span class="math inline">\(X_j\)</span> vorhanden ist. Dieser Ansatz funktioniert vor allem dann gut, wenn die unterliegenden Daten alle Annahmen des MLR Modells erfüllen und auch genug Daten vorhanden sind.</p>
-<!--
+<p><span class="math display">\[ X_j = \sum_{i=1,\\ i\neq j}^J \beta_iX_i+\beta_0+\varepsilon\]</span> geschätzt werden. Zum schätzen der Parameter können wir hierbei alle Einträge verwenden, in welcher die Variable <span class="math inline">\(X_j\)</span> vorhanden ist. Dieser Ansatz funktioniert vor allem dann gut, wenn die unterliegenden Daten alle Annahmen des MLR Modells erfüllen.</p>
+<p>Mihthilfe der <code>{mice}</code> Library<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, können wir nicht nur eine Imputation wie in <a href="#sec-coldimp" class="quarto-xref"><span>Section 3.3.1.1</span></a> durchführen, sondern auch eine Regression wie sie oben beschrieben wurde. Hierfür benötigen wir die Funktion <code>mice</code> und <code>complete</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb11-2"><a href="#cb11-2"></a></span>
+<span id="cb11-3"><a href="#cb11-3"></a>methods <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">bill_length_mm =</span> <span class="st">"norm.predict"</span>,</span>
+<span id="cb11-4"><a href="#cb11-4"></a>            <span class="at">bill_depth_mm =</span> <span class="st">"norm.predict"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5"></a>            <span class="at">flipper_length_mm =</span> <span class="st">"norm.predict"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6"></a>            <span class="at">body_mass_g =</span> <span class="st">"norm.predict"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7"></a>            <span class="at">sex =</span> <span class="st">"logreg"</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>            )</span>
+<span id="cb11-9"><a href="#cb11-9"></a></span>
+<span id="cb11-10"><a href="#cb11-10"></a>data_penguin_imputed <span class="ot">&lt;-</span> data_penguin <span class="sc">%&gt;%</span></span>
+<span id="cb11-11"><a href="#cb11-11"></a>  <span class="fu">mice</span>(<span class="at">method =</span> methods,</span>
+<span id="cb11-12"><a href="#cb11-12"></a>       <span class="at">blocks =</span> <span class="fu">names</span>(methods),</span>
+<span id="cb11-13"><a href="#cb11-13"></a>       <span class="at">maxit =</span> <span class="dv">5</span>,</span>
+<span id="cb11-14"><a href="#cb11-14"></a>       <span class="at">m =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-15"><a href="#cb11-15"></a>  <span class="fu">complete</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li>In der ersten Zeile fügen wir die <code>{mice}</code> Library unserer Session hinzu.</li>
+<li>In den Zeilen 3-7 spezifizieren wir für jede Variable mit fehlenden Werten eine Methode, welche für die Imputation verwendet werden soll. Die Methode <code>"norm.predict"</code> spezifiziert hierbei ein MLR Modell für die numerischen Variablen und <code>"logreg"</code> ein logistisches Modell für die nominale Variable <code>"sex"</code>.</li>
+<li>In Zeile 10 generieren wir einen neuen Datensatz <code>data_penguin_imputed</code>, welcher später den vervollständigten Datensatz enthält.</li>
+<li>Anschließend wenden wir auf den alten Datensatz in den Zeilen 10-14 die <code>mice</code> Funktion an. Das Argument <code>method</code> spezifiziert wie wir die Fehlenden Werte ersetzen wollen (als Argument geben wir hierbei den gleichnamigen Vektor aus Zeile 3 an). Das Argument <code>blocks</code> spezifiziert auf welche Variablen die jeweiligen Imputationsalgorithmen angewendet werden sollen. Durch den Wert <code>names(methods)</code> können wir direkt die Imputationsalgorithmen mit den entsprechenden Variablen matchen.</li>
+<li>Das Argument <code>maxit=1</code> in Zeile 9 spezifiziert die Anzahl der Iterationen für das generieren der syntetischen Daten. Die Details hierfür würden den Rahmen der Vorlesung sprengen und können unter <a href="https://cran.r-project.org/web/packages/mice/mice.pdf">diesem Link</a> bei Interesse nachgeschlagen werden. Wichtig ist nur das Verständnis, dass eine höhere Anzahl an Iterationen stabilere Werte liefern kann.</li>
+<li>Das Argument <code>m</code> beschreibt wie oft ein Datensatz mithilfe der Imputationstechniken erzeugt werden soll. Das Argument <code>m=1</code> spezifiziert somit, dass wir nur einen solchen Datensatz erzeugen wollen.</li>
+<li>Da der Rückgabewert der <code>mice</code> Funktion ein Objekt ist, welches mehr als nur den vervollständigten Datensatz enthält, verwenden wir zum schluss die <code>complete</code> Funktion, welche uns einen vervollständigten Datensatz zurückgibt.</li>
+</ol>
+<p>Wir können nun nochmals überprüfen, ob wirklich alle Werte befüllt wurden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data_penguin_imputed <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">is.na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colSums</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  [,1]
+species              0
+island               0
+bill_length_mm       0
+bill_depth_mm        0
+flipper_length_mm    0
+body_mass_g          0
+sex                  0
+year                 0</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="merkmalsselektion-mithilfe-von-lasso-regression" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="merkmalsselektion-mithilfe-von-lasso-regression"><span class="header-section-number">3.4</span> Merkmalsselektion mithilfe von Lasso-Regression</h2>
+<p>Ein weiteres wichtiges Thema ist die Variablenselektion. Motivierende Faktoren für die Variablenselektion sind vor allem:</p>
+<ul>
+<li>In Umfangreichen Datensätzen haben nicht alle unabhängigen Variablen aufgrund von Multikollinearität einen signifikanten Einfluss auf die Zielvariable.</li>
+<li>Falls Interpretierbarkeit eine große Rolle spielt ist es manchmal vorteilhaft sich auf einige wenige Variablen festzulegen, welche die geschätzte Variable hinreichend gut erklären.</li>
+</ul>
+<p>In der Vorlesung wurden bereits Methoden wie <em>Forward</em>, <em>Backward</em> und <em>Stepwise</em> Selektion behandelt. Wir wollen deshalb in diesem Abschnitt eine weitere, sehr wichtige Methodik betrachten, welche auf der Idee der linearen Regression aufbaut.</p>
+<p>Angenommen wir befinden uns in dem bekannten Fall, dass ein Datensatz <span class="math inline">\(X = (X_1,...,X_J)\)</span> mit <span class="math inline">\(X_J\in\mathbb{R}^K\)</span>, <span class="math inline">\(K\)</span> Realisierungen der Zielvariable <span class="math inline">\(Y=(y_1,...,y_k)\)</span> vorliegen und wir die Parameter <span class="math inline">\(\hat{b_0},...,\hat{b_J}\)</span> schätzen wollen. Die Schätzung der Parameter kann zum Beispiel durch die Minimierung des MSE (siehe vorheriges Kapitel) durchgeführt werden:</p>
+<p><span class="math display">\[
+\min_{b_0,...,b_J}\frac{1}{K}\sum_{k=1}^K (y_k-(b_0+b_1x_{1,k}+...+b_Jx_{J,k}))^2
+\]</span> Durch das hinzufügen eines sogenannten <em>Penalty</em> Terms, können wir steuern, dass Parameter <span class="math inline">\(b_j\)</span>, welche keinen großen Einfluss auf die Zielvariable haben verkleinert, oder sogar ganz eliminiert werden:</p>
+<p><span id="eq-lasso"><span class="math display">\[
+\min_{b_0,...,b_J}\frac{1}{K}\sum_{k=1}^K (y_k-(b_0+b_1x_{1,k}+...+b_Jx_{J,k}))^2+\lambda\sum_{j=0}^J|b_j|
+\tag{3.1}\]</span></span></p>
+<p><span class="math inline">\(\lambda\in[0,\infty)\)</span> (lambda) steht hier für den Penalty Wert. Je größer dieser Wert ist, desto stärker werden die Parameter bestraft. Für die genaue Funktionsweise und Methodik hinter diesem Konzept, siehe <a href="https://en.wikipedia.org/wiki/Lasso_(statistics)">Wikipedia Artikel</a>. Wichtig an dieser Stelle ist lediglich zu verstehen wie der Fehlerterm in <a href="#eq-lasso" class="quarto-xref">Gleichung&nbsp;<span>3.1</span></a> definiert ist und welchen Einfluss der Parameter <span class="math inline">\(\lambda\)</span> hat.</p>
+<p>Die R Syntax zum trainieren und evaluieren eines solchen Modells ist sehr nah an der einens MLR Modells:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mlr_spec_lasso <span class="ot">&lt;-</span><span class="fu">linear_reg</span>(<span class="at">penalty =</span> <span class="dv">20</span>,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">mixture =</span> <span class="dv">1</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">engine =</span> <span class="st">"glmnet"</span>) </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>mlr_lasso_fit <span class="ot">&lt;-</span> mlr_spec_lasso <span class="sc">%&gt;%</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> data_train,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">formula =</span> body_mass_g<span class="sc">~</span>.)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>mlr_lasso_fit <span class="sc">%&gt;%</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 3
+   term              estimate penalty
+   &lt;chr&gt;                &lt;dbl&gt;   &lt;dbl&gt;
+ 1 (Intercept)       63116.        20
+ 2 speciesChinstrap   -173.        20
+ 3 speciesGentoo       676.        20
+ 4 islandDream          -4.23      20
+ 5 islandTorgersen       0         20
+ 6 bill_length_mm        9.03      20
+ 7 bill_depth_mm         0         20
+ 8 flipper_length_mm    21.0       20
+ 9 sexmale             454.        20
+10 year                -31.8       20</code></pre>
+</div>
+</div>
+<p>Bevor wir den obigen Code analysieren, macht es Sinn den Rückgabewert zu betrachten. Das Tibble enthält drei Spalten, wobei in der ersten der Variablenname, in der zweiten der geschätzte Lasso Parameter <span class="math inline">\(b^{\text{Lasso}}_j\)</span> und in der dritten der Term <span class="math inline">\(\lambda = 20\)</span> steht. Der Parameter <span class="math inline">\(\lambda = 20\)</span> hat dafür gesorgt, dass die geschätzten Parameter für die Variablen <code>bill_depth_mm</code> und <code>islandTorgersen</code> auf <span class="math inline">\(0\)</span> reduziert wurden. Da <code>islandTorgersen</code> teil eines Dummy Konstrukts ist, können wir diese nicht direkt entfernen. Allerdings könnten wir auf Basis unsere Analyse zum Beispiel die Variable <code>bill_depth_mm</code> entfernen.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Achtung">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Achtung
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Die geschätzten Parameter sind nicht mehr <em>unbiased</em>, weshalb eine statisticshe Analyse, zum Beispiel durch den <span class="math inline">\(t\)</span>-Test, hier weniger sinnvoll ist als bei einem MLR Modell.</p>
+</div>
+</div>
+<p>Nun zurück zum Code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>mlr_spec_lasso <span class="ot">&lt;-</span><span class="fu">linear_reg</span>(<span class="at">penalty =</span> <span class="dv">20</span>,</span>
+<span id="cb16-2"><a href="#cb16-2"></a>                            <span class="at">mixture =</span> <span class="dv">1</span>,</span>
+<span id="cb16-3"><a href="#cb16-3"></a>                            <span class="at">engine =</span> <span class="st">"glmnet"</span>) </span>
+<span id="cb16-4"><a href="#cb16-4"></a></span>
+<span id="cb16-5"><a href="#cb16-5"></a>mlr_lasso_fit <span class="ot">&lt;-</span> mlr_spec_lasso <span class="sc">%&gt;%</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a>  <span class="fu">fit</span>(<span class="at">data =</span> data_train,</span>
+<span id="cb16-7"><a href="#cb16-7"></a>      <span class="at">formula =</span> body_mass_g<span class="sc">~</span>.)</span>
+<span id="cb16-8"><a href="#cb16-8"></a></span>
+<span id="cb16-9"><a href="#cb16-9"></a>mlr_lasso_fit <span class="sc">%&gt;%</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Im Verlgeich zu einem MLR Modell wie in <a href="02_Lineare_Regression.html#sec-MLRR" class="quarto-xref"><span>Section 2.3.1</span></a>, haben wir bei der Modellspezifikation durch die <code>linear_reg</code> Funktion die Argumente <code>penalty</code> und <code>mixture</code> ergänzt. Wie bereits besprochen, steht penalty hier für den Parameter <span class="math inline">\(\lambda\)</span> aus <a href="#eq-lasso" class="quarto-xref">Gleichung&nbsp;<span>3.1</span></a>. Der Parameter <code>mixture = 1</code> spezifiziert hierbei, dass es sich um ein Lasso Model handelt. Der Parameter <code>mixture</code> kann Werte in dem Intervall <span class="math inline">\([0,1]\)</span> annehmen, wobei wir ausschließlich an dem Fall <code>mixture=1</code> interessiert sind. Außerdem haben wir in Zeile 3 das Argument <code>engine = "glmnet"</code> spezifiziert. Dieses steuert, dass die Parameter nicht mehr wie bei einer linearen Regression berechnet werden (aufgrund des Penalty Terms) sondern durch ein Optimierungsverfahren, welches <a href="#eq-lasso" class="quarto-xref">Gleichung&nbsp;<span>3.1</span></a> löst. Im letzten Schritt rufen wir nicht wie gewohnt die <code>extract_fit_engine()</code> und <code>summary()</code> Funktionen auf, sondern wenden auf das trainierte Modell die <code>tidy()</code> Funktion an, welche die geschätzten Parameter als Tibble zurückgibt.</p>
+</section>
+<section id="übungsaufgaben" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="übungsaufgaben"><span class="header-section-number">3.5</span> Übungsaufgaben</h2>
+<p>In dieser Übung werden wir uns nochmal mit dem <code>hotel_rates</code> Datensatz aus den Übungen <a href="02_Lineare_Regression.html#exr-eda_hotel" class="quarto-xref">Aufgabe&nbsp;<span>2.8</span></a> - <a href="02_Lineare_Regression.html#exr-mlrassumptions" class="quarto-xref">Aufgabe&nbsp;<span>2.11</span></a> auseinandersetzen.</p>
+<p>Verwende die untenstehende Version des <code>hotel_rates</code> Datensatzes für die folgenden Aufgaben.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>hotel_rates_filtered <span class="ot">&lt;-</span> hotel_rates <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">mutate</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">arrival_month =</span> <span class="fu">factor</span>(<span class="fu">month</span>(arrival_date)),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">num_guests =</span> adults<span class="sc">+</span>children,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">is_repeated_guest =</span> <span class="fu">factor</span>(is_repeated_guest),</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>   ) <span class="sc">%&gt;%</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(num_guests,total_of_special_requests,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>          required_car_parking_spaces,arrival_month,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>          is_repeated_guest,lead_time,stays_in_week_nights,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>          avg_price_per_room,country)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="exr-missingvalues" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 3.1</strong></span> &nbsp;</p>
+<ol type="1">
+<li><p>In der Variable <code>country</code> wurden Fehlende Werte mit dem String <code>"null"</code> enkodiert. Finde heraus wie viele Einträge der Variable <code>country</code> den Wert <code>"null"</code> besitzen.</p></li>
+<li><p>Verwende die <code>dplyr::na_if</code> Funktion um die mit <code>"null"</code> enkodierte Werte in den Wert <code>NA</code> umzuwandeln.</p></li>
+<li><p>Wir wollen nun die fehlenden Werte ergänzen. Da die Variable <code>country</code> nominal ist, können wir keine lineare Regresison anwenden. Wende stattdessen in der <code>mice()</code> Funktion die Methode <code>"cart"</code> an, was für <em>Classification And Regression Trees</em> steht (diese werden im folgenden Kapitel genauer beleuchtet). Setze die Parameter <code>maxit</code> und <code>m</code> beide auf <code>1</code> und erzeuge dann mithilfe der <code>complete()</code>Funktion einen neuen Datensatz <code>hotel_rate_imp</code>, welcher die imputierten Werte enthält.</p></li>
+</ol>
+</div>
+<div id="exr-filter_countries" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 3.2</strong></span> &nbsp;</p>
+<ol type="1">
+<li><p>Da in dem Datensatz etwa 100 verschiedene Nationalitäten vertreten sind, wir aber nur an jenen interessiert sind welche zur Erklärung der Zielvariable beitragen, sollte die Spalte <code>country</code> gefiltert werden. Der folgende Vektor enthält 39 Country-Codes, von welchen wir vermuten, dass sie einen statistisch signifikanten Einfluss auf die Variable <code>avg_price_per_room</code> haben.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cntry_list<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">"and"</span>, <span class="st">"aut"</span>, <span class="st">"aze"</span>,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">"che"</span>, <span class="st">"chl"</span>, <span class="st">"cze"</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"esp"</span>, <span class="st">"geo"</span>, <span class="st">"hun"</span>, <span class="st">"ita"</span>, </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">"lux"</span>, <span class="st">"mar"</span>, <span class="st">"mwi"</span>, <span class="st">"nga"</span>, <span class="st">"prt"</span>, </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">"rus"</span>, <span class="st">"swe"</span>, <span class="st">"tur"</span>, <span class="st">"twn"</span>, </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">"usa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Passe unter Verwendung der <code>filter()</code> Funktion und des <code>%in%</code> Operators den Datensatz aus <a href="#exr-missingvalues" class="quarto-xref">Aufgabe&nbsp;<span>3.1</span></a> so an, dass dieser nur noch Einträge enthält, welche in der Spalte <code>country</code> einen Wert des obigen Vektors enthalten.</p></li>
+<li><p>Entferne mit der gleichen Methode alle Einträge, welche in der Spalte <code>arrival_month</code> die Werte <code>month2</code> und <code>month11</code> enthalten.</p></li>
+</ol>
+</div>
+<div id="exr-train_test" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 3.3</strong></span> Verwende den in <a href="#exr-filter_countries" class="quarto-xref">Aufgabe&nbsp;<span>3.2</span></a> erstellten Datensatz um ein Trainings- und Testdatensatz im Verhältnis 4:1 zu erstellen. Um die Reproduzierbarkeit sicherzustellen, verwende den <code>set.seed(123)</code> Befehl.</p>
+</div>
+<div id="exr-mlr_train" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 3.4</strong></span> &nbsp;</p>
+<ol type="1">
+<li>Verwende die in der vorherigen Aufgabe erstellen Trainingsdaten um ein MLR Modell wie in Aufgabe <a href="02_Lineare_Regression.html#exr-mlrfit" class="quarto-xref">Aufgabe&nbsp;<span>2.9</span></a> zu schätzen.</li>
+<li>Welches der noch im Datensatz enthaltenen Herkunftsländer hat den größten Einfluss auf den durchschnittlichen Zimmerpreis?</li>
+<li>Berechne anschließend für beide Teildatensätze den <span class="math inline">\(R^2\)</span> und <span class="math inline">\(RMSE\)</span> und Vergleiche die beiden Werte.</li>
+</ol>
+</div>
+<div id="exr-cv" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 3.5</strong></span> Verwende den Datensatz aus <a href="#exr-filter_countries" class="quarto-xref">Aufgabe&nbsp;<span>3.2</span></a> um ein 5-Fold Cross-Validation (CV) Objekt zu erstellen. Schätze anschließend auf diesem CV Objekt ein MLR Modell wie in <a href="#exr-mlr_train" class="quarto-xref">Aufgabe&nbsp;<span>3.4</span></a> und vergleiche den CV-RMSE mit dem Test RMSE aus Aufgabe <a href="#exr-mlr_train" class="quarto-xref">Aufgabe&nbsp;<span>3.4</span></a>. Achte auch hierbei auf Reproduzierbarkeit und verwende den Befehl <code>set.seed(123)</code>.</p>
+</div>
+</section>
+<section id="lösungen" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="lösungen"><span class="header-section-number">3.6</span> Lösungen</h2>
+<div id="sol-missingvalues" class="proof solution">
+<p><span class="proof-title"><em>Solution 3.1</em> (<a href="#sol-missingvalues" class="quarto-xref">Solution&nbsp;<span>3.1</span></a>). </span></p>
+<ol type="1">
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>hotel_rates_filtered <span class="sc">%&gt;%</span> <span class="fu">filter</span>(country<span class="sc">==</span><span class="st">"null"</span>) <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>hotel_rate_filtered_na <span class="ot">&lt;-</span> hotel_rates_filtered <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">country=</span><span class="fu">na_if</span>(country,<span class="st">"null"</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>hotel_rate_imp <span class="ot">&lt;-</span> hotel_rate_filtered_na <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mice</span>(<span class="at">method =</span> <span class="st">"cart"</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">blocks =</span> <span class="fu">c</span>(<span class="st">"country"</span>),</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">maxit =</span> <span class="dv">1</span> ,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">m =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+</ol>
+</div>
+<div id="sol-filter_countries" class="proof solution">
+<p><span class="proof-title"><em>Solution 3.2</em> (<a href="#exr-filter_countries" class="quarto-xref">Aufgabe&nbsp;<span>3.2</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>hotel_rate_imp <span class="ot">&lt;-</span> hotel_rate_imp <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> cntry_list, arrival_month <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">12</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Durch das Hinzufügen von zwei Argumenten in der <code>filter</code> Funktion werden nur einträge zurückgegeben, welche auch beide Bedingungen erfüllen. Der <code>%in%</code> Operator in den beiden Bedingungen überprüft für jedes Element einer Liste auf der linken Seite des Operators, ob dieses in einer Liste auf der rechten Seite des Operators vorhanden ist. Der Rückgabewert des Operators ist eine liste, welche die Werte <code>TRUE</code> und <code>FALSE</code> enthält. Ein Eintrag besitzt z.B. den Wert <code>TRUE</code>, falls der in <code>country</code> betrachtete Wert in der Liste <code>cntry_list</code> vorhanden ist und sonst <code>FALSE</code>.</p>
+</div>
+<div id="sol-train_test" class="proof solution">
+<p><span class="proof-title"><em>Solution 3.3</em> (<a href="#exr-train_test" class="quarto-xref">Aufgabe&nbsp;<span>3.3</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>split_hotels <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(hotel_rate_imp, <span class="at">prop =</span> <span class="fl">0.8</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>data_train <span class="ot">&lt;-</span> <span class="fu">training</span>(split_hotels)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_hotels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-mlr_train" class="proof solution">
+<p><span class="proof-title"><em>Solution 3.4</em> (<a href="#exr-mlr_train" class="quarto-xref">Aufgabe&nbsp;<span>3.4</span></a>). </span></p>
+<ol type="1">
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mlr_res <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">formula =</span> avg_price_per_room <span class="sc">~</span>., <span class="at">data =</span> data_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>mlr_res <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a>  lm.beta<span class="sc">::</span><span class="fu">lm.beta</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb25-5"><a href="#cb25-5"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"country"</span>,term)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-6"><a href="#cb25-6"></a>  <span class="fu">mutate</span>(<span class="at">std_estimate =</span> <span class="fu">abs</span>(std_estimate)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-7"><a href="#cb25-7"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(std_estimate)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-8"><a href="#cb25-8"></a>  <span class="fu">head</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 6
+  term       estimate std_estimate std.error statistic p.value
+  &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 countryprt    -72.3        0.466      26.9     -2.69 0.00712</code></pre>
+</div>
+</div>
+<p>Das Herkunftsland mit dem Code <code>prt</code>, was für Portugal steht hat den größten Einfluss auf den Preis.</p>
+<p>Zur Erklärung des Codes:</p>
+<p>Um herauszufinden welches Herkunftsland den größten Einfluss auf den durchschnittlichen Zimmerpreis hat, müssen wir auf das MLR Modell die <code>lm.beta()</code> Funktion angeben. Dadurch, dass im Modell relativ viele Dummy Variablen enthalten sind, speichern wir durch das Anwenden der <code>tibble()</code> Funktion in Zeile 4 die Ergebnisse in einem Tibble. Das erlaubt uns dann in Zeile 5 die <code>filter()</code> Funktion anzuwenden. In Zeile 5 verwenden wir in der <code>filter()</code> Funktion die <code>grepl()</code> Funktion, welche das im ersten Argument gegebene Muster (<code>country</code>) in der Spalte <code>term</code> sucht und nur jene Einträge zurückgibt, welche den String <code>"country"</code> enthalten. Wir sortieren somit alle Variablen aus, welche keine Informationen über das Herkunftsland liefern. In Zeile 6 wenden wir die BEtragsfunktion (<code>abs()</code>) auf die Spalte <code>std_estimate</code> an. Durch die <code>arrange(desc(...))</code> Funktion in Zeile 7 erreichen wir, dass die Einträge der Größe nach absteigend sortiert sind, so dass wir dann in Zeile 8 mit dem <code>head(1)</code> Befehl jene Variable ausgegen können, welche den größten Einfluss auf die Zielvariable besitzt.</p></li>
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>multi_metric <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(rmse,rsq)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>test_metrics <span class="ot">&lt;-</span> mlr_res <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">multi_metric</span>(.pred,avg_price_per_room) <span class="sc">%&gt;%</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dset =</span> <span class="st">"test"</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>train_metrics <span class="ot">&lt;-</span> mlr_res <span class="sc">%&gt;%</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_train) <span class="sc">%&gt;%</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">multi_metric</span>(.pred,avg_price_per_room) <span class="sc">%&gt;%</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dset =</span> <span class="st">"train"</span>)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(train_metrics,test_metrics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="flaphrowoi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#flaphrowoi table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-## Merkmalsselektion
--->
+#flaphrowoi thead, #flaphrowoi tbody, #flaphrowoi tfoot, #flaphrowoi tr, #flaphrowoi td, #flaphrowoi th {
+  border-style: none;
+}
+
+#flaphrowoi p {
+  margin: 0;
+  padding: 0;
+}
+
+#flaphrowoi .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#flaphrowoi .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#flaphrowoi .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#flaphrowoi .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#flaphrowoi .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#flaphrowoi .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#flaphrowoi .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#flaphrowoi .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#flaphrowoi .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#flaphrowoi .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#flaphrowoi .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#flaphrowoi .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#flaphrowoi .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#flaphrowoi .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#flaphrowoi .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#flaphrowoi .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#flaphrowoi .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#flaphrowoi .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#flaphrowoi .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#flaphrowoi .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#flaphrowoi .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#flaphrowoi .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#flaphrowoi .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#flaphrowoi .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#flaphrowoi .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#flaphrowoi .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#flaphrowoi .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#flaphrowoi .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#flaphrowoi .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#flaphrowoi .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#flaphrowoi .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#flaphrowoi .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#flaphrowoi .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#flaphrowoi .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#flaphrowoi .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#flaphrowoi .gt_left {
+  text-align: left;
+}
+
+#flaphrowoi .gt_center {
+  text-align: center;
+}
+
+#flaphrowoi .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#flaphrowoi .gt_font_normal {
+  font-weight: normal;
+}
+
+#flaphrowoi .gt_font_bold {
+  font-weight: bold;
+}
+
+#flaphrowoi .gt_font_italic {
+  font-style: italic;
+}
+
+#flaphrowoi .gt_super {
+  font-size: 65%;
+}
+
+#flaphrowoi .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#flaphrowoi .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#flaphrowoi .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#flaphrowoi .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#flaphrowoi .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#flaphrowoi .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#flaphrowoi .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id=".metric" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">.metric</th>
+<th id=".estimator" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">.estimator</th>
+<th id=".estimate" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">.estimate</th>
+<th id="dset" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">dset</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers=".metric">rmse</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers=".estimate">37.767</td>
+<td class="gt_row gt_left" headers="dset">train</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=".metric">rsq</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers=".estimate">0.746</td>
+<td class="gt_row gt_left" headers="dset">train</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers=".metric">rmse</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers=".estimate">38.238</td>
+<td class="gt_row gt_left" headers="dset">test</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=".metric">rsq</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers=".estimate">0.732</td>
+<td class="gt_row gt_left" headers="dset">test</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Es ist nicht weiter überraschend, dass der IS RMSE und <span class="math inline">\(R^2\)</span> höher ist, als die OOS Metriken, da wir die Parameter des MLR Modells auf Basis der Trainingsdaten geschätzt haben.</p></li>
+</ol>
+</div>
+<div id="sol-cv" class="proof solution">
+<p><span class="proof-title"><em>Solution 3.5</em> (<a href="#exr-cv" class="quarto-xref">Aufgabe&nbsp;<span>3.5</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>folds_hotel <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(hotel_rate_imp, <span class="at">v =</span><span class="dv">5</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>mlr_fit_cv <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds_hotel,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">preprocessor =</span> avg_price_per_room <span class="sc">~</span>.</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>metrics_cv <span class="ot">&lt;-</span> mlr_fit_cv <span class="sc">%&gt;%</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dset =</span> <span class="st">"cv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(n,std_err,.config)) <span class="sc">%&gt;%</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="fu">c</span>(<span class="st">".estimate"</span> <span class="ot">=</span> <span class="st">"mean"</span>))</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(metrics_cv,test_metrics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="rmyqurzptf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rmyqurzptf table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#rmyqurzptf thead, #rmyqurzptf tbody, #rmyqurzptf tfoot, #rmyqurzptf tr, #rmyqurzptf td, #rmyqurzptf th {
+  border-style: none;
+}
+
+#rmyqurzptf p {
+  margin: 0;
+  padding: 0;
+}
+
+#rmyqurzptf .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#rmyqurzptf .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#rmyqurzptf .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#rmyqurzptf .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#rmyqurzptf .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#rmyqurzptf .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rmyqurzptf .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#rmyqurzptf .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#rmyqurzptf .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#rmyqurzptf .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#rmyqurzptf .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#rmyqurzptf .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#rmyqurzptf .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#rmyqurzptf .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#rmyqurzptf .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#rmyqurzptf .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#rmyqurzptf .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#rmyqurzptf .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#rmyqurzptf .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rmyqurzptf .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#rmyqurzptf .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#rmyqurzptf .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#rmyqurzptf .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rmyqurzptf .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#rmyqurzptf .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#rmyqurzptf .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rmyqurzptf .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rmyqurzptf .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#rmyqurzptf .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rmyqurzptf .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#rmyqurzptf .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rmyqurzptf .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#rmyqurzptf .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rmyqurzptf .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#rmyqurzptf .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rmyqurzptf .gt_left {
+  text-align: left;
+}
+
+#rmyqurzptf .gt_center {
+  text-align: center;
+}
+
+#rmyqurzptf .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#rmyqurzptf .gt_font_normal {
+  font-weight: normal;
+}
+
+#rmyqurzptf .gt_font_bold {
+  font-weight: bold;
+}
+
+#rmyqurzptf .gt_font_italic {
+  font-style: italic;
+}
+
+#rmyqurzptf .gt_super {
+  font-size: 65%;
+}
+
+#rmyqurzptf .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#rmyqurzptf .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#rmyqurzptf .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#rmyqurzptf .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#rmyqurzptf .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#rmyqurzptf .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#rmyqurzptf .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id=".metric" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">.metric</th>
+<th id=".estimator" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">.estimator</th>
+<th id=".estimate" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">.estimate</th>
+<th id="dset" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">dset</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers=".metric">rmse</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers=".estimate">38.101</td>
+<td class="gt_row gt_left" headers="dset">cv</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=".metric">rsq</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers=".estimate">0.740</td>
+<td class="gt_row gt_left" headers="dset">cv</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers=".metric">rmse</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers=".estimate">38.238</td>
+<td class="gt_row gt_left" headers="dset">test</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=".metric">rsq</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers=".estimate">0.732</td>
+<td class="gt_row gt_left" headers="dset">test</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Die Metriken gemessen am Testset sind konservativer. Das könnte daran liegen, dass das einmal auf den Trainingsdaten geschätzte Lineare Modell sich zu stark an die Trainingsdaten angepasst hat.</p>
+</div>
 
 
 </section>
-</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Diese muss eventuell über den Befehl <code>install.packages("mice")</code> installiert werden<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
