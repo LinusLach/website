@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Linus Lach">
-<meta name="dcterms.date" content="2025-04-01">
 
-<title>Data Mining Übungsmaterial</title>
+<title>4&nbsp; Regressionsbäume – Data Mining Übungsmaterial</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -32,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01_Einfuehrung.html" rel="next">
+<link href="./03_Wichtige_Konzepte.html" rel="prev">
 <script src="site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -99,6 +97,35 @@ cookieconsent.run({
 </script> 
   
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -111,7 +138,7 @@ cookieconsent.run({
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Vorwort</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04_Regressions_Baeume.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regressionsbäume</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -138,7 +165,7 @@ cookieconsent.run({
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Vorwort</span></a>
   </div>
 </li>
@@ -162,7 +189,7 @@ cookieconsent.run({
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04_Regressions_Baeume.html" class="sidebar-item-text sidebar-link">
+  <a href="./04_Regressions_Baeume.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regressionsbäume</span></span></a>
   </div>
 </li>
@@ -176,12 +203,20 @@ cookieconsent.run({
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#vorwort" id="toc-vorwort" class="nav-link active" data-scroll-target="#vorwort">Vorwort</a>
+  <li><a href="#grundidee" id="toc-grundidee" class="nav-link active" data-scroll-target="#grundidee"><span class="header-section-number">4.1</span> Grundidee</a>
   <ul>
-  <li><a href="#warum-sollte-ich-mir-r-anschauen" id="toc-warum-sollte-ich-mir-r-anschauen" class="nav-link" data-scroll-target="#warum-sollte-ich-mir-r-anschauen">Warum sollte ich mir R anschauen?</a></li>
-  <li><a href="#hilfe-mein-code-macht-nicht-das-was-ich-will" id="toc-hilfe-mein-code-macht-nicht-das-was-ich-will" class="nav-link" data-scroll-target="#hilfe-mein-code-macht-nicht-das-was-ich-will">Hilfe, mein Code macht nicht das, was ich will!</a></li>
-  <li><a href="#aufbau-des-manuskripts" id="toc-aufbau-des-manuskripts" class="nav-link" data-scroll-target="#aufbau-des-manuskripts">Aufbau des Manuskripts</a></li>
+  <li><a href="#darstellung-von-bäumen-und-vorhersagen" id="toc-darstellung-von-bäumen-und-vorhersagen" class="nav-link" data-scroll-target="#darstellung-von-bäumen-und-vorhersagen"><span class="header-section-number">4.1.1</span> Darstellung von Bäumen und Vorhersagen</a>
+  <ul class="collapse">
+  <li><a href="#baumdiagramme" id="toc-baumdiagramme" class="nav-link" data-scroll-target="#baumdiagramme"><span class="header-section-number">4.1.1.1</span> Baumdiagramme</a></li>
+  <li><a href="#aufteilung-des-featurespace" id="toc-aufteilung-des-featurespace" class="nav-link" data-scroll-target="#aufteilung-des-featurespace"><span class="header-section-number">4.1.1.2</span> Aufteilung des Featurespace</a></li>
   </ul></li>
+  <li><a href="#vorteile-gegenüber-linearen-modellen" id="toc-vorteile-gegenüber-linearen-modellen" class="nav-link" data-scroll-target="#vorteile-gegenüber-linearen-modellen"><span class="header-section-number">4.1.2</span> Vorteile gegenüber linearen Modellen</a></li>
+  </ul></li>
+  <li><a href="#sec-tdgreedy" id="toc-sec-tdgreedy" class="nav-link" data-scroll-target="#sec-tdgreedy"><span class="header-section-number">4.2</span> Top-Down-Greedy</a>
+  <ul>
+  <li><a href="#rekursive-und-greedy-eigenschaft-des-algorithmus" id="toc-rekursive-und-greedy-eigenschaft-des-algorithmus" class="nav-link" data-scroll-target="#rekursive-und-greedy-eigenschaft-des-algorithmus"><span class="header-section-number">4.2.1</span> Rekursive und Greedy Eigenschaft des Algorithmus</a></li>
+  </ul></li>
+  <li><a href="#sec-erweiterungen" id="toc-sec-erweiterungen" class="nav-link" data-scroll-target="#sec-erweiterungen"><span class="header-section-number">4.3</span> Erweiterungen</a></li>
   </ul>
 </nav>
     </div>
@@ -190,26 +225,14 @@ cookieconsent.run({
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data Mining Übungsmaterial</h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regressionsbäume</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Linus Lach </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">April 1, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -219,40 +242,174 @@ cookieconsent.run({
 </header>
 
 
-<section id="vorwort" class="level1 unnumbered">
-<h1 class="unnumbered">Vorwort</h1>
-<p>Dieses Übungsmanuskript ergänzt das Vorlesungsskript zur Vorlesung <em>Data Mining</em> von <a href="https://www.uni-augsburg.de/de/fakultaet/wiwi/prof/stat/okhrin/team/yarema-okhrin/">Prof.&nbsp;Dr.&nbsp;Yarema Okhrin</a> an der Universität Augsburg. Da dieses Manuskript noch in Arbeit ist sind Änderungen unter vorbehalt möglich und wahrscheinlich.</p>
-<section id="warum-sollte-ich-mir-r-anschauen" class="level2">
-<h2 class="anchored" data-anchor-id="warum-sollte-ich-mir-r-anschauen">Warum sollte ich mir R anschauen?</h2>
-<p>In fast allen Übungen werden wir mit der (statistischen) Programmiersprache R arbeiten. Data Mining lebt von der Arbeit mit Daten - sei es die explorative Datenanalyse (EDA), oder das entwickeln von Statistischen Modellen für Vorhersagen. R ist besonders für EDA geeignet, da es sich durch verschiedene Zusatzpakete (Libraries) wie dem Tidyverse und Tidymodels auszeichnet. Zum erfolgreichen abschließen dieses Moduls ist deshalb unerlässlich, dass man sich in der Vorlesung sowie der Übung mit der Programmiersprache R auseinander setzt. Sowohl die Theoretischen Konzepte als auch die Anwendung sollen hierbei durch die verschiedenen Übungen vertieft werden.</p>
+<p>In diesem Kapitel setzen wir uns mit Baummodellen in einem Regressionskontext auseinander. Baummodelle bilden die Grundlage für viele weitere Modelle, welche aufgrund ihrer Fähigkeit Zusammenhänge sehr gut zu modellieren oft genurzr weren. Mit einer dieser Erweiterungen setzen wir uns in <a href="#sec-erweiterungen" class="quarto-xref"><span>Section 4.3</span></a> auseinander.<br>
+Der Hauprfokus dieses Kapitels liegt allerdings darauf, die Grundidee des Modells und des Algorithmus zu verstehen der für das Schätzen von Regressionsbäumen verwendet wird.</p>
+<section id="grundidee" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="grundidee"><span class="header-section-number">4.1</span> Grundidee</h2>
+<p>Regressionsbäume sind Teil der <em>Classification and Regression Tree</em> (CART) Familie. Regressions und Klassifikationsbäume werden auch Entscheidungsbäume genannt, da die Vorhersagen durch (binär: ‘Ja’/‘Nein’) Entscheidungen berechnet werden.</p>
+<section id="darstellung-von-bäumen-und-vorhersagen" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="darstellung-von-bäumen-und-vorhersagen"><span class="header-section-number">4.1.1</span> Darstellung von Bäumen und Vorhersagen</h3>
+<p>In diesem Unterkapitel diskutieren wir zwei Möglichkeiten um Entscheidungsbäume darzustellen.</p>
+<section id="baumdiagramme" class="level4" data-number="4.1.1.1">
+<h4 data-number="4.1.1.1" class="anchored" data-anchor-id="baumdiagramme"><span class="header-section-number">4.1.1.1</span> Baumdiagramme</h4>
+<p>Die grafischen Bestandteile bei der Darstellung eines Entscheidungsbaums als Baumdiagramm sind <em>Knoten</em> (nodes) und <em>Kanten</em>. Bei den Knoten unterscheiden wir vor allem zwischen dem <em>Wurzelknoten</em> (root node) und <em>Blattknoten</em>. Der Wurzelknkoten steht hierbei immer ganz oben im Diagramm und die Blattknoten am Ende der jeweiligen Entscheidungspfade. Knoten welche zwischen dem Wurzel und den Blattknoten stehen nennen wir auch Entscheidungsknoten. (Beachte, dass auch der Wurzelknoten ein Entscheidungsknoten ist!) In einem Entscheidungsknoten prüfen wir eine aufgestellte Bedingung und bewegen uns auf Basis der Entscheidung entsprechend entlang der Kanten. Bei numerischen Features ist sind die Bedingungen in Form eines Größenvergleichs gegeben. Es wird also überprüft, ob das Feature eines Datenpunktes größer(-gleich) oder kleiner als ein Schwellenwert ist. Ähnlich wie beim Dummy-Encoding bei einer linearen Regression wird bei nominalen Merkmalen lediglich geprüft, ob die Ausprägung der Variable mit dem Entscheidungswert übereinstimmt oder nicht. Diesen Vorgang wiederholen wir bis ein Blattknoten erreicht wird, in welchem die Vorhersagen stehen.</p>
+<p>Folgende Grafik zeigt eine Beispielhafte Darstellung eines solchen Entscheidungsbaums.</p>
+<div id="fig-Lorem" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-Lorem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="pictures/Tree_diagram.svg" id="fig-Lorem" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-Lorem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.1
+</figcaption>
+</figure>
+</div>
+<p>Das in <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> dargestellte Baumdiagramm wurde auf Basis eines Datensatzes erzeugt, welcher die beiden Variablen <span class="math inline">\(X_1\)</span> und <span class="math inline">\(X_2\)</span> enthält. In jedem Entscheidungsknoten wird das Entscheidungskriterium durch einen Sehwellenwert (Splittingpoint) <span class="math inline">\(t_i,i=1,...,6\)</span> ausgedrückt. Falls in einem binären Entscheidungsbaum also <span class="math inline">\(6\)</span> Splittingpoints gegeben sind, dann existieren <span class="math inline">\(6+1 = 7\)</span> Blattknoten. Da der oberste Knoten (Wurzeknoten) auch ein Entscheidungsknoten ist, hat dieser teilweise die gleiche Farbe wie die anderen Entscheidungsknoten, ist aufgrund seiner Wurzeleigenschaft aber nochmal gesondert zu betrachten.</p>
+<p>Wir prüfen also im ersten Schritt ob die Variable <span class="math inline">\(X_2\)</span> kleiner oder gleich <span class="math inline">\(t_1\)</span> ist. Falls das der Fall ist, bewegen wir uns entlang der linken Kante und ansonsten entlang der rechten Kante zum nächsten Entscheidungsknoten. Angenommen <span class="math inline">\(X_2\leq t_1\)</span>, dann bewegen wir uns zum nächsten Knoten in welchem wir die Bedingung <span class="math inline">\(X_1\leq t_2\)</span> prüfen. Falls diese Bedingung ebenso erfüllt ist, landen wir im Blattknoten mit dem Wert <span class="math inline">\(R_1\)</span>. Der Wert <span class="math inline">\(R_1\)</span> ist dann die vorhersage für den entsprechenden Datenpunkt. Wie die Werte <span class="math inline">\(R_k, k=1,...,6\)</span> berechnet werden untersuchen wir in <a href="#sec-tdgreedy" class="quarto-xref"><span>Section 4.2</span></a>.</p>
 </section>
-<section id="hilfe-mein-code-macht-nicht-das-was-ich-will" class="level2">
-<h2 class="anchored" data-anchor-id="hilfe-mein-code-macht-nicht-das-was-ich-will">Hilfe, mein Code macht nicht das, was ich will!</h2>
-<p>Debugging, auch bekannt als die Kunst, herauszufinden, warum sich der Code nicht wie erwartet verhält, spielt beim Programmieren eine wesentliche Rolle. Auch nach jahrelanger Übung werden (gelegentlich) Fehler beim Programmieren auftreten.</p>
-<p>Es gibt viele mehr oder weniger effektive Ansätze zur Lösung von progamiertechnischen Problemen im Rahmen dieses Kurses. Die meisten Probleme werden von der Form</p>
-<blockquote class="blockquote">
-<p>Ich habe den Code bei mir in ein R Skript kopiert und es funktioniert nicht.</p>
-</blockquote>
-<p>sein.</p>
-<p>Die meisten dieser Fehler bzw. Probleme lassen sich mithilfe der folgenden vier Ansätzen lösen. Wichtig an dieser Stelle ist zu erwähnen, dass die meisten Foren, Websites und Dokumentation für R in englischer Sprache verfasst wurden, weshalb es sich lohnt die Fehler in der englischen Form zu untersuchen.</p>
+<section id="aufteilung-des-featurespace" class="level4" data-number="4.1.1.2">
+<h4 data-number="4.1.1.2" class="anchored" data-anchor-id="aufteilung-des-featurespace"><span class="header-section-number">4.1.1.2</span> Aufteilung des Featurespace</h4>
+<p>Äquivalent zur Darstellung eines Diagramms können wir, zumindest bei ein- oder zweidimensionalen Datensätzen, einen Entscheidungsbaum auch im <em>Featurespace</em> darstellen. Mit Featurespace meinen wir hier den Raum, welcher durch die Ausprägungen aufgespannt wird. Existieren wie in <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> zum Beispiel zwei Feature <span class="math inline">\(X_1\)</span> und <span class="math inline">\(X_2\)</span>, dann können wir die Splittingpoints und Blattknoten in einem Kooerdinatensystem darstellen:</p>
+<div id="fig-featurespace" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-featurespace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="pictures/Feature_Space.svg" id="fig-featurespace" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-featurespace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.2
+</figcaption>
+</figure>
+</div>
+<p>Beachte dass die Darstellungen in <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> und <a href="#fig-featurespace" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> äquivalent sind. Wir können also jeweils die eine Darstellung in die andere überführen. Um beispielsweise in den Blattknoten <span class="math inline">\(R_6\)</span> aus <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> zu erreichen müssen wir in <a href="#fig-featurespace" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> die gleichen Bedingungen prüfen:</p>
 <ol type="1">
-<li><p>Viele der häufig auftretenden Fehlermeldungen wurden wahrscheinlich schon in Foren wie <a href="https://stackoverflow.com">Stack Overflow</a> disskutiert. Alternativ können die Suchergebnisse auch Websites wie <a href="https://www.datacamp.com">DataCamp</a> oder <a href="https://www.geeksforgeeks.org/">GeeksforGeeks</a> enthalten. Diese Websites bieten für die meisten Probleme und Fehler eine schnelle Lösung welche in der regel einfach exakt wie vorgeschlagen in die eigenen Code Skripte übernommen werden können.</p></li>
-<li><p>Verwendung eines großen Sprachmodells wie <a href="https://chat.mistral.ai/chat">leChat</a>. Wenn es um Fragen zur Fehlersuche oder zur Programmierung im Allgemeinen geht, sind Sprachmodelle hilfreich. Indem man eine Frage als Prompt eingiebt wird in den meisten Fällen die Ausgabe der Sprachmodelle bereits eine zufriedenstellende Antwort liefern.</p></li>
-<li><p>Die interne „Hilfe“-Funktion mag zwar als altmodisch gelten, ist aber ein äußerst effektiver Ansatz zur Fehlersuche. Sie kann wertvolle Erkenntnisse liefern, wenn sich eine Funktion nicht wie erwartet verhält. Wenn sich eine Funktion nicht wie erwartet verhält, öffnet die Eingabe von <code>?Funktionsname</code> im Konsolen Panel die entsprechende Hilfeseite. Der Abschnitt <code>arguments</code> auf der Hilfeseite erklärt die verschiedenen Eingabeparameter einer Funktion. Der Abschnitt <code>value</code> beschreibt, was für einen Rückgabewert die Funktion hat. Beispiele für die Verwendung einer Funktion können im letzten Abshcnitt der Hilfe Funktion gefunden werden.</p></li>
-<li><p>Wenn jeder der oben genannten Schritte fehlschlägt, können natürlich auch Fragen im entsprechenden Digicampus Kurs gestellt werden.</p></li>
+<li><span class="math inline">\(X_2\leq t_1\)</span> ist bei <span class="math inline">\(R_6\)</span> nicht erfüllt und deshalb <span class="math inline">\(X_2&gt;t_1\)</span>. Wir befinden uns also oberhalb der horizontalen Linie durch den Punkt <span class="math inline">\(t_1\)</span>.</li>
+<li><span class="math inline">\(X_1\leq t_4\)</span> ist bei <span class="math inline">\(R_6\)</span> ebenso nicht erfüllt, weshalb <span class="math inline">\(X_1&gt;t_4\)</span> gilt.</li>
+<li><span class="math inline">\(X_1\leq t_5\)</span> ist bei <span class="math inline">\(R_6\)</span> ebenso nicht erfüllt, weshalb <span class="math inline">\(X_1&gt;t_5\)</span> gilt.</li>
+<li><span class="math inline">\(X_2\leq t_6\)</span> ist bei <span class="math inline">\(R_6\)</span> ebesno nicht erfüllt, weshalb <span class="math inline">\(X_2&gt;t_6\)</span> gilt.</li>
 </ol>
+<p>Zusammengefasst muss für ein Datenpunkt <span class="math inline">\((x_1,x_2)\)</span> also <span class="math inline">\(x_2&gt;t_6\)</span> und <span class="math inline">\(x_1&gt;t_5\)</span> gelten, damit der Datenpunkt in den Blattknoten <span class="math inline">\(R_6\)</span> fällt.</p>
 </section>
-<section id="aufbau-des-manuskripts" class="level2">
-<h2 class="anchored" data-anchor-id="aufbau-des-manuskripts">Aufbau des Manuskripts</h2>
-<p>Jedes Kapitel beginnt, je nach Komplexität des Themas, mit einer mehr oder weniger technischen Zusammenfassung und Motivation. Nach diesen Zusammenfassungen folgen Beispiele, welche die Funktionen und Konzepte ergänzen. Die Übungsaufgaben und Lösungen finden sich im Anschluss an diese Beispiele.</p>
+</section>
+<section id="vorteile-gegenüber-linearen-modellen" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="vorteile-gegenüber-linearen-modellen"><span class="header-section-number">4.1.2</span> Vorteile gegenüber linearen Modellen</h3>
+<p>Bäume gehören aufgrund ihrer Struktur zu nichtlinearen Modellen. Falls die unterliegenden Daten also nicht der Linearitätsannahme unterliegen, können wir also bei einem <em>guten</em> Baum erwarten, dass dieser die Zusammenhänge in den Daten besser beschreibt.</p>
+<p>Betrachte hierfür folgendes syntetisches Beispiel, welches diesen Effekt illustriert:</p>
+<div id="exm-tree_quad" class="theorem example">
+<p><span class="theorem-title"><strong>Beispiel 4.1</strong></span> Der Datensatz <code>data_exm</code> besteht aus zwei Spalten <code>x</code> und <code>y</code>, wobei <code>x</code> Werte zwischen <span class="math inline">\(0\)</span> und <span class="math inline">\(10\)</span> annimmt und <span class="math inline">\(y\)</span> durch die Formel <span class="math display">\[y = f(x)+\varepsilon=\sin(x)+\varepsilon \]</span></p>
+<p>(mit <span class="math inline">\(\varepsilon \sim \mathcal{N}(0,1)\)</span>) berechnet wird. <code>y</code> soll hierbei die abhängige und <code>x</code> die unabhängige Variable darstellen und das Ziel ist deshalb <code>y</code> durch <code>x</code> zu approximieren.</p>
+<p>Die folgende Grafik zeigt eine Realisation dieser Simulation:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Falls wir nun versuchen den Zusammenhang zwischen <code>y</code> und <code>x</code> mithilfe eines einfachen linearen Modells zu modellieren, so erhalten wir die Regressionsgerade welche in der folgenden Grafik dargestellt ist.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Offensichtlich eignet sich die einfache lineare Regression nicht um den Zusammenhang zwischen <code>y</code> und <code>x</code> zu modellieren. Wir können allerdings den Zusammenhang ebenso durch einen Regressionsbaum modellieren, welcher im Featurespace wie folgt dargestellt werden kann.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Beachte, dass unser Featurespace in diesem Beispiel nur eindimensional ist, weshalb das resultierende Baummodell keine Flächen (wie in <a href="#fig-featurespace" class="quarto-xref">Figure&nbsp;<span>4.2</span></a>), sondern Geraden enthält. Die rote Linie beschreibt hierbei die durch das Baummodell geschätzten Werte <span class="math inline">\(\hat{y}\)</span> für ein gegebenes <span class="math inline">\(x\)</span>. Das Baummodell modelliert den Einfluss von <code>x</code> auf <code>y</code> also vergleichsweise gut, obwohl die Daten keinen linearen Zusammenhang besitzen!</p>
+</div>
+<p>Zusammengefasst spiegelt sich der erste Vorteil von Baummodellen gegenüber linearen Modellen also in der Fähigkeit wieder auch nichtlineare Zusammenhänge zu modellieren.</p>
+<p>Einen weiteren Vorteil können wir bei der Betrachtung von <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> erkennen: Bei Baummodellen ist sehr leicht erkennbar, auf Basis welcher Variablen und Schwellenwerten die Vorhersagen getroffen werden. Selbst wenn das Modell aus einer Vielzahl von Variablen besteht kann man durch die Darstellung eines Baumdiagramms effizient den Wert berechnen, welcher durch das Modell vorhergesagt wird.</p>
+</section>
+</section>
+<section id="sec-tdgreedy" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="sec-tdgreedy"><span class="header-section-number">4.2</span> Top-Down-Greedy</h2>
+<p>Bisher haben wir zwar verschiedene Darstellung der Regressionsbäume betrachtet und herausgefunden wie wir bei den verschiedenen Darstellungen Vorhersagewerte ablesen können, allerdings nicht wie die Schwellwerte und Splittingvariablen bestimmt werden.</p>
+<p>Der Algorithmus welcher hierfür verwendet wird ist der sogenannte <em>Top-Down-Greedy</em> oder <em>Recursive-Binary-Splitting</em> Algorithmus. Um den Algorithmus zu erklären orientieren wir uns primär an der Darstellung aus <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a>.</p>
+<p>Die Idee des Algorithmus ist, dass wir in jedem Schritt den Feature Space <em>bestmöglich</em> zweiteilen um eine verbesserte Vorhersage im Vergleich zur ungeteilten Version erhalten. Formal lässt sich der Algorithmus wie folgt darstellen:</p>
 <ol type="1">
-<li>Im ersten Kapitel werden wir die wichtigsten R Konzepte wiederholen, welche in der Übung und Vorlesung regelmäßig angewendet werden.</li>
-<li>Im zweiten Kapitel betrachten wir die Einfache und Multiple Lineare Regression. Wir gehen dabei auf die Annahmen ein, diskutieren warum diese wichtig sind und wie man prüft, ob diese Annahmen bei einem gegebenen Datensatz erfüllt sind, oder nicht.</li>
-<li>Im dritten Kapitel setzen wir uns mit essenziellen Techniken des Data Minings auseinander, welche direkt mit dem entwickeln von Modellen verwandt sind. Es geht hierbei um das Aufteilen der Daten in Trainings- und Testdaten, was robustere Vorhersagen für zuvor ungesehene Ausprägungen ermöglicht. Außerdem führen wir die Imputation von fehlenden Daten sowie die effiziente Merkmalsselektion ein.</li>
+<li><p><strong>Initialisierung</strong>:<br>
+Beginne mit dem gesamten Trainingsdatensatz <span class="math display">\[D = \{(x_k,y_k):x_k\in\mathbb{R}^J,\: y_k\in\mathbb{R},\: k = 1,...,K\}\]</span> in der Wurzel des Baums.</p></li>
+<li><p><strong>Spaltensuche </strong>:<br>
+Für jedes Feature <span class="math inline">\(X_j\)</span> und jeden potenziellen<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Schwellenwert <span class="math inline">\(s\)</span>:</p>
+<ol type="i">
+<li><p>Teile die Daten in zwei Regionen: <span class="math display">\[\begin{align*}
+  R_1(j, s) &amp;= \{ x \in D \mid x_j \leq s \}\\
+  R_2(j, s) &amp;= \{ x \in D \mid x_j &gt; s \}
+\end{align*}\]</span></p></li>
+<li><p>Berechne den MSE, welcher durch diese Aufteilung entsteht:</p>
+<p><span class="math display">\[\begin{equation*}
+  \text{MSE}(j, s) = \frac{1}{|R_1|}\sum_{i: x_i \in R_1(j, s)} (y_i - \bar{y}_{R_1})^2 + \frac{1}{|R_2|}\sum_{i: x_i \in R_2(j, s)} (y_i - \bar{y}_{R_2})^2
+\end{equation*}\]</span><br>
+wobei <span class="math inline">\(\bar{y}_{R_1}\)</span> der durschnittliche Wert aller Datenpunkte <span class="math inline">\(y\)</span> ist, welche in <span class="math inline">\(R_1\)</span> liegen und <span class="math inline">\(\bar{y}_{R_2}\)</span> der durschnittliche Wert aller Datenpunkte <span class="math inline">\(y\)</span>, welche in <span class="math inline">\(R_2\)</span> liegen.</p></li>
+</ol></li>
+<li><p><strong>Wahl des besten Schwellenwerts </strong>:<br>
+Wähle das Paar <span class="math inline">\((j^{*},s^{*})\)</span>, welches den MSE minimiert.</p></li>
+<li><p><strong>Rekursives Aufteilen</strong>:</p>
+<ol type="i">
+<li>Erzeuge zwei neue Knoten für <span class="math inline">\(R_1(j^{*}, s^{*})\)</span> und <span class="math inline">\(R_2(j^{*}, s^{j*})\)</span>.</li>
+<li>Wiederhole Schritte 2–4 rekursiv für jeden dieser Knoten.</li>
+</ol></li>
+<li><p><strong>Stopkriterium prüfen</strong>:<br>
+Beende die Aufteilung, wenn eines der folgenden Kriterien erfüllt ist:</p>
+<ol type="i">
+<li>Die Region enthält weniger als eine vorher festgelegte Mindestanzahl an Beobachtungen.</li>
+<li>Eine vorher festgelegte maximale Baumtiefe wurde erreicht.</li>
+<li>Die Reduktion des Fehlers liegt unter einem vorher festgelegten Schwellenwert.</li>
+</ol></li>
+<li><p><strong>Terminalknoten-Wert setzen</strong>:<br>
+Weise jedem Blattknoten den Mittelwert der Zielvariablen <span class="math inline">\(\bar{y}_{R_i}\:,i=1,...,I\)</span> der enthaltenen Datenpunkte zu.</p></li>
 </ol>
+<section id="rekursive-und-greedy-eigenschaft-des-algorithmus" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="rekursive-und-greedy-eigenschaft-des-algorithmus"><span class="header-section-number">4.2.1</span> Rekursive und Greedy Eigenschaft des Algorithmus</h3>
+<p>Der <em>rekursvive</em> Charakter des Algorithmus ist hierbei in Schritt 4. zu erkennen, da nach jedem Aufteilen des Datensatzes in zwei Teildatensätze diese Teildatensätze nach dem gleichen Prinzip wieder aufgeteilt werden.</p>
+<p>Der <em>greedy</em> Charakter des Algorithmus ist in Schritt 3. wiederzufinden. Da wir in jeder Iteration jenen Split wählen, welcher den MSE in diesem Schritt minimiert ist gewährleistet, dass wir in jeder Iteration den bestmöglichen Split bilden. Dieses Vorgehen kann aber unter Umständen zu einem nicht optimalen Baum führen: Angnommen wir wollen eine Region <span class="math inline">\(R_i\)</span> in zwei Teilregionen <span class="math inline">\(R_{i,1}\)</span> und <span class="math inline">\(R_{i,2}\)</span> aufteilen und wählen hierfür das optimale Paar <span class="math inline">\((j^*,s^*)\)</span>. Dann existiert keine weitere Kombination <span class="math inline">\((\tilde{j},\tilde{s})\)</span>, so dass <span class="math inline">\(\text{MSE}(\tilde{j}, \tilde{s})&lt; \text{MSE}(j^*, s^*)\)</span>. Falls wir also <span class="math inline">\(R_i\)</span> bezüglich dem Paar <span class="math inline">\((j^*, s^*)\)</span> in <span class="math inline">\(R_{i,1}\)</span> und <span class="math inline">\(R_{i,2}\)</span> aufteilen und daraufhin <span class="math inline">\(R_{i,1}\)</span> optimal in <span class="math inline">\(R_{i+1,1}\)</span> und <span class="math inline">\(R_{i+1,2}\)</span> aufteilen, dann kann es sein, dass unter der Verwendung von <span class="math inline">\((\tilde{j},\tilde{s})\)</span> aus der letzten Iteration ein Split <span class="math inline">\(R_{\tilde{i}+1,1}\)</span> und <span class="math inline">\(R_{\tilde{i}+1,2}\)</span> entstehen hätte können, für den<br>
+<span class="math display">\[\begin{equation}
+\text{MSE}_{\tilde{i}+1}(j, s) &lt; \text{MSE}_{i+1}(j, s)
+\end{equation}\]</span> gilt.</p>
+<!-- 
+### Stoppkriterien
+
+Im 5. Schritt des Top-Down-Greedy Algorithmus haben wir veschiedene Kriterien genannt, welche zum Stoppen des Algorithmus führen können.
+Wir wollen in diesem Abschnitt die Stopp-Kriterien ein wenig genauer definieren und untersuchen.
+
+
+#### Mindestanzahl an Beobachtungen `min_n`
+
+Das Kriterium zur Mindestanzahl an Beobachtungen prüft vor jedem
+
+## Regressionsbäume in R
+-->
+</section>
+</section>
+<section id="sec-erweiterungen" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-erweiterungen"><span class="header-section-number">4.3</span> Erweiterungen</h2>
+<!--
+
+## Übungsaufgaben
+
+## Lösungen
+
+-->
 
 
 </section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Diese sind durch die Mittelwerte aller benachbarten Punkte gegeben<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
@@ -678,11 +835,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./03_Wichtige_Konzepte.html" class="pagination-link" aria-label="Weiterführende Konzepte des Dataminings">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Weiterführende Konzepte des Dataminings</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01_Einfuehrung.html" class="pagination-link" aria-label="(Kurz)Einführung in R">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">(Kurz)Einführung in R</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

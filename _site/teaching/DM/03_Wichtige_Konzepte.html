@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./04_Regressions_Baeume.html" rel="next">
 <link href="./02_Lineare_Regression.html" rel="prev">
 <script src="site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
@@ -221,6 +222,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Weiterführende Konzepte des Dataminings</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Regressions_Baeume.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regressionsbäume</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -361,7 +368,7 @@ window.Quarto = {
 <p><span class="math display">\[
 \text{CV-Loss} = \frac{1}{5}\sum_{i=1}^{5} \text{Loss}_{\text{OOS}_i}(y,\hat{y})
 \]</span> berechnen. <span class="math inline">\(\text{Loss}_{\text{OOS}_i}\)</span> steht hierbei für die OOS Performance in Split <span class="math inline">\(i\)</span> bezüglich einer beliebigen Loss Funktion wie zum Beispiel RMSE.</p>
-<p>Wir können die Anzahl der Splits bzw. Folds auch beliebig höher oder niedriger wählen. Falls wir zum Beispiel auf einen Datensatz mit <span class="math inline">\(n\)</span> Ausprägungen <span class="math inline">\(n\)</span>-Fold Cross-Validation anwenden, d.h. die Testsets aus einem Split entsprechen einem einzelnen Sample, dann spricht man auch von Leave-One-Out Cross-Validation. Dieses Prinzip garantiert zwar einen sehr robusten <span class="math inline">\(\text{CV-Loss}\)</span>, kann aber unter umständen auch zu sehr langen Berechnungszeiten führen, da wir schließlich für jeden Split ein Modell trainieren.</p>
+<p>Wir können die Anzahl der Splits bzw. Folds auch beliebig höher oder niedriger wählen. Falls wir zum Beispiel auf einen Datensatz mit <span class="math inline">\(n\)</span> Datenpunkten <span class="math inline">\(n\)</span>-Fold Cross-Validation anwenden, d.h. die Testsets aus einem Split entsprechen einem einzelnen Sample, dann spricht man auch von Leave-One-Out Cross-Validation. Dieses Prinzip garantiert zwar einen sehr robusten <span class="math inline">\(\text{CV-Loss}\)</span>, kann aber unter umständen auch zu sehr langen Berechnungszeiten führen, da wir schließlich für jeden Split ein Modell trainieren.</p>
 <section id="cross-validation-in-r" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="cross-validation-in-r"><span class="header-section-number">3.2.1</span> Cross-Validation in R</h3>
 <p>Die <code>rsample::vfold_cv</code> Funktion ermöglicht uns ein Cross-Validation Objekt zu erstellen. Dieses ist nichts anderes als ein verschachteltes Tibble bzw. Data Frame. D.h. jeder Eintrag ist wieder ein Tibble oder Data Frame selber.</p>
@@ -2648,6 +2655,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./04_Regressions_Baeume.html" class="pagination-link" aria-label="Regressionsbäume">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regressionsbäume</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
