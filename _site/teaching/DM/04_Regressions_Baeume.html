@@ -263,19 +263,21 @@ window.Quarto = {
   <li><a href="#sec-tdgreedy" id="toc-sec-tdgreedy" class="nav-link" data-scroll-target="#sec-tdgreedy"><span class="header-section-number">4.2</span> Top-Down-Greedy</a>
   <ul>
   <li><a href="#rekursive-und-greedy-eigenschaft-des-algorithmus" id="toc-rekursive-und-greedy-eigenschaft-des-algorithmus" class="nav-link" data-scroll-target="#rekursive-und-greedy-eigenschaft-des-algorithmus"><span class="header-section-number">4.2.1</span> Rekursive und Greedy Eigenschaft des Algorithmus</a></li>
-  <li><a href="#sec-stoppingcriteria" id="toc-sec-stoppingcriteria" class="nav-link" data-scroll-target="#sec-stoppingcriteria"><span class="header-section-number">4.2.2</span> Stoppkriterien</a>
+  <li><a href="#sec-stoppingcriteria" id="toc-sec-stoppingcriteria" class="nav-link" data-scroll-target="#sec-stoppingcriteria"><span class="header-section-number">4.2.2</span> Stoppkriterien und Pruning</a>
   <ul class="collapse">
   <li><a href="#mindestanzahl-an-beobachtungen-min_n" id="toc-mindestanzahl-an-beobachtungen-min_n" class="nav-link" data-scroll-target="#mindestanzahl-an-beobachtungen-min_n"><span class="header-section-number">4.2.2.1</span> Mindestanzahl an Beobachtungen <code>min_n</code></a></li>
   <li><a href="#baumtiefe-tree_depth" id="toc-baumtiefe-tree_depth" class="nav-link" data-scroll-target="#baumtiefe-tree_depth"><span class="header-section-number">4.2.2.2</span> Baumtiefe <code>tree_depth</code></a></li>
   <li><a href="#sec-improvement" id="toc-sec-improvement" class="nav-link" data-scroll-target="#sec-improvement"><span class="header-section-number">4.2.2.3</span> Reduktion des Fehlers (<code>cost_complexity</code>)</a></li>
+  <li><a href="#sec-pruning" id="toc-sec-pruning" class="nav-link" data-scroll-target="#sec-pruning"><span class="header-section-number">4.2.2.4</span> Pruning</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#wichtigkeit-der-variablen-in-baummodellen" id="toc-wichtigkeit-der-variablen-in-baummodellen" class="nav-link" data-scroll-target="#wichtigkeit-der-variablen-in-baummodellen"><span class="header-section-number">4.3</span> Wichtigkeit der Variablen in Baummodellen</a></li>
+  <li><a href="#sec-vip" id="toc-sec-vip" class="nav-link" data-scroll-target="#sec-vip"><span class="header-section-number">4.3</span> Wichtigkeit der Variablen in Baummodellen</a></li>
   <li><a href="#regressionsbäume-in-r" id="toc-regressionsbäume-in-r" class="nav-link" data-scroll-target="#regressionsbäume-in-r"><span class="header-section-number">4.4</span> Regressionsbäume in R</a>
   <ul>
   <li><a href="#sec-paramestimate" id="toc-sec-paramestimate" class="nav-link" data-scroll-target="#sec-paramestimate"><span class="header-section-number">4.4.1</span> Schätzung der Parameter</a></li>
   <li><a href="#darstellung-des-baums" id="toc-darstellung-des-baums" class="nav-link" data-scroll-target="#darstellung-des-baums"><span class="header-section-number">4.4.2</span> Darstellung des Baums</a></li>
-  <li><a href="#berechnung-der-improvement-werte" id="toc-berechnung-der-improvement-werte" class="nav-link" data-scroll-target="#berechnung-der-improvement-werte"><span class="header-section-number">4.4.3</span> Berechnung der Improvement Werte</a></li>
+  <li><a href="#wichtigkeit-der-variablen" id="toc-wichtigkeit-der-variablen" class="nav-link" data-scroll-target="#wichtigkeit-der-variablen"><span class="header-section-number">4.4.3</span> Wichtigkeit der Variablen</a></li>
+  <li><a href="#sec-calcimp" id="toc-sec-calcimp" class="nav-link" data-scroll-target="#sec-calcimp"><span class="header-section-number">4.4.4</span> Berechnung der Improvement Werte</a></li>
   </ul></li>
   <li><a href="#sec-erweiterungen" id="toc-sec-erweiterungen" class="nav-link" data-scroll-target="#sec-erweiterungen"><span class="header-section-number">4.5</span> Erweiterungen</a>
   <ul>
@@ -289,6 +291,7 @@ window.Quarto = {
   <li><a href="#r-aufgaben" id="toc-r-aufgaben" class="nav-link" data-scroll-target="#r-aufgaben"><span class="header-section-number">4.6.2</span> R Aufgaben</a>
   <ul class="collapse">
   <li><a href="#modellvergleiche" id="toc-modellvergleiche" class="nav-link" data-scroll-target="#modellvergleiche"><span class="header-section-number">4.6.2.1</span> Modellvergleiche</a></li>
+  <li><a href="#einfluss-der-hyperparameter" id="toc-einfluss-der-hyperparameter" class="nav-link" data-scroll-target="#einfluss-der-hyperparameter"><span class="header-section-number">4.6.2.2</span> Einfluss der Hyperparameter</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#lösungen" id="toc-lösungen" class="nav-link" data-scroll-target="#lösungen"><span class="header-section-number">4.7</span> Lösungen</a></li>
@@ -455,28 +458,29 @@ Weise jedem Blattknoten den Mittelwert der Zielvariablen <span class="math inlin
 \end{equation*}\]</span> gilt.</p>
 </section>
 <section id="sec-stoppingcriteria" class="level3" data-number="4.2.2">
-<h3 data-number="4.2.2" class="anchored" data-anchor-id="sec-stoppingcriteria"><span class="header-section-number">4.2.2</span> Stoppkriterien</h3>
-<p>Im 5. Schritt des Top-Down-Greedy Algorithmus haben wir veschiedene Kriterien genannt, welche zum Stoppen des Algorithmus führen können. Wir wollen in diesem Abschnitt die Stopp-Kriterien ein wenig genauer definieren und untersuchen.</p>
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="sec-stoppingcriteria"><span class="header-section-number">4.2.2</span> Stoppkriterien und Pruning</h3>
+<p>Im 5. Schritt des Top-Down-Greedy Algorithmus haben wir veschiedene Kriterien genannt, welche zum Stoppen des Algorithmus führen können.</p>
+<p>Wir wollen in diesem Abschnitt die Stopp-Kriterien ein wenig genauer definieren und untersuchen.</p>
 <section id="mindestanzahl-an-beobachtungen-min_n" class="level4" data-number="4.2.2.1">
 <h4 data-number="4.2.2.1" class="anchored" data-anchor-id="mindestanzahl-an-beobachtungen-min_n"><span class="header-section-number">4.2.2.1</span> Mindestanzahl an Beobachtungen <code>min_n</code></h4>
-<p>Das Kriterium zur Mindestanzahl an Beobachtungen prüft vor jedem weiteren Aufteilen des Featurespace, ob in den durch das Aufteilen resultierenden Teildatensätzen eine Mindestanzahl an Beobachtungen liegt. Ziel dieses Kriteriums ist es zu vermeiden, dass sich das Baummodell zu stark an die Trainingsdaten anpasst. Die vorhersagen <span class="math inline">\(\hat{y}\)</span> werden durch das Bilden des Durchschnitts in einer der Blattregionen <span class="math inline">\(R_i\)</span> generiert:</p>
+<p>Das Kriterium zur Mindestanzahl an Beobachtungen prüft vor jedem weiteren Aufteilen des Featurespace, ob in den durch das Aufteilen resultierenden Teildatensätzen eine Mindestanzahl an Beobachtungen liegt. Ziel dieses Kriteriums ist es zu vermeiden, dass sich das Baummodell zu stark an die Trainingsdaten anpasst. Die vorhersagen <span class="math inline">\(\hat{y}\)</span> werden durch das Bilden des Durchschnitts in einem Blattknoten <span class="math inline">\(R_m\)</span> generiert:</p>
 <p><span class="math display">\[
-\frac{1}{|R_i|}\sum_{x_k\in R_i}y_k
-\]</span> Falls also in <span class="math inline">\(R_i\)</span> nur eine Observation vorhanden ist, kann das zu einer starken Verzerrung bei einer Evaluation mithilfe von Testdaten führen.</p>
+\frac{1}{|R_m|}\sum_{k:x_k\in R_m}y_k
+\]</span> Falls also in <span class="math inline">\(R_m\)</span> nur eine Observation vorhanden ist, kann das zu einer starken Verzerrung bei einer Evaluation mithilfe von Testdaten führen.</p>
 <p>Wir bezeichnen nun mit <code>min_n</code> die Anzahl an Datenpunkten, welche mindestens in einem Teilgebiet liegen müssen so dass dieses geteilt wird. <code>min_n</code> muss also mindestens den Wert <code>2</code> besitzen. Nun stellt sich natürlich die Frage, welchen Wert wir für <code>min_n</code> beim Schätzen eines Regressionsbaumes festlegen sollen. Natürlich lässt sich diese Frage wie immer <a href="pictures/pikachu-shocked-face-stunned.gif">nicht eindeutig</a> beantworten. Wir werden später sehen, dass R diesen Wert erstmal selbst bestimmt, wir diesen alternativ aber auch übergeben können. Im Rahmen dieser Verasntaltung geben wir uns aber damit zufrieden, welchen Wert R für optimal hält.</p>
 </section>
 <section id="baumtiefe-tree_depth" class="level4" data-number="4.2.2.2">
 <h4 data-number="4.2.2.2" class="anchored" data-anchor-id="baumtiefe-tree_depth"><span class="header-section-number">4.2.2.2</span> Baumtiefe <code>tree_depth</code></h4>
 <p>Der Parameter <code>tree_depth</code> kann ebenso zum Stoppen des Algorithmus führen: Damit der Baum nicht unkontrolliert wächst (bzw. an Tiefe gewinnt), stoppen wir den Algorithmus sobald der Baum eine bestimmte Tiefe besitzt. Nun müssen wir noch definieren, was mit <em>tiefe</em> überhaupt gemeint ist.</p>
 <ol type="1">
-<li>Die Länge eines Pfades zwischen dem Wurzelknoten und einem beliebigen anderen Knoten <span class="math inline">\(K_n\)</span> ist durch die Anzahl der Kanten definiert, an welchen wir entlang gehen müssen, um den Knoten <span class="math inline">\(K_i\)</span> zu erreichen.</li>
+<li>Die Länge eines Pfades zwischen dem Wurzelknoten und einem beliebigen anderen Knoten <span class="math inline">\(R_m\)</span> ist durch die Anzahl der Kanten definiert, an welchen wir entlang gehen müssen, um den Knoten <span class="math inline">\(R_m\)</span> zu erreichen.</li>
 <li>Die Tiefe eines Baumes ist dann definiert durch den längsten Pfad vom Wurzelknoten zu einem anderen Knoten.</li>
 </ol>
 <p>So hat der Baum in <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> zum Beispiel die Tiefe <code>4</code>, da wir entlang der rechten Seite des Baumes vier Kanten entlang gehen müssen, um entweder beim Konten mit dem Wert <span class="math inline">\(R_6\)</span> oder <span class="math inline">\(R_7\)</span> zu landen. <em>Beachte: Der längste Pfad muss also nicht eindeutig sein!</em></p>
 </section>
 <section id="sec-improvement" class="level4" data-number="4.2.2.3">
 <h4 data-number="4.2.2.3" class="anchored" data-anchor-id="sec-improvement"><span class="header-section-number">4.2.2.3</span> Reduktion des Fehlers (<code>cost_complexity</code>)</h4>
-<p>Ein weiteres wichtiges Stoppkriterium ist das Stoppen durch fehlende Reduzierung des Fehlers. Betrachte hierfür folgenden Ausschnitt aus einem beliebigen Regressionsbaum:</p>
+<p>Ein weiteres wichtiges Stoppkriterium ist das Stoppen durch unzureichende Reduzierung des Fehlers. Betrachte hierfür folgenden Ausschnitt aus einem beliebigen Regressionsbaum:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="pictures/Branch.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
@@ -484,30 +488,47 @@ Weise jedem Blattknoten den Mittelwert der Zielvariablen <span class="math inlin
 </div>
 <p>Wir können für jeden der drei Knoten den MSE durch die Formel</p>
 <p><span class="math display">\[
-  \text{MSE}_K = \frac{1}{|K|}\sum_{x_i\in K} (\bar{y}_K-\hat{y_i})^2
-\]</span> berechnen, wobei <span class="math inline">\(K\)</span> für den entsprechenden Knoten <span class="math inline">\(K_{\text{Eltern}},K_{\text{Kind}_1},K_{\text{Kind}_2}\)</span> steht.</p>
+  \text{MSE}_{R_m} = \frac{1}{|R_m|}\sum_{k:x_k\in R_m} (\bar{y}_{R_m}-\hat{y_k})^2
+\]</span> berechnen, wobei <span class="math inline">\(R_m\)</span> für den entsprechenden Knoten <span class="math inline">\(K_{\text{Eltern}},K_{\text{Kind}_1},K_{\text{Kind}_2}\)</span> steht.</p>
 <p>Wir sind nun an der relativen Reduzierung des Fehlers durch den Split des Eltern Knotens in zwei Kind Knoten interessiert. Diese Änderung lässt sich mithilfe der <span class="math inline">\(\text{MSE}\)</span> Terme durch folgende Formel beschreiben:</p>
 <p><span class="math display">\[\begin{align}\label{eq:improvement}
   &amp; \frac{|K_{\text{Eltern}}|\cdot\text{MSE}_{K_{\text{Eltern}}} -(|K_{\text{Kind}_1}|\cdot\text{MSE}_{K_{\text{Kind}_1}}+|K_{\text{Kind}_2}|\cdot\text{MSE}_{K_{\text{Kind}_2}})}{|K_{\text{Eltern}}|\cdot\text{MSE}_{K_{\text{Eltern}}}}\\
   &amp;\qquad = 1-\frac{|K_{\text{Kind}_1}|\cdot\text{MSE}_{K_{\text{Kind}_1}}+|K_{\text{Kind}_2}|\cdot\text{MSE}_{K_{\text{Kind}_2}}}{|K_{\text{Eltern}}|\cdot\text{MSE}_{K_{\text{Eltern}}}}\nonumber
 \end{align}\]</span></p>
-<p>Wir nennen <span class="math inline">\(\eqref{eq:improvement}\)</span> auch den <em>Improvement</em> Wert. Der Quotient beschreibt hierbei wie groß der Anteil der Kind-Fehler im Vergleich Eltern-Fehler ist. Da die Summe der Teilfehler (<span class="math inline">\(|K_{\text{Kind}_1}|\cdot\text{MSE}_{K_{\text{Kind}_1}}+|K_{\text{Kind}_2}|\cdot\text{MSE}_{K_{\text{Kind}_2}}\)</span>) immer kleiner gleich dem Fehler des Elternknoten ist (<span class="math inline">\(|K_{\text{Eltern}}|\cdot\text{MSE}_{K_{\text{Eltern}}}\)</span>) ist der Quotient somit immer kleiner oder gleich <span class="math inline">\(1\)</span>. Falls der Zähler einen (im Vergleich zum Nenner) kleinen Wert annimmt, dann erreichen wir durch das Aufsplitten des Elternknotens eine große Verbesserung der Modellperformance. Der Improvement Wert kann somit Werte zwischen <span class="math inline">\(0\)</span> und <span class="math inline">\(1\)</span> annehmen, wobei ein Improvement Wert von <span class="math inline">\(1\)</span> impliziert, dass der Quotient den Wert <span class="math inline">\(0\)</span> besitzt und damit auch die beiden <span class="math inline">\(\text{MSE}\)</span> der Kind Knoten den Wert <span class="math inline">\(0\)</span> annehmen. Falls der Improvment Wert sehr klein ist, bedeutet das im Umkehrschluss, dass durch das Splitten des Eltern Knotens keine große Verringerung des Fehlers erreicht wird.</p>
-<p>Wir können nun für den Improvement Wert wie er in <span class="math inline">\(\eqref{eq:improvement}\)</span> definiert ist, einen Schwellenwert <code>cost_complexity</code> festlegen. Falls der Improvement Wert für einen Knoten kleiner ist als der Schwellenwert <code>cost_complexity</code> wird dieser Knoten nicht weiter geteilt. Sobald der Schwellenwert für alle Knoten unterschritten ist, bricht dann der Algorithmus ab.</p>
+<p>Wir nennen <span class="math inline">\(\eqref{eq:improvement}\)</span> auch den <em>Improvement</em> Wert. Der Quotient beschreibt hierbei wie groß der Anteil der Fehlerreduktion im Vergleich zum Eltern-Fehler ist. Da die Summe der Teilfehler (<span class="math inline">\(|K_{\text{Kind}_1}|\cdot\text{MSE}_{K_{\text{Kind}_1}}+|K_{\text{Kind}_2}|\cdot\text{MSE}_{K_{\text{Kind}_2}}\)</span>) immer kleiner gleich dem Fehler des Elternknoten ist (<span class="math inline">\(|K_{\text{Eltern}}|\cdot\text{MSE}_{K_{\text{Eltern}}}\)</span>) ist der Quotient somit immer nicht-negativ und kleiner oder gleich <span class="math inline">\(1\)</span>. Falls der Zähler in <span class="math inline">\(\eqref{eq:improvement}\)</span> einen (im Vergleich zum Nenner) kleinen Wert annimmt, dann erreichen wir durch das Aufsplitten des Elternknotens eine große Verbesserung der Modellperformance. Der Improvement Wert kann somit Werte zwischen <span class="math inline">\(0\)</span> und <span class="math inline">\(1\)</span> annehmen, wobei ein Improvement Wert von <span class="math inline">\(1\)</span> impliziert, dass der Quotient den Wert <span class="math inline">\(0\)</span> besitzt und damit auch die beiden <span class="math inline">\(\text{MSE}\)</span> der Kind Knoten den Wert <span class="math inline">\(0\)</span> annehmen. Falls der Improvment Wert sehr klein ist, bedeutet das im Umkehrschluss, dass durch das Splitten des Eltern Knotens keine große Verringerung des Fehlers erreicht wird.</p>
+<p>Wir können nun für den Improvement Wert, ähnlich wie er in <span class="math inline">\(\eqref{eq:improvement}\)</span> definiert ist, einen Schwellenwert <code>cost_complexity</code> festlegen. Falls ein Improvement Wert für einen Knoten kleiner ist als der Schwellenwert <code>cost_complexity</code> wird dieser Knoten nicht weiter geteilt.</p>
+<p>Der Improvement Wert bezieht sich hierbei aber im Nenner nicht auf den Elternknoten, sondern auf den Wurzeknoten (vgl. <a href="#sec-calcimp" class="quarto-xref"><span>Section 4.4.4</span></a>).</p>
+</section>
+<section id="sec-pruning" class="level4" data-number="4.2.2.4">
+<h4 data-number="4.2.2.4" class="anchored" data-anchor-id="sec-pruning"><span class="header-section-number">4.2.2.4</span> Pruning</h4>
+<p>Zwar können alle genannten Kriterien verwendet werden um das wachsen des Baums frühzeit zu stoppen (sog. <em>Prepruning</em>), allerdings ist das vorzeitige stoppen durch eine zu kleinere Veränderung des Improvement Wertes zu kurz gegriffen:</p>
+<p>Falls auf einen vermeintlich schlechten Split (Improvement Wert &lt; <code>cost_complexity</code>) ein sehr guter folgt (Improvement Wert &gt; <code>cost_complexity</code>), dann wird der sehr gute Split durch eine vorzeitige Beendigung nicht berücksichtigt. Deshalb wird für gewöhnlich das aufspannen des Baumes <strong>lediglich</strong> durch <code>min_n</code> und <code>tree_depth</code> vorzeitig gestoppt.</p>
+<p>Nachdem ein Baum also auf Basis der anderen Kriterien aufgespannt wurde, wird das Cost-Complexity Pruning (sog. <em>Postpruning</em>) angewendet um diesen weit aufgespannten Baum zu trimmen:</p>
+<p>Wir suchen unter der Verwendung des zuvor festgelegten Parameters <code>cost_complexity</code>= <span class="math inline">\(\alpha\)</span> denjenigen Teilbaum, welcher den Term</p>
+<p><span class="math display">\[\begin{equation}\label{eq:cct}
+\sum_{m=1}^{|T|}\sum_{k:x_k\in R_m}(\hat{y_k}-\bar{y_{R_m}})^2 + \alpha|T|
+\end{equation}\]</span></p>
+<p>minimiert, wobei <span class="math inline">\(|T|\)</span> für die Anzahl der Blattknoten steht.</p>
+<p>Falls wir für <span class="math inline">\(\alpha\)</span> einen <strong>sehr kleinen</strong> Wert wählen, sorgt das also dafür, dass der Term <span class="math inline">\(\alpha |T|\)</span> ebenso relativ wenig einfluss auf den gesamten Term hat und somit ein Baum mit vielen Blattknoten aufgespannt wird. Falls wir für <span class="math inline">\(\alpha\)</span> auf der anderen Seite einen <strong>sehr großen</strong> Wert wählen, dann dominiert der Term <span class="math inline">\(\alpha |T|\)</span> die beiden Summanden, was dazu führen kann, dass ein Baum mit sehr wenigen Blattknoten gefunden wird.</p>
 </section>
 </section>
 </section>
-<section id="wichtigkeit-der-variablen-in-baummodellen" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="wichtigkeit-der-variablen-in-baummodellen"><span class="header-section-number">4.3</span> Wichtigkeit der Variablen in Baummodellen</h2>
-<p>Im Vergleich zu linearen Modellen können wir die <em>Koeffizienten</em> der Regressionsbäume nicht mehr direkt interpretieren. Es gibt allerdings verschiedene Ansätze welche sowohl die Einflussnahme, als auch die Interpretation der verschiedenen Variablen im Modell ermöglicht.</p>
-<ol type="1">
-<li><p>Eine Idee wäre zu zählen, wie oft eine Variable zum Aufteilen des Feature Space verwendet wurde. Allerdings ist diese Idee ohne eine zusätzliche Gewichtung zu ungenau, da das wiederholte Verwenden einer Variable den Einfluss auf die Modellgüte nur unzureichend Beschreibt.</p>
+<section id="sec-vip" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-vip"><span class="header-section-number">4.3</span> Wichtigkeit der Variablen in Baummodellen</h2>
+<p>Im Vergleich zu linearen Modellen können wir die <em>Koeffizienten</em> der Regressionsbäume nicht mehr direkt interpretieren. Es gibt allerdings verschiedene Ansätze welche die Einflussnahme der verschiedenen Variablen im Modell ermöglicht.</p>
+<p>Eine Idee wäre zu zählen, wie oft eine Variable zum Aufteilen des Feature Space verwendet wurde. Allerdings ist diese Idee ohne eine zusätzliche Gewichtung zu ungenau, da das wiederholte Verwenden einer Variable den Einfluss auf die Modellgüte nur unzureichend Beschreibt.</p>
 <div id="exm-improvementfallacy" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 4.2</strong></span> Angenommen Variable <span class="math inline">\(X_j\)</span> wird im ersten Split verwendet was zu einem Improvement Wert sehr hohen Improvement Wert führt. Nun wird die Variable <span class="math inline">\(X_j\)</span> für keinen weiteren Split verwendet. Falls dann eine Variable <span class="math inline">\(X_{\tilde{j}}\)</span> mit <span class="math inline">\(\tilde{j}\neq j\)</span> existiert, welche in mehr als einem Split verwendet wird, aber der der durch den Improvment Wert gemessene Einfluss insgesamt kleiner ist als jener der Variable <span class="math inline">\(X_j\)</span>, dann würde ohne eine Gewichtung die Variable <span class="math inline">\(X_{\tilde{j}}\)</span> trotzdem als wichtiger gelten.</p>
 </div>
-<p>Wir sollten also neben der absoluten Anzahl der Variablenverwendung diese auch mit dem Improvement Wert des entsprechenden Splits kombinieren. Die mathematischen Details würden an dieser Stelle den Rahmen der Veranstaltung überschreiten, allerdings ist die oben beschriebene Idee wichtig zu verstehen.<br>
-</p></li>
-<li><p>Um die marginalen Effekte zu prüfen können wir ebensowenig die (lineare) Änderung wie bei einer linearen Regression in Betracht ziehen. Die Grundlegende Idee bei Bäumen ist aber ähnlich: Um den Marginalen Einfluss einer Variable <span class="math inline">\(X_j\)</span> zu messen, fixiere alle anderen Variablen, variiere die Variable <span class="math inline">\(X_j\)</span> zwischen dem kleinsten und größten beobachteten Wert im Datensatz und betrachte den Einfluss dieser Variation auf der Zielvariable. Die fixierten Werte der verbleibenden Variable sollten hierbei als der Durchschnitt (bei Numerischen Variablen), oder der Modus (bei nominalen Variablen) gewählt werden.</p></li>
-</ol>
+<p>Wir sollten also neben der absoluten Anzahl der Variablenverwendung auch den Improvement Wert des entsprechenden Splits berücksichtigen.</p>
+<!--
+
+2.  Um die marginalen Effekte zu prüfen können wir ebensowenig die (lineare) Änderung wie bei einer linearen Regression in Betracht ziehen.
+    Die Grundlegende Idee bei Bäumen ist aber ähnlich:
+    Um den Marginalen Einfluss einer Variable $X_j$ zu messen, fixiere alle anderen Variablen, variiere die Variable $X_j$ zwischen dem kleinsten und größten beobachteten Wert im Datensatz und betrachte den Einfluss dieser Variation auf der Zielvariable.
+    Die fixierten Werte der verbleibenden Variable sollten hierbei als der Durchschnitt (bei Numerischen Variablen), oder der Modus (bei nominalen Variablen) gewählt werden.
+ 
+-->
 </section>
 <section id="regressionsbäume-in-r" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="regressionsbäume-in-r"><span class="header-section-number">4.4</span> Regressionsbäume in R</h2>
@@ -626,13 +647,521 @@ node), split, n, deviance, yval
 </ol>
 <p>Der obere Wert in einem Knoten gibt dabei an, wie groß der relative Anteil der Datenpunkte im Vergleich zu allen Datenpunkten auf dieser Ebene des Baums ist. Da auf der Ebene des Wurzelknotens nur ein Knoten ist, ist der relative Anteil in diesem entsprechend <code>100%</code>. In der zweiten Ebene sind zwei Knoten, wobei der linke Knoten <code>64%</code> und der rechte Knoten <code>34%</code> der Datenpunkte enthält. Der untere Wert in einem Knoten gibt den Schätzwert der Zielvariable an. So ist zum Beispiel der Schätzwert <span class="math inline">\(\hat{y}\)</span> im linken unterem Blattknoten durch <span class="math inline">\(3421\)</span> g gegeben. Unter einem Knoten, welcher kein Blattknoten ist, steht eine Entscheidungsregel. Im Split nach dem Wurzelknoten wird zum Biepiel geprüft, ob ein Penguin zu den Spezies <code>Adelie</code> oder <code>Chinstrap</code> gehört.</p>
 </section>
-<section id="berechnung-der-improvement-werte" class="level3" data-number="4.4.3">
-<h3 data-number="4.4.3" class="anchored" data-anchor-id="berechnung-der-improvement-werte"><span class="header-section-number">4.4.3</span> Berechnung der Improvement Werte</h3>
+<section id="wichtigkeit-der-variablen" class="level3" data-number="4.4.3">
+<h3 data-number="4.4.3" class="anchored" data-anchor-id="wichtigkeit-der-variablen"><span class="header-section-number">4.4.3</span> Wichtigkeit der Variablen</h3>
+<p>Damit wir die Wichtigkeit der Variablen wie in <a href="#sec-vip" class="quarto-xref"><span>Section 4.3</span></a> beschrieben berechnen können, verwenden wir das <code>{vip}</code> Paket. <code>vip</code> steht in diesem Kontext für <em>Variable Importance Plots</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vip)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Die Funktion <code>vi()</code> berechnet für ein gegebenes Baummodell die Wichtigkeit der Variablen. Bei Entscheidungsbäumen ergibt sich die Wichtigkeit einer Variablen aus der Summe der Improvement Werte aller Splits, in denen die Variable verwendet wurde.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>tree_fit_penguins <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vi</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="qhsrzsenlx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qhsrzsenlx table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#qhsrzsenlx thead, #qhsrzsenlx tbody, #qhsrzsenlx tfoot, #qhsrzsenlx tr, #qhsrzsenlx td, #qhsrzsenlx th {
+  border-style: none;
+}
+
+#qhsrzsenlx p {
+  margin: 0;
+  padding: 0;
+}
+
+#qhsrzsenlx .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#qhsrzsenlx .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#qhsrzsenlx .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#qhsrzsenlx .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#qhsrzsenlx .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qhsrzsenlx .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qhsrzsenlx .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qhsrzsenlx .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#qhsrzsenlx .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#qhsrzsenlx .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#qhsrzsenlx .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#qhsrzsenlx .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#qhsrzsenlx .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#qhsrzsenlx .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#qhsrzsenlx .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#qhsrzsenlx .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#qhsrzsenlx .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#qhsrzsenlx .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#qhsrzsenlx .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qhsrzsenlx .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#qhsrzsenlx .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#qhsrzsenlx .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#qhsrzsenlx .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qhsrzsenlx .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#qhsrzsenlx .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#qhsrzsenlx .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qhsrzsenlx .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qhsrzsenlx .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#qhsrzsenlx .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qhsrzsenlx .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#qhsrzsenlx .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qhsrzsenlx .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qhsrzsenlx .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qhsrzsenlx .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qhsrzsenlx .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qhsrzsenlx .gt_left {
+  text-align: left;
+}
+
+#qhsrzsenlx .gt_center {
+  text-align: center;
+}
+
+#qhsrzsenlx .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#qhsrzsenlx .gt_font_normal {
+  font-weight: normal;
+}
+
+#qhsrzsenlx .gt_font_bold {
+  font-weight: bold;
+}
+
+#qhsrzsenlx .gt_font_italic {
+  font-style: italic;
+}
+
+#qhsrzsenlx .gt_super {
+  font-size: 65%;
+}
+
+#qhsrzsenlx .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#qhsrzsenlx .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#qhsrzsenlx .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#qhsrzsenlx .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#qhsrzsenlx .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#qhsrzsenlx .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#qhsrzsenlx .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id="Variable" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Variable</th>
+<th id="Importance" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Importance</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Variable">bill_depth_mm</td>
+<td class="gt_row gt_right" headers="Importance">156249723</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Variable">flipper_length_mm</td>
+<td class="gt_row gt_right" headers="Importance">156041084</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Variable">species</td>
+<td class="gt_row gt_right" headers="Importance">146814916</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Variable">island</td>
+<td class="gt_row gt_right" headers="Importance">94470472</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Variable">bill_length_mm</td>
+<td class="gt_row gt_right" headers="Importance">75382085</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Variable">sex</td>
+<td class="gt_row gt_right" headers="Importance">37965241</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Auffälig ist hierbei, dass obwohl der finale Baum nur die Variablen <code>sex</code> und <code>island</code> enthält, die wichtigsten Variablen <code>bill_depth_mm</code> und <code>flipper_length_mm</code> sind. Das liegt daran, dass die Wichtigkeit der Variablen auf Basis des ungetrimmten Baumes berechnet werden. Dieses Phänomen ist ein Indikator dafür, dass die Standardwerte <code>min_n</code>, <code>complexity_parameter</code> und <code>tree_depth</code> in diesem Beispiel nicht optimal sein könnten, da die wichtigsten Variablen aus dem Finalen Baum entfernt wurden.</p>
+<p>Wir können die Improvement Werte auch mithilfe der <code>vip()</code> Funktion grafisch darstellen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tree_fit_penguins <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-calcimp" class="level3" data-number="4.4.4">
+<h3 data-number="4.4.4" class="anchored" data-anchor-id="sec-calcimp"><span class="header-section-number">4.4.4</span> Berechnung der Improvement Werte</h3>
 <p>Um die Improvement Werte, bzw. die Reduktion der Fehler durch einen Split wie in <a href="#sec-improvement" class="quarto-xref"><span>Section 4.2.2.3</span></a> zu berechnen, können wir auf das <code>cptable</code> Attribut des Baumes zugreifen. Diese können wir durch die Anwendung der <code>pluck</code> Funktion extrahieren:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>tree_fit_penguins <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"cptable"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tree_fit_penguins <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"cptable"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          CP nsplit rel error    xerror       xstd
 1 0.66944717      0 1.0000000 1.0037351 0.06129720
@@ -653,7 +1182,7 @@ Hinweis
 <div class="callout-body-container callout-body">
 <p>Anstatt der <code>extract_fit_engine</code> und <code>pluck</code> Funktion kann man die Complexity Parameter Tabelle auch durch folgendes Code Snippet extrahieren:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tree_fit_penguins<span class="sc">$</span>fit<span class="sc">$</span>cptable</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tree_fit_penguins<span class="sc">$</span>fit<span class="sc">$</span>cptable</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Aus Konsistenzgründen ist es aber empfehlenswert die zuvor aufgeführte Tidy-Syntax zu verwenden.</p>
 </div>
@@ -697,6 +1226,42 @@ node), split, n, deviance, yval
 \end{equation*}\]</span></p></li>
 <li><p>Die Spalten <code>xerror</code> und <code>xstd</code> beschreiben den <code>rel error</code> und dessen Standardabweichung welche sich durch eine Cross-Validation ergeben haben.</p></li>
 </ol>
+<!--
+
+### Marginale Effekte
+
+
+
+
+::: {.cell}
+
+```{.r .cell-code}
+library(iml)
+```
+:::
+
+::: {.cell}
+
+```{.r .cell-code}
+tree_explainer <- Predictor$new(
+  model = tree_fit_penguins,
+  data = data_penguin_cleaned %>% select(-body_mass_g),
+  y = data_penguin_cleaned %>% select(body_mass_g)
+)
+
+FeatureEffect$new(
+  tree_explainer,
+  feature = "sex",
+  method = "pdp"
+)$plot()
+```
+:::
+
+
+
+
+
+-->
 </section>
 </section>
 <section id="sec-erweiterungen" class="level2" data-number="4.5">
@@ -720,23 +1285,23 @@ node), split, n, deviance, yval
 <h3 data-number="4.5.3" class="anchored" data-anchor-id="random-forests-in-r"><span class="header-section-number">4.5.3</span> Random Forests in R</h3>
 <p>Ähnlich wie Regresseionsbäume können wir auch Random Forests mithilfe des <code>{tidymodels}</code> Pakets schätzen.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>rf_spec_penguins <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"regression"</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">trees =</span> <span class="dv">100</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>rf_fit_penguins <span class="ot">&lt;-</span> rf_spec_penguins <span class="sc">%&gt;%</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data_penguin,</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> body_mass_g <span class="sc">~</span>.</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>rf_spec_penguins <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"regression"</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">trees =</span> <span class="dv">100</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>rf_fit_penguins <span class="ot">&lt;-</span> rf_spec_penguins <span class="sc">%&gt;%</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data_penguin,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> body_mass_g <span class="sc">~</span>.</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Zuerst erstellen wir mithilfe der <code>rand_forest()</code> Funktion eine Modellspezifikation. Als Argumente übergeben wir wieder den Modus <code>"regression"</code> und zusätzlich das Argument <code>trees = 100</code>, welches Spezifiziert, dass <span class="math inline">\(B=100\)</span>. Das erstellen der Bootstrap Sample, das schätzen der Bäume und die Aggregation wird dann im zweiten Schritt durch die <code>fit()</code> Funktion vorgenommen. Als Argumente für die <code>fit</code> Funktion müssen wir wie gewöhnlich die Daten und die Formel übergeben. Dadurch, dass sowohl das erstellen der Bootstrap Samples als auch das Schätzen der Bäumen eine Zufallskomponente enthält, sollten wir durch die <code>set.seed()</code> Funktion reproduzierbare Ergebnisse ermöglichen.</p>
 <p>Nach dem Schätzen des Random Forests können wir durch das Aufrufen des Objekts <code>rf_fit_penguins</code> einige Informationen über den Random Forest extrahieren:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>rf_fit_penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>rf_fit_penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>parsnip model object
 
@@ -763,12 +1328,12 @@ R squared (OOB):                  0.8645322 </code></pre>
 <li><code>OOB prediction error (MSE)</code> gibt an, wie groß der MSE eines OOS Datensatzes ist, welcher im Zuge der Schätazung des Random Forests autmatisch generiert wird.</li>
 <li><code>R squared (OOB)</code> gibt für das gleiche OOS Sample den berechneten <span class="math inline">\(R^2\)</span> an.</li>
 </ul>
-<p>Vorhersagen für die gegebenen Sample können wieder mithilfe der <code>predict()</code> Funktion erstellt werden:<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>Vorhersagen für die gegebenen Sample können wieder mithilfe der <code>predict()</code> Funktion erstellt werden:<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data_penguin_cleaned <span class="ot">&lt;-</span> data_penguin <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>()</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>rf_fit_penguins <span class="sc">%&gt;%</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(data_penguin_cleaned)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>data_penguin_cleaned <span class="ot">&lt;-</span> data_penguin <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>()</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>rf_fit_penguins <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(data_penguin_cleaned)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -795,13 +1360,20 @@ R squared (OOB):                  0.8645322 </code></pre>
 <li><p>Angenommen es liegt ein Datensatz vor, welcher lediglich aus einer <span class="math inline">\(X\)</span> und <span class="math inline">\(Y\)</span> Variable besteht. Beim betrachten einer Punktewolke fällt auf, dass der Zusammenhang zwischen den beiden Variablen schon sehr einer geraden ähnelt. Ist zu erwarten, dass im Vergleich zu einem einfachen linearen Regressionsmodell ein Regressionsbaum den Zusammenhang besser erklärt?</p></li>
 </ol>
 </div>
+<div id="exr-tree_theory_02" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 4.2</strong></span> &nbsp;</p>
+<ol type="1">
+<li>Erkläre, warum Cost-Complexity Tuning sowohl als Pre- als auch als Postpruning Methode gesehen werden kann.</li>
+<li>Warum ist es keine gute Idee, Cost Complexity Pruning als Prepruning Methode zu verwenden?</li>
+</ol>
+</div>
 <div id="exr-tree_plot" class="theorem exercise">
-<p><span class="theorem-title"><strong>Aufgabe 4.2</strong></span> Gegeben sei folgende Grafik welche die Prognosewerte eines Regressionsbaums zeigt.</p>
+<p><span class="theorem-title"><strong>Aufgabe 4.3</strong></span> Gegeben sei folgende Grafik welche die Prognosewerte eines Regressionsbaums zeigt.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -813,14 +1385,14 @@ R squared (OOB):                  0.8645322 </code></pre>
 </ol>
 </div>
 <div id="exr-create_tree_plot" class="theorem exercise">
-<p><span class="theorem-title"><strong>Aufgabe 4.3</strong></span> &nbsp;</p>
+<p><span class="theorem-title"><strong>Aufgabe 4.4</strong></span> &nbsp;</p>
 <ol type="1">
 <li><p>Gegeben seien folgende beiden Feature spaces geschätzten Baummodellen:</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -831,7 +1403,7 @@ R squared (OOB):                  0.8645322 </code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -840,7 +1412,7 @@ R squared (OOB):                  0.8645322 </code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -849,7 +1421,7 @@ R squared (OOB):                  0.8645322 </code></pre>
 </ol>
 </div>
 <div id="exr-cp_table" class="theorem exercise">
-<p><span class="theorem-title"><strong>Aufgabe 4.4</strong></span> Gegeben seien folgende tabellarisch/hierarchische Darstellung eines Baums:</p>
+<p><span class="theorem-title"><strong>Aufgabe 4.5</strong></span> Gegeben seien folgende tabellarisch/hierarchische Darstellung eines Baums:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>n= 300 
@@ -866,12 +1438,22 @@ node), split, n, deviance, yval
 </div>
 <p>Außerdem sei folgende <code>CP</code> Tabelle gegeben, welche durch den gleichen Baum erzeugt wurde:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>         CP nsplit rel error    xerror       xstd</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>         a      <span class="dv">0</span>         b <span class="fl">1.0080905</span> <span class="fl">0.07565504</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.1265061</span>      <span class="dv">1</span> <span class="fl">0.2399409</span> <span class="fl">0.2481654</span> <span class="fl">0.02622409</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="fl">0.0500000</span>      <span class="dv">2</span>         c <span class="fl">0.1164630</span> <span class="fl">0.01292697</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>         CP nsplit rel error    xerror       xstd</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>         a      <span class="dv">0</span>         b <span class="fl">1.0080905</span> <span class="fl">0.07565504</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.1265061</span>      <span class="dv">1</span> <span class="fl">0.2399409</span> <span class="fl">0.2481654</span> <span class="fl">0.02622409</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="fl">0.0500000</span>      <span class="dv">2</span>         c <span class="fl">0.1164630</span> <span class="fl">0.01292697</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Berechne die fehlende Werte <code>a</code>, <code>b</code> und <code>c</code>.</p>
+<ol type="1">
+<li><p>Der Wert <span class="math inline">\(b\)</span> ist immer <span class="math inline">\(1\)</span>, da es sich um den relativen Fehler bezüglich des Wurzelknotens im Wurzelknoten selbst handelt.</p></li>
+<li><p>Da der Wert <span class="math inline">\(a\)</span> der erste in der <code>cp</code> Tablle ist, berechnet sich dieser durch die Formel</p>
+<p><span class="math display">\[\begin{equation*}
+  \text{CP}_1 = 1- \frac{90.79800 + 752.97340}{3516.58000} = 0.7600591
+\end{equation*}\]</span></p></li>
+<li><p>Der Wert <span class="math inline">\(c\)</span> berechnet sich durch die Formel <span class="math display">\[\begin{equation*}
+  \text{rel err}_3 = \text{rel err}_2-\text{CP}_2 = 0.2399409 − 0.1265061 = 0.1134348
+\end{equation*}\]</span></p></li>
+</ol>
 </div>
 </section>
 <section id="r-aufgaben" class="level3" data-number="4.6.2">
@@ -881,44 +1463,876 @@ node), split, n, deviance, yval
 <h4 data-number="4.6.2.1" class="anchored" data-anchor-id="modellvergleiche"><span class="header-section-number">4.6.2.1</span> Modellvergleiche</h4>
 <p>Verwende die untenstehende Version des <code>hotel_rates</code> Datensatzes für die folgenden Aufgaben.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>hotel_rates_filtered <span class="ot">&lt;-</span> hotel_rates <span class="sc">%&gt;%</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">mutate</span>(</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">arrival_month =</span> <span class="fu">factor</span>(<span class="fu">month</span>(arrival_date)),</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">num_guests =</span> adults<span class="sc">+</span>children,</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">is_repeated_guest =</span> <span class="fu">factor</span>(is_repeated_guest),</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>   ) <span class="sc">%&gt;%</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(num_guests,total_of_special_requests,</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>          required_car_parking_spaces,arrival_month,</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>          is_repeated_guest,lead_time,stays_in_week_nights,</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>          avg_price_per_room,country) <span class="sc">%&gt;%</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>hotel_rates_filtered <span class="ot">&lt;-</span> hotel_rates <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">mutate</span>(</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">arrival_month =</span> <span class="fu">factor</span>(<span class="fu">month</span>(arrival_date)),</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">num_guests =</span> adults<span class="sc">+</span>children,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">is_repeated_guest =</span> <span class="fu">factor</span>(is_repeated_guest),</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>   ) <span class="sc">%&gt;%</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(num_guests,total_of_special_requests,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>          required_car_parking_spaces,arrival_month,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>          is_repeated_guest,lead_time,stays_in_week_nights,</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>          avg_price_per_room,country) <span class="sc">%&gt;%</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="exr-cv_split" class="theorem exercise">
-<p><span class="theorem-title"><strong>Aufgabe 4.5</strong></span> Generiere mithilfe des <code>hotel_rates_filtered</code> Datensatzes einen <span class="math inline">\(5\)</span>-fold Cross Validation (CV) Split. Verwende dabei das Seed <code>123</code>.</p>
+<p><span class="theorem-title"><strong>Aufgabe 4.6</strong></span> Generiere mithilfe des <code>hotel_rates_filtered</code> Datensatzes einen <span class="math inline">\(5\)</span>-fold Cross Validation (CV) Split. Verwende dabei das Seed <code>123</code>.</p>
 </div>
-<div id="exr-tree_comp" class="theorem exercise">
-<p><span class="theorem-title"><strong>Aufgabe 4.6</strong></span> Verwende das CV Objekt aus <a href="#exr-cv_split" class="quarto-xref">Aufgabe&nbsp;<span>4.5</span></a> um jeweils eine multiple lineare Regression, einen Regressionsbaum und einen Randomforest (bestehend aus 500 Bäumen) zu schätzen und vergleiche die OOS Performance anhand den Metriken MSE, <span class="math inline">\(R^2\)</span> und AIC.</p>
+<div id="exr-model_comp" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 4.7</strong></span> Verwende das CV Objekt aus <a href="#exr-cv_split" class="quarto-xref">Aufgabe&nbsp;<span>4.6</span></a> um jeweils eine multiple lineare Regression, einen Regressionsbaum und einen Randomforest (bestehend aus 500 Bäumen) zu schätzen und vergleiche die OOS Performance anhand den Metriken RMSE und <span class="math inline">\(R^2\)</span>. Die Zielvariable soll hierbei <code>avg_price_per_room</code> sein und die erklärenden Variablen alle verbleibenden. Setze beim Bearbeiten dieser Aufgabe ebenfalls einen Random Seed auf <code>123</code>, um auch beim Random Forest Modell reproduzierbare ergebnisse zu erzielen.</p>
 </div>
-<!-- 
-
-#### Einfluss der Hyperparameter 
-
-In @sec-stoppingcriteria haben wir gesehen, dass die Parameter `cost_complexity` (CP), `tree_depth` (Baumtiefe) und `min_n` (Mindestanzahl der Datenpunkte für einen weiteren Split) die Form des Baumes stark beeinflussen können.
-
-Wir wollen deshalb in den folgenden Übungsaufgaben diesen Einfluss untersuchen.
-
-
-:::{#erx-ttsplit}
-
-:::
-
+</section>
+<section id="einfluss-der-hyperparameter" class="level4" data-number="4.6.2.2">
+<h4 data-number="4.6.2.2" class="anchored" data-anchor-id="einfluss-der-hyperparameter"><span class="header-section-number">4.6.2.2</span> Einfluss der Hyperparameter</h4>
+<p>In <a href="#sec-stoppingcriteria" class="quarto-xref"><span>Section 4.2.2</span></a> haben wir gesehen, dass die Parameter <code>cost_complexity</code> (CP), <code>tree_depth</code> (Baumtiefe) und <code>min_n</code> (Mindestanzahl der Datenpunkte für einen weiteren Split) die Form des Baumes stark beeinflussen können.</p>
+<p>Wir wollen deshalb in den folgenden Übungsaufgaben diesen Einfluss untersuchen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>hotel_rates_adj <span class="ot">&lt;-</span> hotel_rates <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">mutate</span>(</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">arrival_month =</span> <span class="fu">factor</span>(<span class="fu">month</span>(arrival_date)),</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">num_guests =</span> adults<span class="sc">+</span>children,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">is_repeated_guest =</span> <span class="fu">factor</span>(is_repeated_guest),</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>   ) <span class="sc">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(adults,children,agent))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<!--
+Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen zu wild aus.
 -->
+<div id="exr-ttsplit" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 4.8</strong></span> Erstelle mithilfe des oben eingeführten Datensatzes <code>hotel_rates_adj</code> ein Training- und Test-Split im Verhältnis 5:1 unter der Verwendung des Seeds <code>123</code>.</p>
+</div>
+<div id="exr-tree-comp" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 4.9</strong></span> In dieser Aufgabe wollen wir verschiedene Versionen eines Regressionsbaums trainieren. Der Fokus soll hierbei auf die Wahl der verschiedenen Hyperparameter und deren Einfluss auf die Modellperformance auf den Testdaten liegen.</p>
+<p>Verwende für jeden der folgenden beschriebenen Regressionsbäumen die Formel</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>formula_hr <span class="ot">&lt;-</span> avg_price_per_room<span class="sc">~</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><em>Hinweis: Man kann in der <code>fit</code> Funktion dem Argument <code>formula</code> damit den wert <code>formula_hr</code> zuweisen und muss nicht immer die gleiche Spezifikaiton ausschreiben.</em></p>
+<ol type="1">
+<li><ol type="i">
+<li>Verwende den Trainings-Split aus <a href="#exr-ttsplit" class="quarto-xref">Aufgabe&nbsp;<span>4.8</span></a> um einen Regressionsbaum mithilfe der Formel <code>formula_hr</code> zu trainieren. Bei der Modellspezifikation sollen alle Hyperparameter des Baumes auf deren Standardeinstellung gelassen werden.</li>
+<li>Stelle den Baum grafisch dar (<code>rpart.plot()</code>) und beantworte die folgenden Fragen:
+<ol type="a">
+<li>Welcher Blattknoten enthält die kleinste bzw. größte Anzahl an Datenpunkten?</li>
+<li>Welcher ist der größte bzw. kleinste Schätzwert im dargestellten Baum (bezogen auf alle Knoten)?</li>
+<li>Welche Tiefe hat der resultierende Baum?</li>
+</ol></li>
+<li>Bestimme mithilfe der <code>vip()</code> Funktion welche Variable im Modell den größten und kleinsten Importance Wert besitzt.</li>
+<li>Berechne auf Basis der Testdaten den RMSE und <span class="math inline">\(R^2\)</span>.</li>
+</ol></li>
+<li>Verwende das Trainingsset aus <a href="#exr-ttsplit" class="quarto-xref">Aufgabe&nbsp;<span>4.8</span></a> um einen weiteren Regressionsbaum zu trainieren.
+<ol type="i">
+<li><p>Verwende hierbei die Hyperparameter:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tree_params <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a> <span class="at">cost_complexity =</span> <span class="fl">0.00000000915</span>,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a> <span class="at">tree_depth =</span> <span class="dv">15</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a> <span class="at">min_n =</span> <span class="dv">32</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><p>Welche Tiefe besitzt dieser neue Baum?</p></li>
+<li><p>Berechne für diesen Baum ebenso auf den Testdaten den RMSE und <span class="math inline">\(R^2\)</span> und vergleiche diese mit der Testperformance des Baumes aus Teilaufgabe 1. iv.</p></li>
+</ol></li>
+</ol>
+</div>
 </section>
 </section>
 </section>
 <section id="lösungen" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="lösungen"><span class="header-section-number">4.7</span> Lösungen</h2>
-<p>TBA</p>
+<div id="sol-tree_theory" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.1</em> (<a href="#exr-tree_theory" class="quarto-xref">Aufgabe&nbsp;<span>4.1</span></a>). </span></p>
+<ol type="1">
+<li><p>Ein lineares Modell, welches lediglich den Parameter <span class="math inline">\(b_0\)</span> enthält besitzt den Schätzwert <span class="math inline">\(\hat{y_k} = \hat{b_0} = \bar{y} = \frac{1}{K}\sum_{k=1}^{K}y_k\)</span> für alle <span class="math inline">\(k\)</span>. Ein Regressionsbaum, welcher lediglich aus dem Wurzelknoten besteht, besiztz ebenso den Schätzwert <span class="math inline">\(\hat{y_k} = \bar{y}_{R_0} = \frac{1}{|R_0|}\sum_{k:x_k \in R_0}^{K}y_k\)</span>. Die beiden Modelle werden in diesem Fall also gleichgut (bzw. gleichschlecht!) die Zusammenhänge in den Daten erklären.</p></li>
+<li><p>Falls der Datensatz bereits sehr einer Variablen ähnelt, dann ist zu erwarten, dass das lineare Modell den Zusammenhang besser erklärt. Das liegt daran, dass ein Baummodell eine stückweise konstante Funktion ist, nicht die Steigung (falls <span class="math inline">\(b_1\neq 0\)</span>) so gut abbilden kann, wie eine Gerade selbst.</p></li>
+</ol>
+</div>
+<div id="sol-tree_theory_02" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.2</em> (<a href="#exr-tree_theory_02" class="quarto-xref">Aufgabe&nbsp;<span>4.2</span></a>). </span></p>
+<ol type="1">
+<li>Cost Complexity Tuning kann als Postpruning Methode gesehen werden, da das Trimmen des Baumes anhand des <code>CP</code> Wertes nach dem vollständigen aufspannen stattfindet. Es kann auf der anderen Seite allerdings auch als Prepruning Kriterium aufgefasst werden, welches einen Baum daran hindert einen Knoten weiter zu splitten, falls der Improvement Wert zu klein ist.</li>
+<li>Wie in <a href="#sec-pruning" class="quarto-xref"><span>Section 4.2.2.4</span></a> erläutert, kann das frühzeitige Beenden des Aufspannen eines Baumes dazu führen, dass ein potenziell sehr guter Split nachfolgend nicht mehr durchgeführt wird.</li>
+</ol>
+</div>
+<div id="sol-tree_plot" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.3</em> (<a href="#exr-tree_plot" class="quarto-xref">Aufgabe&nbsp;<span>4.3</span></a>). </span></p>
+<ol type="1">
+<li>Der Baum enthält sieben Blattknoten, was an den sieben horizontalen geraden zu erkennen ist.</li>
+<li>Die Funktionsvorschrift ist gegeben durch <span class="math display">\[\begin{equation*}
+  f(x) = \begin{cases}
+    0.25,\quad &amp;\text{ falls } x&lt;3.1\\
+    3.6,\quad  &amp;\text{ falls } 3.1\leq x &lt; 4\\
+    7,\quad    &amp;\text{ falls } 4\leq x &lt; 4.3\\
+    9.2,\quad  &amp;\text{ falls } 4.3\leq x &lt; 5.75\\
+    5.5,\quad  &amp;\text{ falls } 5.75\leq x &lt; 6.4\\
+    2.3,\quad  &amp;\text{ falls } 6.4\leq x &lt; 7.2\\
+    0.2,\quad  &amp;\text{ falls } 7.2\leq x \\
+  \end{cases}
+\end{equation*}\]</span></li>
+<li>Es ist zu erwaten, dass eine einfache lineare Regression sich nur schlechter an die Daten anpassen kann, da der Zusammenhang der Daten stark nichtlinear ist.</li>
+</ol>
+</div>
+<div id="sol-create_tree_plot" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.4</em> (<a href="#exr-create_tree_plot" class="quarto-xref">Aufgabe&nbsp;<span>4.4</span></a>). </span></p>
+<ol type="1">
+<li><p>Die entsprechenden Baumdiagramme sind gegeben durch:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-42-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div></li>
+<li><p>Die beiden Feature Spaces sind gegeben durch</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div></li>
+</ol>
+</div>
+<div id="sol-cp_table" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.5</em> (<a href="#exr-cp_table" class="quarto-xref">Aufgabe&nbsp;<span>4.5</span></a>). </span>Die vollständige CP Tabelle ist durch</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>         CP nsplit rel error    xerror       xstd
+1 0.7600591      0 1.0000000 1.0049032 0.07536700
+2 0.1265061      1 0.2399409 0.2491316 0.02623625
+3 0.0500000      2 0.1134348 0.1178125 0.01326705</code></pre>
+</div>
+</div>
+<p>gegeben.</p>
+<p>Also <span class="math inline">\(a = 0.7600591\)</span>, <span class="math inline">\(b = 1\)</span> und <span class="math inline">\(c = 0.1134348\)</span>.</p>
+</div>
+<div id="sol-cv_split" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.6</em> (<a href="#exr-cv_split" class="quarto-xref">Aufgabe&nbsp;<span>4.6</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>folds_hotel_rate <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(hotel_rates_filtered,<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-model_comp" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.7</em> (<a href="#exr-model_comp" class="quarto-xref">Aufgabe&nbsp;<span>4.7</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>multi_metric <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(rmse,rsq)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>mlr_fit_hr <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds_hotel_rate,</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">preprocessor =</span> avg_price_per_room <span class="sc">~</span>.,</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">metrics =</span> multi_metric</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>tree_fit_hr <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"regression"</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds_hotel_rate,</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">preprocessor =</span> avg_price_per_room <span class="sc">~</span>.,</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">metrics =</span> multi_metric</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>rf_fit_hr <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(</span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"regression"</span>,</span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">trees =</span> <span class="dv">500</span></span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(</span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds_hotel_rate,</span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">preprocessor =</span> avg_price_per_room <span class="sc">~</span>.,</span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">metrics =</span> multi_metric</span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a>cv_comparison <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a>  mlr_fit_hr <span class="sc">%&gt;%</span></span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect_metrics</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"mlr"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>.config),</span>
+<span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a>  tree_fit_hr <span class="sc">%&gt;%</span></span>
+<span id="cb32-38"><a href="#cb32-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect_metrics</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb32-39"><a href="#cb32-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"tree"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-40"><a href="#cb32-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>.config),</span>
+<span id="cb32-41"><a href="#cb32-41" aria-hidden="true" tabindex="-1"></a>  rf_fit_hr <span class="sc">%&gt;%</span></span>
+<span id="cb32-42"><a href="#cb32-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect_metrics</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb32-43"><a href="#cb32-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"random forest"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-44"><a href="#cb32-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>.config) </span>
+<span id="cb32-45"><a href="#cb32-45" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-46"><a href="#cb32-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-47"><a href="#cb32-47" aria-hidden="true" tabindex="-1"></a>cv_comparison</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="tafhgmlufc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tafhgmlufc table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#tafhgmlufc thead, #tafhgmlufc tbody, #tafhgmlufc tfoot, #tafhgmlufc tr, #tafhgmlufc td, #tafhgmlufc th {
+  border-style: none;
+}
+
+#tafhgmlufc p {
+  margin: 0;
+  padding: 0;
+}
+
+#tafhgmlufc .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#tafhgmlufc .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#tafhgmlufc .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#tafhgmlufc .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#tafhgmlufc .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#tafhgmlufc .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tafhgmlufc .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#tafhgmlufc .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#tafhgmlufc .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#tafhgmlufc .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#tafhgmlufc .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#tafhgmlufc .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#tafhgmlufc .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#tafhgmlufc .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#tafhgmlufc .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#tafhgmlufc .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#tafhgmlufc .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#tafhgmlufc .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#tafhgmlufc .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tafhgmlufc .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#tafhgmlufc .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#tafhgmlufc .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#tafhgmlufc .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tafhgmlufc .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#tafhgmlufc .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#tafhgmlufc .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tafhgmlufc .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tafhgmlufc .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#tafhgmlufc .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tafhgmlufc .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#tafhgmlufc .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tafhgmlufc .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#tafhgmlufc .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tafhgmlufc .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#tafhgmlufc .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tafhgmlufc .gt_left {
+  text-align: left;
+}
+
+#tafhgmlufc .gt_center {
+  text-align: center;
+}
+
+#tafhgmlufc .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#tafhgmlufc .gt_font_normal {
+  font-weight: normal;
+}
+
+#tafhgmlufc .gt_font_bold {
+  font-weight: bold;
+}
+
+#tafhgmlufc .gt_font_italic {
+  font-style: italic;
+}
+
+#tafhgmlufc .gt_super {
+  font-size: 65%;
+}
+
+#tafhgmlufc .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#tafhgmlufc .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#tafhgmlufc .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#tafhgmlufc .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#tafhgmlufc .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#tafhgmlufc .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#tafhgmlufc .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id=".metric" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">.metric</th>
+<th id=".estimator" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">.estimator</th>
+<th id="mean" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">mean</th>
+<th id="n" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">n</th>
+<th id="std_err" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">std_err</th>
+<th id="model" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">model</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers=".metric">rmse</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers="mean">33.33</td>
+<td class="gt_row gt_right" headers="n">5.00</td>
+<td class="gt_row gt_right" headers="std_err">0.33</td>
+<td class="gt_row gt_left" headers="model">mlr</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=".metric">rsq</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers="mean">0.74</td>
+<td class="gt_row gt_right" headers="n">5.00</td>
+<td class="gt_row gt_right" headers="std_err">0.01</td>
+<td class="gt_row gt_left" headers="model">mlr</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers=".metric">rmse</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers="mean">37.06</td>
+<td class="gt_row gt_right" headers="n">5.00</td>
+<td class="gt_row gt_right" headers="std_err">0.36</td>
+<td class="gt_row gt_left" headers="model">tree</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=".metric">rsq</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers="mean">0.68</td>
+<td class="gt_row gt_right" headers="n">5.00</td>
+<td class="gt_row gt_right" headers="std_err">0.01</td>
+<td class="gt_row gt_left" headers="model">tree</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers=".metric">rmse</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers="mean">29.61</td>
+<td class="gt_row gt_right" headers="n">5.00</td>
+<td class="gt_row gt_right" headers="std_err">0.16</td>
+<td class="gt_row gt_left" headers="model">random forest</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=".metric">rsq</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers="mean">0.81</td>
+<td class="gt_row gt_right" headers="n">5.00</td>
+<td class="gt_row gt_right" headers="std_err">0.00</td>
+<td class="gt_row gt_left" headers="model">random forest</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Der Tabelle ist zu entnehmen, dass das Random Forest Modell bezüglich beiden Metriken die beste Performance hat. Auf den Test Folds beträgt bei diesem Modell der durschschnittliche <span class="math inline">\(R^2\)</span> über <span class="math inline">\(80\%\)</span>. Wir können also mithilfe dieses Modells mehr als <span class="math inline">\(80\%\)</span> der Varianz in unseren Testdaten erklären.</p>
+<p>Das einfache Baummodell schneidet in diesem Vergleich am schlechtesten ab, was vor allem daran liegen könnte, dass wir die Parameter <code>complexity_parameter</code>, <code>min_n</code> und <code>tree_depth</code> nicht weiter angepasst haben.</p>
+<p>Durch die Beschränkung der Linearitätsannahme an die Koeffizienten und die Variablen ist das MLR Modell für diesen Datensatz vermutlich zu einfach. Eine Idee wäre an dieser Stelle, die einzelnen Variablen genauer zu untersuchen und durch die Einführung von nichtlinearen Variablentransformationen zu verbessern.</p>
+</div>
+<div id="sol-ttsplit" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.8</em> (<a href="#exr-ttsplit" class="quarto-xref">Aufgabe&nbsp;<span>4.8</span></a>). </span>Erstelle mithilfe des oben eingeführten Datensatzes <code>hotel_rates_adj</code> ein Training- und Test-Split im Verhältnis 5:1 unter der Verwendung des Seeds <code>123</code>.</p>
+</div>
+<div id="sol-tree-comp" class="proof solution">
+<p><span class="proof-title"><em>Solution 4.9</em> (<a href="#exr-tree-comp" class="quarto-xref">Aufgabe&nbsp;<span>4.9</span></a>). </span>In dieser Aufgabe wollen wir verschiedene Versionen eines Regressionsbaums trainieren. Der Fokus soll hierbei auf die Wahl der verschiedenen Hyperparameter und deren Einfluss auf die Modellperformance auf den Testdaten liegen.</p>
+<p>Verwende für jeden der folgenden beschriebenen Regressionsbäumen die Formel</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>formula_hr <span class="ot">&lt;-</span> avg_price_per_room<span class="sc">~</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><em>Hinweis: Man kann in der <code>fit</code> Funktion dem Argument <code>formula</code> damit den wert <code>formula_hr</code> zuweisen und muss nicht immer die gleiche Spezifikaiton ausschreiben.</em></p>
+<ol type="1">
+<li><ol type="i">
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(<span class="at">mode =</span> <span class="st">"regression"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">formula =</span> formula_hr,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> data_train)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="sc">%&gt;%</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rpart.plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-51-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol type="a">
+<li>Die meisten Datenpunkte enthält der ganz linke Knoten (<code>35%</code>) und der ganz fünfte Knoten von Links am wenigsten (<code>2%</code>).</li>
+<li>Der größte Schätzwert ist durch <span class="math inline">\(245\)</span> im ganz rechten Knoten gegeben und der kleinste Schätzwert durch $53% im ganz linken Knoten.</li>
+<li>Der Baum hat die Tiefe 5.</li>
+</ol></li>
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="sc">%&gt;%</span> <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">rmse</span>(.pred,avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard        31.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="sc">%&gt;%</span> <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">rsq</span>(.pred,avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rsq     standard       0.769</code></pre>
+</div>
+</div></li>
+<li><p>Durch das übergeben des <code>tree_fit_hr</code> Objektes and die <code>vip()</code> Funktion können wir die Wichtigkeitswerte der Variablen ablesen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="sc">%&gt;%</span> <span class="fu">vip</span>(<span class="at">num_features =</span> <span class="dv">17</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-53-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Falls wir allerdings nicht den Parameter <code>num_features</code> spezifizieren, wird nur der Wichtigkeitswert der wichtigsten <span class="math inline">\(10\)</span> Feature ausgegeben. Wir müssen diesen Wert deshalb auf die Anzahl der im Baum verwendeten Feature (<code>17</code>) setzen, um auch Informationen über alle 17 Feature zu erhalten. Die Variable <code>historical_adr</code> besitzt demnach den größten und die Variable <code>booking_changes</code> den kleinsten Improvement Wert.</p></li>
+</ol></li>
+<li><ol type="i">
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_tuned <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(<span class="at">mode =</span> <span class="st">"regression"</span>,</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">cost_complexity =</span> <span class="fl">0.00000000915</span>,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">tree_depth =</span> <span class="dv">15</span>,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">min_n =</span> <span class="dv">32</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>                         ) <span class="sc">%&gt;%</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">fit</span>(<span class="at">formula =</span> formula_hr,</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>                             <span class="at">data =</span> data_train</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>                             )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><p>Um die Tiefe des Baumes zu bestimmen, kann man entweder wie zuvor den Baum grafisch darstellen und den längsten Pfad zwischen Wurzelknoten und Blattknoten bestimmen, oder man berechnet die Tiefe.</p>
+<p></p>
+<p>Jeder Knoten eins Baumes in R besitzt eine Identifikationsnummer, welche sich durch die Folge</p>
+<p><span class="math display">\[\begin{equation}
+a_{n+1} = \begin{cases}
+1\qquad &amp;\text{ falls } n=0 \text{ Wurzelknoten }\\
+a_n\cdot 2 &amp;\text{ falls } n\geq 1 \text{ und } a_{n+1} \text{ linker Kindknoten von } a_n\\
+a_n\cdot 2+1 &amp;\text{ falls } n\geq 1 \text{ und } a_{n+1} \text{ rechter Kindknoten von } a_n
+\end{cases}
+\end{equation}\]</span> bestimmen lässt. Diese rekursive Folge lässt sich dann zum Beispiel für alle rechten Knoten darstellen als <span class="math inline">\(a_n = 2^{n+1}-1\)</span>. <span class="math inline">\(n\)</span> steht hierbei für die <span class="math inline">\(n\)</span>-te Ebene des Baumes. Somit sind die ID’s für die Blattknoten durch die tiefste ebene <span class="math inline">\(N\)</span> gegeben und besitzen Werte zwischen <span class="math inline">\(2^n\)</span> und <span class="math inline">\(2^{n+1}-1\)</span>. Um die Tiefe des Baumes also rechnerisch zu bestimmen müssen wir zuerst den Knoten mit der höchsten ID finden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_tuned <span class="sc">%&gt;%</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pluck</span>(<span class="st">"frame"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="fu">as.integer</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>()         </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 16643</code></pre>
+</div>
+</div>
+<p>Das Attribut <code>"frame"</code> enthällt Informationen über alle Knoten, welche im finalen Baum verwendet wurden. Die Zeilennamen enthalten zum Beispiel die Knoten ID, welche wir durch die Rekursive Folge bestimmen können. Durch das Anwenden der <code>row.names()</code> funktion extrahieren wir also aus dem Objekt <code>"frame"</code> alle Knoten IDs. Damit wir den maximalen Wert finden können, müssen wir die Knoten IDs in den Datentyp <code>&lt;int&gt;</code> umwandeln. Mithilfe der <code>max()</code> Funktion können wir dann den größten Wert extrahieren. Um nun die Ebene des tiefsten Knotens (der Knoten mit der höchsten ID) zu bestimmen, können wir folgende Umformung anwenden:</p>
+<p><span class="math display">\[\begin{align*}
+a_n  &amp;= 2^{n+1}-1 \iff n = \lceil\log_2(a_{n+1})-1\rceil
+\end{align*}\]</span></p>
+<p>Somit gilt für die Tiefe des Baumes</p>
+<p><span class="math display">\[\begin{equation*}
+  n = \lceil\log_2(16643)-1\rceil = 14,
+\end{equation*}\]</span></p>
+<p>wobei <span class="math inline">\(\lceil \cdot \rceil\)</span> obere Gaußklammern darstellen.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p></li>
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_tuned <span class="sc">%&gt;%</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">rmse</span>(.pred,avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard        25.8</code></pre>
+</div>
+</div>
+<p>Im Vergleich zum Modell mit unangepassten Hyperparametern ist das Modell aus dieser Teilaufgabe besser, da der Test-RMSE nur 25.8 beträgt (<code>31.5</code> für das Modell aus Teilaufgabe 4.9.1. ii.)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_tuned <span class="sc">%&gt;%</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">rsq</span>(.pred,avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rsq     standard       0.846</code></pre>
+</div>
+</div>
+<p>Ebenso ist der <span class="math inline">\(R^2\)</span> im Vergleich zum vorherigen Modell (<code>0.769</code>) besser. Wir können also deshalb schlussfolgern, dass das Finden von guten Hyperparametern die Modellperformance stark verbessertn kann.</p></li>
+</ol></li>
+</ol>
+</div>
 
 
 </section>
@@ -927,7 +2341,9 @@ Wir wollen deshalb in den folgenden Übungsaufgaben diesen Einfluss untersuchen.
 <ol>
 <li id="fn1"><p>Diese sind durch die Mittelwerte aller benachbarten Punkte gegeben<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>Diese muss eventuell zuerst mit dem Befehl <code>install.packages("rpart.plot")</code> installiert werden<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Exemplarisch wurden hier nur die ersten 5 Werte ausgegegben<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Streng genommen wird auch noch der Improvement Wert der sog. <em>Surrogate-Splits</em> verwendet. Für Details siehe <a href="https://cran.r-project.org/web/packages/rpart/rpart.pdf">rpart Dokumentation</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Exemplarisch wurden hier nur die ersten 5 Werte ausgegegben<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Für <span class="math inline">\(x\in (n,n+1),\: n\in \mathbb{N}\)</span> gilt <span class="math inline">\(\lceil x \rceil = n+1\)</span>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
