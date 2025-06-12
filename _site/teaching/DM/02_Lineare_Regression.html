@@ -242,6 +242,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regressionsbäume</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Neuronale_Netze.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Neuronale Netze</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -389,23 +395,23 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="bycviyvqxz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#bycviyvqxz table {
+<div id="ycebibgfag" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ycebibgfag table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#bycviyvqxz thead, #bycviyvqxz tbody, #bycviyvqxz tfoot, #bycviyvqxz tr, #bycviyvqxz td, #bycviyvqxz th {
+#ycebibgfag thead, #ycebibgfag tbody, #ycebibgfag tfoot, #ycebibgfag tr, #ycebibgfag td, #ycebibgfag th {
   border-style: none;
 }
 
-#bycviyvqxz p {
+#ycebibgfag p {
   margin: 0;
   padding: 0;
 }
 
-#bycviyvqxz .gt_table {
+#ycebibgfag .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -431,12 +437,12 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-left-color: #D3D3D3;
 }
 
-#bycviyvqxz .gt_caption {
+#ycebibgfag .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#bycviyvqxz .gt_title {
+#ycebibgfag .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -448,7 +454,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-width: 0;
 }
 
-#bycviyvqxz .gt_subtitle {
+#ycebibgfag .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -460,7 +466,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-top-width: 0;
 }
 
-#bycviyvqxz .gt_heading {
+#ycebibgfag .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -472,13 +478,13 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#bycviyvqxz .gt_bottom_border {
+#ycebibgfag .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bycviyvqxz .gt_col_headings {
+#ycebibgfag .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -493,7 +499,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#bycviyvqxz .gt_col_heading {
+#ycebibgfag .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -513,7 +519,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   overflow-x: hidden;
 }
 
-#bycviyvqxz .gt_column_spanner_outer {
+#ycebibgfag .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -525,15 +531,15 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 4px;
 }
 
-#bycviyvqxz .gt_column_spanner_outer:first-child {
+#ycebibgfag .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bycviyvqxz .gt_column_spanner_outer:last-child {
+#ycebibgfag .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bycviyvqxz .gt_column_spanner {
+#ycebibgfag .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -545,11 +551,11 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   width: 100%;
 }
 
-#bycviyvqxz .gt_spanner_row {
+#ycebibgfag .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#bycviyvqxz .gt_group_heading {
+#ycebibgfag .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -575,7 +581,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   text-align: left;
 }
 
-#bycviyvqxz .gt_empty_group_heading {
+#ycebibgfag .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -590,15 +596,15 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   vertical-align: middle;
 }
 
-#bycviyvqxz .gt_from_md > :first-child {
+#ycebibgfag .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bycviyvqxz .gt_from_md > :last-child {
+#ycebibgfag .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bycviyvqxz .gt_row {
+#ycebibgfag .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -617,7 +623,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   overflow-x: hidden;
 }
 
-#bycviyvqxz .gt_stub {
+#ycebibgfag .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -630,7 +636,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#bycviyvqxz .gt_stub_row_group {
+#ycebibgfag .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -644,15 +650,15 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   vertical-align: top;
 }
 
-#bycviyvqxz .gt_row_group_first td {
+#ycebibgfag .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bycviyvqxz .gt_row_group_first th {
+#ycebibgfag .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#bycviyvqxz .gt_summary_row {
+#ycebibgfag .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -662,16 +668,16 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#bycviyvqxz .gt_first_summary_row {
+#ycebibgfag .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bycviyvqxz .gt_first_summary_row.thick {
+#ycebibgfag .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bycviyvqxz .gt_last_summary_row {
+#ycebibgfag .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -681,7 +687,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-color: #D3D3D3;
 }
 
-#bycviyvqxz .gt_grand_summary_row {
+#ycebibgfag .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -691,7 +697,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#bycviyvqxz .gt_first_grand_summary_row {
+#ycebibgfag .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -701,7 +707,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-top-color: #D3D3D3;
 }
 
-#bycviyvqxz .gt_last_grand_summary_row_top {
+#ycebibgfag .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -711,11 +717,11 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-color: #D3D3D3;
 }
 
-#bycviyvqxz .gt_striped {
+#ycebibgfag .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bycviyvqxz .gt_table_body {
+#ycebibgfag .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -724,7 +730,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-color: #D3D3D3;
 }
 
-#bycviyvqxz .gt_footnotes {
+#ycebibgfag .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -738,7 +744,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#bycviyvqxz .gt_footnote {
+#ycebibgfag .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -747,7 +753,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#bycviyvqxz .gt_sourcenotes {
+#ycebibgfag .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -761,7 +767,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#bycviyvqxz .gt_sourcenote {
+#ycebibgfag .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -769,63 +775,63 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#bycviyvqxz .gt_left {
+#ycebibgfag .gt_left {
   text-align: left;
 }
 
-#bycviyvqxz .gt_center {
+#ycebibgfag .gt_center {
   text-align: center;
 }
 
-#bycviyvqxz .gt_right {
+#ycebibgfag .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bycviyvqxz .gt_font_normal {
+#ycebibgfag .gt_font_normal {
   font-weight: normal;
 }
 
-#bycviyvqxz .gt_font_bold {
+#ycebibgfag .gt_font_bold {
   font-weight: bold;
 }
 
-#bycviyvqxz .gt_font_italic {
+#ycebibgfag .gt_font_italic {
   font-style: italic;
 }
 
-#bycviyvqxz .gt_super {
+#ycebibgfag .gt_super {
   font-size: 65%;
 }
 
-#bycviyvqxz .gt_footnote_marks {
+#ycebibgfag .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#bycviyvqxz .gt_asterisk {
+#ycebibgfag .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bycviyvqxz .gt_indent_1 {
+#ycebibgfag .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bycviyvqxz .gt_indent_2 {
+#ycebibgfag .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bycviyvqxz .gt_indent_3 {
+#ycebibgfag .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bycviyvqxz .gt_indent_4 {
+#ycebibgfag .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bycviyvqxz .gt_indent_5 {
+#ycebibgfag .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2019,7 +2025,6 @@ F-statistic: 255.4 on 9 and 323 DF,  p-value: &lt; 2.2e-16</code></pre>
 
 
 
-
 ::: {.cell}
 
 ```{.r .cell-code}
@@ -2100,7 +2105,6 @@ p2/p4/p6
 ![](02_Lineare_Regression_files/figure-html/unnamed-chunk-35-1.png){width=672}
 :::
 :::
-
 
 
 
