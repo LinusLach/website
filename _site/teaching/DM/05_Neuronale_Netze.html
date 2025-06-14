@@ -264,9 +264,24 @@ window.Quarto = {
   </ul></li>
   <li><a href="#anpassen-der-modellparameter" id="toc-anpassen-der-modellparameter" class="nav-link" data-scroll-target="#anpassen-der-modellparameter"><span class="header-section-number">5.2</span> Anpassen der Modellparameter</a>
   <ul>
-  <li><a href="#regularisierung-von-neuronalen-netzen" id="toc-regularisierung-von-neuronalen-netzen" class="nav-link" data-scroll-target="#regularisierung-von-neuronalen-netzen"><span class="header-section-number">5.2.1</span> Regularisierung von Neuronalen Netzen</a></li>
+  <li><a href="#gradientenabstieg" id="toc-gradientenabstieg" class="nav-link" data-scroll-target="#gradientenabstieg"><span class="header-section-number">5.2.1</span> Gradientenabstieg</a></li>
+  <li><a href="#regularisierung-von-neuronalen-netzen" id="toc-regularisierung-von-neuronalen-netzen" class="nav-link" data-scroll-target="#regularisierung-von-neuronalen-netzen"><span class="header-section-number">5.2.2</span> Regularisierung von Neuronalen Netzen</a>
+  <ul class="collapse">
+  <li><a href="#dropout" id="toc-dropout" class="nav-link" data-scroll-target="#dropout"><span class="header-section-number">5.2.2.1</span> Dropout</a></li>
+  <li><a href="#sec-penalty" id="toc-sec-penalty" class="nav-link" data-scroll-target="#sec-penalty"><span class="header-section-number">5.2.2.2</span> <span class="math inline">\(L^1\)</span>-Regularisierung</a></li>
   </ul></li>
-  <li><a href="#neuronale-netze-in-r" id="toc-neuronale-netze-in-r" class="nav-link" data-scroll-target="#neuronale-netze-in-r"><span class="header-section-number">5.3</span> Neuronale Netze in R</a></li>
+  </ul></li>
+  <li><a href="#sec-NNR" id="toc-sec-NNR" class="nav-link" data-scroll-target="#sec-NNR"><span class="header-section-number">5.3</span> Neuronale Netze in R</a>
+  <ul>
+  <li><a href="#regularisierung-von-neuronalen-netzen-in-r" id="toc-regularisierung-von-neuronalen-netzen-in-r" class="nav-link" data-scroll-target="#regularisierung-von-neuronalen-netzen-in-r"><span class="header-section-number">5.3.1</span> Regularisierung von Neuronalen Netzen in R</a></li>
+  <li><a href="#wichtigkeit-der-varibalen" id="toc-wichtigkeit-der-varibalen" class="nav-link" data-scroll-target="#wichtigkeit-der-varibalen"><span class="header-section-number">5.3.2</span> Wichtigkeit der Varibalen</a></li>
+  </ul></li>
+  <li><a href="#übungsaufgaben" id="toc-übungsaufgaben" class="nav-link" data-scroll-target="#übungsaufgaben"><span class="header-section-number">5.4</span> Übungsaufgaben</a>
+  <ul>
+  <li><a href="#theoretische-übungen" id="toc-theoretische-übungen" class="nav-link" data-scroll-target="#theoretische-übungen"><span class="header-section-number">5.4.1</span> Theoretische Übungen</a></li>
+  <li><a href="#r-übungen" id="toc-r-übungen" class="nav-link" data-scroll-target="#r-übungen"><span class="header-section-number">5.4.2</span> R Übungen</a></li>
+  </ul></li>
+  <li><a href="#lösungen" id="toc-lösungen" class="nav-link" data-scroll-target="#lösungen"><span class="header-section-number">5.5</span> Lösungen</a></li>
   </ul>
 </nav>
     </div>
@@ -292,18 +307,14 @@ window.Quarto = {
 </header>
 
 
+<p>In dieser Übung werden wir einige theoretische und praktische Aspekte neuronaler Netze betrachten. Neuronale Netze sind inzwischen die am häufigsten verwendeten Modelle in der Forschung und Industrie des Data Minings, da sie vielseitig und leistungsfähig bei der Anwendung in Klassifizierungs- und Regressionsaufgaben sind. Das Training neuronaler Netze erfordert allerdings nicht nur eine große Datenmenge, um zufriedenstellende Ergebnisse zu erzielen, sondern kann je nach Anzahl der Merkmale und Stichproben auch viel Zeit in Anspruch nehmen.</p>
 <section id="einführung" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="einführung"><span class="header-section-number">5.1</span> Einführung</h2>
-<p>In dieser Übung werden wir einige theoretische und praktische Aspekte neuronaler Netze betrachten. Neuronale Netze sind inzwischen die am häufigsten verwendeten Modelle in der Forschung und Industrie des Data Minings, da sie vielseitig und leistungsfähig bei der Anwendung in Klassifizierungs- und Regressionsaufgaben sind. Das Training neuronaler Netze erfordert allerdings nicht nur eine große Datenmenge, um zufriedenstellende Ergebnisse zu erzielen, sondern kann je nach Anzahl der Merkmale und Stichproben auch viel Zeit in Anspruch nehmen.</p>
 <p>Neuronale Netze werden häufig mit der Funktionsweise des menschlichen Gehirns verglichen, auch wenn dieser Zusammenhang selbst bei den einfachsten Konzepten an seine Grenzen stößt (vgl. <a href="https://www.quantamagazine.org/ai-is-nothing-like-a-brain-and-thats-ok-20250430/">Quanta Magazin: AI is nothing like a brain and that’s okay</a>). Auch wenn neuronale Netze bereits seit den 1940er Jahren existieren, wurde deren Anwendung wie zum Beispiel in Large Language Models (ChatGPT, LeChat,…) erst in den vergangen Jahren für die breite Gesellschaft zugänglich. Damit wir moderne Architekturen wie Transformer verstehen können, auf denen zum Beispiel auch Large Language Models basieren, dürfen wir die Grundlagen, gelegt durch einfache neuronale Netze, nicht vernachlässigen.</p>
 <section id="anwendung-von-neuronalen-netzen-in-der-regression" class="level3" data-number="5.1.1">
 <h3 data-number="5.1.1" class="anchored" data-anchor-id="anwendung-von-neuronalen-netzen-in-der-regression"><span class="header-section-number">5.1.1</span> Anwendung von Neuronalen Netzen in der Regression</h3>
 <p>Neuronale Netze werden in ihrer einfach Form, wie wir sie in dieser Veranstaltung behandeln, vor allem für Regressions- und Klassifikationsaufgaben verwendet. Wir befinden uns also bei diesen Anwendungsfällen im Bereich des Supervised Learnings, da wir die Zielvariable kennen.</p>
 <p>Bei einer Regressionsaufgabe ist wie immer das Ziel eine Funktion <span class="math inline">\(f:\mathbb{R}^J\to\mathbb{R}\)</span> zu finden, welche den bestmöglichen Zusammenhang <span class="math inline">\(y = f(x)+\varepsilon\)</span> erklärt. Im Falle eines Neuronalen Netzes beschreiben wir die Funktion <span class="math inline">\(f\)</span> allgemein druch Weights (Gewichten) und Biases (Konstanten) welche den Rückgabewert beeinflussen.</p>
-<!-- 
-Neuronale Netze gehören allgemein zur Klasse der nichtlinearen Regressionsfunktionen was durch eine nichtlineare Aktivierungsfunktion $\sigma$ gesteuert wird. 
-
--->
 </section>
 <section id="aufbau-eines-neuronalen-netzes" class="level3" data-number="5.1.2">
 <h3 data-number="5.1.2" class="anchored" data-anchor-id="aufbau-eines-neuronalen-netzes"><span class="header-section-number">5.1.2</span> Aufbau eines Neuronalen Netzes</h3>
@@ -330,11 +341,17 @@ Figure&nbsp;5.1
 </ul>
 <p>Die Pfeile in der obigen Grafik deuten die Richtung des Informationsflusses an. Der Input <span class="math inline">\(I_1\)</span> wird durch den Parameter <span class="math inline">\(\omega_{I_1,O_1}\)</span> Gewichtet. Neben dem Input wird ein konstanter Term (Bias) <span class="math inline">\(\omega_{B_1,O_1}\)</span> dem gewichteten Input hinzugefügt. Die beiden Terme werden durch die Summation aggregiert und anschließend durch eine (nicht-) lineare Aktivierungsfunktion transformiert. Diese Transformation der aggregierten Summation ist dann der Output des Modells.</p>
 <p>Mathematisch lässt sich dieses einfache FFNN also durch</p>
-<p><span class="math display">\[\begin{equation*}
+<p><span class="math display">\[\begin{equation}\label{eq:nn_anal}
 f(x) = \sigma(\omega_{I_1,O_1}\cdot x + \omega_{B_1,O_1})
-\end{equation*}\]</span></p>
+\end{equation}\]</span></p>
 <p>beschreiben.</p>
 <p>Beispiele für Aktivierungsfunktionen sind:</p>
+<div id="tbl-Lorem" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-Lorem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.1: Übersicht über verschiedene Aktivierungsfunktionen
+</figcaption>
+<div aria-describedby="tbl-Lorem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
 <col style="width: 22%">
@@ -371,6 +388,9 @@ f(x) = \sigma(\omega_{I_1,O_1}\cdot x + \omega_{B_1,O_1})
 </tr>
 </tbody>
 </table>
+</div>
+</figure>
+</div>
 <div id="exm-NN01" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 5.1</strong></span> Wir können in R ein einfaches FFNN wie folgt darstellen. Die Notation ist hierbei konsistent mit der aus <a href="#fig-NN01" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>.</p>
 <div class="cell">
@@ -474,9 +494,14 @@ Figure&nbsp;5.3
 <p>Ein Version des Modells wie das in <a href="#fig-NNFull" class="quarto-xref">Figure&nbsp;<span>5.3</span></a> dargestellt könnnen wir in R wie folgt modellieren:</p>
 <div id="exm-DNNFull" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 5.3</strong></span> Gegeben sei folgende Netzarchitektur:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="pictures/NN_Full_Example2.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+<div id="fig-exm2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-exm2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="pictures/NN_Full_Example2.svg" id="fig-exm2" class="img-fluid quarto-figure quarto-figure-center anchored figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-exm2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.4
+</figcaption>
 </figure>
 </div>
 <p>Dann können wir diese in R durch folgende Funktion beschreiben:</p>
@@ -537,10 +562,12 @@ Figure&nbsp;5.3
 (J+1)N_1\cdot\left(\prod_{k=1}^{K} (N_k+1)\cdot N_{k+1}\right)
 \end{equation*}\]</span></p>
 <p>berechnen. Hierbei steht der Index <span class="math inline">\(k = 1,...,K\)</span> für die verschiedenen Hidden Layer des FFNN. Somit beschreiben wir mit <span class="math inline">\(J\)</span> die Anzahl der Input Neuronen, <span class="math inline">\(N_k\)</span>, <span class="math inline">\(k=1,...,K\)</span> die Anzahl der Neuronen in den Hidden Layern und mit <span class="math inline">\(N_{K+1}\)</span> die Anzahl der Output Neuronen. Die Addition mit <code>1</code> steht in den entsprechenden Layern für den Biasterm, da dieser ebenso mit jedem Neuron der nächsten Layer verbunden ist. Die Anzahl der Parameter steigt also nicht linear, sondern polynomiell.</p>
+<section id="gradientenabstieg" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="gradientenabstieg"><span class="header-section-number">5.2.1</span> Gradientenabstieg</h3>
 <p>Falls wir alle Parameter eines FFNN durch ein Objekt <span class="math inline">\(W\)</span> beschreiben und das FFNN in Abhängigkeit der Parameter als <span class="math inline">\(f_W\)</span> definieren, dann können wir auch bei diesem Modell das Optimierungsproblem</p>
-<p><span class="math display">\[\begin{equation*}
+<p><span class="math display">\[\begin{equation}\label{eq:mse_nn}
   \min_{W} (f_W(x)-y)^2
-\end{equation*}\]</span></p>
+\end{equation}\]</span></p>
 <p>lösen.</p>
 <p>Aufgrund der Nichtlinearität und hohen Anzahl der Parameter ist eine direkte Optimierung mithilfe der partiellen Ableitungen nicht möglich. Stattdessen verwenden man beim trainieren, also beim Anpassen der Modellparameter, verschiedene Versionen des Gradientenabstiegs.</p>
 <p>In der einfachsten Form ist der Gradientenabstieg durch die Formel</p>
@@ -554,19 +581,57 @@ Figure&nbsp;5.3
 </ol>
 <p>Um diese beiden Probleme zu lösen, verwenden wir verschiedene Versionen des Stochastic Gradient Descent. Beim Stochastic Gradient Descent wird deshalb nur eine zufällig ausgewählte Teilmenge der Daten verwendet, um den MSE zu berechnen und die Parameter anzupassen. Das häufigere Updaten kann dazu führen, dass aus lokalen Minima ausgebrochen wird und zusätzlich dadurch, dass nur ein Teil der Daten in jedem Schritt verwendet wird, auch der Aufwand bei der Berechnung verringert wird.</p>
 <p>Das Bilden der Partiellen Ableitungen bezüglich der Netzwerkparameter kann ebenso sehr aufwendig werden, da ein tiefes Neuronales Netz eine vielfach verschachtelte Funktion ist. Allerdings kann hierbei die Kettenregel verwendet werden, was den Prozess beschleunigen kann. Für die tatsächliche Berechnung der Gradienten wird der <em>Backpropagation</em> Algorithmus verwendet, welcher neben der Kettenregel auch noch weitere Effizienzmechanismen verwendet. Die Idee ist hierbei, dass die Gewichte in einer Layer <span class="math inline">\(k\)</span> lediglich durch den Effekt auf die Neuronen in der <span class="math inline">\(k+1\)</span> Layer den MSE beeinflussen. Deshalb müssen wir nur die Gradienten der Layer <span class="math inline">\(k,k-1,...,1\)</span> berechnen. Dieses Vorgehen mitigiert eine ineffiziente Berechnung der Gradienten durch das Vermeiden von wiederholten Berechnungen der Gradienten in den Layern <span class="math inline">\(k+1,...,K\)</span> welche nicht durch die Gewichte in Layer <span class="math inline">\(k\)</span> beeinflusst werden.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<section id="regularisierung-von-neuronalen-netzen" class="level3" data-number="5.2.1">
-<h3 data-number="5.2.1" class="anchored" data-anchor-id="regularisierung-von-neuronalen-netzen"><span class="header-section-number">5.2.1</span> Regularisierung von Neuronalen Netzen</h3>
+</section>
+<section id="regularisierung-von-neuronalen-netzen" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="regularisierung-von-neuronalen-netzen"><span class="header-section-number">5.2.2</span> Regularisierung von Neuronalen Netzen</h3>
+<p>Neuronale Netze in einem Regressions- und Klassifikationskontext tendieren stark dazu, sich zu sehr an die Trainingsdaten anzupassen. Das ist auch nicht weiter Überraschend wenn man bedenkt wie viele Parameter letztendlich in einem Neuronalen Netz enthalten sind. Zum Beispiel besteht das Neuronales Netz aus <a href="#fig-exm2" class="quarto-xref">Figure&nbsp;<span>5.4</span></a> schon <span class="math inline">\((1+1)\cdot3 +(4+1)\cdot 3+ (3+1)\cdot 1 = 25\)</span> Parameter während ein einfach lineares Modell den gleichen Zusammenhang mit nur zwei Parameter beschreiben würde.</p>
+<p>Wir wollen deshalb zwei Methoden besprechen, welche diesen Effekt mitigieren können.</p>
+<section id="dropout" class="level4" data-number="5.2.2.1">
+<h4 data-number="5.2.2.1" class="anchored" data-anchor-id="dropout"><span class="header-section-number">5.2.2.1</span> Dropout</h4>
+<p>Die Idee des Dropout ist simpel aber sehr effektiv: In jeder Iteration des Trainingsprozesses deaktivieren wir die Neuronen der Hidden Layer(s) mit einer Wahrscheinlichkeit <span class="math inline">\(p\in(0,1)\)</span>. Wenn ein Neuron in einer Iteration deaktiviert wurde, werden dessen Gewichte in der entsprechenden Iteration nicht aktualisiert. Wir reduzieren somit aktiv die Anzahl der Parameter im Modell beim Training und verhindern, dass sich die Parameter zu stark an die Trainingsdaten anpassen.</p>
+<div id="exm-dropout" class="theorem example">
+<p><span class="theorem-title"><strong>Beispiel 5.4</strong></span> Betrachte folgendes Netzwerk bestehend aus 4 Inputneuronen, einer Hidden Layer mit 8 Neuronen und einem Outputneuron.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pictures/Dropout_0.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<p>Angenommen wir wenden Dropout mit verschiedenen Werten für <span class="math inline">\(p\)</span> auf dieses Neuronale Netz an. Dann könnte in einer Iteration die Architektur auch wie folgt aussehen:</p>
+<div id="fig-dropout" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dropout-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="pictures/NN_Example.svg" id="fig-dropout" class="img-fluid quarto-figure quarto-figure-center anchored figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-dropout-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.5
+</figcaption>
+</figure>
+</div>
+<p>In <a href="#fig-dropout" class="quarto-xref">Figure&nbsp;<span>5.5</span></a> werden in der oberen Zeile zwei potenzielle Zustände des Netzwerkes für <span class="math inline">\(p=0.25\)</span> angezeigt. In der unteren Zeile werden zwei potenzielle Zustände des Netzwerkes für <span class="math inline">\(p=0.5\)</span> angezeigt.</p>
+</div>
+</section>
+<section id="sec-penalty" class="level4" data-number="5.2.2.2">
+<h4 data-number="5.2.2.2" class="anchored" data-anchor-id="sec-penalty"><span class="header-section-number">5.2.2.2</span> <span class="math inline">\(L^1\)</span>-Regularisierung</h4>
+<p>Während bei der Dropout Methode zufällig Neuronen deaktiviert werden, verfolgt die Idee der <span class="math inline">\(L^1\)</span> Regularisierung eine Idee bei welcher alle Neuronen gleichermaßen für zu hohe Werte bestraft werden.</p>
+<p>Beim Trainieren des Neuronalen Netzes minimieren wir den MSE bezüglich der Gewichte (vgl. Gleichung <span class="math inline">\(\eqref{eq:mse_nn}\)</span>). Wir können diesem Optimierungsproblem einen weiteren Term <span class="math inline">\(\lambda\sum_{\omega \in W}|\omega|\)</span> (<span class="math inline">\(\lambda &gt; 0\)</span>) hinzufügen, so dass wir schlussendlich den Fehlerterm (Loss)</p>
+<p><span class="math display">\[\begin{equation*}
+  \frac{1}{K}\sum_{k=1}^K (y_k -\hat{y}_k)^2 + \lambda \sum_{\omega \in W} |\omega|
+\end{equation*}\]</span></p>
+<p>bezüglich den Gewichten <span class="math inline">\(\omega\)</span> minimieren.</p>
+<p>Der Parameter <span class="math inline">\(\lambda &gt; 0\)</span> wird hierbei als penalty bezeichnet und steuert wie stark die Gewichte <span class="math inline">\(\omega\)</span> verringert werden.</p>
+<p>Sowohl der Penalty Wert <span class="math inline">\(\lambda\)</span> als auch die Dropout Rate <span class="math inline">\(p\)</span> werden für gewöhnlich beim sogenannten Hyperparametertuning bestimmt. Dieses würde allerdings den Rahmen der Veranstaltung sprengen und wird deshalb erst in der Masterdveranstaltung Machine Learning intensiv behandelt.</p>
 </section>
 </section>
-<section id="neuronale-netze-in-r" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="neuronale-netze-in-r"><span class="header-section-number">5.3</span> Neuronale Netze in R</h2>
+</section>
+<section id="sec-NNR" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="sec-NNR"><span class="header-section-number">5.3</span> Neuronale Netze in R</h2>
 <p>Das Training von neuronalen Netzwerken innerhalb des <code>{tidymodels}</code>-Frameworks können wir durch die <code>{brulee}</code>-Library durchführen.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brulee)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Ähnlich wie bei allen zuvor trainierten Modellen müssen wir hierbei lediglich eine Architektur spezifizieren und das Modell dann mithilfe der <code>fit</code>-Funktion trainieren.</p>
+<p>Änlich wie bei allen zuvor trainierten Modellen müssen wir hierbei lediglich eine Architektur spezifizieren und das Modell dann mithilfe der <code>fit</code>-Funktion trainieren.</p>
 <p>Interessant im Kontext dieser Übung sind hierbei die folgenden Parameter:</p>
 <ul>
 <li><code>epochs</code>: Eine Ganzzahl, die die Anzahl der Trainingsdurchläufe angibt.</li>
@@ -629,34 +694,52 @@ Figure&nbsp;5.3
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Wir können dann analog zu der MLR und den Baummodellen das Neuronale Netz mithilfe der <code>fit()</code> Funktion trainieren. Der <code>fit</code> Funktion müssen wir wie gewohnt die Argumente <code>data</code> und <code>formula</code> übergeben, welche die Daten und die Formel für das Fitten spezifizieren.</p>
+<p>Durch das Aufrufen des trainierten Modells erhalten wir dann eine Zusammenfassung der Parameter und des Trainingsprozesses.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>nnet_res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+Multilayer perceptron
+
+relu relu activation
+c(64,32) hidden units,  2,881 model parameters
+333 samples, 11 features, numeric outcome 
+weight decay: 0.001 
+dropout proportion: 0 
+batch size: 300 
+learn rate: 0.01 
+scaled validation loss after 200 epochs: 0.121 </code></pre>
+</div>
+</div>
 <p>Nachdem wir das Neuronale Netz trainiert haben können wir zum Beispiel mithilfe der <code>autoplot()</code> Funktion den Trainingsprozess evaluieren.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>nnet_res <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>nnet_res <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="05_Neuronale_Netze_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="05_Neuronale_Netze_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Auf der <span class="math inline">\(y\)</span> Achse wird hierbei die OOS Güte auf Basis eines Validierungssets berechnet. Dieses Validierungsset wurde automatisch durch die Modellspezifikation generiert. Durch das Argument <code>validation</code> könnten wir in der <code>set_engine()</code> Funktion manuell anapssen. Falls wir also beispielsweise</p>
+<p>Auf der <span class="math inline">\(y\)</span>-Achse wird hierbei die OOS Güte auf Basis eines Validierungssets berechnet. Dieses Validierungsset wurde automatisch durch die Modellspezifikation generiert. Durch das Argument <code>validation</code> könnten wir den Anteil der Daten, welche als Validierungsset verwendet werden sollen, in der <code>set_engine()</code> Funktion manuell anpssen. Falls wir also beispielsweise</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>  ... <span class="sc">%&gt;%</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    ... ,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">validation =</span> <span class="fl">0.2</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>  ... <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    ... ,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">validation =</span> <span class="fl">0.2</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>übergeben, dann werden <span class="math inline">\(20\%\)</span> der übergebenen Daten als Validierungsset verwendet.</p>
 <p>Wir sehen also, dass der Validierungsfehler zu Beginn des Trainings relativ schnell abflacht und sich nach ca. 75 Epochen stabilisiert.</p>
 <p>Die grüne, gestrichelte Linie am rechten Ende der Grafik zeigt, für welche Iteration die Gewichte letztendlich verwendet wurden. Dadurch, dass die Linie ganz am rechten Rand ist können wir zum Beispiel feststellen, dass das <code>stop_iter</code> Kriterium hier nicht gegriffen hat.</p>
 <p>Evlauieren können wir das FFDNN analog zu den bisherigen Modellen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>nnet_res <span class="sc">%&gt;%</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_penguin_transformed) <span class="sc">%&gt;%</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rmse</span>(.pred,body_mass_g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>nnet_res <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_penguin_transformed) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rmse</span>(.pred,body_mass_g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric .estimator .estimate
@@ -666,12 +749,838 @@ Figure&nbsp;5.3
 </div>
 <p>Durch das Übergeben des trainierten Modells in die <code>augment()</code> Funktion zusammen mit den transformierten Daten erhalten wir ein neues Dataset, welches neben den transformierten Trainingsdaten auch noch die Predictions <code>.pred</code> und Residuen <code>.resid</code> enthält. Mithilfe der Spalten <code>.pred</code> und <code>body_mass_g</code> können wir dann zum Beispiel die Metrik <code>rmse</code> berechnen.</p>
 <p><strong>Wichtig: Wir berechnen hier lediglich die In-Sample Güte des Modells. Es ist also zu erwarten, dass diese bereits sehr gut ist.</strong></p>
-<!--
-## Übungsaufgaben
+<section id="regularisierung-von-neuronalen-netzen-in-r" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="regularisierung-von-neuronalen-netzen-in-r"><span class="header-section-number">5.3.1</span> Regularisierung von Neuronalen Netzen in R</h3>
+<p>Ein weiterer Vorteil des <code>{tidymodels}</code> Framework ist, dass wir die Modellparameter eines zuvor spezifizierten Modells durch die <code>update()</code> Funktion aktualisieren können und nicht ein neues Modell spezifizieren müssen. Wir können der Spezifikation <code>nnet_spec</code> mithilfe der <code>update()</code> Funktion das Argument <code>dropout = 0.1</code> übergeben und somit eine Dropout Rate von <span class="math inline">\(10\%\)</span> spezifizieren.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>nnet_spec_do <span class="ot">&lt;-</span> nnet_spec <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dropout =</span> <span class="fl">0.1</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Anschließend könnten wir dieses Modell wieder wie zuvor mit der <code>fit()</code> Funktion trainieren.</p>
+<p>Ebenso können wir die <code>update()</code> Funktion dazu verwenden, um einen Penalty Term wie in <a href="#sec-penalty" class="quarto-xref"><span>Section 5.2.2.2</span></a> hinzuzufügen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>nnet_spec_pen <span class="ot">&lt;-</span> nnet_spec <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">penalty =</span> <span class="fl">0.05</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="wichtigkeit-der-varibalen" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="wichtigkeit-der-varibalen"><span class="header-section-number">5.3.2</span> Wichtigkeit der Varibalen</h3>
+<p>Damit wir die Wichtigkeit der Variablen, zum Beispiel mithilfe von Permutation Feature Importance berechnen können, müssen wir bei Neuronalen Netzen die <code>{iml}</code> Library verwenden. <code>iml</code> steht in diesem Kontext für <em>Interpretable Machine Learning</em>.</p>
+<p>In einem ersten Schritt trennen wir die Feauters und Labels indem wir diese separat abspeichern:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>features <span class="ot">&lt;-</span> data_penguin_transformed <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>body_mass_g)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> data_penguin_transformed <span class="sc">%&gt;%</span> <span class="fu">select</span>(body_mass_g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Anschließend extrahieren wir die Modellparameter mithilfe der <code>extract_fit_engine()</code> Funktion.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>model_extract <span class="ot">&lt;-</span> nnet_res <span class="sc">%&gt;%</span> <span class="fu">extract_fit_engine</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Damit wir nun die Importance Werte berechnen können, erstellen wir zuerst ein neues <code>Predictor</code> Objekt welche teil der <code>{iml}</code> Library sind. Als Argumente übergeben wir die extrahierten Modellparameter <code>model_extract</code>, die Features und Labels. Wir können dann mit diesem Predictor Objekt für die gegebenen Daten die entsprechenden Importancewerte mithilfe der <code>FeatureImp</code> Methode berechnen. Die Importance Werte werden standardgemäß bezüglich einer gegebenen Metrik berechnet, welche im folgenden Beispiel durch das <code>loss</code> Argument auf <code>"rmse"</code> gesetzt wurde.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(iml)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> Predictor<span class="sc">$</span><span class="fu">new</span>(model_extract, <span class="at">data =</span> features, <span class="at">y =</span> labels)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>imp <span class="ot">&lt;-</span> FeatureImp<span class="sc">$</span><span class="fu">new</span>(mod, <span class="at">loss =</span> <span class="st">"rmse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nachdem wir die Importance Werte berechent haben, können wir diese zum Beispiel mithilfe von <code>{ggplot}</code> grafisch darstellen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>imp <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"results"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(permutation.error)) <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(feature,permutation.error), <span class="at">y=</span> permutation.error))<span class="sc">+</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"RMSE after permutating the respective feature"</span>,</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Feature"</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_Neuronale_Netze_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Die Spalte <code>permutation.error</code> der Attributs <code>results</code> enthält hierbei die entsprechenden Fehler erzeugt durch die Permutation. Ein hoher Fehlerwert ist ein Indikator dafür, dass die Variable wichtig ist. Wir können also anhand der Grafik argumentieren, dass die Variabel <code>flipper_length_mm</code> die wichtigste ist und <code>island_Torgensen</code> die unwichtigste.</p>
+</section>
+</section>
+<section id="übungsaufgaben" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="übungsaufgaben"><span class="header-section-number">5.4</span> Übungsaufgaben</h2>
+<section id="theoretische-übungen" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="theoretische-übungen"><span class="header-section-number">5.4.1</span> Theoretische Übungen</h3>
+<div id="exr-nnarchitecture" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 5.1</strong></span> Angenommen es liegt ein FFDNN mit einem Inputneuron, zwei Hidden Layer bestehend aus zwei bzw. drei Neuronen und einem Outputneuron vor.</p>
+<ol type="1">
+<li>Skizziere die die Architektur im gleichen Stil wie <a href="#fig-NNFull" class="quarto-xref">Figure&nbsp;<span>5.3</span></a>.</li>
+<li>Schreibe Funktionsvorschrift dieses FFDNN so genau wie möglich auf. Gehe dabei davon aus, dass die Aktivierungsfunktion der ersten und zweiten Hidden Layer <code>"ReLU"</code> sind. Verwende hierbei die Notation aus Gleichung <span class="math inline">\(\eqref{eq:nn_anal}\)</span> bzw. <a href="#fig-NN01" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>. Setze für <span class="math inline">\(\sigma\)</span> die entsprechende Funktionsvorschrift aus <a href="#tbl-Lorem" class="quarto-xref">Table&nbsp;<span>5.1</span></a>.</li>
+<li>Aus wie vielen Parametern besteht dieses Neuronale Netz?</li>
+<li>Welche Werte kann das spezifizierte Neuronale Netz annehmen? Wie würde sich dieser Wert verändern, wenn wir auf den Output noch eine <span class="math inline">\(\text{tanh}\)</span> Aktivierungsfunktion anwenden?</li>
+</ol>
+</div>
+</section>
+<section id="r-übungen" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="r-übungen"><span class="header-section-number">5.4.2</span> R Übungen</h3>
+<p>Wie auch in den vorherigen Übungen verwenden wir auch in dieser Übung den <code>hotelrates</code> Datensatz. Ziel wird es sein die Variable <code>avg_price_per_room</code> durch die verbleibenden Variablen vorherzusagen. Für eine initiale Transformation verwenden wir wieder folgendes Code Snippet:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>hotel_rates_adj <span class="ot">&lt;-</span> hotel_rates <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">mutate</span>(</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">arrival_month =</span> <span class="fu">factor</span>(<span class="fu">month</span>(arrival_date)),</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">num_guests =</span> adults<span class="sc">+</span>children,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">is_repeated_guest =</span> <span class="fu">factor</span>(is_repeated_guest),</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>   ) <span class="sc">%&gt;%</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(adults,children,agent,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                   arrival_date, arrival_date_num))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="exr-dummytransform" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 5.2</strong></span> &nbsp;</p>
+<ol type="1">
+<li><p>Verwende die <code>{fastDummies}</code> Library um alle nichtnumerischen Variablen im Datensatz <code>hotel_rates_adj</code> in Dummy Variablen umzuwandeln.</p></li>
+<li><p>Aus wie vielen Observationen und Features besteht der neue Datensatz?</p></li>
+</ol>
+</div>
+<div id="exr-data_split" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 5.3</strong></span> In dieser Übung wollen wir die Daten in Trainings- und Testdaten aufteilen. Wie wir in <a href="#sec-NNR" class="quarto-xref"><span>Section 5.3</span></a> gelernt haben, sollten wir die Daten normalisieren, also dafür sorgen, dass alle numerischen Feature Mean <span class="math inline">\(0\)</span> und Standardabweichung <span class="math inline">\(1\)</span> besitzen. Das einfache Anwenden der <code>training()</code> und <code>testing()</code> Funktion ist in diesem Fall nicht mehr möglich, da sonst <em>Data Leakage</em> auftritt.</p>
+<p>Data Leakage beschreibt das Phänomen, wenn Informationen der Trainingsdaten direkt oder indirekt in die Testdaten übergehen. Da wir beim Testen der Modelle stets darauf achten sollen nur Stichproben zu verwenden, welche das Modell vorher in keinster Weise gehen hat, müssen wir beim Normalisieren der Daten entsprechend aufpassen.</p>
+<p>Es ist also ratsam die Daten zuerst in Trainings und Testdaten einzuteilen, bevor man irgendwelche Transformationen (mit Ausnahme der Dummy-Transformation) auf die Daten anwedet.</p>
+<ol type="1">
+<li>Verwende das Seed <code>123</code>, die <code>initial_split(), training()</code> und <code>testing()</code> Funktionen um ein Trainings- und Testset zu erstellen. Verwende hierbei die Default-Parameter der <code>initial_split()</code> Funktion.</li>
+<li>Betrachte das folgende Code-Snippet.
+<ol type="i">
+<li>Erkläre die Funktionsweise des gesamten Snipptes und beschreibe was in dem Objekt <code>data_train_norm</code> enthalten ist.</li>
+<li>Warum wenden wir die <code>scale()</code> Funktion nur auf die Variablen des Typs <code>&lt;dbl&gt;</code> an?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>train_features <span class="ot">&lt;-</span> data_train <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>avg_price_per_room)</span>
+<span id="cb29-3"><a href="#cb29-3"></a></span>
+<span id="cb29-4"><a href="#cb29-4"></a>train_features_dbl <span class="ot">&lt;-</span> train_features <span class="sc">%&gt;%</span></span>
+<span id="cb29-5"><a href="#cb29-5"></a>  <span class="fu">select_if</span>(is.double) <span class="sc">%&gt;%</span></span>
+<span id="cb29-6"><a href="#cb29-6"></a>  <span class="fu">scale</span>()</span>
+<span id="cb29-7"><a href="#cb29-7"></a></span>
+<span id="cb29-8"><a href="#cb29-8"></a>train_features_norm <span class="ot">&lt;-</span> train_features <span class="sc">%&gt;%</span></span>
+<span id="cb29-9"><a href="#cb29-9"></a>  <span class="fu">select_if</span>(is.integer) <span class="sc">%&gt;%</span></span>
+<span id="cb29-10"><a href="#cb29-10"></a>  <span class="fu">cbind</span>(train_features_dbl)</span>
+<span id="cb29-11"><a href="#cb29-11"></a></span>
+<span id="cb29-12"><a href="#cb29-12"></a>train_labels <span class="ot">&lt;-</span> data_train <span class="sc">%&gt;%</span></span>
+<span id="cb29-13"><a href="#cb29-13"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(avg_price_per_room)</span>
+<span id="cb29-14"><a href="#cb29-14"></a></span>
+<span id="cb29-15"><a href="#cb29-15"></a></span>
+<span id="cb29-16"><a href="#cb29-16"></a>data_train_norm <span class="ot">&lt;-</span> <span class="fu">cbind</span>(</span>
+<span id="cb29-17"><a href="#cb29-17"></a>  train_features_norm,</span>
+<span id="cb29-18"><a href="#cb29-18"></a>  train_labels</span>
+<span id="cb29-19"><a href="#cb29-19"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li>Damit wir das Modell auch auf die Testdaten anwenden können, müssen wir diese im gleichen Stil transformieren wie die Trainingsdaten.
+<ol type="i">
+<li><p>Verwende das folgende Code Snippet und die Befehle aus der letzten Teilaufgabe um die Testdaten im gleichen Stil zu transformieren.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>test_features_dbl <span class="ot">&lt;-</span> test_features <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.double) <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale</span>(<span class="at">center=</span><span class="fu">attr</span>(train_features_dbl, <span class="st">"scaled:center"</span>),</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">scale=</span><span class="fu">attr</span>(train_features_dbl, <span class="st">"scaled:scale"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><p>Warum verwenden wir zum standardisieren hier die Means und Standardabweichungen der Trainingsdaten?</p></li>
+</ol></li>
+</ol>
+</div>
+<div id="exr-fitnn" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 5.4</strong></span> Wir wollen nun die angepassten Trainingsdaten verwenden, um ein Neuronales Netz zu trainieren.</p>
+<ol type="1">
+<li><p>Spezifiziere hierfür ein Neuronales Netz mit folgenden Parametern:</p>
+<ul>
+<li><code>epochs = 200</code></li>
+<li><code>hidden_units = c(64,32)</code></li>
+<li><code>learn_rate = 0.025</code></li>
+<li><code>activation = c("relu","relu")</code></li>
+<li><code>penalty = 1e-6</code></li>
+<li><code>mode = "regression"</code></li>
+</ul>
+<p>Setze die <code>engine</code> spezifischen Parameter auf</p>
+<ul>
+<li><code>engine = "brulee"</code></li>
+<li><code>verbose = false</code></li>
+<li><code>optimizer = "sgd"</code></li>
+<li><code>stop_iter = 15</code></li>
+<li><code>batch_size = 1e3</code></li>
+</ul></li>
+<li><ol type="i">
+<li>Welche Regularisierungsmethode wurde bei dieser Modellspezifikation verwendet?</li>
+<li>Für wie viele Epochen soll das Neuronale Netz trainiert werden?</li>
+<li>unter welchen Umständen kann es passieren, dass der Trainingsprozess früher abbricht?</li>
+</ol></li>
+<li><p>Trainiere nun das Neuronale Netz auf den Trainingsdaten mithilfe der <code>fit()</code> Funktion.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Das Trainieren des Netzes kann einige minuten dauern.</p>
+</div>
+</div></li>
+<li><p>Evaluiere die Performance des Neuronalen Netzes auf den Testdaten mithilfe der Metriken <span class="math inline">\(\text{RMSE}\)</span> und <span class="math inline">\(R^2\)</span>. Wie ist der Wert der Metrik <span class="math inline">\(R^2\)</span> zu interpretieren?</p></li>
+<li><p>Betrachte folgende Grafik, welche die tatsächlichen Preise den durch das Neuronale Netz geschätzten Preisen gegenüberstellt. Beurteile die Vorhersagekraft des Neuronalen Netzes für Zimmer, welche mehr als EUR 300 pro Nacht kosten.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pictures/nn_res.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div></li>
+</ol>
+</div>
+</section>
+</section>
+<section id="lösungen" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="lösungen"><span class="header-section-number">5.5</span> Lösungen</h2>
+<div id="sol-nnarchitecture" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.1</em> (<a href="#exr-nnarchitecture" class="quarto-xref">Aufgabe&nbsp;<span>5.1</span></a>). </span></p>
+<ol type="1">
+<li><p>Das beschriebene Neuronale Netz lässt sich darstellen als:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pictures/exr_nnarchitecture.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div></li>
+<li><p>Das Neuronale Netz lässt sich durch folgende Funktionsforschrift beschreiben:</p>
+<p><span class="math display">\[\begin{align*}
+  f(x) =
+  \omega_{H_{2,1},O_1} \cdot
+  \max\Big\{
+  &amp; \omega_{H_{1,1},H_{2,1}} \cdot \max\{\omega_{I_1,H_{1,1}} x + \omega_{B_1,H_{1,1}},0\} +\\
+  &amp; \omega_{H_{1,2},H_{2,1}} \cdot \max\{\omega_{I_1,H_{1,2}} x + \omega_{B_1,H_{1,2}},0\} +\\
+  &amp; \omega_{B_2,H_{2,1}},
+  0 \Big\} + \\
+  +
+  \omega_{H_{2,2},O_1} \cdot
+  \max\Big\{
+  &amp; \omega_{H_{1,1},H_{2,2}} \cdot \max\{\omega_{I_1,H_{1,1}} x + \omega_{B_1,H_{1,1}},0\} +\\
+  &amp; \omega_{H_{1,2},H_{2,2}} \cdot \max\{\omega_{I_1,H_{1,2}} x + \omega_{B_1,H_{1,2}},0\} +\\
+  &amp; \omega_{B_2,H_{2,2}},
+  0 \Big\} + \\
+  +
+  \omega_{H_{2,3},O_1} \cdot
+  \max\Big\{
+  &amp; \omega_{H_{1,1},H_{2,3}} \cdot \max\{\omega_{I_1,H_{1,1}} x + \omega_{B_1,H_{1,1}},0\} +\\
+  &amp; \omega_{H_{1,2},H_{2,3}} \cdot \max\{\omega_{I_1,H_{1,2}} x + \omega_{B_1,H_{1,2}},0\} +\\
+  &amp; \omega_{B_2,H_{2,3}},
+  0 \Big\} + \\
+  \omega_{B_3,O_1}
+\end{align*}\]</span></p></li>
+<li><p>Das Neuronale Netz besteht aus insgesamt <span class="math inline">\((1+1)\cdot 2 + (2+1)\cdot 3 + (3+1)\cdot 1 = 17\)</span> Parametern.</p></li>
+<li><p>Das spezifizierte Neuronale Netz kann Werte in ganz <span class="math inline">\(\mathbb{R}\)</span> annehmen. Falls man auf den Output noch eine <span class="math inline">\(\text{tanh}\)</span> Aktivierungsfunktion anwendet, dann wird dieser auf das Intervall <span class="math inline">\([-1,1]\)</span> skaliert.</p></li>
+</ol>
+</div>
+<div id="sol--dummytransform" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.2</em> (<a href="#exr-dummytransform" class="quarto-xref">Aufgabe&nbsp;<span>5.2</span></a>). </span></p>
+<ol type="1">
+<li><p>Mithilfe der <code>dummy_cols()</code> Funktion können wir die nichtnumerischen Feature in Dummy Variablen umwandeln:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>hotel_rates_adj <span class="ot">&lt;-</span> hotel_rates_adj <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dummy_cols</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><p>Der neue Datensatz besteht aus 408 Variablen und 15.402 Observationen.</p></li>
+</ol>
+</div>
+<div id="sol-data_split" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.3</em> (<a href="#exr-data_split" class="quarto-xref">Aufgabe&nbsp;<span>5.3</span></a>). </span></p>
+<ol type="1">
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>split_hotel <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(hotel_rates_adj)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>data_train <span class="ot">&lt;-</span> <span class="fu">training</span>(split_hotel)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_hotel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>train_features <span class="ot">&lt;-</span> data_train <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Wir verwenden zuerst die <code>select</code> Funktion, um aus den Trainingsdaten die Features zu extrahieren.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Die Feature bestehen aus allen Variablen außer <code>avg_price_per_room</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>train_features_dbl <span class="ot">&lt;-</span> train_features <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.double) <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nachdem wir die Feature extrahiert haben, wenden wir auf alle Variablen vom Type <code>&lt;dbl&gt;</code> die <code>scale()</code> Funktion an, damit lediglich die metrischen Feature Normalisiert werden. Wir wollen also verhindern, dass die Dummy Variablen, welche als <code>&lt;int&gt;</code> gespeichert sind auch normalisiert werden.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>train_features_norm <span class="ot">&lt;-</span> train_features <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.integer) <span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(train_features_dbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nachdem wir die Metrischen Feature normiert haben, erstellen wir einen neuen Datensatz <code>train_features_norm</code> in welchen wir die normierten Feature und Dummy Feature zusammenführen. Der <code>cbind()</code> Befehl verbindet die Spalten miteinander, so dass wir dann einen neuen, vollständigen Trainingsfeature Datensatz erstellt haben.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>train_labels <span class="ot">&lt;-</span> data_train <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(avg_price_per_room)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>data_train_norm <span class="ot">&lt;-</span> <span class="fu">cbind</span>(</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  train_features_norm,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  train_labels</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Im letzten Schritt extrahieren wir aus den alten Trainingsdaten noch die Labels in der Spalte <code>avg_price_per_room</code> und fügen diese zu dem zuvor erstellen Datensatz <code>train_features_norm</code> hinzu.</p>
+<p>Der Datensatz <code>data_train_norm</code> enthält also neben den Trainingslabels auch noch die normierten metrischen Feature und Dummy Variablen.</p></li>
+<li><p>Damit wir das Modell auch auf die Testdaten anwenden können, müssen wir diese im gleichen Stil transformieren wie die Trainingsdaten.</p>
+<ol type="i">
+<li></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>test_features <span class="ot">&lt;-</span> data_test <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>avg_price_per_room)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>test_features_dbl <span class="ot">&lt;-</span> test_features <span class="sc">%&gt;%</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.double) <span class="sc">%&gt;%</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale</span>(<span class="at">center=</span><span class="fu">attr</span>(train_features_dbl, <span class="st">"scaled:center"</span>),</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">scale=</span><span class="fu">attr</span>(train_features_dbl, <span class="st">"scaled:scale"</span>))</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>test_features_norm <span class="ot">&lt;-</span> test_features <span class="sc">%&gt;%</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.integer) <span class="sc">%&gt;%</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(test_features_dbl)</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>test_labels <span class="ot">&lt;-</span> data_test <span class="sc">%&gt;%</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(avg_price_per_room)</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>data_test_norm <span class="ot">&lt;-</span> <span class="fu">cbind</span>(</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>  test_features_norm,</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>  test_labels</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="i">
+<li>Wenn man die Testdaten mit den eigenen Means bzw. Standardabweichungen standardisieren würde, dann verwendet man Informationen aus dem Testset. Das ist ein klassischer Fall von Data Leakage, welchen wir vermeiden möchten.</li>
+</ol></li>
+</ol>
+</div>
+<div id="sol-fitnn" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.4</em> (<a href="#exr-fitnn" class="quarto-xref">Aufgabe&nbsp;<span>5.4</span></a>). </span></p>
+<ol type="1">
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>nnet_spec <span class="ot">&lt;-</span> <span class="fu">mlp</span>(<span class="at">epochs =</span> <span class="dv">200</span>,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">hidden_units =</span> <span class="fu">c</span>(<span class="dv">64</span>,<span class="dv">32</span>),</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">learn_rate =</span> <span class="fl">0.025</span>,</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">activation =</span> <span class="fu">c</span>(<span class="st">"relu"</span>,<span class="st">"relu"</span>),</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">penalty =</span> <span class="fl">1e-6</span>,</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">mode =</span> <span class="st">"regression"</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>                 ) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="at">engine =</span> <span class="st">"brulee"</span>,</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">optimizer =</span> <span class="st">"SGD"</span>,</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">stop_iter =</span> <span class="dv">15</span>,</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">batch_size =</span> <span class="fl">1e3</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>             ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><ol type="i">
+<li>Als Regularisierung wurde das Argument <code>penalty</code> auf <code>0.000001</code> gesetzt. Dies entspricht dann einer <span class="math inline">\(L^1\)</span> Penalisierung wie sie in <a href="#sec-penalty" class="quarto-xref"><span>Section 5.2.2.2</span></a> eingeführt wurde.</li>
+<li>Das Neuronale Netz soll maximal <code>200</code> Epochen trainiert werden.</li>
+<li>Falls nach <code>15</code> Iterationen der Validierungsfehler nicht sinkt, dann bricht das Training auch schon vor der 200. Epoche ab.</li>
+</ol></li>
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>nnet_res <span class="ot">&lt;-</span> nnet_spec <span class="sc">%&gt;%</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fit</span>(<span class="at">data =</span> data_train_norm,</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> avg_price_per_room <span class="sc">~</span>.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>nnet_res <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">augment</span>(data_test_norm) <span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    yardstick<span class="sc">::</span><span class="fu">rmse</span>(.pred,avg_price_per_room)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  nnet_res <span class="sc">%&gt;%</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">augment</span>(data_test_norm) <span class="sc">%&gt;%</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    yardstick<span class="sc">::</span><span class="fu">rsq</span>(.pred,avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="znxskvaiiw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#znxskvaiiw table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-## Lösungen
+#znxskvaiiw thead, #znxskvaiiw tbody, #znxskvaiiw tfoot, #znxskvaiiw tr, #znxskvaiiw td, #znxskvaiiw th {
+  border-style: none;
+}
 
--->
+#znxskvaiiw p {
+  margin: 0;
+  padding: 0;
+}
+
+#znxskvaiiw .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#znxskvaiiw .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#znxskvaiiw .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#znxskvaiiw .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#znxskvaiiw .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#znxskvaiiw .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#znxskvaiiw .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#znxskvaiiw .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#znxskvaiiw .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#znxskvaiiw .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#znxskvaiiw .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#znxskvaiiw .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#znxskvaiiw .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#znxskvaiiw .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#znxskvaiiw .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#znxskvaiiw .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#znxskvaiiw .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#znxskvaiiw .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#znxskvaiiw .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#znxskvaiiw .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#znxskvaiiw .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#znxskvaiiw .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#znxskvaiiw .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#znxskvaiiw .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#znxskvaiiw .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#znxskvaiiw .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#znxskvaiiw .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#znxskvaiiw .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#znxskvaiiw .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#znxskvaiiw .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#znxskvaiiw .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#znxskvaiiw .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#znxskvaiiw .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#znxskvaiiw .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#znxskvaiiw .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#znxskvaiiw .gt_left {
+  text-align: left;
+}
+
+#znxskvaiiw .gt_center {
+  text-align: center;
+}
+
+#znxskvaiiw .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#znxskvaiiw .gt_font_normal {
+  font-weight: normal;
+}
+
+#znxskvaiiw .gt_font_bold {
+  font-weight: bold;
+}
+
+#znxskvaiiw .gt_font_italic {
+  font-style: italic;
+}
+
+#znxskvaiiw .gt_super {
+  font-size: 65%;
+}
+
+#znxskvaiiw .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#znxskvaiiw .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#znxskvaiiw .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#znxskvaiiw .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#znxskvaiiw .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#znxskvaiiw .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#znxskvaiiw .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id=".metric" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">.metric</th>
+<th id=".estimator" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">.estimator</th>
+<th id=".estimate" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">.estimate</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers=".metric">rmse</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers=".estimate">19.2339298</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers=".metric">rsq</td>
+<td class="gt_row gt_left" headers=".estimator">standard</td>
+<td class="gt_row gt_right" headers=".estimate">0.9151045</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Der Wert <span class="math inline">\(R^2 = 0.915\)</span> impliziert, dass wir <span class="math inline">\(91.5\%\)</span> der Varianz in den Testdaten erklären können.</p></li>
+<li><p>Da fast alle Datenpunkte mit <code>avg_price_per_room&gt;300</code> überhalb der Winkelhalbierenden liegen, spricht das dafür, dass das Modell dazu neigt die hochpreisigen Zimmer zu unterschätzen. Falls Punkte überhalb der Winkelhalbierenden liegen, dann gilt <code>avg_price_per_room&gt;.pred</code>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_Neuronale_Netze_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div></li>
+</ol>
+</div>
 
 
 </section>
@@ -679,6 +1588,7 @@ Figure&nbsp;5.3
 <hr>
 <ol>
 <li id="fn1"><p>Für eine tiefgreifende Erklärung kann ich <a href="https://www.youtube.com/watch?v=Ilg3gGewQ5U">Grant Sandersons</a> Video(s) zu Backpropagation empfehlen.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Der Zusatz <code>dplyr::</code> sorgt dafür, dass wir die <code>select()</code> Funktion aus der <code>{dplyr}</code> Library verwenden. Es gibt eine Gleichnamige Funktion als Abhängigkeit in der <code>{iml}</code> Library, welche zu Konflikten führt.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
