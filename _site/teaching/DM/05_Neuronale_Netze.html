@@ -274,7 +274,7 @@ window.Quarto = {
   <li><a href="#sec-NNR" id="toc-sec-NNR" class="nav-link" data-scroll-target="#sec-NNR"><span class="header-section-number">5.3</span> Neuronale Netze in R</a>
   <ul>
   <li><a href="#regularisierung-von-neuronalen-netzen-in-r" id="toc-regularisierung-von-neuronalen-netzen-in-r" class="nav-link" data-scroll-target="#regularisierung-von-neuronalen-netzen-in-r"><span class="header-section-number">5.3.1</span> Regularisierung von Neuronalen Netzen in R</a></li>
-  <li><a href="#wichtigkeit-der-varibalen" id="toc-wichtigkeit-der-varibalen" class="nav-link" data-scroll-target="#wichtigkeit-der-varibalen"><span class="header-section-number">5.3.2</span> Wichtigkeit der Varibalen</a></li>
+  <li><a href="#sec-iml" id="toc-sec-iml" class="nav-link" data-scroll-target="#sec-iml"><span class="header-section-number">5.3.2</span> Wichtigkeit der Varibalen</a></li>
   </ul></li>
   <li><a href="#übungsaufgaben" id="toc-übungsaufgaben" class="nav-link" data-scroll-target="#übungsaufgaben"><span class="header-section-number">5.4</span> Übungsaufgaben</a>
   <ul>
@@ -584,7 +584,7 @@ Figure&nbsp;5.4
 </section>
 <section id="regularisierung-von-neuronalen-netzen" class="level3" data-number="5.2.2">
 <h3 data-number="5.2.2" class="anchored" data-anchor-id="regularisierung-von-neuronalen-netzen"><span class="header-section-number">5.2.2</span> Regularisierung von Neuronalen Netzen</h3>
-<p>Neuronale Netze in einem Regressions- und Klassifikationskontext tendieren stark dazu, sich zu sehr an die Trainingsdaten anzupassen. Das ist auch nicht weiter Überraschend wenn man bedenkt wie viele Parameter letztendlich in einem Neuronalen Netz enthalten sind. Zum Beispiel besteht das Neuronales Netz aus <a href="#fig-exm2" class="quarto-xref">Figure&nbsp;<span>5.4</span></a> schon <span class="math inline">\((1+1)\cdot3 +(4+1)\cdot 3+ (3+1)\cdot 1 = 25\)</span> Parameter während ein einfach lineares Modell den gleichen Zusammenhang mit nur zwei Parameter beschreiben würde.</p>
+<p>Neuronale Netze in einem Regressions- und Klassifikationskontext tendieren stark dazu, sich zu sehr an die Trainingsdaten anzupassen. Das ist auch nicht weiter Überraschend wenn man bedenkt wie viele Parameter letztendlich in einem Neuronalen Netz enthalten sind. Zum Beispiel besteht das Neuronales Netz aus <a href="#fig-exm2" class="quarto-xref">Figure&nbsp;<span>5.4</span></a> schon <span class="math inline">\((1+1)\cdot3 +(3+1)\cdot 4+ (4+1)\cdot 1 = 27\)</span> Parameter während ein einfach lineares Modell den gleichen Zusammenhang mit nur zwei Parameter beschreiben würde.</p>
 <p>Wir wollen deshalb zwei Methoden besprechen, welche diesen Effekt mitigieren können.</p>
 <section id="dropout" class="level4" data-number="5.2.2.1">
 <h4 data-number="5.2.2.1" class="anchored" data-anchor-id="dropout"><span class="header-section-number">5.2.2.1</span> Dropout</h4>
@@ -767,8 +767,8 @@ scaled validation loss after 200 epochs: 0.121 </code></pre>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="wichtigkeit-der-varibalen" class="level3" data-number="5.3.2">
-<h3 data-number="5.3.2" class="anchored" data-anchor-id="wichtigkeit-der-varibalen"><span class="header-section-number">5.3.2</span> Wichtigkeit der Varibalen</h3>
+<section id="sec-iml" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="sec-iml"><span class="header-section-number">5.3.2</span> Wichtigkeit der Varibalen</h3>
 <p>Damit wir die Wichtigkeit der Variablen, zum Beispiel mithilfe von Permutation Feature Importance berechnen können, müssen wir bei Neuronalen Netzen die <code>{iml}</code> Library verwenden. <code>iml</code> steht in diesem Kontext für <em>Interpretable Machine Learning</em>.</p>
 <p>In einem ersten Schritt trennen wir die Feauters und Labels indem wir diese separat abspeichern:</p>
 <div class="cell">
@@ -1555,12 +1555,12 @@ Warning
 <tr class="odd">
 <td class="gt_row gt_left" headers=".metric">rmse</td>
 <td class="gt_row gt_left" headers=".estimator">standard</td>
-<td class="gt_row gt_right" headers=".estimate">19.2339298</td>
+<td class="gt_row gt_right" headers=".estimate">19.234</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers=".metric">rsq</td>
 <td class="gt_row gt_left" headers=".estimator">standard</td>
-<td class="gt_row gt_right" headers=".estimate">0.9151045</td>
+<td class="gt_row gt_right" headers=".estimate">0.915</td>
 </tr>
 </tbody>
 </table>
@@ -1581,6 +1581,63 @@ Warning
 </div></li>
 </ol>
 </div>
+<!--
+
+:::{#sol-iml}
+
+Wir wollen in dieser Übung die Konzepte aus @sec-iml anwenden.
+
+1.  Erstelle ein neues `Predictor` Objekt auf Basis des in der vorherigen Aufgabe trainierten Neuronalen Netzes und berechne die Importance Werte bezüglich der $\text{RMSE}$ Loss Funktion.
+    Verwende für die Berechnung der Importance Werte die Test Features und Test Labels aus @exr-data_split.
+
+
+
+
+    ::: {.cell}
+    
+    ```{.r .cell-code}
+    library(iml)
+    
+    model_extract <- nnet_res %>% extract_fit_engine()
+    
+    mod <- Predictor$new(model_extract, data = test_features, y = test_labels)
+    
+    imp <- FeatureImp$new(mod, loss = "rmse")
+    ```
+    :::
+
+
+
+
+Nachdem wir die Importance Werte berechent haben, können wir diese zum Beispiel mithilfe von `{ggplot}` grafisch darstellen:
+
+
+
+
+::: {.cell}
+
+```{.r .cell-code}
+imp %>%
+  pluck("results") %>%
+  arrange(desc(permutation.error)) %>%
+  filter(permutation.error >= 2206.5) %>%
+  ggplot(aes(x = reorder(feature,permutation.error), y= permutation.error))+
+  geom_bar(stat = "identity", width = 0.5) +
+  labs(
+    y = "RMSE after permutating the respective feature",
+    x = "Feature"
+  )+
+  coord_flip()+
+  theme_minimal()
+```
+:::
+
+
+
+
+:::
+
+-->
 
 
 </section>
