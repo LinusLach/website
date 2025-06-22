@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6&nbsp; Klassifikation – Data Mining Übungsmaterial</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./05_Neuronale_Netze.html" rel="prev">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-K9CJ1KN8ZH"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-K9CJ1KN8ZH', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"express",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<script>
+
+  MathJax = {
+
+    tex: {
+
+      tags: 'ams'  // should be 'ams', 'none', or 'all'
+
+    }
+
+  };
+
+</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_Klassifikation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Klassifikation</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Data Mining Übungsmaterial</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vorwort</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Einfuehrung.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">(Kurz)Einführung in R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Lineare_Regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lineare Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Wichtige_Konzepte.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Weiterführende Konzepte des Dataminings</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Regressions_Baeume.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regressionsbäume</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Neuronale_Netze.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Neuronale Netze</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_Klassifikation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Klassifikation</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-intro_class" id="toc-sec-intro_class" class="nav-link active" data-scroll-target="#sec-intro_class"><span class="header-section-number">6.1</span> Einführung</a></li>
+  <li><a href="#evaluation-eines-binären-klassifikationsmodells" id="toc-evaluation-eines-binären-klassifikationsmodells" class="nav-link" data-scroll-target="#evaluation-eines-binären-klassifikationsmodells"><span class="header-section-number">6.2</span> Evaluation eines binären Klassifikationsmodells</a>
+  <ul>
+  <li><a href="#confusionmatrix" id="toc-confusionmatrix" class="nav-link" data-scroll-target="#confusionmatrix"><span class="header-section-number">6.2.1</span> Confusionmatrix</a></li>
+  <li><a href="#roc-kurve" id="toc-roc-kurve" class="nav-link" data-scroll-target="#roc-kurve"><span class="header-section-number">6.2.2</span> ROC-Kurve</a></li>
+  </ul></li>
+  <li><a href="#die-logistische-regression" id="toc-die-logistische-regression" class="nav-link" data-scroll-target="#die-logistische-regression"><span class="header-section-number">6.3</span> Die Logistische Regression</a>
+  <ul>
+  <li><a href="#modellgleichung" id="toc-modellgleichung" class="nav-link" data-scroll-target="#modellgleichung"><span class="header-section-number">6.3.1</span> Modellgleichung</a></li>
+  <li><a href="#interpretation-der-koeffizienten" id="toc-interpretation-der-koeffizienten" class="nav-link" data-scroll-target="#interpretation-der-koeffizienten"><span class="header-section-number">6.3.2</span> Interpretation der Koeffizienten</a></li>
+  <li><a href="#statistische-signifikanz" id="toc-statistische-signifikanz" class="nav-link" data-scroll-target="#statistische-signifikanz"><span class="header-section-number">6.3.3</span> Statistische Signifikanz</a></li>
+  </ul></li>
+  <li><a href="#klassifikationsbäume" id="toc-klassifikationsbäume" class="nav-link" data-scroll-target="#klassifikationsbäume"><span class="header-section-number">6.4</span> Klassifikationsbäume</a></li>
+  <li><a href="#neuronale-netze" id="toc-neuronale-netze" class="nav-link" data-scroll-target="#neuronale-netze"><span class="header-section-number">6.5</span> Neuronale Netze</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Klassifikation</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Neben der Regression beschäftigen wir uns im Zuge des Supervised-Learnings auch mit der Klassifikation. Im Verlgeich zu Regressionsaufgaben ist die Zielvariable bei der Klassifikation nicht mehr metrisch, sondern nominal. Es gibt für die Zielvariablen also keine bestimmte Ordnung mehr und zusätzlich gehen wir auch davon aus, dass die Anzahl der Ausprägungen der Zielvariable endlich ist.</p>
+<section id="sec-intro_class" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="sec-intro_class"><span class="header-section-number">6.1</span> Einführung</h2>
+<p>In dieser Verasntaltung setzen wir uns vor allem mit der binären Klassifikation auseinander. Die Zielvariable <span class="math inline">\(Y\)</span> nimmt also nur zwei Werte an. Normalerweise kodiert man diese Werte mit <span class="math inline">\(0\)</span> und <span class="math inline">\(1\)</span>, so dass sich <span class="math inline">\(Y\)</span> darstellen lässt als Vektor <span class="math inline">\(Y\in\{0,1\}^K\)</span>. Wir sind nun daran interessiert für einen Datenpunkt <span class="math inline">\(x\in\mathbb{R}^{J}\)</span> die Wahrscheinlichkeit <span class="math display">\[\begin{equation}
+  \mathbb{P}(Y=1|X=x)
+\end{equation}\]</span> zu schätzen. Falls die geschätzte Wahrscheinlichkeit <span class="math inline">\(\hat{p}\)</span> größer als ein bestimmter, vordefinierter Schwellenwert <span class="math inline">\(q\in(0,1)\)</span> ist, dann weisen wir das Sample der Klasse <span class="math inline">\(1\)</span> zu. Intuitiv macht hierbei der Wert <span class="math inline">\(q=0.5\)</span> Sinn, da wir uns bei einer Wahrscheinlichkeit <span class="math inline">\(p&gt;0.5\)</span> sicherer sind, dass der Datenpunkt zur Klasse <span class="math inline">\(1\)</span> als zur Klasse <span class="math inline">\(0\)</span> gehört.</p>
+</section>
+<section id="evaluation-eines-binären-klassifikationsmodells" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="evaluation-eines-binären-klassifikationsmodells"><span class="header-section-number">6.2</span> Evaluation eines binären Klassifikationsmodells</h2>
+<p>Da eine Evaluation mithilfe von Metriken wie <span class="math inline">\(\text{RMSE}\)</span> und <span class="math inline">\(R^2\)</span> bei der binären Klassifikation wenig Sinn ergeben, wollen wir in diesem Abschnitt verschiedene alternativen Metriken betrachten.</p>
+<section id="confusionmatrix" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="confusionmatrix"><span class="header-section-number">6.2.1</span> Confusionmatrix</h3>
+<p>Als Grundlage für die Metriken welche wir im Folgenden betrachten wollen ist die sogenannte <em>Confusion Matrix</em>. Diese Kreuztabelle gibt an, wie viele Datenpunkte korrekt bzw. inkorrekt klassifiziert wurden. Hierbei wird insbesondere zwischen den Klassen <em>Negativ</em> und <em>Positiv</em> Unterschieden. Im vorherigen Abschnitt wurden die Klassen mit <span class="math inline">\(1\)</span> und <span class="math inline">\(0\)</span> enkodiert. Meistens steht <span class="math inline">\(1\)</span> im Kontext der Confusion Matrix für <strong>Positive</strong> und <span class="math inline">\(0\)</span> für <strong>Negative</strong>.</p>
+<div id="fig-cf" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="50%">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="pictures/CF.svg" id="fig-cf" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-cf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.1
+</figcaption>
+</figure>
+</div>
+<p>Die Felder der Confusion Matrix können wir am besten anhand eines Beispiels illustrieren.</p>
+<div id="exm-cf" class="theorem example">
+<p><span class="theorem-title"><strong>Beispiel 6.1</strong></span> Ein Forscherteam des Universitätsklinikums hat einen Test für das Feststellen einer seltenen Herzkrankheit entwickelt. Falls die Ärzte diese Herzkrankheit korrekt feststellen, kann diese durch einen operativen Eingriff geheilt werden. Die Wahrscheinlichkeit eines erfolgreichen Eingriffs ist hierbei größer als die Wahrscheinlichkeit, dass eine kranke Person den Krankheitsverlauf überlebt. Ein positives Testergebnis wird mit <span class="math inline">\(1\)</span> bzw. <strong>Predicted Positive</strong> enkodiert und ein negatives Ergebnis mit <span class="math inline">\(0\)</span> bzw. <strong>Predicted Negative</strong>. Nun gibt es folgende Möglichkeiten:</p>
+<ol type="1">
+<li>Der Test ist Positiv und die untersuchte Person hat die Krankheit. Dann spricht man von <strong>True Positive</strong>.</li>
+<li>Der Test ist Positiv und die untersuchte Person hat die Krankheit nicht. Dann spricht man von <strong>False Positive</strong>.</li>
+<li>Der Test ist Negativ und die untersuchte Person hat die Krankheit nicht. Dann spricht man von <strong>True Negative</strong>.</li>
+<li>Der Test ist Negativ und die untersuchte Person hat die Krankheit. Dann spricht man von <strong>False Negative</strong>.</li>
+</ol>
+</div>
+<p>Neben einer korrekten Klassifikation (TP und TN) sollten wir uns besonders mit den beiden fehlerhaften Klassifikationsszenarien auseinandersetzen. In <a href="#exm-cf" class="quarto-xref">Example&nbsp;<span>6.1</span></a> ist eine fälschlicherweise als Negativ klassifizierte Person (FN) also ein Patient oder eine Patientin, welche die Herzkrankheit besizt, aber nicht diagnostiziert wird. Diese Art von Fehler ist im Beispiel besonders gravierend, da die Person eine höhere Überlebenswahrscheinlichkeit durch den operativen Eingriff besitzt. Falls eine Person fälschlicherweise als Positiv klassifiziert wird (FP), dann bedeutet das, dass der Test positiv ausfällt, obwohl die Person nicht an der Herzkrankheit erkrankt ist. Unter gewöhnlichen Umständen wäre eine solche Fehlklassifikation nicht ganz so gravierend, da die Person schließlich nicht an der seltenen Krankheit erkrankt ist. Falls allerdings auf Basis des Testergebnisses trotzdem ein operativer Eingriff vorgenommen wird, dann setzt man den Patient oder die Patientin einem unnötigen Risiko aus.</p>
+<p>Wie gut also so ein Test tatsächlich funktioniert, sollte man also nicht nur an der absoluten oder relativen Anzahl der korrekt klassifizierten Datenpunkte festmachen, sondern auch daran, wie hoch die entsprechenden Fehlerquoten sind.</p>
+<p>Präziser lässt sich diese Aussage mit folgenden Kennzahlen ausdrücken:</p>
+<ul>
+<li>Accuracy: <span class="math display">\[\begin{equation*}
+  \text{Accuracy} = \frac{TP+TN}{TP+TN+FP+FN}
+\end{equation*}\]</span> Die Accuracy misst den relativen Anteil der korrekt klassifizierten Datenpunkte an der Gesamtanzahl der Datenpunkte. Sie beschreibt die Wahrscheinlichkeit für ein korrektes Testergebnis.</li>
+<li>Sensitivität: <span class="math display">\[\begin{equation*}
+  \text{Sensitivity} = \frac{TP}{TP+FN}
+\end{equation*}\]</span> Die Sensitivität misst den relativen Anteil der als korrekterweise positiv klassifizierten Datenpunkte an der Gesamtanzahl der positiven Datenpunkte. Sie beschreibt die bedingte Wahrscheinlichkeit, dass ein positives Ergebnis vorhergesagt wird unter der Annahme, dass das Ergebnis tatsächlich positiv ist.</li>
+<li>Spezifizität: <span class="math display">\[\begin{equation*}
+  \text{Specificity} = \frac{TN}{TN+FP}
+\end{equation*}\]</span> Die Spezifizität ist das Gegenstück zur Sensititivität. Sie misst den relativen Anteil der als korrekterweise negativ klassifizierten Datenpunkte an der Gesamtanzahl der negativen Datenpunkte. Spezifizität kann auch als die bedingte Wahrscheinlichkeit interpretiert werden, dass ein negatives Ergebnis vorhergesagt wird, unter der Annahme, dass das Ergebnis tatsächlich negativ ist.</li>
+<li>Präzision: <span class="math display">\[\begin{equation*}
+  \text{Precision} = \frac{TP}{TP+FP}
+\end{equation*}\]</span> Die Präzision misst den relativen Anteil der korrekterweise als positiv klassifizierten Datenpunkte an der Gesamtzahl der als positiv klassifizierten Datenpunkte. Besonders bei unbalancierten Datensätzen<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> ist die Präzision eine wichtige Metrik, da die Accuracy bei unbalacierten Datensätzen zu Trugschlüssen führen kann.</li>
+</ul>
+</section>
+<section id="roc-kurve" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="roc-kurve"><span class="header-section-number">6.2.2</span> ROC-Kurve</h3>
+<p>In <a href="#sec-intro_class" class="quarto-xref"><span>Section 6.1</span></a> haben wir kurz den Entscheidungsprozess bei einer Klassifikation in Abhängigkeit des Schwellenwerts <span class="math inline">\(q\)</span> eingeführt. Da der Schwellenwert <span class="math inline">\(q\)</span> allerdings stark die Confusion Matrix beeinflussen kann, sollte man sich verschiedene Schwellenwerte in Abhängigkeit ausgewählter Metriken betrachten. Eine dieser Gegenüberstellungen ist durch die sogenannte <em>Receiver-Operator Characteristic</em> Kurve gegeben. Diese zeigt auf der <span class="math inline">\(x\)</span>-Achhse die False-Positive Rate (<span class="math inline">\(1-\text{specificity}\)</span>) und auf der <span class="math inline">\(y\)</span>-Achse die Sensitivität an. Der Kurve ergibt sich dann durch das Variieren des Schwellenwerts <span class="math inline">\(q\)</span>:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06_Klassifikation_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Die ROC-Kurve ist monoton steigend, d.h. je größer der Schwellenwert <span class="math inline">\(q\)</span> ist, desto größer wird die False Positive Rate (<span class="math inline">\(1-\text{specificity}\)</span>). Gleichzeitig steigt aber auch die Sensitivität, also der relative Anteil der als korrekterweise positiv klassifizierten Datenpunkte an der Gesamtanzahl der positiven Datenpunkte. Der optimale Threshold ist dann durch jenen Punkt gegeben, welcher am am nähsten zum Punkt <span class="math inline">\((1,0)\)</span> ist. Ein Entscheidungsschwellenwert von <span class="math inline">\(0.5\)</span> ist also nicht zwingende der optimale Schwellenwert für eine Entscheidung, wenn das Ziel ist gleichzeitig die Sensitivität zu maximieren und die False Positive Rate zu minimieren.</p>
+<p>Die Winkelhalbierende beschreibt den Fall, dass die Sensitivität gleich der False Positive Rate ist. Falls diese beiden Metriken gleich sind, dann kann das unterliegende Modell nicht zwischen True Positives und False Positives unterscheiden. Dieser Fall wird dann auch gerne als <em>Münzwurf</em> beschrieben, da die Wahrscheinlichkeit für eine korrekte, bzw. falsche Klassifizierung <span class="math inline">\(50\%\)</span> beträgt.</p>
+<p>Die ROC-Kurve kann allerdings auch irreführend sein, weshalb man neben dieser Metrik auch noch andere Metriken betrachten sollte. Besonders, falls die Klassen unbalanciert sind kann die ROC-Kurve irreführend sein, da sie keine Informationen bezüglich der Präzision des Modells enthält.</p>
+<p>Neben dem Ablesen der Sensitivität und False Positive Rate an der Kurve selbst können wir auch die Fläche unter der Kurve berechnen. Die sogenannte Area under the Receiver Operator Characteristic (AUROC) nimmt dabei Werte zwischen <span class="math inline">\(0\)</span> und <span class="math inline">\(1\)</span> an, wobei <span class="math inline">\(1\)</span> einem perfekten Modell entspricht und <span class="math inline">\(0\)</span> einem Modell, welches alle Vorhersagen falsch trifft.</p>
+<!-- Warum ist AAUCROC= 0 nicht schlimm, sondern ROCAUC = 0.5? -->
+</section>
+</section>
+<section id="die-logistische-regression" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="die-logistische-regression"><span class="header-section-number">6.3</span> Die Logistische Regression</h2>
+<p>Als Erweiterung der linearen Regression erlaubt es uns die logisitische Regression ebenso eine einfache Parametrisierung der geschätzten Wahrscheinlichkeit <span class="math inline">\(\hat{p}\)</span>. Betrachten wir zuerst den Fall, dass unser Datensatz aus lediglich einer unabhängigen Variable besteht. Im Falle der linearen Regression schätzen wir dann die Parameter <span class="math inline">\(b_0\)</span> und <span class="math inline">\(b_1\)</span> der Gleichung (vgl. <a href="02_Lineare_Regression.html#eq-elr" class="quarto-xref">Gleichung&nbsp;<span>2.1</span></a>)</p>
+<p><span class="math display">\[\begin{equation*}
+Y = b_0 + b_1 X + \varepsilon
+\end{equation*}\]</span></p>
+<section id="modellgleichung" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="modellgleichung"><span class="header-section-number">6.3.1</span> Modellgleichung</h3>
+<p>Wir können diese Modellgleichung dann mithilfe der logistischen Funktion <span class="math display">\[\begin{equation*}
+  \sigma(x) = \frac{1}{1+\exp(-x)} \in (0,1) , x\in\mathbb{R}
+\end{equation*}\]</span> so transformieren, dass die Werte der Regressionsgleichung zwischen <span class="math inline">\(0\)</span> und <span class="math inline">\(1\)</span> liegen. Die Werte dieser transformierten Regressionsgleichung können dann als Wahrscheinlichkeiten interpretiert werden. Wir erhalten also nach dem Schätzen der Parameter die Modellgleichung</p>
+<p><span class="math display">\[\begin{equation*}
+  \widehat{\mathbb{P}(Y=1|X=x)} = \frac{1}{1+\exp\left(-(b_0+b_1x)\right)}
+\end{equation*}\]</span></p>
+<p>Diese Schätzgleichung lässt sich dann analog zum MLR Modell erweitern zu</p>
+<p><span class="math display">\[\begin{equation*}
+  \widehat{\mathbb{P}(Y=1|X=x_k)} = \frac{1}{1+\exp\left(-(b_0+\sum_{j=1}^Jb_jx_{k,j})\right)}
+\end{equation*}\]</span></p>
+<p>Die Parameter dieser Schätzgleichung werden mithilfe der Maximum Likelihood Methode durchgeführt, da eine analytische Lösung wie für die Parameter des MLR nur schwer zu berechnen ist.</p>
+<div id="exm-logistic_reg" class="theorem example">
+<p><span class="theorem-title"><strong>Beispiel 6.2</strong></span> Betrachten wir folgendes Beispiel:</p>
+<p>Die Schätzgleichung einer einfachen linearen Regression sei durch <span class="math display">\[\begin{equation*}
+  y = \hat{b}_0+\hat{b}_1 x  = 4x + 1
+\end{equation*}\]</span></p>
+<p>gegeben:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06_Klassifikation_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Dann eignet sich diese Funktion nicht, um eine Wahrscheinlichkeit vorherzusagen, da die Funktion für <span class="math inline">\(x &lt; -0.25\)</span> negative Werte annimmt und für <span class="math inline">\(x&gt;0\)</span> Werte annimmt, welche größer als <span class="math inline">\(1\)</span> sind.</p>
+<p>Durch eine Transformation dieser Schätzgleichung zu einer logistischen Schätzgleichung der Form</p>
+<p><span class="math display">\[\begin{equation*}
+\widehat{\mathbb{P}(y=1|x)} = \frac{1}{1+\exp(-(\hat{b}_0 + \hat{b}_1 x))} =\frac{1}{1+\exp(-(4x + 1))}
+\end{equation*}\]</span></p>
+<p>erreichen wir, dass die Funktionswerte nur noch im Intervall <span class="math inline">\((0,1)\)</span> liegen:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06_Klassifikation_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Je größer also die Werte für <span class="math inline">\(x\)</span> sind, desto höher ist die Wahrscheinlichkeit, dass wir die Klassifikation <span class="math inline">\(y=1\)</span> annehmen.</p>
+</div>
+</section>
+<section id="interpretation-der-koeffizienten" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="interpretation-der-koeffizienten"><span class="header-section-number">6.3.2</span> Interpretation der Koeffizienten</h3>
+<p>Im Vergleich zur multiplen Linearen Regression lassen sich die Koeffizienten des logistischen Modells nicht mehr direkt interpretieren. Auch die Überprüfung der Signifikanz einzelner Variablen ist nicht mehr mithilfe des <span class="math inline">\(t\)</span> Test umsetzbar.</p>
+<p>Grundlegend können wir allerdings folgende Aussagen treffen:f Das Vorzeichen eines geschätzeten Parameters gibt Auskunft darüber, ob die geschätzte Wahrscheinlichkeit beim Erhöhen der Variable (um eine Einheit) steigt oder sinkt.</p>
+<ul>
+<li>Falls <span class="math inline">\(b_j&gt;0,\: j\in\{1,...,J\}\)</span> so steigt die geschätzte Wahrscheinlichkeit <span class="math inline">\(\widehat{\mathbb{P}(Y=1|X)}\)</span>.</li>
+<li>Falls <span class="math inline">\(b_j&lt;0,\: j\in\{1,...,J\}\)</span>, dann sinkt die geschätzte Wahrscheinlichkeit <span class="math inline">\(\widehat{\mathbb{P}(Y=1|X)}\)</span>.</li>
+</ul>
+<p>Um den Einfluss einer Variable zu quantifizieren, betrachten wir die sogenannten <em>Odds</em>. Die Odds sind definiert als <span class="math display">\[\begin{equation}\label{eq:odds}
+\mathrm{Odds} = \frac{\mathbb{P}(Y=1|X=x)}{\mathbb{P}(Y=0|X=x)} = \exp(b_0+\sum_{j=1}^Jb_jx_j)
+\end{equation}\]</span> Die Odds können Werte im Intervall <span class="math inline">\((0,\infty)\)</span> annehmen. Sie können interpretiert werden als die Chance dessen, dass ein Event eintritt (<span class="math inline">\(y=1\)</span>) gegenüber dem nichteintreten des Events <span class="math inline">\((y=0)\)</span>.</p>
+<div id="exm-odds" class="theorem example">
+<p><span class="theorem-title"><strong>Beispiel 6.3</strong></span> Bei einem Wettanbieter für Fußballwetten sind für ein Spiel der Mannschaft <span class="math inline">\(A\)</span> gegen Manschaft <span class="math inline">\(B\)</span> die Odds (Quotenverhältnis) dessen, dass Team <span class="math inline">\(A\)</span> gewinnt durch <span class="math inline">\(1.19\)</span> gegeben. Unter der Annahme, dass das Spiel nicht in einem Unentschieden Enden kann, gilt also</p>
+<p><span class="math display">\[\begin{equation*}
+\mathrm{Odds} = 1.19 = \frac{\mathbb{P}(\{\text{Mannschaft A gewinnt}\})}{\mathbb{P}(\{\text{Mannschaft B gewinnt}\})}
+\end{equation*}\]</span></p>
+<p>Durch Umformen ergibt sich dann <span class="math inline">\(\mathbb{P}(\{\text{Mannschaft A gewinnt}\})\approx 0.54\)</span>. Somit rechnet der Wettanbieter mit einer Wahrscheinlichkeit von ca. <span class="math inline">\(54\%\)</span> damit, dass Team <span class="math inline">\(A\)</span> gewinnt (vorausgesetzt, die Odds spiegeln echte Wahrscheinlichkeiten wider, was in der Praxis wegen der Gewinnmarge meist nicht der Fall ist).</p>
+</div>
+<p>Falls <span class="math inline">\(\mathrm{Odds}=1\)</span>, dann sind beide Events gleich wahrscheinlich, während Odds <span class="math inline">\(&gt;1\)</span> bzw. <span class="math inline">\(&lt;1\)</span> implizieren, dass die Wahrscheinlichkeit für das Eintreten des untersuchten Events <span class="math inline">\(&gt;50\%\)</span> bzw. <span class="math inline">\(&lt;50\%\)</span> ist.</p>
+<p>Der Einfluss der Modellparameter auf die Odds kann ebenso interpretiert werden:</p>
+<ul>
+<li>Steigt eine Variable <span class="math inline">\(X_j\)</span> um eine Einheit, so erhöhen, bzw. sinken die Odds um <span class="math inline">\(\exp(b_j)\)</span>.</li>
+</ul>
+<p>Falls zum Beispiel <span class="math inline">\(\exp(\hat{b}_j)=2\)</span>, so verdoppeln sich die Odds beim Erhöhen der Variable <span class="math inline">\(X_j\)</span> um eine Einheit.</p>
+</section>
+<section id="statistische-signifikanz" class="level3" data-number="6.3.3">
+<h3 data-number="6.3.3" class="anchored" data-anchor-id="statistische-signifikanz"><span class="header-section-number">6.3.3</span> Statistische Signifikanz</h3>
+<p>Im Vergleich zur linearen Regression können bei der logistischen Regression den <span class="math inline">\(t\)</span>-Test bzw. <span class="math inline">\(F\)</span>-Test nicht auf ein geschätztes Modell anwenden.</p>
+<p>Für die gschätzten Koeffizienten verwendet man den <em>Wald</em>-Test. Hierbei werden die Hypothesen <span class="math display">\[\begin{equation*}
+H_0: b_j = 0\quad\text{vs.}\quad H_1:b_j\neq 0
+\end{equation*}\]</span> geprüft. Die Test Statistik ist durch <span class="math inline">\(W = \frac{\hat{b_j}}{\hat{\text{sd}}(\hat{b_j})}\)</span> gegeben und zum Berechnen des <span class="math inline">\(p\)</span>-Werts verwenden wir die Standardnormalverteilung.</p>
+<p>Die statistische Signifikanz des Gesamtmodells können wir zum Beispiel mithilfe des Likelihood Ratio Tests evaluieren. Das Hypothesenpaar ist durch</p>
+<p><span class="math display">\[\begin{equation*}
+H_0: b_j = 0\, \forall j=1,...,J\quad\text{vs.}\quad H_1:b_j\neq 0 \text{ für mind. ein } j.
+\end{equation*}\]</span></p>
+<p>gegeben.</p>
+<p>Die Teststatistik wird durch den Term</p>
+<p><span class="math display">\[\begin{equation*}
+  \nu = -LL_v
+\end{equation*}\]</span></p>
+<p>wobei <span class="math inline">\(-LL_v\)</span> die Log-Likelihood des Vollmodells ist, also</p>
+<p><span class="math display">\[\begin{equation*}
+  LL_v = \sum_{k=1}^{K}\hat{y}_k\log(\widehat{\mathbb{P}(Y=y_k|X=x_k)})+(1-\hat{y}_k)\log(1-\widehat{\mathbb{P}(Y=y_k|X=x_k)})
+\end{equation*}\]</span></p>
+<p>Unter der Annahme, dass <span class="math inline">\(\nu\sim \chi^2_{n-k}\)</span> ist, kann dann der entsprechende <span class="math inline">\(p\)</span>-Wert berechnet werden.</p>
+</section>
+</section>
+<section id="klassifikationsbäume" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="klassifikationsbäume"><span class="header-section-number">6.4</span> Klassifikationsbäume</h2>
+<p>In <a href="04_Regressions_Baeume.html" class="quarto-xref"><span>Chapter 4</span></a> haben wir uns bereits intensiv mit Regressionsbäumen auseinandergesetzt. Der Übergang von Regressions zu klassifikationsbäumen ist letztendlich auch nicht mehr komplex! An Stelle einer Reelwertigen Zielvariable betrachten wir in den Blattknoten nun geschätzte Klassen, bzw. Klassenwahrscheinlichkeitn. Der Algorithmus zum schätzen eines Klassifikationsbaums im Verlgeich zu Regressionsbäumen ist hierbei fast unverändert. Lediglich der Improvement Wert, welcher bei Regressionsbäumen mithilfe des <span class="math inline">\(\text{MSE}\)</span> berechnet wird, muss durch eine passende Metrik im Klassifikationskontext ersetzt werden. Diese Metrik ist durch die Gini Impurity gegeben. Für einen Knoten <span class="math inline">\(K_n\)</span> ist diese definiert als <span class="math display">\[\begin{equation*}
+  1-(p_1^2+p_0^2)
+\end{equation*}\]</span></p>
+<p>wobei <span class="math inline">\(p_1\)</span> die relative Häufigkeit der Klasse <span class="math inline">\(1\)</span> im Knoten ist und <span class="math inline">\(p_0\)</span> die relative Häufigkeit der Klasse <span class="math inline">\(0\)</span> im Knoten. Es wird dann getestet, für welches <span class="math inline">\(p_i,\: i=0,1\)</span> das entfernen zu einem größeren Impurity Index führt. D.h., falls <span class="math inline">\(p_1\geq p_0\)</span>, dann wird der Knoten als Klassifikationswert Klasse <span class="math inline">\(1\)</span> zurückgeben. Die Entscheidung bezüglich den Splittingvariablen funktioniert gleich: Teste, für welche Variable sich die größte Reduktion der Gini Impurity ergibt und verwende diese für einen weiteren Split.</p>
+<p>Die Wichtigkeit der Variablen kann dann ebenso bezüglich dieses Impurity Wertes gemessen werden, so dass wir effektiv die gleiche Permutation Feature Importance Methode verwenden können.</p>
+</section>
+<section id="neuronale-netze" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="neuronale-netze"><span class="header-section-number">6.5</span> Neuronale Netze</h2>
+<p>Ähnlich wie bei Klassifikationsbäumen müssen wir auch bei Neuronalen Netzen lediglich die Verlustfunktion anpassen, um nominale Zielvariablen zu berücksichtigen. Der Rückgabewert eines Neuronalen Netzes bei der binären Klassifikation ist dabei nicht das Klassenlabel selbst, sondern die geschätzte Wahrscheinlichkeit <span class="math inline">\(\widehat{\mathbb{P}(Y=1|X=x)}\)</span>. Die Verlustfunktion ist durch die sogenannte Binary Cross Entropy</p>
+<p><span class="math display">\[\begin{equation*}
+L(y,\hat{y}) -\left(y\log(\hat{y})+(1-p)\log(1-\hat{y})\right)
+\end{equation*}\]</span></p>
+<p>gegeben, wobei <span class="math inline">\(\hat{y} = \widehat{\mathbb{P}(Y=1|X=x)}\)</span> und <span class="math inline">\(y\)</span> das entsprechende Klassenlabel <span class="math inline">\(1\)</span> oder <span class="math inline">\(0\)</span> ist. Wichtig ist, dass die finale Aktiverungsfunktion den Output des Neuronalen Netzes also auf das Intervall <span class="math inline">\([0,1]\)</span> skaliert, damit die Verlustfunktion auch berechnet werden kann (vgl. <a href="05_Neuronale_Netze.html#exr-nnarchitecture" class="quarto-xref">Aufgabe&nbsp;<span>5.1</span></a> Teilaufgabe 4)!</p>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Datensätze bei welchen weitaus mehr Negatives als Positives vertreten sind<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./05_Neuronale_Netze.html" class="pagination-link" aria-label="Neuronale Netze">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Neuronale Netze</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
