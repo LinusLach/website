@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -243,6 +277,12 @@ window.Quarto = {
   </ul></li>
   <li><a href="#klassifikationsbäume" id="toc-klassifikationsbäume" class="nav-link" data-scroll-target="#klassifikationsbäume"><span class="header-section-number">6.4</span> Klassifikationsbäume</a></li>
   <li><a href="#neuronale-netze" id="toc-neuronale-netze" class="nav-link" data-scroll-target="#neuronale-netze"><span class="header-section-number">6.5</span> Neuronale Netze</a></li>
+  <li><a href="#klassifizierung-in-r" id="toc-klassifizierung-in-r" class="nav-link" data-scroll-target="#klassifizierung-in-r"><span class="header-section-number">6.6</span> Klassifizierung in R</a>
+  <ul>
+  <li><a href="#logistische-regression" id="toc-logistische-regression" class="nav-link" data-scroll-target="#logistische-regression"><span class="header-section-number">6.6.1</span> Logistische Regression</a></li>
+  <li><a href="#klassifikationsbäume-1" id="toc-klassifikationsbäume-1" class="nav-link" data-scroll-target="#klassifikationsbäume-1"><span class="header-section-number">6.6.2</span> Klassifikationsbäume</a></li>
+  <li><a href="#neuronale-netze-1" id="toc-neuronale-netze-1" class="nav-link" data-scroll-target="#neuronale-netze-1"><span class="header-section-number">6.6.3</span> Neuronale Netze</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -281,12 +321,12 @@ window.Quarto = {
 <section id="confusionmatrix" class="level3" data-number="6.2.1">
 <h3 data-number="6.2.1" class="anchored" data-anchor-id="confusionmatrix"><span class="header-section-number">6.2.1</span> Confusionmatrix</h3>
 <p>Als Grundlage für die Metriken welche wir im Folgenden betrachten wollen ist die sogenannte <em>Confusion Matrix</em>. Diese Kreuztabelle gibt an, wie viele Datenpunkte korrekt bzw. inkorrekt klassifiziert wurden. Hierbei wird insbesondere zwischen den Klassen <em>Negativ</em> und <em>Positiv</em> Unterschieden. Im vorherigen Abschnitt wurden die Klassen mit <span class="math inline">\(1\)</span> und <span class="math inline">\(0\)</span> enkodiert. Meistens steht <span class="math inline">\(1\)</span> im Kontext der Confusion Matrix für <strong>Positive</strong> und <span class="math inline">\(0\)</span> für <strong>Negative</strong>.</p>
-<div id="fig-cf" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="50%">
+<div id="fig-cm" class="quarto-float quarto-figure quarto-figure-center anchored" width="50%" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-cf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="pictures/CF.svg" id="fig-cf" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" style="width:50.0%">
+<div aria-describedby="fig-cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="pictures/CF.svg" id="fig-cm" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" style="width:50.0%">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-cf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6.1
 </figcaption>
 </figure>
@@ -449,11 +489,403 @@ H_0: b_j = 0\, \forall j=1,...,J\quad\text{vs.}\quad H_1:b_j\neq 0 \text{ für m
 <h2 data-number="6.5" class="anchored" data-anchor-id="neuronale-netze"><span class="header-section-number">6.5</span> Neuronale Netze</h2>
 <p>Ähnlich wie bei Klassifikationsbäumen müssen wir auch bei Neuronalen Netzen lediglich die Verlustfunktion anpassen, um nominale Zielvariablen zu berücksichtigen. Der Rückgabewert eines Neuronalen Netzes bei der binären Klassifikation ist dabei nicht das Klassenlabel selbst, sondern die geschätzte Wahrscheinlichkeit <span class="math inline">\(\widehat{\mathbb{P}(Y=1|X=x)}\)</span>. Die Verlustfunktion ist durch die sogenannte Binary Cross Entropy</p>
 <p><span class="math display">\[\begin{equation*}
-L(y,\hat{y}) -\left(y\log(\hat{y})+(1-p)\log(1-\hat{y})\right)
+L(y,\hat{y}) -\left(y\log(\hat{y})+(1-y)\log(1-\hat{y})\right)
 \end{equation*}\]</span></p>
 <p>gegeben, wobei <span class="math inline">\(\hat{y} = \widehat{\mathbb{P}(Y=1|X=x)}\)</span> und <span class="math inline">\(y\)</span> das entsprechende Klassenlabel <span class="math inline">\(1\)</span> oder <span class="math inline">\(0\)</span> ist. Wichtig ist, dass die finale Aktiverungsfunktion den Output des Neuronalen Netzes also auf das Intervall <span class="math inline">\([0,1]\)</span> skaliert, damit die Verlustfunktion auch berechnet werden kann (vgl. <a href="05_Neuronale_Netze.html#exr-nnarchitecture" class="quarto-xref">Aufgabe&nbsp;<span>5.1</span></a> Teilaufgabe 4)!</p>
+</section>
+<section id="klassifizierung-in-r" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="klassifizierung-in-r"><span class="header-section-number">6.6</span> Klassifizierung in R</h2>
+<p>In diesem Abschnitt wollen wir die verschiedenen Klassifizierungsalgorithmen und deren Evaluation in R betrachten. Als Grundlage für diese Einführung dient der <code>penguins</code> Datensatz, welchen wir auch schon in vorherigen Übungen behandelt haben. Ziel wird es sein, die Variable Geschlecht vorherzusagen, da diese im Datensatz binär mit <code>"male"</code> und `“female</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data_penguin <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year) <span class="sc">%&gt;%</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex =</span> <span class="fu">factor</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">if_else</span>(sex<span class="sc">==</span><span class="st">"male"</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nachdem wir den Datensatz als <code>data_penguin</code> gespeichert haben, entfernen wir alle <code>NA</code> Werte und wandeln mithilfe der <code>mutate()</code> Funktion die Variable <code>sex</code> in eine Faktor Variable um. Die Ausprägungen setzen hierbei auf <span class="math inline">\(1\)</span>, falls ein Pinguin männlich ist und <span class="math inline">\(0\)</span>, falls ein Pinguin weiblich ist.</p>
+<section id="logistische-regression" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="logistische-regression"><span class="header-section-number">6.6.1</span> Logistische Regression</h3>
+<p>Ein logistisches Modell können wir mithilfe der <code>logistic_reg()</code> Funktion spezifizieren. Nach dem Spezifizieren können wir dann die Modellparameter einfach wieder mithilfe der <code>fit()</code> Funktion schätzen. Als Argumente übergeben wir der <code>fit()</code> Funktion die Daten selbst und die Formel, bezüglich welcher die Parameter geschätzt werden sollen. Da wir die Variable <code>sex</code> prognostizieren wollen, verwenden wir deshalb die Formel <code>sex~.</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>log_spec <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>log_fit <span class="ot">&lt;-</span> log_spec <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> data_penguin,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">formula =</span> sex <span class="sc">~</span>.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nach dem Schätzen der Parameter können wir wieder mithilfe der <code>extract_fit_engine()</code> Funktion die Parameter extrahieren und die Modellzusammenfassung durch die <code>summary()</code> Funktion erzeugen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>log_fit <span class="sc">%&gt;%</span> <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+stats::glm(formula = sex ~ ., family = stats::binomial, data = data)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-3.4128  -0.2000   0.0022   0.1441   2.8235  
+
+Coefficients:
+                    Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)       -80.376672  12.329735  -6.519 7.08e-11 ***
+speciesChinstrap   -7.402697   1.662534  -4.453 8.48e-06 ***
+speciesGentoo      -8.427611   2.597027  -3.245  0.00117 ** 
+islandDream         0.324158   0.809135   0.401  0.68870    
+islandTorgersen    -0.507858   0.855746  -0.593  0.55287    
+bill_length_mm      0.614436   0.131968   4.656 3.22e-06 ***
+bill_depth_mm       1.646446   0.335798   4.903 9.43e-07 ***
+flipper_length_mm   0.026654   0.048307   0.552  0.58111    
+body_mass_g         0.005819   0.001087   5.352 8.71e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 461.61  on 332  degrees of freedom
+Residual deviance: 126.05  on 324  degrees of freedom
+AIC: 144.05
+
+Number of Fisher Scoring iterations: 7</code></pre>
+</div>
+</div>
+<p>Die Variable <code>island</code> scheintnicht statistisch signifikant zum Niveau <span class="math inline">\(\alpha = 0.1\)</span> zu sein, was auch den Erwartungen entspricht, da auf jeder Insel sowohl männliche als auch weibliche Pinguine leben. Allerdings stellt sich dann natürlich wieder die Frage, warum die Variable <code>species</code> statistisch signifikant ist! Eine mögliche Ursache wäre Multikollinearität, wobei wir das an dieser Stelle nicht weiter untersuchen wollen. Außerdem ist die Variable <code>flipper_length_mm</code> nicht statistisch signifikant zum Niveau <span class="math inline">\(\alpha = 0.1\)</span>. Ein Grund hierfür könnte sein, dass die durchschnittliche Länge der Flossen bei männlichen und weiblichen Pinguinen gleichgroß ist.</p>
+<p>Um das Modell zu evaluieren, sollten wir zunächst eine Confusion Matrix erzeugen. Dafür müssen wir zunächst Vorhersagen generieren. Wir dafür die <code>augment()</code> Funktion direkt auf das <code>log_fit</code> Objekt unter Verwendung des Arguments <code>data_penguin</code> anewenden. Der Rückgabewert ist ein Tibble welches neben dem übergebenen Datensatz noch die Spalten <code>.pred_class</code>, <code>.pred_0</code> und <code>pred_1</code> enthält.</p>
+<ul>
+<li>Die Spalte <code>.pred_class</code> enthält die vorhergesagte Klasse ermittelt durch den Schwellenwert <span class="math inline">\(q=0.5\)</span>.</li>
+<li>Die Spalte <code>.pred_0</code> enthält die geschätzte Wahrscheinlichkeit, dass der Datenpunkt zur Klasse <span class="math inline">\(0\)</span> (<code>sex = "female"</code>) gehört.</li>
+<li>Die Spalte <code>.pred_1</code> enthält die geschätzte Wahrscheinlichkeit, dass der Datenpunkt zur Klasse <span class="math inline">\(1\)</span> (<code>sex = "male"</code>) gehört.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>log_fit <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_penguin) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 333
+Columns: 10
+$ .pred_class       &lt;fct&gt; 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1…
+$ .pred_0           &lt;dbl&gt; 3.604544e-01, 7.103332e-01, 9.151390e-01, 7.923568e-…
+$ .pred_1           &lt;dbl&gt; 0.639545554, 0.289666770, 0.084861038, 0.207643155, …
+$ species           &lt;fct&gt; Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adel…
+$ island            &lt;fct&gt; Torgersen, Torgersen, Torgersen, Torgersen, Torgerse…
+$ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.6…
+$ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.2…
+$ flipper_length_mm &lt;int&gt; 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 18…
+$ body_mass_g       &lt;int&gt; 3750, 3800, 3250, 3450, 3650, 3625, 4675, 3200, 3800…
+$ sex               &lt;fct&gt; 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0…</code></pre>
+</div>
+</div>
+<p>Um nun eine Confusion Matrix zu erzeugen, selektieren wir zuerst die relevanten Spalten <code>.pred_class</code> und <code>sex</code> und übergeben diese der <code>table()</code> Funktion. Die <code>table()</code> Funktion erzeugt eine Kreuztabelle welche einer Confusion Matrix entspricht.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>log_fit <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_penguin) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(.pred_class,sex) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           sex
+.pred_class   0   1
+          0 153  13
+          1  12 155</code></pre>
+</div>
+</div>
+<p>Nun haben wir allerdings noch folgendes Problem: In <a href="#fig-cm" class="quarto-xref">Figure&nbsp;<span>6.1</span></a> stehen die Positives in der ersten Zeile bzw. der ersten Spalte. Die resultierende Confusion Matrix zeigt die Werte Allerdings sortiert nach Zeilen- bzw. Spaltennamen an. Wir können diese aber einfach neu anordnen indem wir den Befehl auf die zuvor selektierten Spalten anwenden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(.pred_class, sex), <span class="sc">~</span> <span class="fu">factor</span>(., <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"0"</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Da die Spalten <code>.pred_class</code> und <code>sex</code> Faktorvariablen sind, können wir die Werte mithilfe des <code>levels</code> Argument neu sortieren. Durch das Spezifizieren von <code>levels = c("1","0")</code> erreichen wir, dass die Reihenfolge der Zeilen und Spalten getauscht werden. Es gilt also nach dieser Transformation <code>"1"&lt;"0"</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>cm_lr <span class="ot">&lt;-</span> log_fit <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_penguin) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(.pred_class,sex) <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(.pred_class, sex), <span class="sc">~</span> <span class="fu">factor</span>(., <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"0"</span>)))) <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>cm_lr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           sex
+.pred_class   1   0
+          1 155  12
+          0  13 153</code></pre>
+</div>
+</div>
+<p>Nun haben wir zwar erreicht, dass die Einträge richtig sortiert sind, allerdings spezifizieren die Spalten in <a href="#fig-cm" class="quarto-xref">Figure&nbsp;<span>6.1</span></a> die Predictions und die Zeilen die tatsächlichen Werte.</p>
+<p>Um die Zeilen und Spalten zu vertauschen, können wir die resultierende Tabelle einfach mithilfe der <code>t()</code> Funktion transponieren:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cm_lr <span class="ot">&lt;-</span> cm_lr <span class="sc">%&gt;%</span> <span class="fu">t</span>()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>cm_lr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   .pred_class
+sex   1   0
+  1 155  13
+  0  12 153</code></pre>
+</div>
+</div>
+<p>Auf Basis dieser Confusion Matrix ergeben sich nun folgende Metriken:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Accuracy</td>
+<td>0.924</td>
+</tr>
+<tr class="even">
+<td>Sensitivity</td>
+<td>0.923</td>
+</tr>
+<tr class="odd">
+<td>Specificity</td>
+<td>0.927</td>
+</tr>
+<tr class="even">
+<td>Precision</td>
+<td>0.928</td>
+</tr>
+</tbody>
+</table>
+<p>Die oben aufgeführten Metriken können wir natürlich auch mithilfe von R berechnen. Damit wir nicht jede Metrik einzeln berechnen müssen, erstellen wir ein <code>metric_set</code> Objekt mithilfe der <code>metric_set()</code> Funktion, welcher wir die entsprechenden Metriken als Argumente übergeben. Um das Modell dann auf Basis dieser Menge an Metriken zu evaluieren, übergeben wir dem Objekt die Argumente <code>truth = sex</code> und <code>estimate = .pred_class</code>. Wichtig ist, dass wir wieder die Reihenfolge der Ausprägungen anpassen, um die Darstellung der Confusion Matrix aus <a href="#fig-cm" class="quarto-xref">Figure&nbsp;<span>6.1</span></a> zu erhalten:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>multi_metric <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(accuracy,sensitivity,specificity,precision)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>lr_metrics <span class="ot">&lt;-</span> log_fit <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_penguin) <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(.pred_class, sex), <span class="sc">~</span> <span class="fu">factor</span>(., <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"0"</span>)))) <span class="sc">%&gt;%</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">multi_metric</span>(<span class="at">truth =</span> sex,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">estimate =</span> .pred_class)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>lr_metrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  .metric     .estimator .estimate
+  &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy    binary         0.925
+2 sensitivity binary         0.923
+3 specificity binary         0.927
+4 precision   binary         0.928</code></pre>
+</div>
+</div>
+<p>Die eben berechneten Metriken basieren alle auf dem Schwellenwert <span class="math inline">\(q = 0.5\)</span>. Wir sollten deshalb auch die ROC Kurve betrachten, um ein Gefühl für verschiedene Schwellenwerte zu bekommen. Die Werte der ROC-Kurve können wir mithilfe der <code>roc_curve()</code> Funktion berechnen: Als Argument übergeben wir der Funktion die geschätzten Wahrscheinlichkeiten, dass ein Sample zur Klasse <span class="math inline">\(1\)</span> gehört und die Variable <code>sex</code>, welche die tatsächlichen Werte enthält.</p>
+<p>Der Rückgabewert ist dann ein Tibble, welcher neben dem Schwellenwert <span class="math inline">\(q\)</span> gegeben durch die Spalte <code>.threshold</code> die beiden Spalten <code>specificity</code> und <code>sensitivity</code> enthält.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>lr_roc <span class="ot">&lt;-</span> log_fit <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_penguin) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(.pred_class, sex), <span class="sc">~</span> <span class="fu">factor</span>(., <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"0"</span>)))) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(.pred_1,<span class="at">truth =</span> sex)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>lr_roc <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 335
+Columns: 3
+$ .threshold  &lt;dbl&gt; -Inf, 5.839409e-06, 8.115530e-06, 9.277271e-06, 1.030156e-…
+$ specificity &lt;dbl&gt; 0.000000000, 0.000000000, 0.006060606, 0.012121212, 0.0181…
+$ sensitivity &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</code></pre>
+</div>
+</div>
+<p>Nun können wir die Kurve mithilfe von <code>ggplot</code> erzeugen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> lr_roc <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">-</span>specificity,<span class="at">y=</span>sensitivity))<span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>()<span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06_Klassifikation_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Die <code>geom_path()</code> Funktion verbindet die Punkte in der übergebenen Reihenfolge. Wir können diese Grafik nun beliebig erweitern, um z.B. die Sensitivität und Spezifizität für den Schwellenwert <span class="math inline">\(q=0.5\)</span> hervorzuheben.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>threshold_50 <span class="ot">&lt;-</span> lr_roc <span class="sc">%&gt;%</span> <span class="fu">filter</span>(.threshold <span class="sc">==</span> <span class="fu">median</span>(.threshold)) </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">"point"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">1</span><span class="sc">-</span>threshold_50<span class="sc">$</span>specificity,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> threshold_50<span class="sc">$</span>sensitivity,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"red"</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06_Klassifikation_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Der Schwellenwert <span class="math inline">\(q=0.5\)</span> ist wahrscheinlich maximiert wahrscheinlich nicht gleichzeitig die Sensitivität und Spezifizität, weshalb wir diesen optimalen Wert auch berechnen und einzeichnen können. Der Punkt, welcher beide Werte simultan maximiert kann mithilfe des <code>lr_roc</code> Objektes einfach berechnet werden: Indem wir die beiden Spalten <code>specificity</code> und <code>sensitivity</code> aufsummieren und das Maximium dieser Summe berechnen, ermitteln wir den optimalen Schwellenwert.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>threshold_opt <span class="ot">&lt;-</span> lr_roc <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sssum =</span> sensitivity<span class="sc">+</span>specificity) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sssum <span class="sc">==</span> <span class="fu">max</span>(sssum))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>threshold_opt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  .threshold specificity sensitivity sssum
+       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+1      0.442       0.921       0.946  1.87</code></pre>
+</div>
+</div>
+<p>Da der optimale Schwellenwert <span class="math inline">\(q=0.442\)</span> beträgt, wollen wir unsere Ergebnisse ensrsprechend anpassen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>lr_metrics_new <span class="ot">&lt;-</span> log_fit <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_penguin) <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.pred_class =</span> <span class="fu">if_else</span>(.pred_1 <span class="sc">&gt;=</span> threshold_opt<span class="sc">$</span>.threshold,<span class="st">"1"</span>,<span class="st">"0"</span>),</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">c</span>(.pred_class, sex),</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>           <span class="sc">~</span> <span class="fu">factor</span>(., <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"0"</span>)))) <span class="sc">%&gt;%</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">multi_metric</span>(<span class="at">truth =</span> sex,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Wir können dann die Ergebnisse auf Basis dieses neuen Schwellenwerts mit den Ergebnissen auf Basis des alten Schwellenwerts grafisch vergleichen:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06_Klassifikation_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Der Grafik können wir entnehmen, dass durch das Anpassen des Schwellenwerts zwar die Sensitivität stark gestiegen ist, allerdings die Spezifizität leicht gesunken ist. Ebenso hat sich die Accuracy verbessert, aber die Präzision leicht verschlechtert.</p>
+</section>
+<section id="klassifikationsbäume-1" class="level3" data-number="6.6.2">
+<h3 data-number="6.6.2" class="anchored" data-anchor-id="klassifikationsbäume-1"><span class="header-section-number">6.6.2</span> Klassifikationsbäume</h3>
+<p>Das Fitten von Klassifikationsbäumen im <code>{tidymodels}</code> Framework funktioniert analog zum Fitten von Regressionsbäumen. Lediglich das Argument <code>mode</code> muss auf <code>"classification"</code> statt <code>"regression"</code> gestetzt werden.</p>
+<p>Wir trainieren zuerst einen Baum ohne die Hyperparameter gesondert zu spezifizieren:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tree_spec_vanilla <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(<span class="at">mode =</span> <span class="st">"classification"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>tree_fit_vanilla <span class="ot">&lt;-</span> tree_spec_vanilla <span class="sc">%&gt;%</span> <span class="fu">fit</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> sex<span class="sc">~</span>.,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_penguin</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Das Trainierte Baummodell können wir dann wider mithilfe der <code>fancyRpartplot()</code> Funktion darstellen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>tree_fit_vanilla <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  rattle<span class="sc">::</span><span class="fu">fancyRpartPlot</span>(<span class="at">caption =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06_Klassifikation_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Die Knoten des dargestellten Baums sehen etwas anders aus im Vergleich zu einem Regressionsbaum: Zwar stehen der Vorhersagewert (<span class="math inline">\(0\)</span> bzw. <span class="math inline">\(1\)</span>) und die relative Anzahl der Sample im Knoten weiterhin im Knoten, allerdings wird jetzt auch noch zusätzlich die Impurity angezeigt. Die Terme in der Mitte der Knoten geben an wie groß der Anteil der jeweiligen Klassen in den verschiednen Knoten sind. So sind zum Beipiel im Knoten mit der ID <code>4</code> (linker unterer Blattknoten) <span class="math inline">\(98\%\)</span> der Samples im Knoten aus der Klasse <span class="math inline">\(0\)</span> und nur <span class="math inline">\(2\%\)</span> aus der Klasse <span class="math inline">\(1\)</span>. Umso ausgeglichener diese beiden Werte sind, desto weniger rein ist der Knoten.</p>
+<p>Um eine noch bessere Performance zu erzielen, sollten die Hyperparameter <code>min_n</code>, <code>tree_depth</code> und <code>cost_complexity</code> angepasst werden. Für den folgenden Baum setzen wir deshalb die Baumtiefe auf <code>13</code>, die Mindestanzahl der Samples in einem Knoten benötigt für einen weiteren Split auf <code>3</code> und den Cost-Complexity Parameter auf <code>3.67*10^-7</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>tree_spec <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(<span class="at">mode =</span> <span class="st">"classification"</span>,</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">tree_depth =</span> <span class="dv">13</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">min_n =</span> <span class="dv">3</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">cost_complexity =</span> <span class="fl">3.67e-7</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>tree_fit <span class="ot">&lt;-</span> tree_spec <span class="sc">%&gt;%</span> <span class="fu">fit</span>(</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> sex<span class="sc">~</span>.,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_penguin</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Für den resultierenden Baum ergeben sich dann die Metriken</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>tree_metrics <span class="ot">&lt;-</span> tree_fit <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_penguin) <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(.pred_class, sex), <span class="sc">~</span> <span class="fu">factor</span>(., <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"0"</span>)))) <span class="sc">%&gt;%</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">multi_metric</span>(<span class="at">truth =</span> sex,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">estimate =</span> .pred_class)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>tree_metrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  .metric     .estimator .estimate
+  &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy    binary         0.988
+2 sensitivity binary         0.994
+3 specificity binary         0.982
+4 precision   binary         0.982</code></pre>
+</div>
+</div>
+<p>Wir können diese Metriken grafisch mit denen der logistischen Regression vergleichen:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06_Klassifikation_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Der Klassifikationsbaum eignet sich also entsprechend der Metriken besser für die Vorhersage des Geschlechts eines Pinguins.</p>
+</section>
+<section id="neuronale-netze-1" class="level3" data-number="6.6.3">
+<h3 data-number="6.6.3" class="anchored" data-anchor-id="neuronale-netze-1"><span class="header-section-number">6.6.3</span> Neuronale Netze</h3>
+<p>Bevor wir ein Neuronales Netz trainieren können müssen wir die numerischen Feature wieder normalisieren und nominalen Feature in Dummy Variablen umwanderln. Hierfür verwenden wir wieder die <code>dummy_cols()</code> Funktion. Damit wir aber nicht die Zielvariable <code>"sex"</code> in eine Dummy Variable umwandeln, spezifizieren wir in dem Argument <code>select_columns</code> der Funktion dass nur <code>"island"</code> und <code>"spezies"</code> umgewandelt werden sollen. Zusätzlich spezifizieren wir wieder in der <code>mutate_at()</code> Funktion, dass außer der Zielvariable <code>"sex"</code> alle weiteren Variablen normalisiert werden sollen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fastDummies)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>data_penguin_transformed <span class="ot">&lt;-</span> data_penguin <span class="sc">%&gt;%</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dummy_cols</span>(<span class="at">select_columns =</span> <span class="fu">c</span>(<span class="st">"island"</span>,<span class="st">"species"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(species,island))<span class="sc">%&gt;%</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="sc">-</span><span class="st">"sex"</span>),scale)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Die Spezifikation eines Neuronalen Netz Klassifizierers funktioniert dann analog wie im Regressionsfall. Nur das Argument <code>mode</code> muss auf <code>"classification"</code> gesetzt werden, damit die Fehlerfunktion entsprechend angepasst wird.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>nnet_spec <span class="ot">&lt;-</span> <span class="fu">mlp</span>(<span class="at">epochs =</span> <span class="dv">100</span>,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">hidden_units =</span> <span class="fu">c</span>(<span class="dv">64</span>,<span class="dv">16</span>),</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">learn_rate =</span> <span class="fl">0.075</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">activation =</span> <span class="fu">c</span>(<span class="st">"relu"</span>,<span class="st">"relu"</span>),</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">mode =</span> <span class="st">"classification"</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>                 ) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="at">engine =</span> <span class="st">"brulee"</span>,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">optimizer =</span> <span class="st">"SGD"</span>,</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">stop_iter =</span> <span class="dv">15</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>             ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Das Fitten der Modellparameter funktioniert ebenso analog mithilfe der <code>fit</code> Funktion:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>nnet_res <span class="ot">&lt;-</span> nnet_spec <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> data_penguin_transformed,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">formula =</span> sex <span class="sc">~</span>.</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nach dem Fitten können wir dann das geschätzte Modell wieder anhand unseres <code>multi_metric</code> Objekts evaluieren:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>nnet_res <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_penguin_transformed) <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(.pred_class, sex), <span class="sc">~</span> <span class="fu">factor</span>(., <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"0"</span>)))) <span class="sc">%&gt;%</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">multi_metric</span>(<span class="at">truth =</span> sex,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  .metric     .estimator .estimate
+  &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy    binary         0.919
+2 sensitivity binary         0.929
+3 specificity binary         0.909
+4 precision   binary         0.912</code></pre>
+</div>
+</div>
+<p>Die Ergebnisse des Neuronalen Netzes sind etwas schlechter als die des Klassifikationsbaumes, wobei man bei diesem Vergleich auch vorsichtig sein muss, da man hier die Performance auf den Trainingsdaten vergleich. Da der Penguins Datensatz allerdings nur <code>344</code> Sample umfasst, kann es sein, dass die Datenmenge für das erfolgreiche Trainieren eines Neuronalen Netz Klassifizierer zu klein ist.</p>
 
 
+</section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>

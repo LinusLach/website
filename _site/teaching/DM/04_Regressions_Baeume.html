@@ -501,7 +501,7 @@ Weise jedem Blattknoten den Mittelwert der Zielvariablen <span class="math inlin
 </div>
 <p>Wir können für jeden der drei Knoten den MSE durch die Formel</p>
 <p><span class="math display">\[
-  \text{MSE}_{R_m} = \frac{1}{|R_m|}\sum_{k:x_k\in R_m} (\bar{y}_{R_m}-\hat{y_k})^2
+  \text{MSE}_{R_m} = \frac{1}{|R_m|}\sum_{k:x_k\in R_m} (\bar{y}_{R_m}-y_k)^2
 \]</span> berechnen, wobei <span class="math inline">\(R_m\)</span> für den entsprechenden Knoten <span class="math inline">\(K_{\text{Eltern}},K_{\text{Kind}_1},K_{\text{Kind}_2}\)</span> steht.</p>
 <p>Wir sind nun an der relativen Reduzierung des Fehlers durch den Split des Eltern Knotens in zwei Kind Knoten interessiert. Diese Änderung lässt sich mithilfe der <span class="math inline">\(\text{MSE}\)</span> Terme durch folgende Formel beschreiben:</p>
 <p><span class="math display">\[\begin{align}\label{eq:improvement}
@@ -519,7 +519,7 @@ Weise jedem Blattknoten den Mittelwert der Zielvariablen <span class="math inlin
 <p>Nachdem ein Baum also auf Basis der anderen Kriterien aufgespannt wurde, wird das Cost-Complexity Pruning (sog. <em>Postpruning</em>) angewendet um diesen weit aufgespannten Baum zu trimmen:</p>
 <p>Wir suchen unter der Verwendung des zuvor festgelegten Parameters <code>cost_complexity</code>= <span class="math inline">\(\alpha\)</span> denjenigen Teilbaum, welcher den Term</p>
 <p><span class="math display">\[\begin{equation}\label{eq:cct}
-\sum_{m=1}^{|T|}\sum_{k:x_k\in R_m}(\hat{y_k}-\bar{y_{R_m}})^2 + \alpha|T|
+\sum_{m=1}^{|T|}\sum_{k:x_k\in R_m}(y_k-\bar{y_{R_m}})^2 + \alpha|T|
 \end{equation}\]</span></p>
 <p>minimiert, wobei <span class="math inline">\(|T|\)</span> für die Anzahl der Blattknoten steht.</p>
 <p>Falls wir für <span class="math inline">\(\alpha\)</span> einen <strong>sehr kleinen</strong> Wert wählen, sorgt das also dafür, dass der Term <span class="math inline">\(\alpha |T|\)</span> ebenso relativ wenig einfluss auf den gesamten Term hat und somit ein Baum mit vielen Blattknoten aufgespannt wird. Falls wir für <span class="math inline">\(\alpha\)</span> auf der anderen Seite einen <strong>sehr großen</strong> Wert wählen, dann dominiert der Term <span class="math inline">\(\alpha |T|\)</span> die beiden Summanden, was dazu führen kann, dass ein Baum mit sehr wenigen Blattknoten gefunden wird.</p>
