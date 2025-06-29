@@ -130,20 +130,6 @@ cookieconsent.run({
 });
 </script> 
   
-<script>
-
-  MathJax = {
-
-    tex: {
-
-      tags: 'ams'  // should be 'ams', 'none', or 'all'
-
-    }
-
-  };
-
-</script>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -259,30 +245,32 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
   <li><a href="#sec-intro_class" id="toc-sec-intro_class" class="nav-link active" data-scroll-target="#sec-intro_class"><span class="header-section-number">6.1</span> Einführung</a></li>
   <li><a href="#evaluation-eines-binären-klassifikationsmodells" id="toc-evaluation-eines-binären-klassifikationsmodells" class="nav-link" data-scroll-target="#evaluation-eines-binären-klassifikationsmodells"><span class="header-section-number">6.2</span> Evaluation eines binären Klassifikationsmodells</a>
-  <ul>
-  <li><a href="#confusionmatrix" id="toc-confusionmatrix" class="nav-link" data-scroll-target="#confusionmatrix"><span class="header-section-number">6.2.1</span> Confusionmatrix</a></li>
+  <ul class="collapse">
+  <li><a href="#sec-confmat" id="toc-sec-confmat" class="nav-link" data-scroll-target="#sec-confmat"><span class="header-section-number">6.2.1</span> Confusionmatrix</a></li>
   <li><a href="#roc-kurve" id="toc-roc-kurve" class="nav-link" data-scroll-target="#roc-kurve"><span class="header-section-number">6.2.2</span> ROC-Kurve</a></li>
   </ul></li>
   <li><a href="#die-logistische-regression" id="toc-die-logistische-regression" class="nav-link" data-scroll-target="#die-logistische-regression"><span class="header-section-number">6.3</span> Die Logistische Regression</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#modellgleichung" id="toc-modellgleichung" class="nav-link" data-scroll-target="#modellgleichung"><span class="header-section-number">6.3.1</span> Modellgleichung</a></li>
-  <li><a href="#interpretation-der-koeffizienten" id="toc-interpretation-der-koeffizienten" class="nav-link" data-scroll-target="#interpretation-der-koeffizienten"><span class="header-section-number">6.3.2</span> Interpretation der Koeffizienten</a></li>
+  <li><a href="#sec-lrinterp" id="toc-sec-lrinterp" class="nav-link" data-scroll-target="#sec-lrinterp"><span class="header-section-number">6.3.2</span> Interpretation der Koeffizienten</a></li>
   <li><a href="#statistische-signifikanz" id="toc-statistische-signifikanz" class="nav-link" data-scroll-target="#statistische-signifikanz"><span class="header-section-number">6.3.3</span> Statistische Signifikanz</a></li>
   </ul></li>
   <li><a href="#klassifikationsbäume" id="toc-klassifikationsbäume" class="nav-link" data-scroll-target="#klassifikationsbäume"><span class="header-section-number">6.4</span> Klassifikationsbäume</a></li>
   <li><a href="#neuronale-netze" id="toc-neuronale-netze" class="nav-link" data-scroll-target="#neuronale-netze"><span class="header-section-number">6.5</span> Neuronale Netze</a></li>
   <li><a href="#klassifizierung-in-r" id="toc-klassifizierung-in-r" class="nav-link" data-scroll-target="#klassifizierung-in-r"><span class="header-section-number">6.6</span> Klassifizierung in R</a>
-  <ul>
-  <li><a href="#logistische-regression" id="toc-logistische-regression" class="nav-link" data-scroll-target="#logistische-regression"><span class="header-section-number">6.6.1</span> Logistische Regression</a></li>
+  <ul class="collapse">
+  <li><a href="#sec-logreg" id="toc-sec-logreg" class="nav-link" data-scroll-target="#sec-logreg"><span class="header-section-number">6.6.1</span> Logistische Regression</a></li>
   <li><a href="#klassifikationsbäume-1" id="toc-klassifikationsbäume-1" class="nav-link" data-scroll-target="#klassifikationsbäume-1"><span class="header-section-number">6.6.2</span> Klassifikationsbäume</a></li>
   <li><a href="#neuronale-netze-1" id="toc-neuronale-netze-1" class="nav-link" data-scroll-target="#neuronale-netze-1"><span class="header-section-number">6.6.3</span> Neuronale Netze</a></li>
   </ul></li>
+  <li><a href="#übungsaufgaben" id="toc-übungsaufgaben" class="nav-link" data-scroll-target="#übungsaufgaben"><span class="header-section-number">6.7</span> Übungsaufgaben</a></li>
+  <li><a href="#lösungen" id="toc-lösungen" class="nav-link" data-scroll-target="#lösungen"><span class="header-section-number">6.8</span> Lösungen</a></li>
   </ul>
 </nav>
     </div>
@@ -318,8 +306,8 @@ window.Quarto = {
 <section id="evaluation-eines-binären-klassifikationsmodells" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="evaluation-eines-binären-klassifikationsmodells"><span class="header-section-number">6.2</span> Evaluation eines binären Klassifikationsmodells</h2>
 <p>Da eine Evaluation mithilfe von Metriken wie <span class="math inline">\(\text{RMSE}\)</span> und <span class="math inline">\(R^2\)</span> bei der binären Klassifikation wenig Sinn ergeben, wollen wir in diesem Abschnitt verschiedene alternativen Metriken betrachten.</p>
-<section id="confusionmatrix" class="level3" data-number="6.2.1">
-<h3 data-number="6.2.1" class="anchored" data-anchor-id="confusionmatrix"><span class="header-section-number">6.2.1</span> Confusionmatrix</h3>
+<section id="sec-confmat" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="sec-confmat"><span class="header-section-number">6.2.1</span> Confusionmatrix</h3>
 <p>Als Grundlage für die Metriken welche wir im Folgenden betrachten wollen ist die sogenannte <em>Confusion Matrix</em>. Diese Kreuztabelle gibt an, wie viele Datenpunkte korrekt bzw. inkorrekt klassifiziert wurden. Hierbei wird insbesondere zwischen den Klassen <em>Negativ</em> und <em>Positiv</em> Unterschieden. Im vorherigen Abschnitt wurden die Klassen mit <span class="math inline">\(1\)</span> und <span class="math inline">\(0\)</span> enkodiert. Meistens steht <span class="math inline">\(1\)</span> im Kontext der Confusion Matrix für <strong>Positive</strong> und <span class="math inline">\(0\)</span> für <strong>Negative</strong>.</p>
 <div id="fig-cm" class="quarto-float quarto-figure quarto-figure-center anchored" width="50%" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
@@ -430,8 +418,8 @@ Y = b_0 + b_1 X + \varepsilon
 <p>Je größer also die Werte für <span class="math inline">\(x\)</span> sind, desto höher ist die Wahrscheinlichkeit, dass wir die Klassifikation <span class="math inline">\(y=1\)</span> annehmen.</p>
 </div>
 </section>
-<section id="interpretation-der-koeffizienten" class="level3" data-number="6.3.2">
-<h3 data-number="6.3.2" class="anchored" data-anchor-id="interpretation-der-koeffizienten"><span class="header-section-number">6.3.2</span> Interpretation der Koeffizienten</h3>
+<section id="sec-lrinterp" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="sec-lrinterp"><span class="header-section-number">6.3.2</span> Interpretation der Koeffizienten</h3>
 <p>Im Vergleich zur multiplen Linearen Regression lassen sich die Koeffizienten des logistischen Modells nicht mehr direkt interpretieren. Auch die Überprüfung der Signifikanz einzelner Variablen ist nicht mehr mithilfe des <span class="math inline">\(t\)</span> Test umsetzbar.</p>
 <p>Grundlegend können wir allerdings folgende Aussagen treffen:f Das Vorzeichen eines geschätzeten Parameters gibt Auskunft darüber, ob die geschätzte Wahrscheinlichkeit beim Erhöhen der Variable (um eine Einheit) steigt oder sinkt.</p>
 <ul>
@@ -506,8 +494,8 @@ L(y,\hat{y}) -\left(y\log(\hat{y})+(1-y)\log(1-\hat{y})\right)
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Nachdem wir den Datensatz als <code>data_penguin</code> gespeichert haben, entfernen wir alle <code>NA</code> Werte und wandeln mithilfe der <code>mutate()</code> Funktion die Variable <code>sex</code> in eine Faktor Variable um. Die Ausprägungen setzen hierbei auf <span class="math inline">\(1\)</span>, falls ein Pinguin männlich ist und <span class="math inline">\(0\)</span>, falls ein Pinguin weiblich ist.</p>
-<section id="logistische-regression" class="level3" data-number="6.6.1">
-<h3 data-number="6.6.1" class="anchored" data-anchor-id="logistische-regression"><span class="header-section-number">6.6.1</span> Logistische Regression</h3>
+<section id="sec-logreg" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="sec-logreg"><span class="header-section-number">6.6.1</span> Logistische Regression</h3>
 <p>Ein logistisches Modell können wir mithilfe der <code>logistic_reg()</code> Funktion spezifizieren. Nach dem Spezifizieren können wir dann die Modellparameter einfach wieder mithilfe der <code>fit()</code> Funktion schätzen. Als Argumente übergeben wir der <code>fit()</code> Funktion die Daten selbst und die Formel, bezüglich welcher die Parameter geschätzt werden sollen. Da wir die Variable <code>sex</code> prognostizieren wollen, verwenden wir deshalb die Formel <code>sex~.</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>log_spec <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>()</span>
@@ -707,16 +695,17 @@ $ sensitivity &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 </div>
 <p>Die <code>geom_path()</code> Funktion verbindet die Punkte in der übergebenen Reihenfolge. Wir können diese Grafik nun beliebig erweitern, um z.B. die Sensitivität und Spezifizität für den Schwellenwert <span class="math inline">\(q=0.5\)</span> hervorzuheben.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>threshold_50 <span class="ot">&lt;-</span> lr_roc <span class="sc">%&gt;%</span> <span class="fu">filter</span>(.threshold <span class="sc">==</span> <span class="fu">median</span>(.threshold)) </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">"point"</span>,</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">1</span><span class="sc">-</span>threshold_50<span class="sc">$</span>specificity,</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> threshold_50<span class="sc">$</span>sensitivity,</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"red"</span>,</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>threshold_50 <span class="ot">&lt;-</span> lr_roc <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(.threshold <span class="sc">==</span> <span class="fu">median</span>(.threshold)) </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">"point"</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">1</span><span class="sc">-</span>threshold_50<span class="sc">$</span>specificity,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> threshold_50<span class="sc">$</span>sensitivity,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"red"</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -883,14 +872,1432 @@ $ sensitivity &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 </div>
 </div>
 <p>Die Ergebnisse des Neuronalen Netzes sind etwas schlechter als die des Klassifikationsbaumes, wobei man bei diesem Vergleich auch vorsichtig sein muss, da man hier die Performance auf den Trainingsdaten vergleich. Da der Penguins Datensatz allerdings nur <code>344</code> Sample umfasst, kann es sein, dass die Datenmenge für das erfolgreiche Trainieren eines Neuronalen Netz Klassifizierer zu klein ist.</p>
-
-
 </section>
+</section>
+<section id="übungsaufgaben" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="übungsaufgaben"><span class="header-section-number">6.7</span> Übungsaufgaben</h2>
+<div id="exr-logistic_prob" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 6.1</strong></span> &nbsp;</p>
+<ol type="1">
+<li><p>Im Kontext der logistischen Regression ist die Wahrscheinlichkeit, dass ein Datenpunkt zur Klasse <span class="math inline">\(1\)</span> gehört definiert als <span class="math display">\[\begin{equation*}
+\mathbb{P}(Y=1|X=x) = \frac{1}{1+\exp\left(-(b_0+\sum_{j=1}^J b_j x_j)\right)}
+\end{equation*}\]</span> Zeige nun , dass <span class="math display">\[\begin{equation*}
+\mathbb{P}(Y=0|X=x) = \frac{\exp\left(-\left(b_0+\sum_{j=1}^J b_j x_j\right)\right)}{1+\exp\left(-\left(b_0+\sum_{j=1}^J b_j x_j\right)\right)}
+\end{equation*}\]</span></p></li>
+<li><p>In <a href="#sec-lrinterp" class="quarto-xref"><span>Section 6.3.2</span></a> haben wir in Gleichung <span class="math inline">\(\eqref{eq:odds}\)</span> die Odds definiert. Zeige, dass der Quotient der Wahrscheinlichkeiten tatsächlich <span class="math inline">\(\exp(b_0+\sum_{j=1}^J b_jx_j)\)</span> ergibt.</p></li>
+</ol>
+</div>
+<div id="exr-metrics" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 6.2</strong></span> Gegeben sei folgende Confusion Matrix:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06_Klassifikation_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Berechne für diese Confusion Matrix die Metriken</p>
+<ul>
+<li>Accuracy</li>
+<li>Sensitivität</li>
+<li>Spezifizität</li>
+<li>Precision</li>
+</ul>
+<p>Runde die Ergebnisse auf drei Nachkommastellen.</p>
+</div>
+<p>Für die folgenden Aufgaben wollen wir ein Datensatz untersuchen, welcher anonymisierte Patientendaten von <span class="math inline">\(300\)</span> Personen enthält. Der Datensatz <code>Heart Disease Prediction Dataset</code> kann auf der Plattform <a href="https://www.kaggle.com/datasets/krishujeniya/heart-diseae">Kaggle</a>, oder über <a href="data/heart-disease.csv">diesen Link</a><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> heruntergeladen werden.</p>
+<p>Der Datensatz enthält folgende Variablen:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 62%">
+<col style="width: 28%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Beschreibung</th>
+<th>Ausprägung</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>age</td>
+<td>Alter des Patienten (in Jahren)</td>
+<td>Zahl</td>
+</tr>
+<tr class="even">
+<td>sex</td>
+<td>Geschlecht des Patienten</td>
+<td>1 = männlich, 0 = weiblich</td>
+</tr>
+<tr class="odd">
+<td>cp</td>
+<td>Typ der Brustschmerzen</td>
+<td>1–4</td>
+</tr>
+<tr class="even">
+<td>trestbps</td>
+<td>Blutdruck in Ruhe bei Aufnahme ins Krankenhaus (in mm Hg)</td>
+<td>Zahl</td>
+</tr>
+<tr class="odd">
+<td>chol</td>
+<td>Serum-Cholesterin in mg/dl</td>
+<td>Zahl</td>
+</tr>
+<tr class="even">
+<td>fbs</td>
+<td>Nüchternblutzucker &gt; 120 mg/dl</td>
+<td>1 = ja, 0 = nein</td>
+</tr>
+<tr class="odd">
+<td>restecg</td>
+<td>Ruhe-EKG-Ergebnisse</td>
+<td>0–2</td>
+</tr>
+<tr class="even">
+<td>thalach</td>
+<td>Maximale erreichte Herzfrequenz</td>
+<td>Zahl</td>
+</tr>
+<tr class="odd">
+<td>exang</td>
+<td>Belastungsinduzierte Angina</td>
+<td>1 = ja, 0 = nein</td>
+</tr>
+<tr class="even">
+<td>oldpeak</td>
+<td>ST-Streckensenkung durch Belastung im Vergleich zur Ruhe</td>
+<td>Zahl</td>
+</tr>
+</tbody>
+</table>
+<p>Zusätzlich enthält der Datensatz noch die Variable <code>target</code>, welche beschreibt, ob eine Person an einer Herzkrankheit leidet. Die Variable <code>target</code> hat die Ausprägungen <code>1</code> und <code>0</code>, wobei <code>1</code> für ein positives Testergebnis bzw. Krankheitsbild steht und <code>0</code> für ein negatives.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<div id="exr-EDA" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 6.3</strong></span> &nbsp;</p>
+<ol type="1">
+<li><p>Lese den Datensatz ein und wandle die Zielvarioble <code>target</code> in eine Faktorvariable um.</p></li>
+<li><p>Finde heraus, wie viele Patienten mit bzw. ohne Herzkrankheit im Datensatz vorhanden sind. Ist der Datensatz balanciert?</p></li>
+<li><p>Sind in dem gegebenen Datensatz mehr Männer oder Frauen von der Herzkrankheit betroffen? Betrachte nicht nur die absolute Anzahl, sondern auch die relative Anzahl in den beiden Geschlechtsgruppen.</p></li>
+<li><p>Erstelle jeweils einen Boxplot für das Alter jener Personen welche erkrankt, bzw. nicht erkankt sind. Lässt sich ein Zusammenhang zwischen dem Alter der Personen und der Krankheit anhand der Boxplots erkennen?</p></li>
+</ol>
+</div>
+<div id="exr-logistic_reg" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 6.4</strong></span> In dieser Übung wollen wir ein logistisches Regressionsmodell schätzen, die geschätzten Parameter untersuchen und verschiedene Metriken auf Test Daten berechnen.</p>
+<ol type="1">
+<li><p>Teile den Datensatz in Trainings- und Testdaten ein. Verwende das Seed <code>123</code> und die Defaultparameter der <code>initial_split</code> Funktion bezüglich des Anteils der Trainings- und Testaden.</p></li>
+<li><ol type="i">
+<li><p>Schätze ein logistisches Regressionmodell auf Basis der Trainingsdaten.</p></li>
+<li><p>Erstelle eine Summary des geschätzeten Modells und beurteile, welche Variablen statistisch signifikant sind zum Mindestniveau <span class="math inline">\(\alpha = 0.1\)</span>.</p></li>
+<li><p>Angenommen die Variable <code>cp</code> erhöht sich um eine Einheit, während alle anderen Variablen gleich bleiben. Wie wirkt sich das auf die Odds aus?</p></li>
+</ol></li>
+<li><p>Nun wollen wir das Modell auf den Testdaten evaluieren.</p>
+<ol type="i">
+<li><p>Erstelle eine Confusion Matrix wie in Abschnitt <a href="#sec-confmat" class="quarto-xref"><span>Section 6.2.1</span></a> auf Basis der Testdaten.</p></li>
+<li><p>Verwende das <code>multi_metric</code> Objekt aus <a href="#sec-logreg" class="quarto-xref"><span>Section 6.6.1</span></a> um eine übersicht der verschiedenen Metriken zu erstellen.</p></li>
+<li><p>Hat das Modell größere Schwierigkeiten Personen als krank zu identifizieren, welche tatsächlich krank sind, oder Personen als nicht-erkrankt zu identifizieren, welche tatsächlich nicht krank sind?</p></li>
+</ol></li>
+</ol>
+</div>
+<div id="exr-classification_tree" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 6.5</strong></span> &nbsp;</p>
+<ol type="1">
+<li><ol type="i">
+<li><p>Trainiere nun einen Klassifikationsbaum mit folgenden Parametern auf den Trainingsdaten.</p>
+<ul>
+<li><code>cost_complexity = 6.43e-4</code>,</li>
+<li><code>tree_depth = 14</code>,</li>
+<li><code>min_n = 12</code></li>
+</ul></li>
+<li><p>Berechne nun die gleichen Metriken wie in Teilaufgabe 3. ii. aus <a href="#exr-logistic_reg" class="quarto-xref">Aufgabe&nbsp;<span>6.4</span></a> auf Basis der Testdaten.</p></li>
+<li><p>Welches der beiden Modelle (logistische Regression vs.&nbsp;Entscheidungsbaum) eignet sich in diesem Kontext besser um eine Erkrankung vorherzusagen?</p></li>
+</ol></li>
+<li><p>Da beim Erstellen der Vorhersagen der Schwellenwert <span class="math inline">\(q = 0.5\)</span> verwendet wurde, sollen wir in dieser Teilaufgabe die ROC Kurve untersuchen.</p>
+<ol type="i">
+<li><p>Erstelle eine ROC-Kurve auf Basis der Testdaten wie in <a href="#sec-logreg" class="quarto-xref"><span>Section 6.6.1</span></a>.</p></li>
+<li><p>Warum sind in der dargestellten ROC Kurve nur sehr wenige Spezifizitäts und Sensitivitäts Kombinationen dargestellt?</p></li>
+<li><p>Bestimme anhand der folgenden Tabelle den optimalen Schwellenwert <span class="math inline">\(q\)</span> (welcher simultan die Spezifizität und Sensitivität maximiert) und stelle diesen in der ROC-Kurve der vorherigen Teilaufgabe dar.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="bxdvzwkvav" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#bxdvzwkvav table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#bxdvzwkvav thead, #bxdvzwkvav tbody, #bxdvzwkvav tfoot, #bxdvzwkvav tr, #bxdvzwkvav td, #bxdvzwkvav th {
+  border-style: none;
+}
+
+#bxdvzwkvav p {
+  margin: 0;
+  padding: 0;
+}
+
+#bxdvzwkvav .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#bxdvzwkvav .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#bxdvzwkvav .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#bxdvzwkvav .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#bxdvzwkvav .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#bxdvzwkvav .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#bxdvzwkvav .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#bxdvzwkvav .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#bxdvzwkvav .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#bxdvzwkvav .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#bxdvzwkvav .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#bxdvzwkvav .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#bxdvzwkvav .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#bxdvzwkvav .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#bxdvzwkvav .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#bxdvzwkvav .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#bxdvzwkvav .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#bxdvzwkvav .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#bxdvzwkvav .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#bxdvzwkvav .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#bxdvzwkvav .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#bxdvzwkvav .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#bxdvzwkvav .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#bxdvzwkvav .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#bxdvzwkvav .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#bxdvzwkvav .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#bxdvzwkvav .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#bxdvzwkvav .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#bxdvzwkvav .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#bxdvzwkvav .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#bxdvzwkvav .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#bxdvzwkvav .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#bxdvzwkvav .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#bxdvzwkvav .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#bxdvzwkvav .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#bxdvzwkvav .gt_left {
+  text-align: left;
+}
+
+#bxdvzwkvav .gt_center {
+  text-align: center;
+}
+
+#bxdvzwkvav .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#bxdvzwkvav .gt_font_normal {
+  font-weight: normal;
+}
+
+#bxdvzwkvav .gt_font_bold {
+  font-weight: bold;
+}
+
+#bxdvzwkvav .gt_font_italic {
+  font-style: italic;
+}
+
+#bxdvzwkvav .gt_super {
+  font-size: 65%;
+}
+
+#bxdvzwkvav .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#bxdvzwkvav .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#bxdvzwkvav .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#bxdvzwkvav .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#bxdvzwkvav .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#bxdvzwkvav .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#bxdvzwkvav .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id=".threshold" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">.threshold</th>
+<th id="specificity" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">specificity</th>
+<th id="sensitivity" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">sensitivity</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers=".threshold">−Inf</td>
+<td class="gt_row gt_right" headers="specificity">0.000</td>
+<td class="gt_row gt_right" headers="sensitivity">1.000</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers=".threshold">0.082</td>
+<td class="gt_row gt_right" headers="specificity">0.000</td>
+<td class="gt_row gt_right" headers="sensitivity">1.000</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers=".threshold">0.143</td>
+<td class="gt_row gt_right" headers="specificity">0.429</td>
+<td class="gt_row gt_right" headers="sensitivity">0.951</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers=".threshold">0.235</td>
+<td class="gt_row gt_right" headers="specificity">0.457</td>
+<td class="gt_row gt_right" headers="sensitivity">0.951</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers=".threshold">0.417</td>
+<td class="gt_row gt_right" headers="specificity">0.543</td>
+<td class="gt_row gt_right" headers="sensitivity">0.927</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers=".threshold">0.686</td>
+<td class="gt_row gt_right" headers="specificity">0.571</td>
+<td class="gt_row gt_right" headers="sensitivity">0.854</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers=".threshold">0.892</td>
+<td class="gt_row gt_right" headers="specificity">0.657</td>
+<td class="gt_row gt_right" headers="sensitivity">0.610</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers=".threshold">0.917</td>
+<td class="gt_row gt_right" headers="specificity">0.943</td>
+<td class="gt_row gt_right" headers="sensitivity">0.024</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers=".threshold">Inf</td>
+<td class="gt_row gt_right" headers="specificity">1.000</td>
+<td class="gt_row gt_right" headers="sensitivity">0.000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div></li>
+<li><p>Ist der optimale Schwellenwert größer oder kleiner als <span class="math inline">\(0.5\)</span>?</p></li>
+</ol></li>
+</ol>
+</div>
+</section>
+<section id="lösungen" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="lösungen"><span class="header-section-number">6.8</span> Lösungen</h2>
+<div id="sol-logistic_prob" class="proof solution">
+<p><span class="proof-title"><em>Solution 6.1</em> (<a href="#exr-logistic_prob" class="quarto-xref">Aufgabe&nbsp;<span>6.1</span></a>). </span></p>
+<ol type="1">
+<li><p>Gegeben ist die Wahrscheinlichkeit für die Klasse <span class="math inline">\(1\)</span> in einem logistischen Regressionsmodell: <span class="math display">\[\begin{equation*}
+\mathbb{P}(Y=1|X=x) = \frac{1}{1+\exp\left(-(b_0+\sum_{j=1}^J b_j x_j)\right)}
+\end{equation*}\]</span> Da es sich um ein binäres Klassifikationsproblem handelt, gilt: <span class="math display">\[\begin{equation*}
+\mathbb{P}(Y=0|X=x) = 1 - \mathbb{P}(Y=1|X=x)
+\end{equation*}\]</span> Setze die gegebene Formel ein: <span class="math display">\[\begin{align*}
+\mathbb{P}(Y=0|X=x)
+&amp;= 1 - \frac{1}{1 + \exp\left(-(b_0 + \sum_{j=1}^J b_j x_j)\right)} \\
+&amp;= \frac{\left(1 + \exp\left(-(b_0 + \sum_{j=1}^J b_j x_j)\right)\right) - 1}{1 + \exp\left(-(b_0 + \sum_{j=1}^J b_j x_j)\right)} \\
+&amp;= \frac{\exp\left(-(b_0 + \sum_{j=1}^J b_j x_j)\right)}{1 + \exp\left(-(b_0 + \sum_{j=1}^J b_j x_j)\right)}
+\end{align*}\]</span></p></li>
+<li><p>Es gilt: <span class="math display">\[\begin{align*}
+\frac{\mathbb{P}(Y=1|X=x)}{\mathbb{P}(Y=0|X=x)}
+&amp;= \frac{
+   \dfrac{1}{1 + \exp\left(-(b_0 + \sum_{j=1}^J b_j x_j)\right)}
+}{
+   \dfrac{\exp\left(-\left(b_0 + \sum_{j=1}^J b_j x_j\right)\right)}{1 + \exp\left(-\left(b_0 + \sum_{j=1}^J b_j x_j\right)\right)}
+} \\
+&amp;= \frac{1 + \exp\left(-\left(b_0 + \sum_{j=1}^J b_j x_j\right)\right)}{\exp\left(-\left(b_0 + \sum_{j=1}^J b_j x_j\right)\right)} \cdot \frac{1}{1 + \exp\left(-(b_0 + \sum_{j=1}^J b_j x_j)\right)} \\
+&amp;= \frac{1}{\exp\left(-(b_0 + \sum_{j=1}^J b_j x_j)\right)} \\
+&amp;= \exp\left(b_0 + \sum_{j=1}^J b_j x_j\right)
+\end{align*}\]</span></p></li>
+</ol>
+</div>
+<div id="sol-metrics" class="proof solution">
+<p><span class="proof-title"><em>Solution 6.2</em> (<a href="#exr-metrics" class="quarto-xref">Aufgabe&nbsp;<span>6.2</span></a>). </span></p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="xsrpcabbhz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xsrpcabbhz table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#xsrpcabbhz thead, #xsrpcabbhz tbody, #xsrpcabbhz tfoot, #xsrpcabbhz tr, #xsrpcabbhz td, #xsrpcabbhz th {
+  border-style: none;
+}
+
+#xsrpcabbhz p {
+  margin: 0;
+  padding: 0;
+}
+
+#xsrpcabbhz .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#xsrpcabbhz .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#xsrpcabbhz .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#xsrpcabbhz .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#xsrpcabbhz .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xsrpcabbhz .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xsrpcabbhz .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xsrpcabbhz .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#xsrpcabbhz .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#xsrpcabbhz .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#xsrpcabbhz .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#xsrpcabbhz .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#xsrpcabbhz .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#xsrpcabbhz .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#xsrpcabbhz .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#xsrpcabbhz .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#xsrpcabbhz .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#xsrpcabbhz .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#xsrpcabbhz .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xsrpcabbhz .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#xsrpcabbhz .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#xsrpcabbhz .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#xsrpcabbhz .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xsrpcabbhz .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#xsrpcabbhz .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#xsrpcabbhz .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xsrpcabbhz .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xsrpcabbhz .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#xsrpcabbhz .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xsrpcabbhz .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#xsrpcabbhz .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xsrpcabbhz .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xsrpcabbhz .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xsrpcabbhz .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xsrpcabbhz .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xsrpcabbhz .gt_left {
+  text-align: left;
+}
+
+#xsrpcabbhz .gt_center {
+  text-align: center;
+}
+
+#xsrpcabbhz .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#xsrpcabbhz .gt_font_normal {
+  font-weight: normal;
+}
+
+#xsrpcabbhz .gt_font_bold {
+  font-weight: bold;
+}
+
+#xsrpcabbhz .gt_font_italic {
+  font-style: italic;
+}
+
+#xsrpcabbhz .gt_super {
+  font-size: 65%;
+}
+
+#xsrpcabbhz .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#xsrpcabbhz .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#xsrpcabbhz .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#xsrpcabbhz .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#xsrpcabbhz .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#xsrpcabbhz .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#xsrpcabbhz .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id="Metrik" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Metrik</th>
+<th id="Wert" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Wert</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Metrik">accuracy</td>
+<td class="gt_row gt_right" headers="Wert">0.838</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Metrik">sensitivity</td>
+<td class="gt_row gt_right" headers="Wert">0.880</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Metrik">specificity</td>
+<td class="gt_row gt_right" headers="Wert">0.793</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Metrik">precision</td>
+<td class="gt_row gt_right" headers="Wert">0.819</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+<div id="sol-EDA" class="proof solution">
+<p><span class="proof-title"><em>Solution 6.3</em> (<a href="#exr-EDA" class="quarto-xref">Aufgabe&nbsp;<span>6.3</span></a>). </span></p>
+<ol type="1">
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>data_heart <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"data/heart-disease.csv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">target =</span> <span class="fu">factor</span>(target))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>data_heart <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(target) <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  target     n
+  &lt;fct&gt;  &lt;int&gt;
+1 0        138
+2 1        165</code></pre>
+</div>
+</div>
+<p>In dem Datensatz sind mehr Personen ohne der Krankheit als Personen mit der Krankheit.</p></li>
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>data_heart <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex,target) <span class="sc">%&gt;%</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+# Groups:   sex [2]
+    sex target     n
+  &lt;int&gt; &lt;fct&gt;  &lt;int&gt;
+1     0 0         24
+2     0 1         72
+3     1 0        114
+4     1 1         93</code></pre>
+</div>
+</div>
+<p>Im Datensatz leiden <span class="math inline">\(93\)</span> Männer an der Herzkrankheit, während bei den Frauen nur <span class="math inline">\(72\)</span> Personen an der Krankheit leiden.</p>
+<p>Um die relativen Anteile zu bestimmen, müssen wir die obige Syntax etwas anpassen. In der <code>summarise()</code> Funktion können wir mithilfe des <code>.groups = "drop_last"</code> Arguments die Gruppierung bezüglich der Variable <code>target</code> auflösen (da diese die letzte Gruppe ist). Der Summary Datensatz enthält nach dieser Operation also nur noch die Gruppe bezüglich der Variable <code>sex</code>. Wenn wir dann auf diesen Datensatz die <code>mutate()</code> Funktion anwenden, dann werden die in der <code>mutate()</code> spezifizierten Funktionen Gruppenweise angewendet.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>data_heart <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex, target) <span class="sc">%&gt;%</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop_last"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 4
+# Groups:   sex [2]
+    sex target     n  freq
+  &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;dbl&gt;
+1     0 0         24 0.25 
+2     0 1         72 0.75 
+3     1 0        114 0.551
+4     1 1         93 0.449</code></pre>
+</div>
+</div>
+<p>Obwohl also absolut gesehen die Anzahl der erkrankten Personen in der Gruppe der Männer größer ist, (<span class="math inline">\(93\)</span> vs.&nbsp;<span class="math inline">\(72\)</span>) ist der relative Anteil unter den Frauen viel höher (<span class="math inline">\(75\%\)</span> vs.&nbsp;<span class="math inline">\(44.9\%\)</span>).</p></li>
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>data_heart <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>target,<span class="at">y=</span>age))<span class="sc">+</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06_Klassifikation_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Der Altersmedian in der Gruppe der erkankten Person ist niedriger als in der Gruppe der Personen welche nicht an der Krankheit leiden. Auch die anderen beiden Quartile der Gruppe der erkrankten Personen sind im gegebenen Datensatz niedriger als die der Gruppe der nicht erkrankten Personen. Man könnte also vermuten, dass die Krankheit vermehrt bei jüngern Leuten auftritt.</p></li>
+</ol>
+</div>
+<div id="sol-logistic_reg" class="proof solution">
+<p><span class="proof-title"><em>Solution 6.4</em> (<a href="#exr-logistic_reg" class="quarto-xref">Aufgabe&nbsp;<span>6.4</span></a>). </span></p>
+<ol type="1">
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>split_heart <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(data_heart)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>data_train <span class="ot">&lt;-</span> <span class="fu">training</span>(split_heart)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_heart)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><ol type="i">
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>log_spec <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>()</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>log_fit <span class="ot">&lt;-</span> log_spec <span class="sc">%&gt;%</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> data_train,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">formula =</span> target <span class="sc">~</span>.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>log_fit <span class="sc">%&gt;%</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+stats::glm(formula = target ~ ., family = stats::binomial, data = data)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.3143  -0.3945   0.1470   0.5640   2.5546  
+
+Coefficients:
+             Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  4.870921   2.965683   1.642 0.100501    
+age         -0.013524   0.027092  -0.499 0.617656    
+sex         -1.517896   0.551637  -2.752 0.005930 ** 
+cp           0.800679   0.205740   3.892 9.95e-05 ***
+trestbps    -0.024524   0.011616  -2.111 0.034745 *  
+chol        -0.002865   0.004507  -0.636 0.525027    
+fbs          0.092637   0.595299   0.156 0.876337    
+restecg      0.743640   0.416802   1.784 0.074398 .  
+thalach      0.025976   0.012428   2.090 0.036603 *  
+exang       -1.178701   0.478019  -2.466 0.013671 *  
+oldpeak     -0.719277   0.252574  -2.848 0.004402 ** 
+slope        0.219195   0.429168   0.511 0.609530    
+ca          -0.623691   0.214508  -2.908 0.003643 ** 
+thal        -1.187637   0.354814  -3.347 0.000816 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 312.74  on 226  degrees of freedom
+Residual deviance: 155.52  on 213  degrees of freedom
+AIC: 183.52
+
+Number of Fisher Scoring iterations: 6</code></pre>
+</div>
+</div>
+<p>Lediglich die Variablen <code>age</code>, <code>chol</code>, <code>fbs</code> und <code>slope</code> sind nicht zu einem Singifikanzniveau <span class="math inline">\(\alpha&lt;0.1\)</span> statistisch signifikant.</p></li>
+<li><!-- -->
+<p>Es gilt <span class="math inline">\(\hat{b}_{\verb|cp|} \approx 0.801\)</span> und deshalb <span class="math inline">\(\exp(\hat{b}_{\verb|cp|}) \approx 2.43\)</span>. Die Odds steigen also um <span class="math inline">\(2.43\)</span>.</p></li>
+</ol></li>
+<li><ol type="i">
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>log_fit <span class="sc">%&gt;%</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(.pred_class,target))<span class="sc">%&gt;%</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(.pred_class, target), <span class="sc">~</span> <span class="fu">factor</span>(., <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"0"</span>))))<span class="sc">%&gt;%</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           target
+.pred_class  1  0
+          1 37 10
+          0  4 25</code></pre>
+</div>
+</div></li>
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>log_fit <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(.pred_class, target), <span class="sc">~</span> <span class="fu">factor</span>(., <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"0"</span>)))) <span class="sc">%&gt;%</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">multi_metric</span>(<span class="at">truth =</span> target,</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">estimate =</span> .pred_class) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  .metric     .estimator .estimate
+  &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy    binary         0.816
+2 sensitivity binary         0.902
+3 specificity binary         0.714
+4 precision   binary         0.787</code></pre>
+</div>
+</div></li>
+<li>Da Sensitivität <span class="math inline">\(&gt;\)</span> Spezifizität ist das Modell besser darin die True Positives korrekt zu erkennen. In einem Medizinischen Kontext ist das wünschenswert, da so weniger tatsächlich erkrankte Personen als nicht erkrankt identifiziert werden.</li>
+</ol></li>
+</ol>
+</div>
+<div id="sol-classification_tree" class="proof solution">
+<p><span class="proof-title"><em>Solution 6.5</em> (<a href="#exr-classification_tree" class="quarto-xref">Aufgabe&nbsp;<span>6.5</span></a>). </span></p>
+<ol type="1">
+<li><ol type="i">
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>tree_spec <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(<span class="at">mode =</span> <span class="st">"classification"</span>,</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">cost_complexity =</span> <span class="fl">6.43e-4</span>,</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">tree_depth =</span> <span class="dv">14</span>,</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">min_n =</span> <span class="dv">22</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>tree_res <span class="ot">&lt;-</span> tree_spec <span class="sc">%&gt;%</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> data_train,</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">formula =</span> target<span class="sc">~</span>.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>tree_res <span class="sc">%&gt;%</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(.pred_class, target), <span class="sc">~</span> <span class="fu">factor</span>(., <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"0"</span>)))) <span class="sc">%&gt;%</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>          <span class="fu">multi_metric</span>(<span class="at">truth =</span> target,</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">estimate =</span> .pred_class) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  .metric     .estimator .estimate
+  &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy    binary         0.724
+2 sensitivity binary         0.854
+3 specificity binary         0.571
+4 precision   binary         0.7  </code></pre>
+</div>
+</div></li>
+<li>Das logistische Regressionsmodell eigenet sich besser, da alle Metriken auf den Testdaten besser sind als die des Klassifikationsbaums.</li>
+</ol></li>
+<li><ol type="i">
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>tree_roc <span class="ot">&lt;-</span> tree_res <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(.pred_class, target), <span class="sc">~</span> <span class="fu">factor</span>(., <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"0"</span>)))) <span class="sc">%&gt;%</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(.pred_1,<span class="at">truth =</span> target)</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> tree_roc <span class="sc">%&gt;%</span></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">-</span>specificity,<span class="at">y=</span>sensitivity))<span class="sc">+</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>()<span class="sc">+</span></span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06_Klassifikation_files/figure-html/unnamed-chunk-49-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div></li>
+<li><p>In der ROC-Kurve sind nur wenige Kombinationen dargestellt, da der trainierte Baum nur wenige Schätzwerte für die Wahrscheinlichkeiten enthält. Die Anzahl der Schätzwerte ist durch die Anzahl der Blattknoten gegeben. Im Vergleich zur logistischen Regression ergeben sich also eine geringere Anzahl an Schwellenwerten die zu einer Veränderung der Spezifizität und Sensitivität führen.</p></li>
+<li><p>Den optimalen Schwellenwert kann man ermitteln indem man die Summe von Spezifizität und Sensitivität betrachtet. Beim größten Summenwert kann dann der entsprechende Schwellenwert abgelesen werden. Dieser maximale Summenwert ist durch <span class="math inline">\(1.47\)</span> gegeben, was dem Schwellenwert <span class="math inline">\(q=0.417\)</span> entspricht.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">"point"</span>,</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">1</span><span class="fl">-0.543</span>,</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fl">0.927</span>,</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"red"</span>,</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06_Klassifikation_files/figure-html/unnamed-chunk-50-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div></li>
+<li><p>Ist der optimale Schwellenwert größer oder kleiner als <span class="math inline">\(0.5\)</span>?</p>
+<p>Der optimale Schwellenwert <span class="math inline">\(q_{\verb|opt|}=0.417\)</span> ist kleiner als <span class="math inline">\(0.5\)</span>.</p></li>
+</ol></li>
+</ol>
+</div>
+
+
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn1"><p>Datensätze bei welchen weitaus mehr Negatives als Positives vertreten sind<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Funktioniert nur in der Web Version des Skripts<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>positives Krankheitsbild heißt hier, dass eine Person erkrankt ist.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
@@ -1331,7 +2738,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-
+<p>Copyright 2025, Linus Lach</p>
 <div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       &nbsp;
