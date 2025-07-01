@@ -444,11 +444,25 @@ Y = b_0 + b_1 X + \varepsilon
 \mathrm{Odds} = \frac{\mathbb{P}(Y=1|X=x)}{\mathbb{P}(Y=0|X=x)} = \exp(b_0+\sum_{j=1}^Jb_jx_j)
 \end{equation}\]</span> Die Odds können Werte im Intervall <span class="math inline">\((0,\infty)\)</span> annehmen. Sie können interpretiert werden als die Chance dessen, dass ein Event eintritt (<span class="math inline">\(y=1\)</span>) gegenüber dem nichteintreten des Events <span class="math inline">\((y=0)\)</span>.</p>
 <div id="exm-odds" class="theorem example">
-<p><span class="theorem-title"><strong>Beispiel 6.3</strong></span> Bei einem Wettanbieter für Fußballwetten sind für ein Spiel der Mannschaft <span class="math inline">\(A\)</span> gegen Manschaft <span class="math inline">\(B\)</span> die Odds (Quotenverhältnis) dessen, dass Team <span class="math inline">\(A\)</span> gewinnt durch <span class="math inline">\(1.19\)</span> gegeben. Unter der Annahme, dass das Spiel nicht in einem Unentschieden Enden kann, gilt also</p>
+<p><span class="theorem-title"><strong>Beispiel 6.3</strong></span> Bei einem Wettanbieter für Fußballwetten sind für ein Spiel der Mannschaft <span class="math inline">\(A\)</span> gegen Mannschaft <span class="math inline">\(B\)</span> die dezimalen Odds (Quoten) für einen Sieg von Mannschaft <span class="math inline">\(A\)</span> mit <span class="math inline">\(1.75\)</span> und für einen Sieg von Mannschaft <span class="math inline">\(B\)</span> mit <span class="math inline">\(2.10\)</span> gegeben. Es wird angenommen, dass kein Unentschieden möglich ist. Die dezimalen Odds geben an, wie viel ein Spieler für einen eingesetzten Euro im Falle eines Gewinns zurückerhält (inklusive des Einsatzes). Die vom Wettanbieter implizierten Wahrscheinlichkeiten werden wie folgt berechnet:</p>
+<ol type="1">
+<li><p>Die implizierte Wahrscheinlichkeit für einen Sieg von <span class="math inline">\(A\)</span> ist:</p>
 <p><span class="math display">\[\begin{equation*}
-\mathrm{Odds} = 1.19 = \frac{\mathbb{P}(\{\text{Mannschaft A gewinnt}\})}{\mathbb{P}(\{\text{Mannschaft B gewinnt}\})}
+  \mathbb{P}_{\text{impl}}(A) = \frac{1}{\text{Odds}(A)} = \frac{1}{1.75} \approx 0.5714
+\end{equation*}\]</span></p></li>
+<li><p>Die implizierte Wahrscheinlichkeit für einen Sieg von <span class="math inline">\(B\)</span> ist:</p>
+<p><span class="math display">\[\begin{equation*}
+  \mathbb{P}_{\text{impl}}(B) = \frac{1}{\text{Odds}(B)} = \frac{1}{2.10} \approx 0.4762
+\end{equation*}\]</span></p></li>
+</ol>
+<p>Die Summe der implizierten Wahrscheinlichkeiten ist: <span class="math display">\[\begin{equation*}
+  \mathbb{P}_{\text{impl}}(A) + \mathbb{P}_{\text{impl}}(B) \approx 0.5714 + 0.4762 = 1.0476
+\end{equation*}\]</span> Diese Summe ist größer als 1, was die Wettmarge (Overround) des Anbieters widerspiegelt. Die tatsächlichen Wahrscheinlichkeiten, die der Wettanbieter zugrunde legt (nach Bereinigung der Marge), erhält man durch Normalisierung: <span class="math display">\[\begin{equation*}
+  \mathbb{P}(A) = \frac{\mathbb{P}_{\text{impl}}(A)}{\mathbb{P}_{\text{impl}}(A) + \mathbb{P}_{\text{impl}}(B)} = \frac{0.5714}{1.0476} \approx 0.5455
+\end{equation*}\]</span> <span class="math display">\[\begin{equation*}
+  \mathbb{P}(B) = \frac{\mathbb{P}_{\text{impl}}(B)}{\mathbb{P}_{\text{impl}}(A) + \mathbb{P}_{\text{impl}}(B)} = \frac{0.4762}{1.0476} \approx 0.4545
 \end{equation*}\]</span></p>
-<p>Durch Umformen ergibt sich dann <span class="math inline">\(\mathbb{P}(\{\text{Mannschaft A gewinnt}\})\approx 0.54\)</span>. Somit rechnet der Wettanbieter mit einer Wahrscheinlichkeit von ca. <span class="math inline">\(54\%\)</span> damit, dass Team <span class="math inline">\(A\)</span> gewinnt (vorausgesetzt, die Odds spiegeln echte Wahrscheinlichkeiten wider, was in der Praxis wegen der Gewinnmarge meist nicht der Fall ist).</p>
+<p>Somit rechnet der Wettanbieter mit einer Wahrscheinlichkeit von ca. <span class="math inline">\(54.55\%\)</span>, dass Mannschaft <span class="math inline">\(A\)</span> gewinnt, und mit ca. <span class="math inline">\(45.45\%\)</span>, dass Mannschaft <span class="math inline">\(B\)</span> gewinnt.</p>
 </div>
 <p>Falls <span class="math inline">\(\mathrm{Odds}=1\)</span>, dann sind beide Events gleich wahrscheinlich, während Odds <span class="math inline">\(&gt;1\)</span> bzw. <span class="math inline">\(&lt;1\)</span> implizieren, dass die Wahrscheinlichkeit für das Eintreten des untersuchten Events <span class="math inline">\(&gt;50\%\)</span> bzw. <span class="math inline">\(&lt;50\%\)</span> ist.</p>
 <p>Der Einfluss der Modellparameter auf die Odds kann ebenso interpretiert werden:</p>
