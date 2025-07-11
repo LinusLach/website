@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; Clustering – Data Mining Übungsmaterial</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./06_Klassifikation.html" rel="prev">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-K9CJ1KN8ZH"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-K9CJ1KN8ZH', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"express",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<script>
+
+  MathJax = {
+
+    tex: {
+
+      tags: 'ams'  // should be 'ams', 'none', or 'all'
+
+    }
+
+  };
+
+</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_Clustering.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Clustering</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Data Mining Übungsmaterial</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vorwort</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Einfuehrung.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">(Kurz)Einführung in R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Lineare_Regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lineare Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Wichtige_Konzepte.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Weiterführende Konzepte des Dataminings</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Regressions_Baeume.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regressionsbäume</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Neuronale_Netze.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Neuronale Netze</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_Klassifikation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Klassifikation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Clustering.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#einführung" id="toc-einführung" class="nav-link active" data-scroll-target="#einführung"><span class="header-section-number">7.1</span> Einführung</a></li>
+  <li><a href="#ähnlichkeitsmaße" id="toc-ähnlichkeitsmaße" class="nav-link" data-scroll-target="#ähnlichkeitsmaße"><span class="header-section-number">7.2</span> Ähnlichkeitsmaße</a>
+  <ul>
+  <li><a href="#metrische-features" id="toc-metrische-features" class="nav-link" data-scroll-target="#metrische-features"><span class="header-section-number">7.2.1</span> Metrische Features</a></li>
+  <li><a href="#nominale-features" id="toc-nominale-features" class="nav-link" data-scroll-target="#nominale-features"><span class="header-section-number">7.2.2</span> Nominale Features</a></li>
+  <li><a href="#gemischte-features" id="toc-gemischte-features" class="nav-link" data-scroll-target="#gemischte-features"><span class="header-section-number">7.2.3</span> Gemischte Features</a></li>
+  </ul></li>
+  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering"><span class="header-section-number">7.3</span> Clustering</a>
+  <ul>
+  <li><a href="#hierarchische-verfahren" id="toc-hierarchische-verfahren" class="nav-link" data-scroll-target="#hierarchische-verfahren"><span class="header-section-number">7.3.1</span> Hierarchische Verfahren</a>
+  <ul class="collapse">
+  <li><a href="#linkage-methoden" id="toc-linkage-methoden" class="nav-link" data-scroll-target="#linkage-methoden"><span class="header-section-number">7.3.1.1</span> Linkage Methoden</a></li>
+  <li><a href="#agglomorative--und-divisive-verfahren" id="toc-agglomorative--und-divisive-verfahren" class="nav-link" data-scroll-target="#agglomorative--und-divisive-verfahren"><span class="header-section-number">7.3.1.2</span> Agglomorative- und Divisive Verfahren</a></li>
+  <li><a href="#sec-dendro" id="toc-sec-dendro" class="nav-link" data-scroll-target="#sec-dendro"><span class="header-section-number">7.3.1.3</span> Dendrogramme</a></li>
+  </ul></li>
+  <li><a href="#bestimmung-der-optimalen-clusteranzahl" id="toc-bestimmung-der-optimalen-clusteranzahl" class="nav-link" data-scroll-target="#bestimmung-der-optimalen-clusteranzahl"><span class="header-section-number">7.3.2</span> Bestimmung der optimalen Clusteranzahl</a></li>
+  </ul></li>
+  <li><a href="#ähnlichkeitsmaße-und-clustering-in-r" id="toc-ähnlichkeitsmaße-und-clustering-in-r" class="nav-link" data-scroll-target="#ähnlichkeitsmaße-und-clustering-in-r"><span class="header-section-number">7.4</span> Ähnlichkeitsmaße und Clustering in R</a>
+  <ul>
+  <li><a href="#ähnlichkeitsmaße-1" id="toc-ähnlichkeitsmaße-1" class="nav-link" data-scroll-target="#ähnlichkeitsmaße-1"><span class="header-section-number">7.4.1</span> Ähnlichkeitsmaße</a></li>
+  <li><a href="#clustering-1" id="toc-clustering-1" class="nav-link" data-scroll-target="#clustering-1"><span class="header-section-number">7.4.2</span> Clustering</a>
+  <ul class="collapse">
+  <li><a href="#hierarchische-verfahren-1" id="toc-hierarchische-verfahren-1" class="nav-link" data-scroll-target="#hierarchische-verfahren-1"><span class="header-section-number">7.4.2.1</span> Hierarchische Verfahren</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#übungsaufgaben" id="toc-übungsaufgaben" class="nav-link" data-scroll-target="#übungsaufgaben"><span class="header-section-number">7.5</span> Übungsaufgaben</a></li>
+  <li><a href="#lösungen" id="toc-lösungen" class="nav-link" data-scroll-target="#lösungen"><span class="header-section-number">7.6</span> Lösungen</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Clustering</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In diesem Kapitel wollen wir erste Einblicke in das unsupervised Learning bekommen. Sowohl Regressions- als auch Klassifikationsaufgaben gehören dem supervised Learning an, da in beiden Fällen die Zielvariablen bekannt sind, bzw. diese existieren. Im unsupervised learning ist das Ziel nicht, eine Klasse oder einen bestimmten Wert vorherzusagen, sondern Muster in den Daten zu analysieren. Man spricht deshalb im Kontext von unsupervised Learning auch von unlabled Data.</p>
+<section id="einführung" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="einführung"><span class="header-section-number">7.1</span> Einführung</h2>
+<p>Ein wichtiges Teilgebiet des unsupervised learning ist die Clusteranalyse. Ziel der Clusternaalyse ist es einen gegebenen Datensatz in Untergruppen einzuteilen, so dass diese Untergruppen innerhalb möglichst <em>homogen</em> sind und zu anderen Gruppen <em>heterogen</em>. Unter homogen verstehen wir, dass sich die Objekte in einer Untergruppe sehr ähneln. Unter heterogen verstehen wir auf der anderen Seite, dass sich die Cluster gegenseitig kaum ähneln sollen. Was wir unter Ähnlichkeit verstehen, wollen wir im nächsten Abschnitt etwas genauer untersuchen.</p>
+</section>
+<section id="ähnlichkeitsmaße" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="ähnlichkeitsmaße"><span class="header-section-number">7.2</span> Ähnlichkeitsmaße</h2>
+<p>Im <code>plamerpenguins::penguins</code> Datensatz befinden sich verschiedene Datentypen in den Variablen welche die Pinguine beschreiben. Da dieser Datensatz sowohl aus metrischen, als auch aus nominalen Features besteht, wollen wir im folgenden Absatz für beide Arten von Feature ähnlichkeits- bzw. Distanzmaße betrachten.</p>
+<section id="metrische-features" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="metrische-features"><span class="header-section-number">7.2.1</span> Metrische Features</h3>
+<p>So gibt zum Beipsiel die Variable <code>body_mass_g</code> an, wie schwer ein Pinguin ist. Intuitiv scheint es also sinnvoll zu sagen, dass sich zwei Pinguine ähnlich sind, wenn diese <em>ungefähr</em> gleichviel wiegen. Den Gewichtsunterschied können wir hierbei relativ leicht bezüglich verschiedener Distanzmaße berechnen:</p>
+<p>Die <span class="math inline">\(L^q\)</span> Metrik ist eine Veralgemeinerung der euklidischen Distanz welche wir für die Berechnung der quadratischen Fehler verwendet haben. Diese ist definiert als <span class="math display">\[\begin{equation}
+  d_q(x,y) = \left(\sum_{j=1}^J |x_j-y_j|^q\right)^{\frac{1}{q}},\qquad q\geq1
+\end{equation}\]</span></p>
+<ul>
+<li>Für <span class="math inline">\(q=1\)</span> erhalten wir die Manhattan-Metrik.</li>
+<li>Für <span class="math inline">\(q=2\)</span> spricht man von der euklidischen Metrik.</li>
+</ul>
+<p>Welche Metrik für eine gegebene Variable sinnvoll ist hängt dabei stark von den Daten selbst ab.</p>
+<p>Neben diesem absoluten Distanzmaß können wir die Ähnlichkeit bei metrischen Merkmalen auch durch Korrelation messen.</p>
+<p>Der Person Korrelationskoeffizient für zwei Datenpunkte <span class="math inline">\(x,y\in\mathbb{R}^J\)</span> ist definiert als</p>
+<p><span class="math display">\[\begin{equation*}
+s(x,y)={\frac {\sum _{j=1}^{J}(x_{j}-{\bar {x}})(y_{j}-{\bar {y}})}{{\sqrt {\sum _{j=1}^{J}(x_{i}-{\bar {x}})^{2}}}{\sqrt {\sum _{j=1}^{n}(y_{j}-{\bar {y}})^{2}}}}},
+\end{equation*}\]</span></p>
+<p>wobei wir hier annehmen, dass alle Feature metrisch sind.</p>
+<p><span class="math inline">\(s(x,y)\)</span> kann Werte zwischen <span class="math inline">\(-1\)</span> und <span class="math inline">\(1\)</span> annehmen, ist allerdings beschränkt auf lineare Korrelation. Falls <span class="math inline">\(s(x,y)=1\)</span>, so sprechen wir von einer perfekten positiven Korrlation, während <span class="math inline">\(s(x,y)=1\)</span> für eine perfekte negative Korrelation steht. Falls <span class="math inline">\(s(x,y)=0\)</span>, dann sagen wir, dass die beiden Datenpunkte unkorreliert sind.</p>
+<p>Die Distanzen oder Korrelationen zwischen den einzelnen Datenpunkten lassen sich dann in einer Distanzmatrix <span class="math inline">\(D\)</span> zusammenfassen. Komponentenweise können wir diese wie folgt definieren:</p>
+<p><span class="math display">\[\begin{equation*}
+  D = (d_{i,j})^{j=1,...,K}_{i=1,...,K},\qquad \text{mit}\qquad d_{i,j} = d(x_i,x_k)
+\end{equation*}\]</span></p>
+<p><span class="math inline">\(D\)</span> ist also eine quadratische Matrix, wobei ein Eintrag <span class="math inline">\(d_{i,j}\)</span> der Distanz zwischen den Punkten <span class="math inline">\(x_i\)</span> und <span class="math inline">\(x_j\)</span> entspricht.</p>
+<p>Ähnlich wie bei dem Vergleich der geschätzten Koeffizienten im Zuge der linearen Regression oder dem skalieren der Daten bei Neuronalen Netzen, sollten wir auch beim Clustering die Daten normalisieren, damit die verscheidenen Skalen der metrischen Feature keine Verzerrung herbeiführen.</p>
+</section>
+<section id="nominale-features" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="nominale-features"><span class="header-section-number">7.2.2</span> Nominale Features</h3>
+<p>Wir haben bisher angenommen, dass die Feature im Datensatz metrisch sind, da sich die Ähnlichkeitsmaße in diesem Fall relativ leicht berechnen lassen. Allerdings sind in den meisten Datensätzen auch nominale Feature vertreten, weshalb wir auch diese berücksichtigen sollten.</p>
+<p>So sind sich im Beispiel der Pinguine etwa zwei Pinguine auch gewissermaßen ähnlich, falls diese der gleichen Spezies angehören. Allerdings ist nicht klar, wie wir den Abstand zwischen zwei verschiedenen Spezies messen!</p>
+<p>Ähnlich wie beim Umgang mit nominalen Features im supervised Learning können wir die Nominalen Feature in Dummy Variablen umwandeln. Ausgehend von dieser Dummy Transformation können wir dann eine Kontingenztabelle erstellen, welche die Grundlage für Distanzmaße im Kontext nominaler Features bildet.</p>
+<p>Betrachten wir den Teildatensatz des Pinguin Datensatzes, welcher lediglich die nominalen bereits so transformiert Feature enthält, dass alle nominalen Feature zu Dummy Variablen transformiert wurden.</p>
+<p>Für die ersten zwei Pinguine ergibt sich dann folgende Darstellung:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>                  Penguin1 Penguin2
+species_Adelie           1        1
+species_Chinstrap        0        0
+species_Gentoo           0        0
+island_Biscoe            0        0
+island_Dream             0        0
+island_Torgersen         1        1
+sex_female               0        1
+sex_male                 1        0
+sex_NA                   0        0</code></pre>
+</div>
+</div>
+<p>Die daraus resultierende Kontingenztabelle ist</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>        Penguin2
+Penguin1 1 0
+       1 2 1
+       0 1 5</code></pre>
+</div>
+</div>
+<p>In der Kontingenztabelle sehen wir, dass bei fünf Variablen simultan <code>Penguin1</code> und <code>Penguin2</code> den Wert <span class="math inline">\(0\)</span> annehmen. Lediglich bei zwei Variablen (<code>species_Adelie</code> und <code>island_Torgersen</code>) besitzen beide Pinguine den Wert 1. Wir sehen also, dass die Pinguine der gleichen Spezies angehören und auf der gleichen Insel leben. Da die betrachteten Pinguine allerdings unterschiedliche Geschlechter haben, sind die Werte auf der Nebendiagonale <span class="math inline">\(1\)</span>.</p>
+<p>Im Vergleich zu metrischen Features erhalten wir somit vorerst nicht einen Wert, sondern eine Tabelle welche die Unterschiede beschreibt. Wir können diese Matrix dann unter Verwendung aller Einträge in einen einzelnen Wert umwandeln. Häufig wird hierfür folgende allgemeine Formel verwendet:</p>
+<p><span class="math display">\[\begin{equation*}
+s(x_m,x_l) = \frac{a+\delta d}{a+\delta d+ \lambda (b+c)},
+\end{equation*}\]</span></p>
+<p>wobei <span class="math inline">\(a,b,c,d\)</span> die Einträge der Tabelle</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(x_l = 1\)</span></th>
+<th><span class="math inline">\(x_l = 0\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(x_m = 1\)</span></td>
+<td><span class="math inline">\(a\)</span></td>
+<td><span class="math inline">\(b\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(x_m = 0\)</span></td>
+<td><span class="math inline">\(c\)</span></td>
+<td><span class="math inline">\(d\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>sind und <span class="math inline">\(\lambda,\delta\in\{0,1\}\)</span>.</p>
+<ul>
+<li>Für <span class="math inline">\(\delta = 0\)</span> und <span class="math inline">\(\lambda =1\)</span> erhalten wir die Jaccard-Distanz.</li>
+<li>Für <span class="math inline">\(\delta = 1\)</span> und <span class="math inline">\(\lambda =1\)</span> ergibt sich der M-Koeffizient.</li>
+<li>Falls man nur den Term <span class="math inline">\(\frac{a}{a+b+c+d}\)</span> betrachtet, so erhält man die Russel and Rao Distance.</li>
+</ul>
+<p>So ergibt sich für das obige Beispiel folgende Jaccard-Distanz:</p>
+<p><span class="math display">\[\begin{equation*}
+  s(\verb|Penguin1|,\verb|Penguin2|) = \frac{a}{a+\lambda (b+c)} = \frac{2}{2+1+1} = 0.5.
+\end{equation*}\]</span></p>
+<p>Wir können also auch durch diese Transformation eine gewisse Ähnlichkeit zwischen den Koeffizienten quantifizieren.</p>
+</section>
+<section id="gemischte-features" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="gemischte-features"><span class="header-section-number">7.2.3</span> Gemischte Features</h3>
+<p>Wir haben nun separat sowohl metrische als auch nominale Feature untersucht. Da in den meisten Datensätzen aber sowohl metrische, als auch nominale Feature vorhanden sind, stellt sich berechtigterweise die Frage, wie man mit Datenpunkten umgeht, welche sowohl metrische als auch nominale Feature enthalten.</p>
+<p>Der Gower-Coefficient kombiniert verschiedene Merkmalstypen und fasst diese in einer Distanz zusammen. Dieser ist definiert als</p>
+<p><span class="math display">\[\begin{equation*}
+  d_G(x_m,x_l) = \frac{\sum_{j=1}^J \delta(x_{m,j},x_{l,j})d(x_{m,j},x_{l,j})}{\sum_{j=1}^J\delta(x_{m,j},x_{l,j})}.
+\end{equation*}\]</span></p>
+<p>Hierbei gilt</p>
+<p><span class="math display">\[\begin{equation*}
+  d(x_{m,j},x_{l,j}) =
+  \begin{cases}
+   \mathbb{I}_{(x_{m,j}\neq x_{l,j})},\qquad &amp;j \text{ nominales Feature },\\
+   \frac{|x_{m,j}- x_{l,j}|}{\max_{m = 1,...,K}x_{m,j}-\min_{m = 1,...,K}x_{m,j}},\qquad &amp;j \text{ metrisches Feature }
+  \end{cases}
+\end{equation*}\]</span> und <span class="math inline">\(\delta(x_{m,j} x_{l,j}):\mathbb{R}\to[0,\infty)\)</span> eine nichtnegative Funktion. <span class="math inline">\(\mathbb{I}_{(x_{m,j}\neq x_{l,j})}\)</span> steht hierbei für die Indikatorfunktion. Sie nimmt den Wert <span class="math inline">\(1\)</span> an, falls <span class="math inline">\((x_{m,j}\neq x_{l,j})\)</span> und sonst <span class="math inline">\(0\)</span>.</p>
+<p>Der Gowerkoeffizient skaliert außerdem die metrischen Feature auf das Interval <span class="math inline">\([0,1]\)</span>, weshalb hier eine Normalisierung nicht weiter notwendig ist.</p>
+</section>
+</section>
+<section id="clustering" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="clustering"><span class="header-section-number">7.3</span> Clustering</h2>
+<p>Nachdem wir nun für verschiedene Ausprägungsarten Distanzmaße definiert haben, können wir auf verschiedenste Art und Weise Datenpunkte mit niedrigen Distanzmaßen bzw. hoher Korrelation zu Untergruppen zusammenfassen. Man unterscheidet hierbei zwischen verschiedenen Verfahrenstypen, nämlich den</p>
+<ol type="1">
+<li>Hierarchischen Verfahren</li>
+<li>Partitionierungsbasierten Verfahren</li>
+<li>Dichtebasierten Verfahren</li>
+</ol>
+<p>Im Kontext dieser Veranstaltung setzen wir uns vor allem mit den Hierarchischen und Partitionierungsbasierten Varfahren auseinander. Für Dichtebasierte Verfahren, siehe zum Beispiel <a href="https://en.wikipedia.org/wiki/DBSCAN">DBSCAN</a> und <a href="https://arxiv.org/abs/1911.02282">h-DBSCAN</a></p>
+<section id="hierarchische-verfahren" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="hierarchische-verfahren"><span class="header-section-number">7.3.1</span> Hierarchische Verfahren</h3>
+<p>Bei den Hierarchischen Verfahren unterscheidet man zwischen agglomorativen und divisiven Verfahren. Die grundsätzliche Idee ist, iterativ Gruppen an Punkten (Cluster) zu vergrößern oder zu verkleinern indem man eine Anforderung an die Homogenität der Cluster schrittweise erhöht oder verringert. Hierbei versteht man unter agglomorativen Verfahren, dass zu Beginn jeder Datenpunkt ein eigenes Cluster bildet und diese Cluster schrittweise durch das Zusammenführen vergrößert werden.</p>
+<!--
+Der Ablauf eines agglomorativen Verfahrens im Detail ist durch folgende Schritte gegeben:
+
+1. **Input**:
+   - D: Menge von Datenpunkten
+   - k: gewünschte Anzahl an Clustern
+   - dist(a, b): Distanzfunktion zwischen Clustern (z. B. minimale, maximale oder durchschnittliche Distanz)
+
+2. **Initialisierung**:
+   - Erstelle für jeden Datenpunkt ein eigenes Cluster → C = { {x₁}, {x₂}, ..., {xₙ} }
+
+3. **Hauptschleife**:
+   Solange |C| > k:
+   1. Finde das Paar von Clustern (Cᵢ, Cⱼ), mit minimaler Distanz:  
+      `min dist(Cᵢ, Cⱼ)`
+   2. Führe Cᵢ und Cⱼ zu einem neuen Cluster Cₙₑᵤ zusammen:
+      `C = (C \ {Cᵢ, Cⱼ}) ∪ {Cₙₑᵤ}`
+   3. Aktualisiere die Distanzen (falls nötig, je nach Linkage-Methode)
+
+4. **Ausgabe**:
+   - Die finale Cluster-Zuordnung C mit k Clustern
+
+# Mögliche Distanzfunktionen (Linkage-Methoden):
+
+- Single-Linkage: `dist(Cᵢ, Cⱼ) = min(dist(x, y))` für x ∈ Cᵢ, y ∈ Cⱼ
+- Complete-Linkage: `dist(Cᵢ, Cⱼ) = max(dist(x, y))`
+- Average-Linkage: `dist(Cᵢ, Cⱼ) = avg(dist(x, y))`
+-->
+<p>Bei einem divisiven Verfahren starten wir mit einem großen Cluster welches alle Datenpunkte beeinhaltet und verkleinern dieses iterativ durch das Aufteilen in kleinere Cluster.</p>
+<section id="linkage-methoden" class="level4" data-number="7.3.1.1">
+<h4 data-number="7.3.1.1" class="anchored" data-anchor-id="linkage-methoden"><span class="header-section-number">7.3.1.1</span> Linkage Methoden</h4>
+<p>Unabhängig davon, ob es sich um ein agglomoratives oder divisives Verfahren handelt, müssen wir spezifizieren, wie die Distanzen zwischen verschiedenen Clustern gemessen werden. Nur wenn klar ist wie groß die Distanzen innerhalb und zwischen verschiedenen Clustern sind kann bestimmt werden wie diese aufgeteilt bzw. zusammengefasst werden sollen.</p>
+<p>Wir unterscheiden beim Messen dieser Distanzen zwischen der Single-, Complete- und Average-Linkage Distanz:</p>
+<ol type="1">
+<li>Single-Linkage: <span class="math display">\[\begin{equation*}
+   D(C_i,C_j) = \min_{l\in C_i, m\in C_j} d_{l,m}
+\end{equation*}\]</span></li>
+<li>Complete-Linkage: <span class="math display">\[\begin{equation*}
+  D(C_i,C_j) = \max_{l\in C_i, m\in C_j} d_{l,m}
+\end{equation*}\]</span></li>
+<li>Average-Linkage: <span class="math display">\[\begin{equation*}
+  D(C_i,C_j) =\frac{1}{n_in_j} \sum_{l\in C_i} \sum_{m\in C_j} d_{l,m}
+\end{equation*}\]</span></li>
+</ol>
+<p>wobei <span class="math inline">\(C_i\)</span> und <span class="math inline">\(C_j\)</span> verschiedene Cluster sind und <span class="math inline">\(d_{l,m}\)</span> ein Distanz-, bzw. Ähnlichkeitsmaß.</p>
+<div id="exm-fusionierung" class="theorem example">
+<p><span class="theorem-title"><strong>Beispiel 7.1</strong></span> Betrachte folgenden einfachen Datensatz bestehend aus zwei metrischen Variablen <span class="math inline">\(x\)</span> und <span class="math inline">\(y\)</span>, welcher bereits in drei Cluster eingeteilt ist:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_Clustering_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Dann können wir die Distanzen bezüglich der dem Single-Linkage Verfahren wie folgt grafisch darstellen.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_Clustering_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_Clustering_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Die Clusterdistanzen bezüglich der dem Complete-Linkage Verfahren lassen sich ebenso grafisch darstellen:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_Clustering_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_Clustering_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="agglomorative--und-divisive-verfahren" class="level4" data-number="7.3.1.2">
+<h4 data-number="7.3.1.2" class="anchored" data-anchor-id="agglomorative--und-divisive-verfahren"><span class="header-section-number">7.3.1.2</span> Agglomorative- und Divisive Verfahren</h4>
+<p>Wir können nun mithilfe der zuvor definierten Distanzmaße zwischen Punkten und Clustern das agglomorative und divisive Clusterverfahren genauer betrachten.</p>
+<p>Den Ablauf des agglomorativen Verfahrens können wir in den folgenden Schritten zusammenfassen:</p>
+<ol type="1">
+<li><p>Weise jeden Datenpunkt einem eigenen Cluster zu.</p></li>
+<li><p>Wiederhole die folgenden Schritte, bis eine gewünschte Anzahl an Cluster gebildet wurde:</p>
+<ol type="a">
+<li>Berechne die Distanzen zwischen allen Paaren von Clustern gemäß dem Verknüpfungskriterium (Single-, Complete-, Average-Linkage).<br>
+</li>
+<li>Finde das Paar <span class="math inline">\((C_i,C_j)\)</span> mit der minimalen Distanz.<br>
+</li>
+<li>Führe <span class="math inline">\(C_i\)</span> und <span class="math inline">\(C_j\)</span> zu einem neuen Cluster <span class="math inline">\(C_{ij} = C_i \cup C_j\)</span> zusammen.</li>
+</ol></li>
+</ol>
+<p>Der Ablauf des divisiven Verfahrens können wir ebenso wie folgt zusammenfassen:</p>
+<ol type="1">
+<li><p>Beginne mit einem einzelnen Cluster bestehend aus allen Datenpunkten.</p></li>
+<li><p>Zerlege jedes Cluster in zwei Untercluster gemäß den Spaltungsskriterien (Single-, Complete-, Average-Linkage).</p></li>
+<li><p>Wiederhole Schritt 2 bis eine vorher festgelegte Zahl an Cluster erreicht wurde.</p></li>
+</ol>
+</section>
+<section id="sec-dendro" class="level4" data-number="7.3.1.3">
+<h4 data-number="7.3.1.3" class="anchored" data-anchor-id="sec-dendro"><span class="header-section-number">7.3.1.3</span> Dendrogramme</h4>
+<p>Unabhängig von der Dimensionalität des Datensatzes ist es wünschenswert die Clusterbildung zu visualisieren, damit wir ein Gefühl dafür bekommen können, wie</p>
+<ol type="1">
+<li>weit die verschiedenen Cluster voneinander entfernt sind.</li>
+<li>sich die Distanzen der Cluster durch weiteres Aufteilen bzw. Zusammenfügen verändert.</li>
+</ol>
+<p>Hierfür betrachten wir die sogenannten Dendrogramme, welche anhand einer Baumstruktur die Anzahl der Cluster und deren Clusterdistanz visualisieren. Dieses wird als Binärbaum dargestellt, wobei die die Blattknoten den einzelnen Datenpunkten entsprechen (jeder Datenpunkt ist ein Cluster).</p>
+<p>In den höhreren Ebenen des Baums liegen die zusammengeführten Cluster der vorherigen Ebenen. Ob der Baum allerdings hierbei von unten nach oben oder verkehrt konstruiert wird hängt davon ab, ob es sich um ein agglomoratives oder divisives Verfahren handelt. Auf der <span class="math inline">\(y\)</span>-Achse bilden wir die Distanz zwischen Cluster ab und auf Baisis dieser Entscheiden wie viele Cluster wir bilden wollen.</p>
+<p>Eine horizontale Linie im Digaramm beschreibt also, wie groß der Abstand zwischen den zwei darauffolgenden Clustern ist. Die vertikale Position der Knoten zeigt außerdem, in welcher Reihenfolge die Knoten zu einem Cluster aggregiert wurden. Durch das Hinzufügen einer horizontalen Geraden an einem beliebigen Punkt, können wir anhand der Anzahl der (potenziellen) Schnittpunkte der Geraden mit dem Dendrogramm die Anzahl der Cluster in der entsprechenden Schicht bestimmen.</p>
+<p>Die folgende Grafik zeigt das Dendrogramm erstellt auf Basis des Datensatzes in <a href="#exm-fusionierung" class="quarto-xref">Example&nbsp;<span>7.1</span></a>:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_Clustering_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wie in der Grafik zu erkennen ist, ist der Abstand zwischen den beiden Clustern, welche beim Trennen des gesamten Datensatzes entstehen die Distanz bei ca. 1.5. Durch das Hinzufügen einer horizontalen Geraden im Punkt <span class="math inline">\(y=0.25\)</span> erhalten wir dann, dass zu diesem Heterogenitätsniveau bzw. Dissimilarity Level <span class="math inline">\(4\)</span> Cluster gebildet wurden:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_Clustering_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<!--
+### Partitionierende Verfahren
+
+Neben den hierarchischem Verfahren wollen wir uns auch mit partitionierenden Verfahren wie dem $k$-Means Algorithmus auseinandersetzen.
+Die grundlegende Idee ist in einem initialen Schritt zufällige Clusterzentren zu setzen und diese iterativ so lange zu verschieben, bis sich die gebildeten Cluster nicht mehr verändern.
+Der zentrale Unterschied zu hierarchischen Verfahren liegt darin, dass wir bereits eine gewünschte Anzahl an Clustern vorgeben und diese Cluster dann bezüglich einer Metrik optimiert werden.
+Da wir im Vergleich zum supervised Learing allerdings Daten ohne Label verwenden, müssen wir uns wieder an einer Metrik orientieren, welche die Homogenität der Cluster beschreibt.
+Wir sind also interessiert an der Lösung des Optimierungsproblems
+
+\begin{equation}\label{eq:kmeans}
+  \text{argmin}_{m,c}\sum_{j=1}^k\sum_{i:x_i\in C_j}\|x_i-m_j\|_2^2,
+\end{equation}
+
+wobei
+
+-   $m=(m_1,...,m_k)$ der Vektor der Cluster-means ist,
+-   $\{C_1,...,C_k\}$ die Menge der Cluster,
+-   $\{x_1,...,x_g\}$ die Menge der Datenpunkte,
+-   $\|\cdot\|$ die $L^2$ Norm. 
+
+Da sich dieses Optimierungsproblem nicht analytisch optimieren lässt, verwenden wir einen iterativen Algorithmus:
+
+1.    Wähle zufällig $g$ Datenpunkte aus $\{x_1, \ldots, x_k\}$ als initiale Mittelwerte $m_1, \ldots, m_k$.
+2.    Für jeden Datenpunkt $x_i$:
+        - Bestimme $j^* = \arg\min_{j = 1, \ldots, k} \|x_i - m_j\|$
+        - Weise $x_i$ dem Cluster $C_{j^*}$ zu.
+3.    Für jedes Cluster $C_j$:
+        - Berechne den neuen Mittelwert:
+          \begin{equation*}
+          m_j = \frac{1}{|C_j|} \sum_{x_i \in C_j} x_i
+          \end{equation*}
+4.    Wiederhole die Schritte 2. & 3. und breche den Algorithmus ab, sobald sich die Clusterzentren weniger als ein Schwellenwert $\varepsilon >0$ bewegen, oder eine Maximalanzahl an Iterationen verstrichen ist.
+-->
+</section>
+</section>
+<section id="bestimmung-der-optimalen-clusteranzahl" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="bestimmung-der-optimalen-clusteranzahl"><span class="header-section-number">7.3.2</span> Bestimmung der optimalen Clusteranzahl</h3>
+<p>Bei hierarchischen Algorithmen werden im Dendrogram für verschiedene Clusteranazahlen die Dissimilarity Werte abgebildet, allerdings ist sowohl in diesem Kontext als auch beim <span class="math inline">\(k\)</span>-Means algorithmus nicht klar, wie der Wert <span class="math inline">\(k\)</span> gewählt werden soll. Natürlich könnten wir jeden Punkt sein eigenes Cluster zuweisen, allerdings ist es dann nicht sinnvoll die Cluster anschließend zu untersuchen. Genausowenig sollten wir die Anzahl der Cluster auf <span class="math inline">\(1\)</span> setzen, da schließlich das Ziel ist möglichst homogene Cluster zu finden. Eine Antwort auf die Frage, wie viele Cluster man wählen sollte liefert der Scree-Plot. Dieser zeigt auf der <span class="math inline">\(x\)</span>-Achse die Anzahl der Cluster und auf der <span class="math inline">\(y\)</span>-Achse das Dissimilarity Level. Diese Kurve ist monoton fallend in der Anzahl der Cluster, da mit jedem weiteren Cluster die Homogenität innerhalb der Cluster steigt.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_Clustering_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Eine Entscheidungsregel für die Anzahl der Cluster lautet dann:</p>
+<blockquote class="blockquote">
+<p>Wähle jene Anzahl an Cluster, für welche der Winkel eingeschlossen zwischen den beiden benachbarten Punkten am geringsten ist.</p>
+</blockquote>
+<p>Heuristisch wird diese Regel auch oft <em>Ellenbogenkriterium</em> genannt, da man jenen Punkt auf der Kurve auswählt, welcher dem Knick eines Ellenbogens am ähnlichsten ist.</p>
+</section>
+</section>
+<section id="ähnlichkeitsmaße-und-clustering-in-r" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="ähnlichkeitsmaße-und-clustering-in-r"><span class="header-section-number">7.4</span> Ähnlichkeitsmaße und Clustering in R</h2>
+<p>In diesem Abschnitt wollen wir verschiedene Ähnlichkeits- bzw. Distanzmaße, Clusteralgorithmen und Clusteranalysen in R betrachten. Hierfür verwenden wir vor allem die folgenden Pakete:<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyclust)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdendro)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Wir betrachten in diesem Abschnitt wieder den <code>palmerpenguins::penguins</code> Datensatz.</p>
+<section id="ähnlichkeitsmaße-1" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="ähnlichkeitsmaße-1"><span class="header-section-number">7.4.1</span> Ähnlichkeitsmaße</h3>
+<p>Die Funktion <code>cluster::daisy()</code> berechnet für einen übergebenen Datensatz verschiedene Distanzmatrizen. Als Argumente übergibt man hier neben dem Datensatz auch das Argument <code>metric</code>, welches die Metrik, bzw. Methode spezifiziert bezüglich welcher die Ähnlichkeitsmaße berechnet werden sollen. Zulässige Metriken sind hierbei <code>"euclidean"</code>, <code>"manhattan"</code> und <code>"gower"</code>. Lediglich die Gower Metrik erlaubt es uns mit dieser Funktion auch gemischte Datensätze zu untersuchen.</p>
+<div id="exm-metricsr" class="theorem example">
+<p><span class="theorem-title"><strong>Beispiel 7.2</strong></span> Betrachte folgenden Teildatensatz des <code>palmerpenguins::penguins</code> Datensatzes, bestehend aus dem ersten, 50. und 250. Pinguin (ohne die Variable <code>year</code>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data_pen_bottom <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">50</span>,<span class="dv">250</span>),] <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Dann können wir für die metrischen Feature mithilfe der <code>daisy()</code> Funktion sowohl die <span class="math inline">\(L^2\)</span> als auch die Manhattan Metrik berechnen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data_pen_bottom <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.numeric) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">daisy</span>(<span class="at">metric =</span> <span class="st">"euclidean"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dissimilarities :
+          1         2
+2  400.1456          
+3 1125.7814  725.7070
+
+Metric :  euclidean 
+Number of objects : 3</code></pre>
+</div>
+</div>
+<p>Wir können dieses Ergebnis auch selbst verifizieren:</p>
+<p><span class="math display">\[\begin{align*}
+  d(x_1,x_2) &amp;= \sqrt{(39.1-42.3)^2+(18.7-21.2)^2+(181-191)^2+(3750-4150)^2} = 400.1456\\
+  d(x_1,x_3) &amp;= \sqrt{(39.1-46.9)^2+(18.7-14.6)^2+(181-222)^2+(3750-4875)^2} = 1125.781\\
+  d(x_2,x_3) &amp;= \sqrt{(42.3-46.9)^2+(21.2-14.6)^2+(191-222)^2+(4150-4875)^2} = 725.7070
+\end{align*}\]</span></p>
+<p>Die Manhattan-Metrik zwischen den Datenpunkten können wir einfach berechnen, indem wir das Argument <code>"euclidean"</code> durch <code>"manhattan"</code> ersetzen.</p>
+<p><em>Beachte: Wir haben hier die Feature noch nicht normalisiert! </em></p>
+<p>Da der Datensatz aber nicht nur aus metrischen Feature besteht, wollen wir die Gower-Distanz auf die Punkte anwenden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_pen_bottom <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">daisy</span>(<span class="at">metric =</span> <span class="st">"gower"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dissimilarities :
+          1         2
+2 0.3412146          
+3 0.9458874 0.8557551
+
+Metric :  mixed ;  Types = N, N, I, I, I, I, N 
+Number of objects : 3</code></pre>
+</div>
+</div>
+<p>Neben der Distanzmatrix erhalten wir noch Informationen über die verschiedenen Datentypen. <code>N</code> steht in diesem Kontext für Nominal und <code>I</code> für Interval. Auf Basis dieses Ergebnisses können wir feststellen, dass sich der erste und zweite Pinguin am ähnlichsten sind und der erste und dritte Pinguin am unähnlichsten.</p>
+</div>
+<p>Um eine Korrelationsmatrix für metrischen Feature zu erzeugen, können wir die <code>corrr::correlate</code> Funktion verwenden. Dieser Funktion müssen wir das Argument <code>method = "pearson"</code> übergeben, um eine Korrelationsmatrix bezüglich dem Pearson-Korrelationskoeffizienten zu erhalten.</p>
+<div id="exm-pencorr" class="theorem example">
+<p><span class="theorem-title"><strong>Beispiel 7.3</strong></span> Damit wir die Korrelationsmatrix für die metrischen Feature des Pinguin Datensatzes berechnen können, müssen wir diese zuerst wieder extrahieren und dann die <code>correlate()</code> Funktion darauf anwenden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data_pen_bottom <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.numeric) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  corrr<span class="sc">::</span><span class="fu">correlate</span>(<span class="at">method =</span> <span class="st">"pearson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 5
+  term              bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;chr&gt;                      &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+1 bill_length_mm            NA            -0.693             0.983       0.998
+2 bill_depth_mm             -0.693        NA                -0.814      -0.737
+3 flipper_length_mm          0.983        -0.814            NA           0.993
+4 body_mass_g                0.998        -0.737             0.993      NA    </code></pre>
+</div>
+</div>
+<p>Anhand dieser Korrelationsmatrix kann man ablesen, dass die Variablen <code>body_mass_g</code> und <code>bill_length_mm</code> sehr stark positiv korrelieren und die Variablen <code>flipper_length_mm</code> sowie <code>bill_depth_mm</code> sehr stark negativ korrelieren.</p>
+</div>
+</section>
+<section id="clustering-1" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="clustering-1"><span class="header-section-number">7.4.2</span> Clustering</h3>
+<p>In diesem Abschnitt betrachten wir hierarchische Verfahren.</p>
+<section id="hierarchische-verfahren-1" class="level4" data-number="7.4.2.1">
+<h4 data-number="7.4.2.1" class="anchored" data-anchor-id="hierarchische-verfahren-1"><span class="header-section-number">7.4.2.1</span> Hierarchische Verfahren</h4>
+<p>Zum Durchführen einer hierarchischen Clustermethode können wir die <code>stats::hclust()</code> Funktion verwenden. Die <code>hclust()</code> Funktion verwendet hierbei allerdings lediglich ein agglomoratives Verfahren. Für divisive Verfahren können wir die <code>dclust::dclust()</code> Funktion verwenden.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Das allgemeine Vorgehen hierbei ist wie folgt:</p>
+<ol type="1">
+<li>Berechne für die zu untersuchenden Daten eine Distanz- oder Ähnlichkeitsmatrix, z.B. mithilfe der <code>daisy()</code> Funktion.</li>
+<li>Verwende diese Distanz- oder Ähnlichkeitsmatrix zum berechnen der Cluster.</li>
+</ol>
+<p>Da im Pinguin Datensatz sowohl metrische als auch nominale Feature vorhanden sind, verwenden wir auch hier wieder die Gower Distanz. In Kombination mit der <code>hclust</code> Funktion können wir dann ein <code>hclust</code> Objekt erstellen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>hclust_pen <span class="ot">&lt;-</span> data_penguin <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">daisy</span>(<span class="at">metric =</span> <span class="st">"gower"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hclust</span>(<span class="at">method =</span> <span class="st">"complete"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Die Variable <code>hclust_pen</code> enthält also ein <code>hclust</code> Objekt, welches unter anderem folgende Attribute besitzt:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 58%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feld</th>
+<th>Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>merge</code></td>
+<td>Eine <code>(n-1) × 2</code> Matrix. Zeile <code>i</code> von <code>merge</code> beschreibt das Zusammenführen von Clustern im Schritt <code>i</code> der Clusteranalyse. Wenn ein Eintrag <code>j</code> negativ ist, bedeutet das, dass die Beobachtung <code>-j</code> in diesem Schritt zusammengeführt wurde. Ist <code>j</code> positiv, wurde ein bereits zuvor gebildeter Cluster (aus Schritt <code>j</code>) zusammengeführt. Negative Einträge stehen also für das Zusammenführen einzelner Beobachtungen, positive für das Zusammenführen bestehender Cluster.</td>
+</tr>
+<tr class="even">
+<td><code>height</code></td>
+<td>Eine Menge von <code>n-1</code> reellen Werten. Gibt die Höhe des Clusterings an, also den Wert des Kriteriums, das für die Zusammenführung verwendet wurde.</td>
+</tr>
+<tr class="odd">
+<td><code>order</code></td>
+<td>Ein Vektor, der eine Permutation der ursprünglichen Beobachtungen angibt, geeignet zur Darstellung des Dendrogramms, sodass sich die Zweige nicht kreuzen.</td>
+</tr>
+<tr class="even">
+<td><code>labels</code></td>
+<td>Beschriftungen für jedes der zu clusternden Objekte.</td>
+</tr>
+<tr class="odd">
+<td><code>call</code></td>
+<td>Der Funktionsaufruf, der das Ergebnis erzeugt hat.</td>
+</tr>
+<tr class="even">
+<td><code>method</code></td>
+<td>Die verwendete Clustermethode.</td>
+</tr>
+<tr class="odd">
+<td><code>dist.method</code></td>
+<td>Das verwendete Distanzmaß zur Erstellung von <code>d</code> (nur vorhanden, wenn das Distanzobjekt ein <code>"method"</code>-Attribut besitzt).</td>
+</tr>
+</tbody>
+</table>
+<p>Das Attribut <code>merge</code> enthält also Informationen darüber wie die verschiedenen Cluster konstruiert werden. Mithilfe der <code>head()</code> Funktion können wir dann zum Beispiel die ersten 11 Schritte betrachten:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>hclust_pen <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"merge"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">11</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      [,1] [,2]
+ [1,]   -1   -4
+ [2,] -233 -272
+ [3,] -306 -316
+ [4,] -199 -213
+ [5,] -191 -209
+ [6,]  -51  -57
+ [7,] -223 -227
+ [8,] -212 -222
+ [9,]  -64  -66
+[10,] -220 -228
+[11,] -195    4</code></pre>
+</div>
+</div>
+<p>In den ersten zehn Schritten wurden immer einzelne Observationen zusammengefügt. Erst in Schritt 11 wurde die 195. Observation dem Cluster aus Zeile <code>4</code> hinzugefügt, welches nach dem hinzufügen also aus den Observationen <span class="math inline">\(\{199,213,195\}\)</span> besteht.</p>
+<p>Nach der Berechnung der Cluster können wir dann einen Scree-Plot erstellen um eine optimale Anzahl der Cluster zu bestimmen. Hierfür verwenden wir folgendes Code-Snippets:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>complete_clust <span class="ot">&lt;-</span> hclust_pen <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"height"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">num_clust =</span> (<span class="fu">nrow</span>(data_penguin)<span class="sc">-</span><span class="dv">1</span>)<span class="sc">:</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">height=</span>value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Zuerst extrahieren wir aus dem Objekt <code>hclust_pen</code> das Attribut <code>height</code>. Dieses enthält einen monoton fallenden Vektor mit Werten welche sich durch das verwendete Linkage Verfahren ergeben haben. So ist der erste Wert jene Distanz, welche sich beim Zusammenführen der ersten beiden Einzelpunkte zu einem Cluster ergeben. Da der Rückgabewert ein Vektor ist, wandeln wir diesen mithilfe der <code>as_tibble()</code> Funktion in ein Tibble um, damit wir im darauffolgenden Schritt die Anzahl der Cluster hinzufügen können. Mithilfe der <code>rename()</code> Funktion wandeln wir zum Schluss den Name der Spalte <code>value</code> in <code>height</code> abzuändern.</p>
+<p>Nachdem wir die Daten aufbereitet haben, wollen wir diese nun als Scree-Plot darstellen. Zuerst filtern wieder die zuvor erstellten Daten so, dass nur Ergebnisse für die Einteilung in <span class="math inline">\(1\)</span>,…,<span class="math inline">\(9\)</span> Cluster angezeigt werden. Durch das Filtern erreichen wir, dass der Plot letztendlich übersichtlicher ist. Wir können dann den Scree-Plot einfach als Kombination einer Punktewolke und eines Line-Charts darstellen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>complete_clust <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(num_clust <span class="sc">&lt;=</span> <span class="dv">9</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>num_clust, <span class="at">y=</span>height)) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_Clustering_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Damit der Plot leichter zu lesen ist, passen wir im folgenden Code-Snippet noch die Achsen an:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>complete_clust <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(num_clust <span class="sc">&lt;=</span> <span class="dv">9</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>num_clust, <span class="at">y=</span>height)) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>     <span class="fu">scale_x_discrete</span>(</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">labels =</span> <span class="fu">seq.int</span>(<span class="dv">1</span>,<span class="dv">9</span>),</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">limits =</span> <span class="fu">factor</span>(<span class="fu">seq.int</span>(<span class="dv">1</span>,<span class="dv">9</span>))</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>     )<span class="sc">+</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Number of Clusters"</span>,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Dissimilarity Level"</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    )<span class="sc">+</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_Clustering_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Anhand der gegebenen Grafik lässt sich nicht ganz eindeutig sagen, welche Anzahl der Cluster optimal ist. Man könnte aber argumentieren, dass der Winkel um Punkt <code>3</code> oder <code>5</code> am kleinsten aussieht, so dass <code>3</code> oder <code>5</code> die optimale Anzahl an Cluster ist.</p>
+<p>Angenommen wir entscheiden uns den Datensatz in <code>5</code> Cluster aufzuteilen, dann können wir die <code>cutree()</code> Funktion verwenden, um Cluster-Label zum Datensatz hinzuzufügen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>clustered_pen <span class="ot">&lt;-</span> data_penguin <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(hclust_pen <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">cutree</span>(<span class="at">k=</span><span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>          <span class="fu">factor</span>()</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="fu">c</span>(<span class="st">"cluster_label"</span> <span class="ot">=</span> <span class="dv">9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Der nächste Schritt ist nun die einzelnen Cluster zu analysieren. So könnte man zum Beispiel für jedes Cluster das durchschnittliche Gewicht der Pinguine berechnen und die Größe des Clusters angeben:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>clustered_pen <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cluster_label) <span class="sc">%&gt;%</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">clust_size =</span> <span class="fu">n</span>(),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_weight =</span> <span class="fu">mean</span>(body_mass_g)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  cluster_label clust_size avg_weight
+  &lt;fct&gt;              &lt;int&gt;      &lt;dbl&gt;
+1 1                     23      4035.
+2 2                     73      3369.
+3 3                     50      4048.
+4 4                    119      5092.
+5 5                     68      3733.</code></pre>
+</div>
+</div>
+<p>Im dritten Cluster befinden sich also nicht nur die meisten Pinguine sondern im Schnitt auch die schwersten!</p>
+<p>Ein Dendrogramm können wir mithilfe von verschiedenen Funktionen erzeugen.</p>
+<p>Die R interne <code>base::plot()</code> Funktion kann direkt auf das Objekt <code>hclust_pen</code> angewendet werden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>hclust_pen <span class="sc">%&gt;%</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_Clustering_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Der Unterschied zu den in <a href="#sec-dendro" class="quarto-xref"><span>Section 7.3.1.3</span></a> erzeugten Dendrogrammen liegt in der Darstellung der Blattknoten.</p>
+<p>Diese unterscheiden sich bei dem durch die <code>base::plot()</code> erzeugte Funktion vor allem durch die vertikale Position. Die vertikale Position gibt Auskunft darüber, in welcher Reihenfolge die Cluster gebildet wurden. Dadurch, dass das Dendrogramm in diesem Fall aber nicht wirklich übersichtlich ist, wollen wir im folgenden ein Beispiel betrachten.</p>
+<div id="exm-dendrogram" class="theorem example">
+<p><span class="theorem-title"><strong>Beispiel 7.4</strong></span> Betrachte den synthetischen, normalisierten Datensatz erzeugt durch das Code-Snippet:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>data_exm <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(<span class="dv">5</span>,<span class="dv">1</span>,<span class="fl">0.1</span>),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(<span class="dv">5</span>,<span class="fl">0.5</span>,<span class="fl">0.1</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(<span class="dv">5</span>,<span class="fl">0.5</span>,<span class="fl">0.1</span>),</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(<span class="dv">5</span>,<span class="fl">1.0</span>,<span class="fl">0.1</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Wir können diesen als Punktewolke darstellen:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07_Clustering_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Durch das Anwenden der <code>hclust()</code> Funktion erhalten wir dann wieder ein Objekt, welches wir direkt mithile der <code>plot()</code> Funktion darstellen können:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>data_exm <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">daisy</span>(<span class="at">metric =</span> <span class="st">"euclidean"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hclust</span>(<span class="at">method =</span> <span class="st">"single"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07_Clustering_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Anhand dieses Plots können wir nun die Reihenfolge der Clusterbildung ablesen:</p>
+<p>Da die Punkte <code>2</code> und <code>4</code> am tiefsten abgebildet sind, wurden diese Punkte zuerst zu einem Cluster <span class="math inline">\(C_{2,4}\)</span> zusammengeführt. Darauffolgend wird der Punkt <code>5</code> dem Cluster <span class="math inline">\(C_{2,4,5}\)</span> hinzugefügt. Im letzten Schritt werden dann die beiden Cluster mit den Punkten <span class="math inline">\(\{3,1,5,2,4\}\)</span> bzw. <span class="math inline">\(\{6,8,19,7,9\}\)</span> zusammengeführt, da diese Cluster am weitesten entfernt voneinander liegen.</p>
+<p>Wir können durch die <code>merge</code> Tabelle diese Beobachtungen auch direkt verifizieren:</p>
+<div style="page-break-after: always;"></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>data_exm <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">daisy</span>(<span class="at">metric =</span> <span class="st">"euclidean"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hclust</span>(<span class="at">method =</span> <span class="st">"single"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"merge"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      [,1] [,2]
+ [1,]   -2   -4
+ [2,]   -5    1
+ [3,]   -1    2
+ [4,]   -7   -9
+ [5,]  -10    4
+ [6,]   -3    3
+ [7,]   -8    5
+ [8,]   -6    7
+ [9,]    6    8</code></pre>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="übungsaufgaben" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="übungsaufgaben"><span class="header-section-number">7.5</span> Übungsaufgaben</h2>
+<div id="exr-pen_calc" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 7.1</strong></span> Gegeben sei folgender Ausschnitt aus dem <code>penguins</code> Datensatz:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 6
+  species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+1 Adelie  Torgersen           42            20.2               190        4250
+2 Adelie  Dream               39.8          19.1               184        4650
+3 Adelie  Biscoe              35            17.9               192        3725
+4 Adelie  Dream               40.2          17.1               193        3400
+5 Gentoo  Biscoe              50.5          15.9               225        5400</code></pre>
+</div>
+</div>
+<ol type="1">
+<li>Berechne für den ersten und vierten Pinguins die Euklidische- und Manhattan-Distanz auf Basis der metrischen Features.</li>
+<li>Berechne für den zweiten und fünften Pinguin die Gower-Distanz, falls
+<ol type="i">
+<li>alle Variablen gleich gewichtet werden.</li>
+<li>die nominalen Feature doppelt gewichtet werden.</li>
+</ol></li>
+</ol>
+</div>
+<div id="exr-hierarchtable" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 7.2</strong></span> Beim Durchführen eines Hierarchischen Clusteringalgorithmus ergibt sich folgender Ausschnitt aus dem <code>merge</code> Attribut bestehend aus den ersten 5 Schritten:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]   -1   -4
+[2,]   -2    1
+[3,]   -3    2
+[4,]   -5    3
+[5,]   -6    4</code></pre>
+</div>
+</div>
+<ol type="1">
+<li>Beschreibe die ersten fünf Schritte. Gehe hierbei auf die Clusterbildung ein und gebe die resultierenden Cluster an.</li>
+<li>Um welches der beiden Verfahren (Single-Linkage, Complete-Linkage) handelt es sich vermutlich hier?</li>
+</ol>
+</div>
+<div id="exr-distance_mat" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 7.3</strong></span> Es sei nun folgende Distanzmatrix gegeben:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Dissimilarities :
+         1        2        3        4
+2 1.595799                           
+3 3.895069 3.349281                  
+4 3.478931 3.632839 3.368725         
+5 2.537908 3.097825 3.325886 2.704879
+
+Metric :  euclidean 
+Number of objects : 5</code></pre>
+</div>
+</div>
+<p>Führe für diese Matrix die ersten zwei Schritte des Complete-Linkage Verfahrens durch. Gebe hierbei die kleinsten Distanzen zwischen den Clustern und die Distanzmatrizen nach jedem Schritt an. Gebe außerdem nach dem zweiten Schritt die finalen Cluster an.</p>
+</div>
+<p>Wir wollen für die R Übungen ein letztes Mal den <code>modeldata::hotel_rates</code> Datensatz untersuchen.</p>
+<p>Verwende das folgende Code-Snippet für das Preprocessing und bearbeite die darauffolgenden Aufgaben mithilfe des <code>data_hotel_filtered</code> Datensatzes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>data_hotel <span class="ot">&lt;-</span> modeldata<span class="sc">::</span>hotel_rates</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>cntry_list<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">"and"</span>, <span class="st">"aut"</span>, <span class="st">"aze"</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">"che"</span>, <span class="st">"chl"</span>, <span class="st">"cze"</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">"esp"</span>, <span class="st">"geo"</span>, <span class="st">"hun"</span>, <span class="st">"ita"</span>, </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">"lux"</span>, <span class="st">"mar"</span>, <span class="st">"mwi"</span>, <span class="st">"nga"</span>, <span class="st">"prt"</span>, </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>              <span class="st">"rus"</span>, <span class="st">"swe"</span>, <span class="st">"tur"</span>, <span class="st">"twn"</span>, </span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>              <span class="st">"usa"</span>)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>data_hotel_filtered <span class="ot">&lt;-</span> data_hotel <span class="sc">%&gt;%</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> cntry_list) <span class="sc">%&gt;%</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>   <span class="at">arrival_month =</span> <span class="fu">factor</span>(<span class="fu">month</span>(arrival_date)),</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>   <span class="at">num_guests =</span> adults<span class="sc">+</span>children,</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>   <span class="at">is_repeated_guest =</span> <span class="fu">factor</span>(is_repeated_guest),</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>   <span class="at">near_christmas =</span> <span class="fu">factor</span>(near_christmas),</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>   <span class="at">near_new_years =</span> <span class="fu">factor</span>(near_new_years)</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>   ) <span class="sc">%&gt;%</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(adults,children,agent,arrival_date,arrival_date_num))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="exr-normalize_data" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 7.4</strong></span> &nbsp;</p>
+<ol type="1">
+<li><p>Schreibe eine Funktion <code>scale2</code>, welche als Input eine Variable <code>x</code> erhält und diese entsprechend der Formel <span class="math display">\[\begin{equation*}
+  \tilde{x} = \frac{x-\hat{\mu}_x}{\hat{\text{sd}}_x}
+\end{equation*}\]</span> transformiert. Die Variable <span class="math inline">\(\tilde{x}\)</span> soll anschließend der Rückagebwert der Funktion <code>scale2</code> sein.</p></li>
+<li><p>Verwende die in Teilaufgabe 1. erstellte Funktion <code>scale2</code> um alle Feature des Typ <code>&lt;dbl&gt;</code> zu normieren. Speichere hierbei die normalisierten Daten in einem neuen Datensatz <code>data_hotel_filtered_scaled</code>.</p></li>
+</ol>
+</div>
+<div id="exr-hierarch_clust" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 7.5</strong></span> Verwende den in <a href="#exr-normalize_data" class="quarto-xref">Aufgabe&nbsp;<span>7.4</span></a> erstellten Datensatz <code>data_hotel_filtered_scaled</code> um das Complete-Linkage Verfahren auf Basis einer Gower-Distanzmatrix anzuwenden und speichere das <code>hclust</code> Objekt in einer neuen Variable <code>data_clust</code>.</p>
+</div>
+<div id="exr-scree_plot" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 7.6</strong></span> Wir wollen nun die Ergebnisse des hierarchischen Clusterns untersuchen. Erstelle hierfür wie einen Scree-Plot und identifiziere anhand der “Ellenbogen”-Methode die optimale Anzahl an Clusterpunkten.</p>
+</div>
+<div id="exr-k_clustered" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 7.7</strong></span> Verwende die in der vorherigen Aufgabe bestimmte optimale Clusteranzahl um einen neuen Datensatz <code>data_hotel_clustered</code> zu erstellen, welcher zum einen den Datensatz <code>data_hotel_filtered</code> enthält und zum anderen eine neue Spalte <code>cluster_label</code>, welche die entsprechenden Cluster Label für jeden Datenpunkt enthält.</p>
+</div>
+<div id="exr-eda_cluster" class="theorem exercise">
+<p><span class="theorem-title"><strong>Aufgabe 7.8</strong></span> &nbsp;</p>
+<ol type="1">
+<li><p>Finde heraus, wie viele Datenpunkte in den jeweiligen Clustern vertreten sind und was der Durchschnittliche Wert der Variable <code>avg_price_per_room</code> in jedem Cluster ist.</p></li>
+<li><p>Erstelle einen Plot, welcher für jedes Cluster einen Boxplot für die Variable <code>lead_time</code> enthält. Gibt es Auffälligkeiten bezïuglich der Quantile?</p></li>
+</ol>
+</div>
+</section>
+<section id="lösungen" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="lösungen"><span class="header-section-number">7.6</span> Lösungen</h2>
+<div id="sol-pen_calc" class="proof solution">
+<p><span class="proof-title"><em>Solution 7.1</em> (<a href="#exr-pen_calc" class="quarto-xref">Aufgabe&nbsp;<span>7.1</span></a>). </span></p>
+<ol type="1">
+<li><ol type="i">
+<li>Die euklidische Distanz ist gegeben durch <span class="math display">\[\begin{equation*}
+   \sqrt{(42-40.2)^2+(20.2-17.1)^2+(190-193)^2+(4250-3400)^2} = 850.0129     
+\end{equation*}\]</span></li>
+<li>Die Manhattan Distanz inst gegeben durch <span class="math display">\[\begin{equation*}
+  |42-40.2|+
+  |20.2-17.1|+
+  |190-193|+
+  |4250-3400| = 857.9
+\end{equation*}\]</span></li>
+</ol></li>
+<li><ol type="i">
+<li>Falls alle Variablen gleich gewichtet sind, dann gilt <span class="math display">\[\begin{align*}
+  d_G(x_m,x_l) &amp;=
+  \frac{\sum_{j=1}^J \delta(x_{m,j},x_{l,j})d(x_{m,j},x_{l,j})}{\sum_{j=1}^J\delta(x_{m,j},x_{l,j})}\\
+  &amp;=\frac{\sum_{j=1}^J c\cdot d(x_{m,j},x_{l,j})}{\sum_{j=1}^Jc}\\
+  &amp;=\frac{c\cdot \sum_{j=1}^J  d(x_{m,j},x_{l,j})}{J\cdot c}\\
+  &amp;=\frac{\sum_{j=1}^J  d(x_{m,j},x_{l,j})}{J}
+\end{align*}\]</span> Es ergibt sich dann: <span class="math display">\[\begin{align*}
+  d(x_{2,1},x_{5,1}) &amp;= 1\\
+  d(x_{2,2},x_{5,2}) &amp;= 1\\
+  d(x_{2,3},x_{5,3}) &amp;= \frac{|39.8-50.5|}{50.5-35}=0.69\\
+  d(x_{2,4},x_{5,4}) &amp;= \frac{|19.1-15.9|}{20.2-15.9}=0.74\\
+  d(x_{2,5},x_{5,5}) &amp;=\frac{|184-225|}{225-184} = 1\\
+  d(x_{2,6},x_{5,6}) &amp;=\frac{|4650-5400|}{5400-3400} = 0.375
+\end{align*}\]</span> Das Aufsummiern und Teilen durch <span class="math inline">\(6\)</span> ergibt dann <span class="math display">\[\begin{equation*}
+    d_G(x_2,x_4) = \frac{1+1+0.69+0.74+1+0.375}{6} = 0.8
+\end{equation*}\]</span></li>
+<li>Falls die nominalen Variablen doppelt gewichtet werden, dann gilt: <span class="math display">\[\begin{equation}
+  d_G(x_m,x_l) =
+  \frac{\sum_{j=1}^J w_j \cdot d(x_{m,j},x_{l,j})}{\sum_{j=1}^J w_j}
+\end{equation}\]</span> Dabei setzen wir: <span class="math display">\[\begin{equation}
+w_1 = w_2 = 2, \quad w_3 = w_4 = w_5 = w_6 = 1
+\end{equation}\]</span> Es ergibt sich dann: <span class="math display">\[\begin{align}
+d(x_{2,1},x_{5,1}) &amp;= 1 \notag \\
+d(x_{2,2},x_{5,2}) &amp;= 1 \notag \\
+d(x_{2,3},x_{5,3}) &amp;= \frac{|39.8 - 50.5|}{50.5 - 35} = \frac{10.7}{15.5} \approx 0.69 \notag \\
+d(x_{2,4},x_{5,4}) &amp;= \frac{|19.1 - 15.9|}{20.2 - 15.9} = \frac{3.2}{4.3} \approx 0.744 \notag \\
+d(x_{2,5},x_{5,5}) &amp;= \frac{|184 - 225|}{225 - 184} = \frac{41}{41} = 1 \notag \\
+d(x_{2,6},x_{5,6}) &amp;= \frac{|4650 - 5400|}{5400 - 3400} = \frac{750}{2000} = 0.375 \notag
+\end{align}\]</span> Die gewichtete Summe der Distanzen im Zähler: <span class="math display">\[\begin{equation}
+2 \cdot 1 + 2 \cdot 1 + 1 \cdot 0.69 + 1 \cdot 0.744 + 1 \cdot 1 + 1 \cdot 0.375 = 6.809
+\end{equation}\]</span> Die Summe der Gewichte im Nenner: <span class="math display">\[\begin{equation}
+2 + 2 + 1 + 1 + 1 + 1 = 8
+\end{equation}\]</span> Insgesamt ergibt sich dann <span class="math display">\[\begin{equation}
+d_G(x_2, x_5) = \frac{6.809}{8} \approx 0.851
+\end{equation}\]</span></li>
+</ol></li>
+</ol>
+</div>
+<div id="sol-hierarchtable" class="proof solution">
+<p><span class="proof-title"><em>Solution 7.2</em> (<a href="#exr-hierarchtable" class="quarto-xref">Aufgabe&nbsp;<span>7.2</span></a>). </span></p>
+<ol type="1">
+<li><ol type="i">
+<li>Merge <code>-1</code> und <code>-4</code> <span class="math inline">\(\implies\)</span> Cluster <span class="math inline">\(C1 = \{1, 4\}\)</span><br>
+</li>
+<li>Merge <code>-2</code> und <code>1</code> <span class="math inline">\(\implies\)</span> Cluster <span class="math inline">\(C2 = \{2, 1, 4\}\)</span><br>
+</li>
+<li>Merge <code>-3</code> und <code>2</code> <span class="math inline">\(\implies\)</span> Cluster <span class="math inline">\(C3 = \{3, 2, 1, 4\}\)</span><br>
+</li>
+<li>Merge <code>-5</code> und <code>3</code> <span class="math inline">\(\implies\)</span> Cluster <span class="math inline">\(C4 = \{5, 3, 2, 1, 4\}\)</span><br>
+</li>
+<li>Merge <code>-6</code> und <code>4</code> <span class="math inline">\(\implies\)</span> Cluster <span class="math inline">\(C5 = \{6, 5, 3, 2, 1, 4\}\)</span></li>
+</ol></li>
+<li>Es handelt sich hierbei vermutlich um das Single-Linkage Verfahren, da dieses dazu tendiert Ketten zu bilden.</li>
+</ol>
+</div>
+<div id="sol-distance_mat" class="proof solution">
+<p><span class="proof-title"><em>Solution 7.3</em> (<a href="#exr-distance_mat" class="quarto-xref">Aufgabe&nbsp;<span>7.3</span></a>). </span>Zuerst müssen wir das Paar mit minimalem Abstand identifizieren:</p>
+<ul>
+<li>Der kleinste Wert ist durch <span class="math inline">\(1.5958\)</span> zwischen Objekt 1 und 2 gegeben.</li>
+<li>Wir können diese also zu einem Cluster <span class="math inline">\(C_{1,2} = \{1,2\}\)</span> zusammenfassen.</li>
+</ul>
+<p>Durch das Anwenden der Complete-Linkage Methode ergibt sich dann folgende Distanzmatrix:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 27%">
+<col style="width: 27%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(C_{1,2}\)</span></td>
+<td><span class="math inline">\(\max\{3.9, 3.35\} = 3.9\)</span></td>
+<td><span class="math inline">\(\max\{3.48, 3.63\} = 3.63\)</span></td>
+<td><span class="math inline">\(\max\{2.54, 3.1\} = 3.1\)</span></td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td></td>
+<td>3.37</td>
+<td>3.33</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td></td>
+<td></td>
+<td>2.7</td>
+</tr>
+</tbody>
+</table>
+<p>Wir können in dieser neuen Distanzmatrix nun wieder nach der kleinsten Distanz zwischen den Clustern suchen und diese zum nächsten Cluster hinzufügen:</p>
+<ul>
+<li>Der kleinste Wert ist durch <span class="math inline">\(2.7049\)</span> zwischen Objekt 4 und 5 gegeben.</li>
+<li>Es ergibt sich dadurch das Cluster <span class="math inline">\(C_{4,5} = \{4,5\}\)</span></li>
+</ul>
+<p>Wir erhalten daraufhin die Distanzmatrix</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 28%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>3</th>
+<th><span class="math inline">\(C_\{4,5\}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(C_{1,2}\)</span></td>
+<td><span class="math inline">\(3.90\)</span></td>
+<td><span class="math inline">\(\max\{3.48, 3.63, 2.54, 3.1\} = 3.63\)</span></td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>—</td>
+<td><span class="math inline">\(\max\{3.37, 3.33\} = 3.37\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Die finalen Cluster nach zwei Schritten sind dann durch</p>
+<p><span class="math display">\[\begin{align*}
+C_{1,2} &amp;= \{1,2\}\\
+C_{3}   &amp;= \{3\}\\
+C_{4,5} &amp;= \{4,5\}
+\end{align*}\]</span></p>
+<p>gegeben.</p>
+</div>
+<div id="sol-normalize_data" class="proof solution">
+<p><span class="proof-title"><em>Solution 7.4</em> (<a href="#exr-normalize_data" class="quarto-xref">Aufgabe&nbsp;<span>7.4</span></a>). </span></p>
+<ol type="1">
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>scale2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  x_scaled <span class="ot">&lt;-</span> (x<span class="sc">-</span><span class="fu">mean</span>(x)<span class="sc">/</span><span class="fu">sd</span>(x))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x_scaled)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>data_hotel_filtered_scaled <span class="ot">&lt;-</span> data_hotel_filtered <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is_double , scale2 )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+</ol>
+</div>
+<div id="sol-hierarch_clust" class="proof solution">
+<p><span class="proof-title"><em>Solution 7.5</em> (<a href="#exr-hierarch_clust" class="quarto-xref">Aufgabe&nbsp;<span>7.5</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>data_clust <span class="ot">&lt;-</span> data_hotel_filtered_scaled <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">daisy</span>(<span class="at">metric=</span><span class="st">"gower"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hclust</span>(<span class="at">method=</span><span class="st">"complete"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-scree_plot" class="proof solution">
+<p><span class="proof-title"><em>Solution 7.6</em> (<a href="#exr-scree_plot" class="quarto-xref">Aufgabe&nbsp;<span>7.6</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>complete_clust <span class="ot">&lt;-</span> data_clust <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"height"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">num_clust =</span>(<span class="fu">nrow</span>(data_hotel_filtered)<span class="sc">-</span><span class="dv">1</span>)<span class="sc">:</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">height=</span>value)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>complete_clust <span class="sc">%&gt;%</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(num_clust<span class="sc">&lt;=</span><span class="dv">9</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>num_clust,<span class="at">y=</span>height))<span class="sc">+</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">seq.int</span>(<span class="dv">1</span>,<span class="dv">9</span>),</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">factor</span>(<span class="fu">seq.int</span>(<span class="dv">1</span>,<span class="dv">9</span>))</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    )<span class="sc">+</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span><span class="st">"Number of Clusters"</span>,<span class="at">y =</span><span class="st">"Dissimilarity Level"</span>)<span class="sc">+</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_Clustering_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Mithilfe der Ellenbogen Methode können wir <span class="math inline">\(k=6\)</span> als optimale Clusteranzahl identifizieren, da dieser Punkt den kleinsten Winkel im Vergleich zu den anderen Punkten einschließt.</p>
+</div>
+<div id="sol-k_clustered" class="proof solution">
+<p><span class="proof-title"><em>Solution 7.7</em> (<a href="#exr-k_clustered" class="quarto-xref">Aufgabe&nbsp;<span>7.7</span></a>). </span>Aus der vorherigen Aufgabe ergibt sich, dass die optimale Anzahl an Cluster durch <span class="math inline">\(k=6\)</span> gegeben ist.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>data_hotel_clustered <span class="ot">&lt;-</span> data_clust <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cutree</span>(<span class="at">k=</span><span class="dv">6</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">factor</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(data_hotel_filtered) <span class="sc">%&gt;%</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"cluster_label"</span> <span class="ot">=</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-eda_cluster" class="proof solution">
+<p><span class="proof-title"><em>Solution 7.8</em> (<a href="#exr-eda_cluster" class="quarto-xref">Aufgabe&nbsp;<span>7.8</span></a>). </span></p>
+<ol type="1">
+<li><p>Mithilfe der <code>group_by()</code> und <code>summary()</code> Funktionen können wir direkt berechnen, wie viele Datenpunkte in den jeweiligen Clustern sind und wie hoch die durchschnittlichen Übernachtungskosten in den jeweiligen Clustern sind:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>data_hotel_clustered <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cluster_label) <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>(),</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_price =</span> <span class="fu">mean</span>(avg_price_per_room)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  cluster_label     n mean_price
+  &lt;fct&gt;         &lt;int&gt;      &lt;dbl&gt;
+1 1              3785      134. 
+2 2              1880      140. 
+3 3               440       59.8
+4 4                53      102. 
+5 5              1297       57.4
+6 6                83      169. </code></pre>
+</div>
+</div></li>
+<li><!-- -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>data_hotel_clustered <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>cluster_label,<span class="at">y=</span>lead_time))<span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07_Clustering_files/figure-html/unnamed-chunk-49-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Die Boxplots zeigen, dass die verschiedenen Cluster teilweise sehr verschiedene Quartile enthalten. Wenig überraschend ist, dass ziemlich alle untere Quartile um die <span class="math inline">\(0\)</span> ligen, da es viele Gäste geben wird welche nur kurzfristig ein Zimmer buchen. Insbersondere im 6. Cluster scheint es allerdings eine Tendenz zu geben, die Hotezimmer bereits im Voraus zu buchen, was dieses Cluster von den anderen unterscheidet.</p></li>
+</ol>
+</div>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Diese müssen eventuell noch installiert werden<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Das <code>{dclust}</code> Package muss eventuell zuvor installiert werden<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./06_Klassifikation.html" class="pagination-link" aria-label="Klassifikation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Klassifikation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright 2025, Linus Lach</p>
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

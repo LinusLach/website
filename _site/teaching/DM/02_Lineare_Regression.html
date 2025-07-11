@@ -254,6 +254,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Klassifikation</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -401,23 +407,23 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="asycxnokci" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#asycxnokci table {
+<div id="eeeremszql" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#eeeremszql table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#asycxnokci thead, #asycxnokci tbody, #asycxnokci tfoot, #asycxnokci tr, #asycxnokci td, #asycxnokci th {
+#eeeremszql thead, #eeeremszql tbody, #eeeremszql tfoot, #eeeremszql tr, #eeeremszql td, #eeeremszql th {
   border-style: none;
 }
 
-#asycxnokci p {
+#eeeremszql p {
   margin: 0;
   padding: 0;
 }
 
-#asycxnokci .gt_table {
+#eeeremszql .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -443,12 +449,12 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-left-color: #D3D3D3;
 }
 
-#asycxnokci .gt_caption {
+#eeeremszql .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#asycxnokci .gt_title {
+#eeeremszql .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -460,7 +466,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-width: 0;
 }
 
-#asycxnokci .gt_subtitle {
+#eeeremszql .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -472,7 +478,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-top-width: 0;
 }
 
-#asycxnokci .gt_heading {
+#eeeremszql .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -484,13 +490,13 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#asycxnokci .gt_bottom_border {
+#eeeremszql .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#asycxnokci .gt_col_headings {
+#eeeremszql .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -505,7 +511,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#asycxnokci .gt_col_heading {
+#eeeremszql .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -525,7 +531,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   overflow-x: hidden;
 }
 
-#asycxnokci .gt_column_spanner_outer {
+#eeeremszql .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -537,15 +543,15 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 4px;
 }
 
-#asycxnokci .gt_column_spanner_outer:first-child {
+#eeeremszql .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#asycxnokci .gt_column_spanner_outer:last-child {
+#eeeremszql .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#asycxnokci .gt_column_spanner {
+#eeeremszql .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -557,11 +563,11 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   width: 100%;
 }
 
-#asycxnokci .gt_spanner_row {
+#eeeremszql .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#asycxnokci .gt_group_heading {
+#eeeremszql .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -587,7 +593,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   text-align: left;
 }
 
-#asycxnokci .gt_empty_group_heading {
+#eeeremszql .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -602,15 +608,15 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   vertical-align: middle;
 }
 
-#asycxnokci .gt_from_md > :first-child {
+#eeeremszql .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#asycxnokci .gt_from_md > :last-child {
+#eeeremszql .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#asycxnokci .gt_row {
+#eeeremszql .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -629,7 +635,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   overflow-x: hidden;
 }
 
-#asycxnokci .gt_stub {
+#eeeremszql .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -642,7 +648,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#asycxnokci .gt_stub_row_group {
+#eeeremszql .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -656,15 +662,15 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   vertical-align: top;
 }
 
-#asycxnokci .gt_row_group_first td {
+#eeeremszql .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#asycxnokci .gt_row_group_first th {
+#eeeremszql .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#asycxnokci .gt_summary_row {
+#eeeremszql .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -674,16 +680,16 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#asycxnokci .gt_first_summary_row {
+#eeeremszql .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#asycxnokci .gt_first_summary_row.thick {
+#eeeremszql .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#asycxnokci .gt_last_summary_row {
+#eeeremszql .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -693,7 +699,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-color: #D3D3D3;
 }
 
-#asycxnokci .gt_grand_summary_row {
+#eeeremszql .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -703,7 +709,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#asycxnokci .gt_first_grand_summary_row {
+#eeeremszql .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -713,7 +719,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-top-color: #D3D3D3;
 }
 
-#asycxnokci .gt_last_grand_summary_row_top {
+#eeeremszql .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -723,11 +729,11 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-color: #D3D3D3;
 }
 
-#asycxnokci .gt_striped {
+#eeeremszql .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#asycxnokci .gt_table_body {
+#eeeremszql .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -736,7 +742,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-color: #D3D3D3;
 }
 
-#asycxnokci .gt_footnotes {
+#eeeremszql .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -750,7 +756,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#asycxnokci .gt_footnote {
+#eeeremszql .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -759,7 +765,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#asycxnokci .gt_sourcenotes {
+#eeeremszql .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -773,7 +779,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#asycxnokci .gt_sourcenote {
+#eeeremszql .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -781,63 +787,63 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#asycxnokci .gt_left {
+#eeeremszql .gt_left {
   text-align: left;
 }
 
-#asycxnokci .gt_center {
+#eeeremszql .gt_center {
   text-align: center;
 }
 
-#asycxnokci .gt_right {
+#eeeremszql .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#asycxnokci .gt_font_normal {
+#eeeremszql .gt_font_normal {
   font-weight: normal;
 }
 
-#asycxnokci .gt_font_bold {
+#eeeremszql .gt_font_bold {
   font-weight: bold;
 }
 
-#asycxnokci .gt_font_italic {
+#eeeremszql .gt_font_italic {
   font-style: italic;
 }
 
-#asycxnokci .gt_super {
+#eeeremszql .gt_super {
   font-size: 65%;
 }
 
-#asycxnokci .gt_footnote_marks {
+#eeeremszql .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#asycxnokci .gt_asterisk {
+#eeeremszql .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#asycxnokci .gt_indent_1 {
+#eeeremszql .gt_indent_1 {
   text-indent: 5px;
 }
 
-#asycxnokci .gt_indent_2 {
+#eeeremszql .gt_indent_2 {
   text-indent: 10px;
 }
 
-#asycxnokci .gt_indent_3 {
+#eeeremszql .gt_indent_3 {
   text-indent: 15px;
 }
 
-#asycxnokci .gt_indent_4 {
+#eeeremszql .gt_indent_4 {
   text-indent: 20px;
 }
 
-#asycxnokci .gt_indent_5 {
+#eeeremszql .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
