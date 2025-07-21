@@ -234,7 +234,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03_Wichtige_Konzepte.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Weiterführende Konzepte des Dataminings</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Weiterführende Konzepte des Data Mining</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -333,7 +333,7 @@ window.Quarto = {
 </header>
 
 
-<p>Eine vollumfängliche Wiederholung von R Konzepten welche im Grundstudium gelehrt werden würden den Rahmen dieses Manuskriptes Sprengen. Wir werden deshalb in dieser Übung den Fokus auf die Installation von R, RStudio, wichtigen Libraries und deren grundlegende Anwendung legen. Für eine Umfangreiche Einfürung in R kann ich das <a href="https://yards.albert-rapp.de/">YARDS</a> Manuskript von Albert Rapp empfehlen.</p>
+<p>Eine vollumfängliche Wiederholung von R Konzepten welche im Grundstudium gelehrt werden würden den Rahmen dieses Manuskriptes Sprengen. Wir werden deshalb in dieser Übung den Fokus auf die Installation von R, RStudio, wichtigen Libraries und deren grundlegende Anwendung legen. Für eine Umfangreiche Einführung in R kann ich das <a href="https://yards.albert-rapp.de/">YARDS</a> Manuskript von Albert Rapp empfehlen.</p>
 <section id="installieren-von-r-und-rstudio" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="installieren-von-r-und-rstudio"><span class="header-section-number">1.1</span> Installieren von R und RStudio</h2>
 <p>In diesem Abschnitt wiederholen wir kurz die Installation von R und RStudio. Obwohl R (die Programmiersprache) mit einer vorinstallierten grafischen Benutzeroberfläche (GUI) installiert werden kann, werden wir stattdessen RStudio. RStudio kommt mit einigen Vorteilen gegenüber der internen R Gui, wie zum Beispiel das einsehen von Variablenwerten, Plots und Programmcode gleichzeitig. Es ist allerdings wichtig zu beachten, dass RStudio nur dann funktioniert, wenn R zuvor auch installiert wurde.</p>
@@ -347,7 +347,7 @@ window.Quarto = {
 <p><img src="pictures/rstudio-panes-labeled.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
-<p>Das <em>Source</em> Panel zeigt ein <code>.R</code> File namens <code>ggplot2.R</code>. <code>.R</code> Dateien sind das standard R Format in welchen Code geschrieben und gespeichert wird. Eine ästhetischere Variante sind sogenannte Quarto Markdown Files (Endung .qmd) welche erlauben Text und Code zu kombinieren. Zum Beispiel wurde dieses Manuskript komplett mit Quarto geschrieben 😁 .</p>
+<p>Das <em>Source</em> Panel zeigt ein <code>.R</code> File namens <code>ggplot2.R</code>. <code>.R</code> Dateien sind das standard R Format in welchen Code geschrieben und gespeichert wird. Eine Variante die mehr Ästhetik besitzt sind sogenannte Quarto Markdown Files (Endung .qmd) welche erlauben Text und Code zu kombinieren. Zum Beispiel wurde dieses Manuskript komplett mit Quarto geschrieben 😁 .</p>
 <div class="callout callout-style-default callout-tip no-icon callout-titled" title="Kurzeinführung Quarto">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -362,7 +362,7 @@ Kurzeinführung Quarto
 <div class="callout-body-container callout-body">
 <p>Quarto ist in RStudio bereits vorinstalliert, weshalb das Anlegen von neuen Dokumenten sehr leicht ist.</p>
 <ol type="1">
-<li><p>In RStudio, clicke auf <code>New File -&gt; Quarto Document...</code> im File <code>File</code> tab <img src="pictures/Quarto-Creation.png" class="img-fluid quarto-figure quarto-figure-center"></p></li>
+<li><p>In RStudio, klicke auf <code>New File -&gt; Quarto Document...</code> im File <code>File</code> tab <img src="pictures/Quarto-Creation.png" class="img-fluid quarto-figure quarto-figure-center"></p></li>
 <li><p>Wenn das <code>New Quarto Document</code> Fenster sich öffnet kann man das Outputformat wählen. Das HTML output ist sehr umgänglich und kann mit jedem Browser verwendet werden. Durch das auswählen des <code>create</code> Knopfes öffnet sich dann ein neues Quarto Dokument. <img src="pictures/Quarto-Creation-02.png" class="img-fluid quarto-figure quarto-figure-center"></p></li>
 <li><p>Im Source Panel wird nun ein Quarto-Beispieldokument angezeigt, welches bearbeitet werden kann. Eventuell muss noch <code>rmarkdown</code> installiert werden, um eine korrekte Darstellung erzeugen zu können (vgl. Markierung 1). Das Quarto-Dokument kann dann durch Anklicken der entsprechenden Abschnitte geändert werden. R-Code-Zellen können durch Klicken auf den grünen Pfeil ausgeführt werden (vgl. Markierung 2). Um neue R-Code-Zellen zwischen Absätzen einzufügen, kann über die die Registerkarte <code>Einfügen</code> <code>Ausführbare Zelle -&gt; R</code> (vgl. Markierung 3) eine neue Code-Zelle . <img src="pictures/Quarto-Creation-03.png" class="img-fluid quarto-figure quarto-figure-center"></p></li>
 </ol>
@@ -373,7 +373,7 @@ Kurzeinführung Quarto
 <p>Natürlich muss man sich nicht zwingend in Quarto einlesen und kann die folgenden Aufgaben auch in normalen <code>.R</code> Skripten ausführen.</p>
 <section id="arbeiten-mit-arbeitspfaden-und-r-projekten" class="level3" data-number="1.1.1">
 <h3 data-number="1.1.1" class="anchored" data-anchor-id="arbeiten-mit-arbeitspfaden-und-r-projekten"><span class="header-section-number">1.1.1</span> Arbeiten mit Arbeitspfaden und R Projekten</h3>
-<p>Nach dem Öffnen von RStudio kann durch den Befehl <code>getwd()</code> im Konsolen Panel der Pfad des aktuellen Arbeitsverzeichnis ausgegeben werden. Das Arbeitsverzeichnis ist zum Beispiel dann wichtig, wenn wir neue Datein anlegen, oder Datensätze einlesen wollen. Wenn der Rückgabewert des Befehls <code>getwd()</code> zum Beispiel <code>"C:/Users/lachlinu/Documents/Vorlesungen/Data_Mining/"</code> lautet, kann R auf jede Datei im Verzeichnis <code>Data_Mining</code> zugreifen. Eine Möglichkeit, das Arbeitsverzeichnis zu ändern, ist die Verwendung des Befehls <code>setwd()</code>. Hierbei ist wichtig, entweder den absoluten neuen Pfad, oder den relativen neuen Pfad anzugeben. Falls das Ziel ist, in das <code>/Documents</code> Verzeichnis zu wechseln, so kann man durch die Angabe des relativen Pfades <code>setwd('../../../')</code> das Verzeichnis <code>/Documents</code> auswählen, sofern das aktuelle Verzeichnis <code>"C:/Users/lachlinu/Documents/Vorlesungen/Data_Mining/"</code> ist. Die <code>../</code> Notation wird verwendet um das übergeordnete Verzeichnis auszuwählen. Alternativ kann man auch einfach den absoluten Pfad <code>"C:/Users/lachlinu/Documents"</code> in den <code>setwd()</code> Befehl einfügen um das Verzeichnis entsprechend zu wechseln. Das manuelle Ändern des Verzeichnisses in jedem <code>.R</code> Skript kann schnell mühsam werden, daher ist die Einrichtung eines Projekts eine praktischere Alternative. RStudio-Projekte ermöglichen die Erstellung eines individuellen Arbeitsverzeichnisses für mehrere Kontexte. Zum Beispiel können wir R nicht nur zum Lösen von Aufgaben für Data Mining verwenden, sondern auch für Abschlussarbeiten. Wenn man also zwei verschiedene Projekte einrichtet, kann man die Arbeitsverzeichnisse und Arbeitsbereiche für jedes Projekt individuell organisieren.</p>
+<p>Nach dem Öffnen von RStudio kann durch den Befehl <code>getwd()</code> im Konsolen Panel der Pfad des aktuellen Arbeitsverzeichnis ausgegeben werden. Das Arbeitsverzeichnis ist zum Beispiel dann wichtig, wenn wir neue Dateien anlegen, oder Datensätze einlesen wollen. Wenn der Rückgabewert des Befehls <code>getwd()</code> zum Beispiel <code>"C:/Users/lachlinu/Documents/Vorlesungen/Data_Mining/"</code> lautet, kann R auf jede Datei im Verzeichnis <code>Data_Mining</code> zugreifen. Eine Möglichkeit, das Arbeitsverzeichnis zu ändern, ist die Verwendung des Befehls <code>setwd()</code>. Hierbei ist wichtig, entweder den absoluten neuen Pfad, oder den relativen neuen Pfad anzugeben. Falls das Ziel ist, in das <code>/Documents</code> Verzeichnis zu wechseln, so kann man durch die Angabe des relativen Pfades <code>setwd('../../../')</code> das Verzeichnis <code>/Documents</code> auswählen, sofern das aktuelle Verzeichnis <code>"C:/Users/lachlinu/Documents/Vorlesungen/Data_Mining/"</code> ist. Die <code>../</code> Notation wird verwendet um das übergeordnete Verzeichnis auszuwählen. Alternativ kann man auch einfach den absoluten Pfad <code>"C:/Users/lachlinu/Documents"</code> in den <code>setwd()</code> Befehl einfügen um das Verzeichnis entsprechend zu wechseln. Das manuelle Ändern des Verzeichnisses in jedem <code>.R</code> Skript kann schnell mühsam werden, daher ist die Einrichtung eines Projekts eine praktischere Alternative. RStudio-Projekte ermöglichen die Erstellung eines individuellen Arbeitsverzeichnisses für mehrere Kontexte. Zum Beispiel können wir R nicht nur zum Lösen von Aufgaben für Data Mining verwenden, sondern auch für Abschlussarbeiten. Wenn man also zwei verschiedene Projekte einrichtet, kann man die Arbeitsverzeichnisse und Arbeitsbereiche für jedes Projekt individuell organisieren.</p>
 <p>Das folgende Beispiel illustriert wie man ein Projekt einrichtet und verwendet:</p>
 <ol type="1">
 <li><p>Über den <code>File</code> Tab, wähle <code>New Project...</code>.</p>
@@ -382,7 +382,7 @@ Kurzeinführung Quarto
 <p><img src="pictures/New_Project.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div></li>
-<li><p>Durch das wählen von <code>Existing Directory</code> kann man durch den Explorer ein Verzeichnis wählen welches bereits existiert und dann durch den <code>Create Project</code> button ein neus Projekt in diesem Verzeichnis anlegen.</p>
+<li><p>Durch das wählen von <code>Existing Directory</code> kann man durch den Explorer ein Verzeichnis wählen welches bereits existiert und dann durch den <code>Create Project</code> button ein neues Projekt in diesem Verzeichnis anlegen.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="pictures/New_Project_03.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
@@ -439,7 +439,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Die Argumente einer Funktion müssen nicht immer übergeben werden. Im obigen Beispiel wurden die Bennenungen <code>"from="</code> und <code>"to="</code> weggelassen. Das weglassen der Argumentnamen beim Aufruf der Funktion ist lediglich der Faulheit der programmierenden Person geschuldet. In den meisten Fällen lohnt es sich Zwecks Lesbarkeit diese zu benennen.</p>
+<p>Die Argumente einer Funktion müssen nicht immer übergeben werden. Im obigen Beispiel wurden die Benennungen <code>"from="</code> und <code>"to="</code> weggelassen. Das weglassen der Argumentnamen beim Aufruf der Funktion ist lediglich der Faulheit der programmierenden Person geschuldet. In den meisten Fällen lohnt es sich Zwecks Lesbarkeit diese zu benennen.</p>
 </div>
 </div>
 <p>Der Abstand zwischen den einzelnen Folgenglieder der Folge ist hierbei gegeben durch</p>
@@ -463,7 +463,7 @@ Tip
 </section>
 <section id="erstellen-von-datensätzen" class="level4" data-number="1.2.1.2">
 <h4 data-number="1.2.1.2" class="anchored" data-anchor-id="erstellen-von-datensätzen"><span class="header-section-number">1.2.1.2</span> Erstellen von Datensätzen</h4>
-<p>Obwohl die meisten Datensätze, welche wir in der übung verwendet bereits erstellt wurden, ist es sehr sinnvoll sich mit der Erstellung von eigenen Datensätzen auseinander zu setzen. Besonders wenn man auf Basis bereits existierender Datensätze Teildatensätze erstellen will, ist diese Kenntnis hilfreich.</p>
+<p>Obwohl die meisten Datensätze, welche wir in der Übung verwendet bereits erstellt wurden, ist es sehr sinnvoll sich mit der Erstellung von eigenen Datensätzen auseinander zu setzen. Besonders wenn man auf Basis bereits existierender Datensätze Teildatensätze erstellen will, ist diese Kenntnis hilfreich.</p>
 <p>Ein Grundlegender Befehl zum erzeugen von Datensätzen ist die <code>data.frame</code> Funktion.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -477,7 +477,7 @@ Tip
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Das Datensatz <code>data</code> enthält drei Spalten: <code>x,y,z</code> welche mit verschiedenen Werten erzeugt wurden. Die Spalte <code>x</code> wurde mithilfe der <code>seq</code> Funktion mit 18 Werten befüllt welche zwischen <span class="math inline">\(1\)</span> und <span class="math inline">\(10\)</span> liegen. Die Spalte <code>y</code> wurde mithilfe des vordefinierten <code>letters</code> Vektor befüllt. Dieser enthält die Buchstaben <code>a-z</code>. Hierbei wurden ebenso die 18 Einträge verwendet. In der letzten Spalte <code>z</code> wurden mehrere Funktionen verschachtelt auf einmal verwendet. Die innerste Funktion <code>strsplit</code> teilt einen gegebenen String (<code>&lt;chr&gt;</code>) Vektor in einzelne Komponenten auf. Die Teilung des langen Strings folgt durch das Argument <code>split</code>. Hier wurde als Split Argument das Leerzeichen <code>" "</code> übergeben. Dadurch wird der Satz <code>"The quick brown fox jumps over the lazy dog"</code> an jedem Leerzeichen getrennt und eine Liste der einzelnen Wörter zurückgegeben. Die <code>rep</code> (Repeat) Funktion wiederholt das übergebene Argument und wiederholt dieses gemäß der übergebnen Zahl. Da der Rückgabewert der <code>rep</code> Funktion in diesem Fall eine verschachtelte Liste ist (eine Liste mit zwei Elementen, wobei jedes dieser beiden Elemente wieder selbst eine Liste ist), wir die Verschachtelung über die <code>unlist</code> funktion aufgehoben.</p>
+<p>Das Datensatz <code>data</code> enthält drei Spalten: <code>x,y,z</code> welche mit verschiedenen Werten erzeugt wurden. Die Spalte <code>x</code> wurde mithilfe der <code>seq</code> Funktion mit 18 Werten befüllt welche zwischen <span class="math inline">\(1\)</span> und <span class="math inline">\(10\)</span> liegen. Die Spalte <code>y</code> wurde mithilfe des vordefinierten <code>letters</code> Vektor befüllt. Dieser enthält die Buchstaben <code>a-z</code>. Hierbei wurden ebenso die 18 Einträge verwendet. In der letzten Spalte <code>z</code> wurden mehrere Funktionen verschachtelt auf einmal verwendet. Die innerste Funktion <code>strsplit</code> teilt einen gegebenen String (<code>&lt;chr&gt;</code>) Vektor in einzelne Komponenten auf. Die Teilung des langen Strings folgt durch das Argument <code>split</code>. Hier wurde als Split Argument das Leerzeichen <code>" "</code> übergeben. Dadurch wird der Satz <code>"The quick brown fox jumps over the lazy dog"</code> an jedem Leerzeichen getrennt und eine Liste der einzelnen Wörter zurückgegeben. Die <code>rep</code> (Repeat) Funktion wiederholt das übergebene Argument und wiederholt dieses gemäß der übergebenen Zahl. Da der Rückgabewert der <code>rep</code> Funktion in diesem Fall eine verschachtelte Liste ist (eine Liste mit zwei Elementen, wobei jedes dieser beiden Elemente wieder selbst eine Liste ist), wir die Verschachtlung über die <code>unlist</code> Funktion aufgehoben.</p>
 <p>Der Datensatz hat somit folgende Struktur:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -537,12 +537,12 @@ Tip
 <p>Im Zusammenhang mit Data Mining bilden Daten die Grundlage. Egal ob das Ziel ist das Wetter, künftige Aktienkurse oder die Grundmiete einer potenziellen Mietwohnung vorherzusagen - ohne hochwertige Daten versagen selbst die fortschrittlichsten Modelle. Die Realität sieht jedoch so aus, dass Daten, die wir aus dem Internet, von Servern oder aus Excel Tabellen beziehen, oft alles andere als makellos sind. So können fehlende Werte beispielsweise als <code>NA</code> (Not Available), <code>NaN</code> (Not a Number), <code>NULL</code> oder einfach als leere Zeichenkette <code>„“</code> kodiert sein. Aus diesem Grund ist es wichtig, dass die grundlegenden Datenmanipulationen in R nochmals diskutier werden.</p>
 <section id="daten-importieren" class="level3" data-number="1.3.1">
 <h3 data-number="1.3.1" class="anchored" data-anchor-id="daten-importieren"><span class="header-section-number">1.3.1</span> Daten Importieren</h3>
-<p>Viele Datensätze sind zwar bereits in R integriert, bzw. können über Libraries eingelesen werden, allerdings sind einige der Datesätze welche wir in der Übung verwenden nur durch externe Quellen verfïugbar. Die meisten Daten werden im <code>csv</code> oder <code>txt</code> Format zur Verfügung gestellt. Es ist deshalb wichtig zu verstehen wie man diese Datensätze einliest bevor man tatsächlich mit diesen arbeitet.</p>
+<p>Viele Datensätze sind zwar bereits in R integriert, bzw. können über Libraries eingelesen werden, allerdings sind einige der Datensätze welche wir in der Übung verwenden nur durch externe Quellen verfügbar. Die meisten Daten werden im <code>csv</code> oder <code>txt</code> Format zur Verfügung gestellt. Es ist deshalb wichtig zu verstehen wie man diese Datensätze einliest bevor man tatsächlich mit diesen arbeitet.</p>
 <p>Für die folgenden Übungen werden wir das Ramen Dataset untersuchen, welches entweder von der Data Science Plattform <a href="https://www.kaggle.com/datasets/residentmario/ramen-ratings">Kaggle</a> oder dem untenstehenden Button heruntergeladen werden kann.</p>
 <div style="text-align: center;">
 <p><a href="data/ramen-ratings.csv" class="btn btn-outline-primary" role="button" data-toggle="tooltip" title="3.3 MB">Download ramen Data</a></p>
 </div>
-<p>Der Ramen Datensatz enthält Informationen über verschiedene Instant Ramen gerichte, welche besonders beliebt unter Studierenden während der Prüfungszeit sind.</p>
+<p>Der Ramen Datensatz enthält Informationen über verschiedene Instant Ramen Gerichte, welche besonders beliebt unter Studierenden während der Prüfungszeit sind.</p>
 <p>Die Daten können dann zum Beispiel in einem Verzeichnis <code>Daten</code> gespeichert werden, welches im gleichen Verzeichnis liegt wie die Projektdatei. Um die Daten einzulesen verwendet man in diesem Fall die <code>read.csv</code> Funktion verwenden. Im folgenden Code Snippet wird der Ramen Datensatz aus dem Verzeichnis <code>/data</code> eingelesen und unter dem Namen <code>data_ramen</code> gespeichert.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>data_ramen <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"data/ramen-ratings.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -577,7 +577,7 @@ Tip
 <li><code>{tibble}</code> für das effiziente Speichern von Daten.</li>
 </ul>
 <p>Eine sehr gute Einführung in diese Library kann unter folgendem <a href="https://www.tidyverse.org/">Link</a> eingesehen werden. Der Entwickler hinter der Library hat ebenso ein kostenloses Buch namens <a href="https://r4ds.hadley.nz/">R for Data Science</a> geschrieben, welches eine sehr Umfangreiche Einführung in die verschiedenen Libraries des <code>{tidyverse}</code> gibt.</p>
-<p>Nach dem erfolreichen Installieren und hinzufügen der Library können wir direkt die erste essentielle Funktion nutzen. Die <code>glimpse()</code> Funktion gibt einen kompakten überblick über den Inhalt und die beinhaltenden Datentypen des unterliegenden Datensatzes.</p>
+<p>Nach dem erfolgreichen Installieren und hinzufügen der Library können wir direkt die erste essentielle Funktion nutzen. Die <code>glimpse()</code> Funktion gibt einen kompakten überblick über den Inhalt und die beinhaltenden Datentypen des unterliegenden Datensatzes.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data_ramen)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -595,7 +595,7 @@ $ Top.Ten  &lt;chr&gt; "", "", "", "", "", "", "", "", "", "", "", "", "", "", "
 <p><code>Rows: 2,580</code> bedeutet, dass der Datensatz 2.580 Einträge hat, und <code>Columns: 7</code> bedeutet, dass der Datensatz jeweils 7 Variablen enthält. Die erste Spalte enthält die Variablennamen, ihre Datentypen und einige Anfangswerte, wodurch der Datensatz eine klare Struktur erhält. Wir können bereits sehen, dass außer einer Variablen (<code>Review</code>) jede andere Variable vom Typ <code>chr</code> ist, was für <em>character</em> oder <em>string</em> steht.</p>
 <section id="anpassen-der-variablen" class="level4" data-number="1.3.2.1">
 <h4 data-number="1.3.2.1" class="anchored" data-anchor-id="anpassen-der-variablen"><span class="header-section-number">1.3.2.1</span> Anpassen der Variablen</h4>
-<p>Beim Aufrufen der <code>glimpse()</code> Funktion ist direkt aufgefallen, dass die Variablennamen teilweise inkonsistent sind. Die erste Spalte hat zum Beispiel den Namen <code>"Review.."</code>. Um eine konsistente und einfache Namengebung zu verwenden, können wir die <code>janitor::clean_names</code> Funktion verwenden.</p>
+<p>Beim Aufrufen der <code>glimpse()</code> Funktion ist direkt aufgefallen, dass die Variablennamen teilweise inkonsistent sind. Die erste Spalte hat zum Beispiel den Namen <code>"Review.."</code>. Um eine konsistente und einfache Namensgebung zu verwenden, können wir die <code>janitor::clean_names</code> Funktion verwenden.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -606,7 +606,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Die obige Notation wird verwendet, wenn man zusätzlich zum Funktionsname auch noch die Library der Funktion benennen will. Besonders bei der vermeidung von sogenannten ‘namespace conflicts’, bei welchen zwei Funktionen aus verschiedenen Libraries die gleichen Namen besitzen.</p>
+<p>Die obige Notation wird verwendet, wenn man zusätzlich zum Funktionsname auch noch die Library der Funktion benennen will. Besonders bei der Vermeidung von sogenannten ‘namespace conflicts’, bei welchen zwei Funktionen aus verschiedenen Libraries die gleichen Namen besitzen.</p>
 </div>
 </div>
 <p>Auch hier gilt: Eventuell muss die <code>{janitor}</code> Library zuerst installiert werden, bevor die Funktion verwendet werden kann. Die Installation kann analog wie im Beispiel zur <code>{tidyverse}</code> Library durchgeführt werden.</p>
@@ -654,13 +654,13 @@ Caused by warning:
 <li><p>In der ersten Zeile der Codezelle wird angegeben, dass der Datensatz <code>data_ramen</code> durch eine veränderte Version überschrieben werden soll.</p></li>
 <li><p>Der ursprüngliche Datensatz <code>data_ramen</code> wird in der zweiten Zeile an die <code>mutate</code>Funktion übergeben.</p></li>
 <li><p>In der dritten Zeile wird als erstes Argument die Variable <code>stars</code> durch die Ausgabe der Funktion <code>as.double</code> mit Argument <code>stars</code> überschrieben. Die Funktion <code>as.double</code> ist eine Funktion der <code>{base}</code> library.</p></li>
-<li><p>In der vierten Zeile wird als weiteres Argument (separiert durch ein <code>,</code> aus der vorherigen Zeile) die den Variable <code>top_ten</code> entfertn, indem die Variable mit <code>NULL</code> überschrieben wird.</p></li>
+<li><p>In der vierten Zeile wird als weiteres Argument (separiert durch ein <code>,</code> aus der vorherigen Zeile) die den Variable <code>top_ten</code> entfernt, indem die Variable mit <code>NULL</code> überschrieben wird.</p></li>
 </ol>
 <p>Das ausführen der vorherigen Code Zelle wirft folgende Warnung:</p>
 <blockquote class="blockquote">
 <p>Warning message: There was 1 warning in <code>mutate()</code>. i In argument: <code>stars = as.double(stars)</code>. Caused by warning: ! NAs introduced by coercion</p>
 </blockquote>
-<p>Dies liegt daran, dass in der Variable <code>stars</code> fehlende Werte vorhanden sind. Durch das Anwenden der <code>as.double</code> Funktion wurden die Fehlenden werte in <code>NA</code> Werte umgewandelt, was aber erstmal kein Problem darstellt.</p>
+<p>Dies liegt daran, dass in der Variable <code>stars</code> fehlende Werte vorhanden sind. Durch das Anwenden der <code>as.double</code> Funktion wurden die Fehlenden werte in <code>NA</code> Werte umgewandelt, was aber erst mal kein Problem darstellt.</p>
 </section>
 <section id="sec-pipe" class="level4" data-number="1.3.3.2">
 <h4 data-number="1.3.3.2" class="anchored" data-anchor-id="sec-pipe"><span class="header-section-number">1.3.3.2</span> Der Pipe Operator <code>%&gt;%</code></h4>
@@ -727,7 +727,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Durch das alleinige Aufrufen der <code>group_by</code> Funktion mit der entsprechenden Gruppierungsvariable als Argument, wird im Output bereits angezeigt wie viele verschiednen Gruppen erstellt wurden.</p>
+<p>Durch das alleinige Aufrufen der <code>group_by</code> Funktion mit der entsprechenden Gruppierungsvariable als Argument, wird im Output bereits angezeigt wie viele verschiedene Gruppen erstellt wurden.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>data_ramen <span class="sc">%&gt;%</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(brand) <span class="sc">%&gt;%</span></span>
@@ -803,7 +803,7 @@ Note
 </div>
 <ol type="1">
 <li><p>Ähnlich wie im vorherigen Beispiel sollten wir angeben, dass wir den Datensatz <code>data_example</code> mit einer veränderten Version überschreiben.</p></li>
-<li><p>In der zweiten Zeile wird dann die <code>mutate</code> Funktion aufgerufen um in der dritten Zeile die Variabele <code>age_groups</code> zu überschreiben.</p></li>
+<li><p>In der zweiten Zeile wird dann die <code>mutate</code> Funktion aufgerufen um in der dritten Zeile die Variable <code>age_groups</code> zu überschreiben.</p></li>
 <li><p>Durch das Setzen von <code>age_groups = factor(age_groups, ...)</code> wird die Variable <code>age_groups</code> in einen (bisher ungeordneten) Faktor umgewandelt, der das setzen von Stufen (<code>levels</code>) und Labels ermöglicht.</p></li>
 <li><p>So wird durch das Setzen von <code>levels = c("&lt;18", "18-25",...)</code> eine Ordnung auf die Variable auferlegt.</p></li>
 <li><p><code>ordered=TRUE</code> gibt an, dass die Altersgruppen nach den im <code>levels</code>Vektor angegebenen Stufen aufsteigend sortiert sind.</p></li>
@@ -1009,13 +1009,13 @@ Note
 <p><span class="theorem-title"><strong>Aufgabe 1.7</strong></span> Finde heraus, aus welchen fünf Länder die meisten Ramen stammen. <em>Hinweis: Verwende die <code>arrange</code> Funktion in Kombination mit der <code>desc</code> Funktion um die Ergebnisse absteigend nach der Größe zu sortieren</em>.</p>
 </div>
 <div id="exr-df2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Aufgabe 1.8</strong></span> Finde heraus, wie viele verschiedene Ramen sorten in Deutschland (<code>country == "Germany"</code>) verfügbar sind.</p>
+<p><span class="theorem-title"><strong>Aufgabe 1.8</strong></span> Finde heraus, wie viele verschiedene Ramen Sorten in Deutschland (<code>country == "Germany"</code>) verfügbar sind.</p>
 </div>
 </section>
 <section id="grafiken" class="level3" data-number="1.5.4">
 <h3 data-number="1.5.4" class="anchored" data-anchor-id="grafiken"><span class="header-section-number">1.5.4</span> Grafiken</h3>
 <div id="exr-ggplot1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Aufgabe 1.9</strong></span> Erkläre die Funktionen und Argumente des folgenden Code Snippets und erkläre was sich im Verlgeich zum unbearbeiteten Datensatz inhaltlich geändert hat.</p>
+<p><span class="theorem-title"><strong>Aufgabe 1.9</strong></span> Erkläre die Funktionen und Argumente des folgenden Code Snippets und erkläre was sich im Vergleich zum unbearbeiteten Datensatz inhaltlich geändert hat.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a>data_ramen_filtered <span class="ot">&lt;-</span> data_ramen <span class="sc">%&gt;%</span></span>
 <span id="cb62-2"><a href="#cb62-2"></a>  <span class="fu">filter</span>(style <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Bowl"</span>,<span class="st">"Cup"</span>,<span class="st">"Pack"</span>)) <span class="sc">%&gt;%</span></span>
@@ -1027,7 +1027,7 @@ Note
 </div>
 </div>
 <div id="exr-ggplot2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Aufgabe 1.10</strong></span> Beschreibe die folgende Grafik. Verlgeiche dabei auch die beiden Gruppen untereinander.</p>
+<p><span class="theorem-title"><strong>Aufgabe 1.10</strong></span> Beschreibe die folgende Grafik. Vergleiche dabei auch die beiden Gruppen untereinander.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -1223,7 +1223,7 @@ Note
 <div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">2</span></span>
 <span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="fl">0.1</span>, <span class="at">to=</span><span class="fl">0.5</span>, <span class="at">by=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Da die Objeke <code>x</code> und <code>y</code> nicht die selbe Länge besitzen, werden in der folgenden Zelle die Einträge des kürzeren Vektors bis zur Länge des längeren Vektors wiederholt. Anschließend werden die einzelnen Einträge komponentenweise addiert.</p>
+<p>Da die Objekte <code>x</code> und <code>y</code> nicht die selbe Länge besitzen, werden in der folgenden Zelle die Einträge des kürzeren Vektors bis zur Länge des längeren Vektors wiederholt. Anschließend werden die einzelnen Einträge komponentenweise addiert.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -1245,7 +1245,7 @@ Note
 <pre><code>[1] 0.4 0.6 0.6 1.6 1.5</code></pre>
 </div>
 </div>
-<p>Durch den <code>^</code> Operator werden zuerst alle Elemente der Liste <code>x</code> potenziert und anschlißend mit dem Wert <code>1</code> addiert.</p>
+<p>Durch den <code>^</code> Operator werden zuerst alle Elemente der Liste <code>x</code> potenziert und anschließend mit dem Wert <code>1</code> addiert.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1271,7 +1271,7 @@ Note
      ist kein Vielfaches der Länge des kürzeren Objektes</code></pre>
 </div>
 </div>
-<p>Analog wie in den vorherigen Teilaufgaben wird die Summe von <code>x</code> und <code>y</code> berechnet, dann die Summe der einzelnen komponenten und zum Schluss wird die Summe durch <code>n</code> geteilt.</p>
+<p>Analog wie in den vorherigen Teilaufgaben wird die Summe von <code>x</code> und <code>y</code> berechnet, dann die Summe der einzelnen Komponenten und zum Schluss wird die Summe durch <code>n</code> geteilt.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x<span class="sc">+</span>y)<span class="sc">/</span>n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -1358,7 +1358,7 @@ Note
 <span id="cb149-7"><a href="#cb149-7"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol type="1">
-<li>In der ersten Zeile wird ein neuer Datenesatz <code>data_ramen_filtered</code> erzeugt indem der Datensatz <code>data_ramen</code> modifiziert wird.</li>
+<li>In der ersten Zeile wird ein neuer Datensatz <code>data_ramen_filtered</code> erzeugt indem der Datensatz <code>data_ramen</code> modifiziert wird.</li>
 <li>In der zweiten Zeile wird die <code>filter</code> Funktion auf den Datensatz <code>data_ramen</code> angewandt. Der <code>%in%</code> Operator prüft hierbei, ob in der Spalte <code>style</code> die Werte <code>"Bowl","Cup","Pack"</code> vorhanden sind und geben den Wert <code>TRUE</code> oder <code>FALSE</code> zurück. D.h., es werden alle Einträge selektiert, welche den Style <code>"Bowl","Cup"</code>, oder <code>"Pack"</code> enthalten.</li>
 <li>In der dritten Zeile wird die <code>mutate</code> Funktion auf die Variable <code>style</code> angewendet.</li>
 <li>Die Transformation erfolgt hierbei in der vierten und fünften Zeile durch die <code>if_else</code> Funktion, welche die Kondition <code>style=="Pack"</code> überprüft. Falls der Style eines Eintrags <code>"Pack"</code> ist, so wird diesem wieder der Wert <code>"Pack"</code> zugeschrieben. Falls allerdings der Style <code>"Cup"</code> oder <code>"Bowl"</code> beträgt, so wird der Wert mit <code>"Container"</code> überschrieben.</li>
@@ -1366,7 +1366,7 @@ Note
 </ol>
 </div>
 <div id="sol-ggplot2" class="proof solution">
-<p><span class="proof-title"><em>Solution 1.10</em> (<a href="#exr-ggplot2" class="quarto-xref">Aufgabe&nbsp;<span>1.10</span></a>). </span>Beschreibe die folgende Grafik. Verlgeiche dabei auch die beiden Gruppen untereinander.</p>
+<p><span class="proof-title"><em>Solution 1.10</em> (<a href="#exr-ggplot2" class="quarto-xref">Aufgabe&nbsp;<span>1.10</span></a>). </span>Beschreibe die folgende Grafik. Vergleiche dabei auch die beiden Gruppen untereinander.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -1376,7 +1376,7 @@ Note
 </div>
 </div>
 </div>
-<p>Die Grafik zeigt zwei Boxplots für die Variable <code>star</code>. Auf der linken Seite wird ein Boxplot für alle Einträge welche den Style <code>"Container"</code> besitzen angezeigt und auf der rechten Seite ein Boxplot für alle Einträge welche den Style <code>"Pack"</code> besitzen. Es lässt sich an den Boxplots ablesen, dass die beiden Dtyles einen ähnlichen Median bezüglich der Bewertung besitzen. Allerdings ist das <span class="math inline">\(25\%\)</span> Quartil beim Style <code>"Container"</code> etwas kleiner als beim Style <code>"Pack"</code>. Beim Style <code>"Pack"</code> werden auf der anderen Seite aber mehr Ausreißer nach Unten abgebildet.</p>
+<p>Die Grafik zeigt zwei Boxplots für die Variable <code>star</code>. Auf der linken Seite wird ein Boxplot für alle Einträge welche den Style <code>"Container"</code> besitzen angezeigt und auf der rechten Seite ein Boxplot für alle Einträge welche den Style <code>"Pack"</code> besitzen. Es lässt sich an den Boxplots ablesen, dass die beiden Styles einen ähnlichen Median bezüglich der Bewertung besitzen. Allerdings ist das <span class="math inline">\(25\%\)</span> Quartil beim Style <code>"Container"</code> etwas kleiner als beim Style <code>"Pack"</code>. Beim Style <code>"Pack"</code> werden auf der anderen Seite aber mehr Ausreißer nach Unten abgebildet.</p>
 </div>
 <div id="sol-ggplot3" class="proof solution">
 <p><span class="proof-title"><em>Solution 1.11</em> (<a href="#exr-ggplot3" class="quarto-xref">Aufgabe&nbsp;<span>1.11</span></a>). </span>Verwende den Datensatz <code>data_ramen_filtered</code> um die Dichte der Variable <code>stars</code> mit <code>{ggplot2}</code> darzustellen. <em>Hinweis: Die Dichte einer Variable kann mithilfe der Funktion <code>geom_density</code> dargestellt werden.</em></p>
