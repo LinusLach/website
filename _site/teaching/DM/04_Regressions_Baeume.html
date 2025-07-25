@@ -282,7 +282,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#sec-tdgreedy" id="toc-sec-tdgreedy" class="nav-link" data-scroll-target="#sec-tdgreedy"><span class="header-section-number">4.2</span> Top-Down-Greedy</a>
   <ul>
-  <li><a href="#rekursive-und-greedy-eigenschaft-des-algorithmus" id="toc-rekursive-und-greedy-eigenschaft-des-algorithmus" class="nav-link" data-scroll-target="#rekursive-und-greedy-eigenschaft-des-algorithmus"><span class="header-section-number">4.2.1</span> Rekursive und Greedy Eigenschaft des Algorithmus</a></li>
+  <li><a href="#rekursive-und-greedy-eigenschaft-des-algorithmus" id="toc-rekursive-und-greedy-eigenschaft-des-algorithmus" class="nav-link" data-scroll-target="#rekursive-und-greedy-eigenschaft-des-algorithmus"><span class="header-section-number">4.2.1</span> Rekursive und Greedy-Eigenschaft des Algorithmus</a></li>
   <li><a href="#sec-stoppingcriteria" id="toc-sec-stoppingcriteria" class="nav-link" data-scroll-target="#sec-stoppingcriteria"><span class="header-section-number">4.2.2</span> Stoppkriterien und Pruning</a>
   <ul class="collapse">
   <li><a href="#mindestanzahl-an-beobachtungen-min_n" id="toc-mindestanzahl-an-beobachtungen-min_n" class="nav-link" data-scroll-target="#mindestanzahl-an-beobachtungen-min_n"><span class="header-section-number">4.2.2.1</span> Mindestanzahl an Beobachtungen <code>min_n</code></a></li>
@@ -297,11 +297,11 @@ window.Quarto = {
   <li><a href="#sec-paramestimate" id="toc-sec-paramestimate" class="nav-link" data-scroll-target="#sec-paramestimate"><span class="header-section-number">4.4.1</span> Schätzung der Parameter</a></li>
   <li><a href="#darstellung-des-baums" id="toc-darstellung-des-baums" class="nav-link" data-scroll-target="#darstellung-des-baums"><span class="header-section-number">4.4.2</span> Darstellung des Baums</a></li>
   <li><a href="#wichtigkeit-der-variablen" id="toc-wichtigkeit-der-variablen" class="nav-link" data-scroll-target="#wichtigkeit-der-variablen"><span class="header-section-number">4.4.3</span> Wichtigkeit der Variablen</a></li>
-  <li><a href="#sec-calcimp" id="toc-sec-calcimp" class="nav-link" data-scroll-target="#sec-calcimp"><span class="header-section-number">4.4.4</span> Berechnung der Improvement Werte</a></li>
+  <li><a href="#sec-calcimp" id="toc-sec-calcimp" class="nav-link" data-scroll-target="#sec-calcimp"><span class="header-section-number">4.4.4</span> Berechnung der Improvement-Werte</a></li>
   </ul></li>
   <li><a href="#sec-erweiterungen" id="toc-sec-erweiterungen" class="nav-link" data-scroll-target="#sec-erweiterungen"><span class="header-section-number">4.5</span> Erweiterungen</a>
   <ul>
-  <li><a href="#erstellung-eines-bootstrap-datasets." id="toc-erstellung-eines-bootstrap-datasets." class="nav-link" data-scroll-target="#erstellung-eines-bootstrap-datasets."><span class="header-section-number">4.5.1</span> Erstellung eines Bootstrap Datasets.</a></li>
+  <li><a href="#erstellung-eines-bootstrap-datasets" id="toc-erstellung-eines-bootstrap-datasets" class="nav-link" data-scroll-target="#erstellung-eines-bootstrap-datasets"><span class="header-section-number">4.5.1</span> Erstellung eines Bootstrap-Datasets</a></li>
   <li><a href="#trainieren-der-baummodelle-und-aggregation" id="toc-trainieren-der-baummodelle-und-aggregation" class="nav-link" data-scroll-target="#trainieren-der-baummodelle-und-aggregation"><span class="header-section-number">4.5.2</span> Trainieren der Baummodelle und Aggregation</a></li>
   <li><a href="#random-forests-in-r" id="toc-random-forests-in-r" class="nav-link" data-scroll-target="#random-forests-in-r"><span class="header-section-number">4.5.3</span> Random Forests in R</a></li>
   </ul></li>
@@ -340,18 +340,18 @@ window.Quarto = {
 </header>
 
 
-<p>In diesem Kapitel setzen wir uns mit Baummodellen in einem Regressionskontext auseinander. Baummodelle bilden die Grundlage für viele weitere Modelle, welche aufgrund ihrer Fähigkeit Zusammenhänge sehr gut zu modellieren oft genurzr weren. Mit einer dieser Erweiterungen setzen wir uns in <a href="#sec-erweiterungen" class="quarto-xref"><span>Section 4.5</span></a> auseinander.<br>
-Der Hauprfokus dieses Kapitels liegt allerdings darauf, die Grundidee des Modells und des Algorithmus zu verstehen der für das Schätzen von Regressionsbäumen verwendet wird.</p>
+<p>In diesem Kapitel setzen wir uns mit Baummodellen in einem Regressionskontext auseinander. Baummodelle bilden die Grundlage für viele weitere Modelle, welche aufgrund ihrer Fähigkeit, Zusammenhänge sehr gut zu modellieren, oft genutzt werden. Mit einer dieser Erweiterungen setzen wir uns in <a href="#sec-erweiterungen" class="quarto-xref"><span>Section 4.5</span></a> auseinander.<br>
+Der Hauptfokus dieses Kapitels liegt allerdings darauf, die Grundidee des Modells und des Algorithmus zu verstehen, der für das Schätzen von Regressionsbäumen verwendet wird.</p>
 <section id="grundidee" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="grundidee"><span class="header-section-number">4.1</span> Grundidee</h2>
-<p>Regressionsbäume sind Teil der <em>Classification and Regression Tree</em> (CART) Familie. Regressions und Klassifikationsbäume werden auch Entscheidungsbäume genannt, da die Vorhersagen durch (binär: ‘Ja’/‘Nein’) Entscheidungen berechnet werden.</p>
+<p>Regressionsbäume sind Teil der <em>Classification and Regression Tree</em> (CART)‑Familie. Regressions- und Klassifikationsbäume werden auch Entscheidungsbäume genannt, da die Vorhersagen durch (binär: ‘Ja’/‘Nein’) Entscheidungen berechnet werden.</p>
 <section id="darstellung-von-bäumen-und-vorhersagen" class="level3" data-number="4.1.1">
 <h3 data-number="4.1.1" class="anchored" data-anchor-id="darstellung-von-bäumen-und-vorhersagen"><span class="header-section-number">4.1.1</span> Darstellung von Bäumen und Vorhersagen</h3>
-<p>In diesem Unterkapitel diskutieren wir zwei Möglichkeiten um Entscheidungsbäume darzustellen.</p>
+<p>In diesem Unterkapitel diskutieren wir zwei Möglichkeiten, um Entscheidungsbäume darzustellen.</p>
 <section id="baumdiagramme" class="level4" data-number="4.1.1.1">
 <h4 data-number="4.1.1.1" class="anchored" data-anchor-id="baumdiagramme"><span class="header-section-number">4.1.1.1</span> Baumdiagramme</h4>
-<p>Die grafischen Bestandteile bei der Darstellung eines Entscheidungsbaums als Baumdiagramm sind <em>Knoten</em> (nodes) und <em>Kanten</em>. Bei den Knoten unterscheiden wir vor allem zwischen dem <em>Wurzelknoten</em> (root node) und <em>Blattknoten</em>. Der Wurzelknkoten steht hierbei immer ganz oben im Diagramm und die Blattknoten am Ende der jeweiligen Entscheidungspfade. Knoten welche zwischen dem Wurzel und den Blattknoten stehen nennen wir auch Entscheidungsknoten. (Beachte, dass auch der Wurzelknoten ein Entscheidungsknoten ist!) In einem Entscheidungsknoten prüfen wir eine aufgestellte Bedingung und bewegen uns auf Basis der Entscheidung entsprechend entlang der Kanten. Bei numerischen Features ist sind die Bedingungen in Form eines Größenvergleichs gegeben. Es wird also überprüft, ob das Feature eines Datenpunktes größer(-gleich) oder kleiner als ein Schwellenwert ist. Ähnlich wie beim Dummy-Encoding bei einer linearen Regression wird bei nominalen Merkmalen lediglich geprüft, ob die Ausprägung der Variable mit dem Entscheidungswert übereinstimmt oder nicht. Diesen Vorgang wiederholen wir bis ein Blattknoten erreicht wird, in welchem die Vorhersagen stehen.</p>
-<p>Folgende Grafik zeigt eine Beispielhafte Darstellung eines solchen Entscheidungsbaums.</p>
+<p>Die grafischen Bestandteile bei der Darstellung eines Entscheidungsbaums als Baumdiagramm sind <em>Knoten</em> (nodes) und <em>Kanten</em>. Bei den Knoten unterscheiden wir vor allem zwischen dem <em>Wurzelknoten</em> (root node) und <em>Blattknoten</em>. Der Wurzelknoten steht hierbei immer ganz oben im Diagramm und die Blattknoten am Ende der jeweiligen Entscheidungspfade. Knoten, welche zwischen dem Wurzel- und den Blattknoten stehen, nennen wir auch Entscheidungsknoten. (Beachte, dass auch der Wurzelknoten ein Entscheidungsknoten ist!) In einem Entscheidungsknoten prüfen wir eine aufgestellte Bedingung und bewegen uns auf Basis der Entscheidung entsprechend entlang der Kanten. Bei numerischen Features sind die Bedingungen in Form eines Größenvergleichs gegeben. Es wird also überprüft, ob das Feature eines Datenpunktes größer (gleich) oder kleiner als ein Schwellenwert ist. Ähnlich wie beim Dummy-Encoding bei einer linearen Regression wird bei nominalen Merkmalen lediglich geprüft, ob die Ausprägung der Variable mit dem Entscheidungswert übereinstimmt oder nicht. Diesen Vorgang wiederholen wir, bis ein Blattknoten erreicht wird, in welchem die Vorhersagen stehen.</p>
+<p>Folgende Grafik zeigt eine beispielhafte Darstellung eines solchen Entscheidungsbaums.</p>
 <div id="fig-Lorem" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-Lorem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -362,12 +362,12 @@ Figure&nbsp;4.1
 </figcaption>
 </figure>
 </div>
-<p>Das in <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> dargestellte Baumdiagramm wurde auf Basis eines Datensatzes erzeugt, welcher die beiden Variablen <span class="math inline">\(X_1\)</span> und <span class="math inline">\(X_2\)</span> enthält. In jedem Entscheidungsknoten wird das Entscheidungskriterium durch einen Sehwellenwert (Splittingpoint) <span class="math inline">\(t_i,i=1,...,6\)</span> ausgedrückt. Falls in einem binären Entscheidungsbaum also <span class="math inline">\(6\)</span> Splittingpoints gegeben sind, dann existieren <span class="math inline">\(6+1 = 7\)</span> Blattknoten. Da der oberste Knoten (Wurzeknoten) auch ein Entscheidungsknoten ist, hat dieser teilweise die gleiche Farbe wie die anderen Entscheidungsknoten, ist aufgrund seiner Wurzeleigenschaft aber nochmal gesondert zu betrachten.</p>
-<p>Wir prüfen also im ersten Schritt ob die Variable <span class="math inline">\(X_2\)</span> kleiner oder gleich <span class="math inline">\(t_1\)</span> ist. Falls das der Fall ist, bewegen wir uns entlang der linken Kante und ansonsten entlang der rechten Kante zum nächsten Entscheidungsknoten. Angenommen <span class="math inline">\(X_2\leq t_1\)</span>, dann bewegen wir uns zum nächsten Knoten in welchem wir die Bedingung <span class="math inline">\(X_1\leq t_2\)</span> prüfen. Falls diese Bedingung ebenso erfüllt ist, landen wir im Blattknoten mit dem Wert <span class="math inline">\(R_1\)</span>. Der Wert <span class="math inline">\(R_1\)</span> ist dann die vorhersage für den entsprechenden Datenpunkt. Wie die Werte <span class="math inline">\(R_k, k=1,...,6\)</span> berechnet werden untersuchen wir in <a href="#sec-tdgreedy" class="quarto-xref"><span>Section 4.2</span></a>.</p>
+<p>Das in <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> dargestellte Baumdiagramm wurde auf Basis eines Datensatzes erzeugt, welcher die beiden Variablen <span class="math inline">\(X_1\)</span> und <span class="math inline">\(X_2\)</span> enthält. In jedem Entscheidungsknoten wird das Entscheidungskriterium durch einen Schwellenwert (Splittingpoint) <span class="math inline">\(t_i,i=1,\ldots,6\)</span> ausgedrückt. Falls in einem binären Entscheidungsbaum also <span class="math inline">\(6\)</span> Splittingpoints gegeben sind, dann existieren <span class="math inline">\(6 + 1 = 7\)</span> Blattknoten. Da der oberste Knoten (Wurzelknoten) auch ein Entscheidungsknoten ist, hat dieser teilweise die gleiche Farbe wie die anderen Entscheidungsknoten, ist aufgrund seiner Wurzeleigenschaft aber noch einmal gesondert zu betrachten.</p>
+<p>Wir prüfen also im ersten Schritt, ob die Variable <span class="math inline">\(X_2\)</span> kleiner oder gleich <span class="math inline">\(t_1\)</span> ist. Falls das der Fall ist, bewegen wir uns entlang der linken Kante und ansonsten entlang der rechten Kante zum nächsten Entscheidungsknoten. Angenommen, <span class="math inline">\(X_2\leq t_1\)</span>, dann bewegen wir uns zum nächsten Knoten, in welchem wir die Bedingung <span class="math inline">\(X_1\leq t_2\)</span> prüfen. Falls diese Bedingung ebenso erfüllt ist, landen wir im Blattknoten mit dem Wert <span class="math inline">\(R_1\)</span>. Der Wert <span class="math inline">\(R_1\)</span> ist dann die Vorhersage für den entsprechenden Datenpunkt. Wie die Werte <span class="math inline">\(R_k, k=1,\ldots,6\)</span> berechnet werden, untersuchen wir in <a href="#sec-tdgreedy" class="quarto-xref"><span>Section 4.2</span></a>.</p>
 </section>
 <section id="aufteilung-des-featurespace" class="level4" data-number="4.1.1.2">
 <h4 data-number="4.1.1.2" class="anchored" data-anchor-id="aufteilung-des-featurespace"><span class="header-section-number">4.1.1.2</span> Aufteilung des Featurespace</h4>
-<p>Äquivalent zur Darstellung eines Diagramms können wir, zumindest bei ein- oder zweidimensionalen Datensätzen, einen Entscheidungsbaum auch im <em>Featurespace</em> darstellen. Mit Featurespace meinen wir hier den Raum, welcher durch die Ausprägungen aufgespannt wird. Existieren wie in <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> zum Beispiel zwei Feature <span class="math inline">\(X_1\)</span> und <span class="math inline">\(X_2\)</span>, dann können wir die Splittingpoints und Blattknoten in einem Kooerdinatensystem darstellen:</p>
+<p>Äquivalent zur Darstellung eines Diagramms können wir, zumindest bei ein- oder zweidimensionalen Datensätzen, einen Entscheidungsbaum auch im <em>Featurespace</em> darstellen. Mit Featurespace meinen wir hier den Raum, welcher durch die Ausprägungen aufgespannt wird. Existieren wie in <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> zum Beispiel zwei Feature <span class="math inline">\(X_1\)</span> und <span class="math inline">\(X_2\)</span>, dann können wir die Splittingpoints und Blattknoten in einem Koordinatensystem darstellen:</p>
 <div id="fig-featurespace" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-featurespace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -378,23 +378,23 @@ Figure&nbsp;4.2
 </figcaption>
 </figure>
 </div>
-<p>Beachte dass die Darstellungen in <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> und <a href="#fig-featurespace" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> äquivalent sind. Wir können also jeweils die eine Darstellung in die andere überführen. Um beispielsweise in den Blattknoten <span class="math inline">\(R_6\)</span> aus <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> zu erreichen müssen wir in <a href="#fig-featurespace" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> die gleichen Bedingungen prüfen:</p>
+<p>Beachte, dass die Darstellungen in <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> und <a href="#fig-featurespace" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> äquivalent sind. Wir können also jeweils die eine Darstellung in die andere überführen. Um etwa den Blattknoten <span class="math inline">\(R_6\)</span> aus <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> zu erreichen, müssen wir in <a href="#fig-featurespace" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> die gleichen Bedingungen prüfen:</p>
 <ol type="1">
 <li><span class="math inline">\(X_2\leq t_1\)</span> ist bei <span class="math inline">\(R_6\)</span> nicht erfüllt und deshalb <span class="math inline">\(X_2&gt;t_1\)</span>. Wir befinden uns also oberhalb der horizontalen Linie durch den Punkt <span class="math inline">\(t_1\)</span>.</li>
 <li><span class="math inline">\(X_1\leq t_4\)</span> ist bei <span class="math inline">\(R_6\)</span> ebenso nicht erfüllt, weshalb <span class="math inline">\(X_1&gt;t_4\)</span> gilt.</li>
 <li><span class="math inline">\(X_1\leq t_5\)</span> ist bei <span class="math inline">\(R_6\)</span> ebenso nicht erfüllt, weshalb <span class="math inline">\(X_1&gt;t_5\)</span> gilt.</li>
-<li><span class="math inline">\(X_2\leq t_6\)</span> ist bei <span class="math inline">\(R_6\)</span> ebesno nicht erfüllt, weshalb <span class="math inline">\(X_2&gt;t_6\)</span> gilt.</li>
+<li><span class="math inline">\(X_2\leq t_6\)</span> ist bei <span class="math inline">\(R_6\)</span> ebensowenig erfüllt, weshalb <span class="math inline">\(X_2&gt;t_6\)</span> gilt.</li>
 </ol>
-<p>Zusammengefasst muss für ein Datenpunkt <span class="math inline">\((x_1,x_2)\)</span> also <span class="math inline">\(x_2&gt;t_6\)</span> und <span class="math inline">\(x_1&gt;t_5\)</span> gelten, damit der Datenpunkt in den Blattknoten <span class="math inline">\(R_6\)</span> fällt.</p>
+<p>Zusammengefasst muss für einen Datenpunkt <span class="math inline">\((x_1,x_2)\)</span> also <span class="math inline">\(x_2&gt;t_6\)</span> und <span class="math inline">\(x_1&gt;t_5\)</span> gelten, damit der Datenpunkt in den Blattknoten <span class="math inline">\(R_6\)</span> fällt.</p>
 </section>
 </section>
 <section id="vorteile-gegenüber-linearen-modellen" class="level3" data-number="4.1.2">
 <h3 data-number="4.1.2" class="anchored" data-anchor-id="vorteile-gegenüber-linearen-modellen"><span class="header-section-number">4.1.2</span> Vorteile gegenüber linearen Modellen</h3>
-<p>Bäume gehören aufgrund ihrer Struktur zu nichtlinearen Modellen. Falls die unterliegenden Daten also nicht der Linearitätsannahme unterliegen, können wir also bei einem <em>guten</em> Baum erwarten, dass dieser die Zusammenhänge in den Daten besser beschreibt.</p>
-<p>Betrachte hierfür folgendes syntetisches Beispiel, welches diesen Effekt illustriert:</p>
+<p>Bäume gehören aufgrund ihrer Struktur zu nichtlinearen Modellen. Falls die unterliegenden Daten also nicht der Linearitätsannahme unterliegen, können wir bei einem <em>guten</em> Baum erwarten, dass dieser die Zusammenhänge in den Daten besser beschreibt.</p>
+<p>Betrachte hierfür folgendes synthetisches Beispiel, welches diesen Effekt illustriert:</p>
 <div id="exm-tree_quad" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 4.1</strong></span> Der Datensatz <code>data_exm</code> besteht aus zwei Spalten <code>x</code> und <code>y</code>, wobei <code>x</code> Werte zwischen <span class="math inline">\(0\)</span> und <span class="math inline">\(10\)</span> annimmt und <span class="math inline">\(y\)</span> durch die Formel <span class="math display">\[y = f(x)+\varepsilon=\sin(x)+\varepsilon \]</span></p>
-<p>(mit <span class="math inline">\(\varepsilon \sim \mathcal{N}(0,1)\)</span>) berechnet wird. <code>y</code> soll hierbei die abhängige und <code>x</code> die unabhängige Variable darstellen und das Ziel ist deshalb <code>y</code> durch <code>x</code> zu approximieren.</p>
+<p>(mit <span class="math inline">\(\varepsilon \sim \mathcal{N}(0,1)\)</span>) berechnet wird. <code>y</code> soll hierbei die abhängige und <code>x</code> die unabhängige Variable darstellen und das Ziel ist deshalb, <code>y</code> durch <code>x</code> zu approximieren.</p>
 <p>Die folgende Grafik zeigt eine Realisation dieser Simulation:</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -405,7 +405,7 @@ Figure&nbsp;4.2
 </div>
 </div>
 </div>
-<p>Falls wir nun versuchen den Zusammenhang zwischen <code>y</code> und <code>x</code> mithilfe eines einfachen linearen Modells zu modellieren, so erhalten wir die Regressionsgerade welche in der folgenden Grafik dargestellt ist.</p>
+<p>Falls wir nun versuchen, den Zusammenhang zwischen <code>y</code> und <code>x</code> mithilfe eines einfachen linearen Modells zu modellieren, so erhalten wir die Regressionsgerade, welche in der folgenden Grafik dargestellt ist.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -415,7 +415,7 @@ Figure&nbsp;4.2
 </div>
 </div>
 </div>
-<p>Offensichtlich eignet sich die einfache lineare Regression nicht um den Zusammenhang zwischen <code>y</code> und <code>x</code> zu modellieren. Wir können allerdings den Zusammenhang ebenso durch einen Regressionsbaum modellieren, welcher im Featurespace wie folgt dargestellt werden kann.</p>
+<p>Offensichtlich eignet sich die einfache lineare Regression nicht, um den Zusammenhang zwischen <code>y</code> und <code>x</code> zu modellieren. Wir können allerdings den Zusammenhang ebenso durch einen Regressionsbaum modellieren, welcher im Featurespace wie folgt dargestellt werden kann.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -427,18 +427,18 @@ Figure&nbsp;4.2
 </div>
 <p>Beachte, dass unser Featurespace in diesem Beispiel nur eindimensional ist, weshalb das resultierende Baummodell keine Flächen (wie in <a href="#fig-featurespace" class="quarto-xref">Figure&nbsp;<span>4.2</span></a>), sondern Geraden enthält. Die rote Linie beschreibt hierbei die durch das Baummodell geschätzten Werte <span class="math inline">\(\hat{y}\)</span> für ein gegebenes <span class="math inline">\(x\)</span>. Das Baummodell modelliert den Einfluss von <code>x</code> auf <code>y</code> also vergleichsweise gut, obwohl die Daten keinen linearen Zusammenhang besitzen!</p>
 </div>
-<p>Zusammengefasst spiegelt sich der erste Vorteil von Baummodellen gegenüber linearen Modellen also in der Fähigkeit wieder auch nichtlineare Zusammenhänge zu modellieren.</p>
-<p>Einen weiteren Vorteil können wir bei der Betrachtung von <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> erkennen: Bei Baummodellen ist sehr leicht erkennbar, auf Basis welcher Variablen und Schwellenwerten die Vorhersagen getroffen werden. Selbst wenn das Modell aus einer Vielzahl von Variablen besteht kann man durch die Darstellung eines Baumdiagramms effizient den Wert berechnen, welcher durch das Modell vorhergesagt wird.</p>
+<p>Zusammengefasst spiegelt sich der erste Vorteil von Baummodellen gegenüber linearen Modellen also in der Fähigkeit wider, auch nichtlineare Zusammenhänge zu modellieren.</p>
+<p>Einen weiteren Vorteil können wir bei der Betrachtung von <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> erkennen: Bei Baummodellen ist sehr leicht erkennbar, auf Basis welcher Variablen und Schwellenwerte die Vorhersagen getroffen werden. Obwohl das Modell aus einer Vielzahl von Variablen besteht, kann man durch die Darstellung eines Baumdiagramms effizient den Wert berechnen, welcher durch das Modell vorhergesagt wird.</p>
 </section>
 </section>
 <section id="sec-tdgreedy" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="sec-tdgreedy"><span class="header-section-number">4.2</span> Top-Down-Greedy</h2>
-<p>Bisher haben wir zwar verschiedene Darstellung der Regressionsbäume betrachtet und herausgefunden wie wir bei den verschiedenen Darstellungen Vorhersagewerte ablesen können, allerdings nicht wie die Schwellwerte und Splittingvariablen bestimmt werden.</p>
-<p>Der Algorithmus welcher hierfür verwendet wird ist der sogenannte <em>Top-Down-Greedy</em> oder <em>Recursive-Binary-Splitting</em> Algorithmus. Um den Algorithmus zu erklären orientieren wir uns primär an der Darstellung aus <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a>.</p>
-<p>Die Idee des Algorithmus ist, dass wir in jedem Schritt den Feature Space <em>bestmöglich</em> zweiteilen um eine verbesserte Vorhersage im Vergleich zur ungeteilten Version erhalten. Formal lässt sich der Algorithmus wie folgt darstellen:</p>
+<p>Bisher haben wir zwar verschiedene Darstellungen der Regressionsbäume betrachtet und herausgefunden, wie wir bei den verschiedenen Darstellungen Vorhersagewerte ablesen können, allerdings nicht, wie die Schwellwerte und Splittingvariablen bestimmt werden.</p>
+<p>Der Algorithmus, welcher hierfür verwendet wird, ist der sogenannte <em>Top-Down-Greedy-</em> oder <em>Recursive-Binary-Splitting</em>-Algorithmus. Um den Algorithmus zu erklären, orientieren wir uns primär an der Darstellung aus <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a>.</p>
+<p>Die Idee des Algorithmus ist, dass wir in jedem Schritt den Feature Space <em>bestmöglich</em> zweiteilen, um eine verbesserte Vorhersage im Vergleich zur ungeteilten Version zu erhalten. Formal lässt sich der Algorithmus wie folgt darstellen:</p>
 <ol type="1">
 <li><p><strong>Initialisierung</strong>:<br>
-Beginne mit dem gesamten Trainingsdatensatz <span class="math display">\[D = \{(x_k,y_k):x_k\in\mathbb{R}^J,\: y_k\in\mathbb{R},\: k = 1,...,K\}\]</span> in der Wurzel des Baums.</p></li>
+Beginne mit dem gesamten Trainingsdatensatz <span class="math display">\[D = \{(x_k,y_k):x_k\in\mathbb{R}^J,\: y_k\in\mathbb{R},\: k = 1,\cdots,K\}\]</span> in der Wurzel des Baums.</p></li>
 <li><p><strong>Spaltensuche </strong>:<br>
 Für jedes Feature <span class="math inline">\(X_j\)</span> und jeden potenziellen<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Schwellenwert <span class="math inline">\(s\)</span>:</p>
 <ol type="i">
@@ -450,7 +450,7 @@ Für jedes Feature <span class="math inline">\(X_j\)</span> und jeden potenziell
 <p><span class="math display">\[\begin{equation*}
   \text{MSE}(j, s) = \frac{1}{|R_1|}\sum_{i: x_i \in R_1(j, s)} (y_i - \bar{y}_{R_1})^2 + \frac{1}{|R_2|}\sum_{i: x_i \in R_2(j, s)} (y_i - \bar{y}_{R_2})^2
 \end{equation*}\]</span><br>
-wobei <span class="math inline">\(\bar{y}_{R_1}\)</span> der durschnittliche Wert aller Datenpunkte <span class="math inline">\(y\)</span> ist, welche in <span class="math inline">\(R_1\)</span> liegen und <span class="math inline">\(\bar{y}_{R_2}\)</span> der durschnittliche Wert aller Datenpunkte <span class="math inline">\(y\)</span>, welche in <span class="math inline">\(R_2\)</span> liegen.</p></li>
+Wobei <span class="math inline">\(\bar{y}_{R_1}\)</span> der durchschnittliche Wert aller Datenpunkte <span class="math inline">\(y\)</span> ist, welche in <span class="math inline">\(R_1\)</span> liegen, und <span class="math inline">\(\bar{y}_{R_2}\)</span> der durchschnittliche Wert aller Datenpunkte <span class="math inline">\(y\)</span>, welche in <span class="math inline">\(R_2\)</span> liegen.</p></li>
 </ol></li>
 <li><p><strong>Wahl des besten Schwellenwerts </strong>:<br>
 Wähle das Paar <span class="math inline">\((j^{*},s^{*})\)</span>, welches den MSE minimiert.</p></li>
@@ -467,36 +467,36 @@ Beende die Aufteilung, wenn eines der folgenden Kriterien erfüllt ist:</p>
 <li>Die Reduktion des Fehlers liegt unter einem vorher festgelegten Schwellenwert.</li>
 </ol></li>
 <li><p><strong>Terminalknoten-Wert setzen</strong>:<br>
-Weise jedem Blattknoten den Mittelwert der Zielvariablen <span class="math inline">\(\bar{y}_{R_i}\:,i=1,...,I\)</span> der enthaltenen Datenpunkte zu.</p></li>
+Weise jedem Blattknoten den Mittelwert der Zielvariablen <span class="math inline">\(\bar{y}_{R_i}\:,i=1,\cdots,I\)</span> der enthaltenen Datenpunkte zu.</p></li>
 </ol>
 <section id="rekursive-und-greedy-eigenschaft-des-algorithmus" class="level3" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="rekursive-und-greedy-eigenschaft-des-algorithmus"><span class="header-section-number">4.2.1</span> Rekursive und Greedy Eigenschaft des Algorithmus</h3>
-<p>Der <em>rekursvive</em> Charakter des Algorithmus ist hierbei in Schritt 4. zu erkennen, da nach jedem Aufteilen des Datensatzes in zwei Teildatensätze diese Teildatensätze nach dem gleichen Prinzip wieder aufgeteilt werden.</p>
-<p>Der <em>greedy</em> Charakter des Algorithmus ist in Schritt 3. wiederzufinden. Da wir in jeder Iteration jenen Split wählen, welcher den MSE in diesem Schritt minimiert ist gewährleistet, dass wir in jeder Iteration den bestmöglichen Split bilden. Dieses Vorgehen kann aber unter Umständen zu einem nicht optimalen Baum führen: Angenommen wir wollen eine Region <span class="math inline">\(R_i\)</span> in zwei Teilregionen <span class="math inline">\(R_{i,1}\)</span> und <span class="math inline">\(R_{i,2}\)</span> aufteilen und wählen hierfür das optimale Paar <span class="math inline">\((j^*,s^*)\)</span>. Dann existiert keine weitere Kombination <span class="math inline">\((\tilde{j},\tilde{s})\)</span>, so dass <span class="math inline">\(\text{MSE}(\tilde{j}, \tilde{s})&lt; \text{MSE}(j^*, s^*)\)</span>. Falls wir also <span class="math inline">\(R_i\)</span> bezüglich dem Paar <span class="math inline">\((j^*, s^*)\)</span> in <span class="math inline">\(R_{i,1}\)</span> und <span class="math inline">\(R_{i,2}\)</span> aufteilen und daraufhin <span class="math inline">\(R_{i,1}\)</span> optimal in <span class="math inline">\(R_{i+1,1}\)</span> und <span class="math inline">\(R_{i+1,2}\)</span> aufteilen, dann kann es sein, dass unter der Verwendung von <span class="math inline">\((\tilde{j},\tilde{s})\)</span> aus der letzten Iteration ein Split <span class="math inline">\(R_{\tilde{i}+1,1}\)</span> und <span class="math inline">\(R_{\tilde{i}+1,2}\)</span> entstehen hätte können, für den<br>
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="rekursive-und-greedy-eigenschaft-des-algorithmus"><span class="header-section-number">4.2.1</span> Rekursive und Greedy-Eigenschaft des Algorithmus</h3>
+<p>Der <em>rekursive</em> Charakter des Algorithmus ist hierbei in Schritt 4. zu erkennen, da nach jedem Aufteilen des Datensatzes in zwei Teildatensätze diese Teildatensätze nach dem gleichen Prinzip wieder aufgeteilt werden.</p>
+<p>Der <em>greedy</em> Charakter des Algorithmus ist in Schritt 3. wiederzufinden. Da wir in jeder Iteration jenen Split wählen, welcher den MSE in diesem Schritt minimiert, ist gewährleistet, dass wir in jeder Iteration den bestmöglichen Split bilden. Dieses Vorgehen kann aber unter Umständen zu einem nicht optimalen Baum führen: Angenommen, wir wollen eine Region <span class="math inline">\(R_i\)</span> in zwei Teilregionen <span class="math inline">\(R_{i,1}\)</span> und <span class="math inline">\(R_{i,2}\)</span> aufteilen und wählen hierfür das optimale Paar <span class="math inline">\((j^*,s^*)\)</span>. Dann existiert keine weitere Kombination <span class="math inline">\((\tilde{j},\tilde{s})\)</span>, sodass <span class="math inline">\(\text{MSE}(\tilde{j}, \tilde{s})&lt; \text{MSE}(j^*, s^*)\)</span>. Falls wir also <span class="math inline">\(R_i\)</span> bezüglich des Paares <span class="math inline">\((j^*, s^*)\)</span> in <span class="math inline">\(R_{i,1}\)</span> und <span class="math inline">\(R_{i,2}\)</span> aufteilen und daraufhin <span class="math inline">\(R_{i,1}\)</span> optimal in <span class="math inline">\(R_{i+1,1}\)</span> und <span class="math inline">\(R_{i+1,2}\)</span> aufteilen, dann kann es sein, dass unter der Verwendung von <span class="math inline">\((\tilde{j},\tilde{s})\)</span> aus der letzten Iteration ein Split <span class="math inline">\(R_{\tilde{i}+1,1}\)</span> und <span class="math inline">\(R_{\tilde{i}+1,2}\)</span> hätte entstehen können, für den<br>
 <span class="math display">\[\begin{equation*}
 \text{MSE}_{\tilde{i}+1}(j, s) &lt; \text{MSE}_{i+1}(j, s)
 \end{equation*}\]</span> gilt.</p>
 </section>
 <section id="sec-stoppingcriteria" class="level3" data-number="4.2.2">
 <h3 data-number="4.2.2" class="anchored" data-anchor-id="sec-stoppingcriteria"><span class="header-section-number">4.2.2</span> Stoppkriterien und Pruning</h3>
-<p>Im 5. Schritt des Top-Down-Greedy Algorithmus haben wir verschiedene Kriterien genannt, welche zum Stoppen des Algorithmus führen können.</p>
+<p>Im 5. Schritt des Top-Down-Greedy-Algorithmus haben wir verschiedene Kriterien genannt, welche zum Stoppen des Algorithmus führen können.</p>
 <p>Wir wollen in diesem Abschnitt die Stopp-Kriterien ein wenig genauer definieren und untersuchen.</p>
 <section id="mindestanzahl-an-beobachtungen-min_n" class="level4" data-number="4.2.2.1">
 <h4 data-number="4.2.2.1" class="anchored" data-anchor-id="mindestanzahl-an-beobachtungen-min_n"><span class="header-section-number">4.2.2.1</span> Mindestanzahl an Beobachtungen <code>min_n</code></h4>
-<p>Das Kriterium zur Mindestanzahl an Beobachtungen prüft vor jedem weiteren Aufteilen des Featurespace, ob in den durch das Aufteilen resultierenden Teildatensätzen eine Mindestanzahl an Beobachtungen liegt. Ziel dieses Kriteriums ist es zu vermeiden, dass sich das Baummodell zu stark an die Trainingsdaten anpasst. Die vorhersagen <span class="math inline">\(\hat{y}\)</span> werden durch das Bilden des Durchschnitts in einem Blattknoten <span class="math inline">\(R_m\)</span> generiert:</p>
+<p>Das Kriterium zur Mindestanzahl an Beobachtungen prüft vor jedem weiteren Aufteilen des Featurespace, ob in den durch das Aufteilen resultierenden Teildatensätzen eine Mindestanzahl an Beobachtungen liegt. Ziel dieses Kriteriums ist es, zu vermeiden, dass sich das Baummodell zu stark an die Trainingsdaten anpasst. Die Vorhersagen <span class="math inline">\(\hat{y}\)</span> werden durch das Bilden des Durchschnitts in einem Blattknoten <span class="math inline">\(R_m\)</span> generiert:</p>
 <p><span class="math display">\[
 \frac{1}{|R_m|}\sum_{k:x_k\in R_m}y_k
 \]</span> Falls also in <span class="math inline">\(R_m\)</span> nur eine Observation vorhanden ist, kann das zu einer starken Verzerrung bei einer Evaluation mithilfe von Testdaten führen.</p>
-<p>Wir bezeichnen nun mit <code>min_n</code> die Anzahl an Datenpunkten, welche mindestens in einem Teilgebiet liegen müssen so dass dieses geteilt wird. <code>min_n</code> muss also mindestens den Wert <code>2</code> besitzen. Nun stellt sich natürlich die Frage, welchen Wert wir für <code>min_n</code> beim Schätzen eines Regressionsbaumes festlegen sollen. Natürlich lässt sich diese Frage wie immer <a href="pictures/pikachu-shocked-face-stunned.gif">nicht eindeutig</a> beantworten. Wir werden später sehen, dass R diesen Wert erstmal selbst bestimmt, wir diesen alternativ aber auch übergeben können. Im Rahmen dieser Verasntaltung geben wir uns aber damit zufrieden, welchen Wert R für optimal hält.</p>
+<p>Wir bezeichnen nun mit <code>min_n</code> die Anzahl an Datenpunkten, welche mindestens in einem Teilgebiet liegen müssen, sodass dieses geteilt wird. <code>min_n</code> muss also mindestens den Wert <code>2</code> besitzen. Jedoch stellt sich natürlich die Frage, welchen Wert wir für <code>min_n</code> beim Schätzen eines Regressionsbaumes festlegen sollen. Natürlich lässt sich diese Frage wie immer <a href="pictures/pikachu-shocked-face-stunned.gif">nicht eindeutig</a> beantworten. Wir werden später sehen, dass R diesen Wert erst mal selbst bestimmt, wir diesen alternativ aber auch übergeben können. Im Rahmen dieser Veranstaltung geben wir uns aber damit zufrieden, welchen Wert R für optimal hält.</p>
 </section>
 <section id="baumtiefe-tree_depth" class="level4" data-number="4.2.2.2">
 <h4 data-number="4.2.2.2" class="anchored" data-anchor-id="baumtiefe-tree_depth"><span class="header-section-number">4.2.2.2</span> Baumtiefe <code>tree_depth</code></h4>
-<p>Der Parameter <code>tree_depth</code> kann ebenso zum Stoppen des Algorithmus führen: Damit der Baum nicht unkontrolliert wächst (bzw. an Tiefe gewinnt), stoppen wir den Algorithmus sobald der Baum eine bestimmte Tiefe besitzt. Nun müssen wir noch definieren, was mit <em>tiefe</em> überhaupt gemeint ist.</p>
+<p>Der Parameter <code>tree_depth</code> kann ebenso zum Stoppen des Algorithmus führen: Damit der Baum nicht unkontrolliert wächst (genauer gesagt an Tiefe gewinnt), stoppen wir den Algorithmus, sobald der Baum eine bestimmte Tiefe besitzt. Jedoch müssen wir noch definieren, was mit <em>Tiefe</em> überhaupt gemeint ist.</p>
 <ol type="1">
-<li>Die Länge eines Pfades zwischen dem Wurzelknoten und einem beliebigen anderen Knoten <span class="math inline">\(R_m\)</span> ist durch die Anzahl der Kanten definiert, an welchen wir entlang gehen müssen, um den Knoten <span class="math inline">\(R_m\)</span> zu erreichen.</li>
-<li>Die Tiefe eines Baumes ist dann definiert durch den längsten Pfad vom Wurzelknoten zu einem anderen Knoten.</li>
+<li>Die Länge eines Pfades zwischen dem Wurzelknoten und einem beliebigen anderen Knoten <span class="math inline">\(R_m\)</span> ist durch die Anzahl der Kanten definiert, an welchen wir entlanggehen müssen, um den Knoten <span class="math inline">\(R_m\)</span> zu erreichen.</li>
+<li>Die Tiefe eines Baums ist dann definiert durch den längsten Pfad vom Wurzelknoten zu einem anderen Knoten.</li>
 </ol>
-<p>So hat der Baum in <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> zum Beispiel die Tiefe <code>4</code>, da wir entlang der rechten Seite des Baumes vier Kanten entlang gehen müssen, um entweder beim Konten mit dem Wert <span class="math inline">\(R_6\)</span> oder <span class="math inline">\(R_7\)</span> zu landen. <em>Beachte: Der längste Pfad muss also nicht eindeutig sein!</em></p>
+<p>So hat der Baum in <a href="#fig-Lorem" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> etwa die Tiefe <code>4</code>, da wir entlang der rechten Seite des Baums vier Kanten entlanggehen müssen, um entweder beim Knoten mit dem Wert <span class="math inline">\(R_6\)</span> oder <span class="math inline">\(R_7\)</span> zu landen. <em>Beachte: Der längste Pfad muss also nicht eindeutig sein!</em></p>
 </section>
 <section id="sec-improvement" class="level4" data-number="4.2.2.3">
 <h4 data-number="4.2.2.3" class="anchored" data-anchor-id="sec-improvement"><span class="header-section-number">4.2.2.3</span> Reduktion des Fehlers (<code>cost_complexity</code>)</h4>
@@ -510,20 +510,20 @@ Weise jedem Blattknoten den Mittelwert der Zielvariablen <span class="math inlin
 <p><span class="math display">\[
   \text{MSE}_{R_m} = \frac{1}{|R_m|}\sum_{k:x_k\in R_m} (\bar{y}_{R_m}-y_k)^2
 \]</span> berechnen, wobei <span class="math inline">\(R_m\)</span> für den entsprechenden Knoten <span class="math inline">\(K_{\text{Eltern}},K_{\text{Kind}_1},K_{\text{Kind}_2}\)</span> steht.</p>
-<p>Wir sind nun an der relativen Reduzierung des Fehlers durch den Split des Eltern Knotens in zwei Kind Knoten interessiert. Diese Änderung lässt sich mithilfe der <span class="math inline">\(\text{MSE}\)</span> Terme durch folgende Formel beschreiben:</p>
+<p>Wir sind nun an der relativen Reduzierung des Fehlers durch den Split des Elternknotens in zwei Kindknoten interessiert. Diese Änderung lässt sich mithilfe der <span class="math inline">\(\text{MSE}\)</span> Terme durch folgende Formel beschreiben:</p>
 <p><span class="math display">\[\begin{align}\label{eq:improvement}
   &amp; \frac{|K_{\text{Eltern}}|\cdot\text{MSE}_{K_{\text{Eltern}}} -(|K_{\text{Kind}_1}|\cdot\text{MSE}_{K_{\text{Kind}_1}}+|K_{\text{Kind}_2}|\cdot\text{MSE}_{K_{\text{Kind}_2}})}{|K_{\text{Eltern}}|\cdot\text{MSE}_{K_{\text{Eltern}}}}\\
   &amp;\qquad = 1-\frac{|K_{\text{Kind}_1}|\cdot\text{MSE}_{K_{\text{Kind}_1}}+|K_{\text{Kind}_2}|\cdot\text{MSE}_{K_{\text{Kind}_2}}}{|K_{\text{Eltern}}|\cdot\text{MSE}_{K_{\text{Eltern}}}}\nonumber
 \end{align}\]</span></p>
-<p>Wir nennen <span class="math inline">\(\eqref{eq:improvement}\)</span> auch den <em>Improvement</em> Wert. Der Quotient beschreibt hierbei wie groß der Anteil der Fehlerreduktion im Vergleich zum Eltern-Fehler ist. Da die Summe der Teilfehler (<span class="math inline">\(|K_{\text{Kind}_1}|\cdot\text{MSE}_{K_{\text{Kind}_1}}+|K_{\text{Kind}_2}|\cdot\text{MSE}_{K_{\text{Kind}_2}}\)</span>) immer kleiner gleich dem Fehler des Elternknoten ist (<span class="math inline">\(|K_{\text{Eltern}}|\cdot\text{MSE}_{K_{\text{Eltern}}}\)</span>) ist der Quotient somit immer nicht-negativ und kleiner oder gleich <span class="math inline">\(1\)</span>. Falls der Zähler in <span class="math inline">\(\eqref{eq:improvement}\)</span> einen (im Vergleich zum Nenner) kleinen Wert annimmt, dann erreichen wir durch das Aufsplitten des Elternknotens eine große Verbesserung der Modellperformance. Der Improvement Wert kann somit Werte zwischen <span class="math inline">\(0\)</span> und <span class="math inline">\(1\)</span> annehmen, wobei ein Improvement Wert von <span class="math inline">\(1\)</span> impliziert, dass der Quotient den Wert <span class="math inline">\(0\)</span> besitzt und damit auch die beiden <span class="math inline">\(\text{MSE}\)</span> der Kind Knoten den Wert <span class="math inline">\(0\)</span> annehmen. Falls der Improvement Wert sehr klein ist, bedeutet das im Umkehrschluss, dass durch das Splitten des Eltern Knotens keine große Verringerung des Fehlers erreicht wird.</p>
-<p>Wir können nun für den Improvement Wert, ähnlich wie er in <span class="math inline">\(\eqref{eq:improvement}\)</span> definiert ist, einen Schwellenwert <code>cost_complexity</code> festlegen. Falls ein Improvement Wert für einen Knoten kleiner ist als der Schwellenwert <code>cost_complexity</code> wird dieser Knoten nicht weiter geteilt.</p>
-<p>Der Improvement Wert bezieht sich hierbei aber im Nenner nicht auf den Elternknoten, sondern auf den Wurzelknoten (vgl. <a href="#sec-calcimp" class="quarto-xref"><span>Section 4.4.4</span></a>).</p>
+<p>Wir nennen <span class="math inline">\(\eqref{eq:improvement}\)</span> auch den <em>Improvement</em>-Wert. Der Quotient beschreibt hierbei, wie groß der Anteil der Fehlerreduktion im Vergleich zum Eltern-Fehler ist. Da die Summe der Teilfehler (<span class="math inline">\(|K_{\text{Kind}_1}|\cdot\text{MSE}_{K_{\text{Kind}_1}}+|K_{\text{Kind}_2}|\cdot\text{MSE}_{K_{\text{Kind}_2}}\)</span>) immer kleiner gleich dem Fehler des Elternknoten ist (<span class="math inline">\(|K_{\text{Eltern}}|\cdot\text{MSE}_{K_{\text{Eltern}}}\)</span>) ist der Quotient somit immer nicht-negativ und kleiner oder gleich <span class="math inline">\(1\)</span>. Falls der Zähler in <span class="math inline">\(\eqref{eq:improvement}\)</span> einen (im Vergleich zum Nenner) kleinen Wert annimmt, dann erreichen wir durch das Aufsplitten des Elternknotens eine große Verbesserung der Modellperformanz. Der Improvement-Wert kann somit Werte zwischen <span class="math inline">\(0\)</span> und <span class="math inline">\(1\)</span> annehmen, wobei ein Improvement-Wert von <span class="math inline">\(1\)</span> impliziert, dass der Quotient den Wert <span class="math inline">\(0\)</span> besitzt und damit auch die beiden <span class="math inline">\(\text{MSE}\)</span> der Kindknoten den Wert <span class="math inline">\(0\)</span> annehmen. Falls der Improvement-Wert sehr klein ist, bedeutet das im Umkehrschluss, dass durch das Splitten des Elternknotens keine große Verringerung des Fehlers erreicht wird.</p>
+<p>Wir können nun für den Improvement-Wert, ähnlich wie er in <span class="math inline">\(\eqref{eq:improvement}\)</span> definiert ist, einen Schwellenwert <code>cost_complexity</code> festlegen. Falls ein Improvement-Wert für einen Knoten kleiner ist als der Schwellenwert <code>cost_complexity</code> wird dieser Knoten nicht weiter geteilt.</p>
+<p>Der Improvement-Wert bezieht sich hierbei aber im Nenner nicht auf den Elternknoten, sondern auf den Wurzelknoten (vgl. <a href="#sec-calcimp" class="quarto-xref"><span>Section 4.4.4</span></a>).</p>
 </section>
 <section id="sec-pruning" class="level4" data-number="4.2.2.4">
 <h4 data-number="4.2.2.4" class="anchored" data-anchor-id="sec-pruning"><span class="header-section-number">4.2.2.4</span> Pruning</h4>
-<p>Zwar können alle genannten Kriterien verwendet werden um das wachsen des Baums frühzeitig zu stoppen (sog. <em>Prepruning</em>), allerdings ist das vorzeitige stoppen durch eine zu kleinere Veränderung des Improvement Wertes zu kurz gegriffen:</p>
-<p>Falls auf einen vermeintlich schlechten Split (Improvement Wert &lt; <code>cost_complexity</code>) ein sehr guter folgt (Improvement Wert &gt; <code>cost_complexity</code>), dann wird der sehr gute Split durch eine vorzeitige Beendigung nicht berücksichtigt. Deshalb wird für gewöhnlich das aufspannen des Baumes <strong>lediglich</strong> durch <code>min_n</code> und <code>tree_depth</code> vorzeitig gestoppt.</p>
-<p>Nachdem ein Baum also auf Basis der anderen Kriterien aufgespannt wurde, wird das Cost-Complexity Pruning (sog. <em>Postpruning</em>) angewendet um diesen weit aufgespannten Baum zu trimmen:</p>
+<p>Zwar können alle genannten Kriterien verwendet werden, um das Wachsen des Baums frühzeitig zu stoppen (sog. <em>Prepruning</em>), allerdings ist das vorzeitige Stoppen durch eine zu kleine Veränderung des Improvement-Wertes zu kurz gegriffen:</p>
+<p>Falls auf einen vermeintlich schlechten Split (Improvement-Wert &lt; <code>cost_complexity</code>) ein besserer folgt (Improvement-Wert &gt; <code>cost_complexity</code>), dann wird der bessere Split durch eine vorzeitige Beendigung nicht berücksichtigt. Deshalb wird für gewöhnlich das Aufspannen des Baums <strong>lediglich</strong> durch <code>min_n</code> und <code>tree_depth</code> vorzeitig gestoppt.</p>
+<p>Nachdem ein Baum also auf Basis der anderen Kriterien aufgespannt wurde, wird das Cost-Complexity-Pruning (sog. <em>Postpruning</em>) angewendet, um diesen weit aufgespannten Baum zu trimmen:</p>
 <p>Wir suchen unter der Verwendung des zuvor festgelegten Parameters <code>cost_complexity</code>= <span class="math inline">\(\alpha\)</span> denjenigen Teilbaum, welcher den Term</p>
 <p><span class="math display">\[\begin{equation}\label{eq:cct}
 \sum_{m=1}^{|T|}\sum_{k:x_k\in R_m}(y_k-\bar{y_{R_m}})^2 + \alpha|T|
@@ -535,35 +535,35 @@ Weise jedem Blattknoten den Mittelwert der Zielvariablen <span class="math inlin
 </section>
 <section id="sec-vip" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="sec-vip"><span class="header-section-number">4.3</span> Wichtigkeit der Variablen in Baummodellen</h2>
-<p>Im Vergleich zu linearen Modellen können wir die <em>Koeffizienten</em> der Regressionsbäume nicht mehr direkt interpretieren. Es gibt allerdings verschiedene Ansätze welche die Einflussnahme der verschiedenen Variablen im Modell ermöglicht.</p>
-<p>Eine Idee wäre zu zählen, wie oft eine Variable zum Aufteilen des Feature Space verwendet wurde. Allerdings ist diese Idee ohne eine zusätzliche Gewichtung zu ungenau, da das wiederholte Verwenden einer Variable den Einfluss auf die Modellgüte nur unzureichend Beschreibt.</p>
+<p>Im Vergleich zu linearen Modellen können wir die <em>Koeffizienten</em> der Regressionsbäume nicht mehr direkt interpretieren. Es gibt allerdings verschiedene Ansätze, welche die Einflussnahme der verschiedenen Variablen im Modell ermöglichen.</p>
+<p>Eine Idee wäre, zu zählen, wie oft eine Variable zum Aufteilen des Feature Space verwendet wurde. Allerdings ist diese Idee ohne eine zusätzliche Gewichtung zu ungenau, da das wiederholte Verwenden einer Variable den Einfluss auf die Modellgüte nur unzureichend beschreibt.</p>
 <div id="exm-improvementfallacy" class="theorem example">
-<p><span class="theorem-title"><strong>Beispiel 4.2</strong></span> Angenommen Variable <span class="math inline">\(X_j\)</span> wird im ersten Split verwendet was zu einem Improvement Wert sehr hohen Improvement Wert führt. Nun wird die Variable <span class="math inline">\(X_j\)</span> für keinen weiteren Split verwendet. Falls dann eine Variable <span class="math inline">\(X_{\tilde{j}}\)</span> mit <span class="math inline">\(\tilde{j}\neq j\)</span> existiert, welche in mehr als einem Split verwendet wird, aber der der durch den Improvement Wert gemessene Einfluss insgesamt kleiner ist als jener der Variable <span class="math inline">\(X_j\)</span>, dann würde ohne eine Gewichtung die Variable <span class="math inline">\(X_{\tilde{j}}\)</span> trotzdem als wichtiger gelten.</p>
+<p><span class="theorem-title"><strong>Beispiel 4.2</strong></span> Angenommen, die Variable <span class="math inline">\(X_j\)</span> wird im ersten Split verwendet, was zu einem sehr hohen Improvement-Wert führt. Nun wird die Variable <span class="math inline">\(X_j\)</span> für keinen weiteren Split verwendet. Falls dann eine Variable <span class="math inline">\(X_{\tilde{j}}\)</span> mit <span class="math inline">\(\tilde{j}\neq j\)</span> existiert, welche in mehr als einem Split verwendet wird, aber der durch den Improvement-Wert gemessene Einfluss insgesamt kleiner ist als jener der Variable <span class="math inline">\(X_j\)</span>, dann würde ohne eine Gewichtung die Variable <span class="math inline">\(X_{\tilde{j}}\)</span> trotzdem als wichtiger gelten.</p>
 </div>
-<p>Wir sollten also neben der absoluten Anzahl der Variablenverwendung auch den Improvement Wert des entsprechenden Splits berücksichtigen.</p>
+<p>Wir sollten also neben der absoluten Anzahl der Variablenverwendung auch den Improvement-Wert des entsprechenden Splits berücksichtigen.</p>
 <!--
 
-2.  Um die marginalen Effekte zu prüfen können wir ebensowenig die (lineare) Änderung wie bei einer linearen Regression in Betracht ziehen.
-    Die Grundlegende Idee bei Bäumen ist aber ähnlich:
-    Um den Marginalen Einfluss einer Variable $X_j$ zu messen, fixiere alle anderen Variablen, variiere die Variable $X_j$ zwischen dem kleinsten und größten beobachteten Wert im Datensatz und betrachte den Einfluss dieser Variation auf der Zielvariable.
-    Die fixierten Werte der verbleibenden Variable sollten hierbei als der Durchschnitt (bei Numerischen Variablen), oder der Modus (bei nominalen Variablen) gewählt werden.
+2.  Um die marginalen Effekte zu prüfen, können wir ebensowenig die (lineare) Änderung wie bei einer linearen Regression in Betracht ziehen.
+    Die grundlegende Idee bei Bäumen ist aber ähnlich:
+    Um den marginalen Einfluss einer Variable $X_j$ zu messen, fixiere alle anderen Variablen, variiere die Variable $X_j$ zwischen dem kleinsten und größten beobachteten Wert im Datensatz und betrachte den Einfluss dieser Variation auf die Zielvariable.
+    Die fixierten Werte der verbleibenden Variable sollten hierbei als der Durchschnitt (bei numerischen Variablen) oder der Modus (bei nominalen Variablen) gewählt werden.
  
 -->
 </section>
 <section id="regressionsbäume-in-r" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="regressionsbäume-in-r"><span class="header-section-number">4.4</span> Regressionsbäume in R</h2>
-<p>Nachdem wir uns in den den vorherigen Abschnitten mit der Theorie und Darstellung von Entscheidungsbäumen auseinandergesetzt haben, wollen wir in diesem Abschnitt lernen wie man mit Entscheidungsbäumen in R umgeht.</p>
-<p>Hierfür betrachten wir wieder den <code>penguins</code> Datensatz aus den vorherigen Übungen:</p>
+<p>Nachdem wir uns in den vorherigen Abschnitten mit der Theorie und Darstellung von Entscheidungsbäumen auseinandergesetzt haben, wollen wir in diesem Abschnitt lernen, wie man mit Entscheidungsbäumen in R umgeht.</p>
+<p>Hierfür betrachten wir wieder den <code>penguins</code>-Datensatz aus den vorherigen Übungen:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data_penguin <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="sec-paramestimate" class="level3" data-number="4.4.1">
 <h3 data-number="4.4.1" class="anchored" data-anchor-id="sec-paramestimate"><span class="header-section-number">4.4.1</span> Schätzung der Parameter</h3>
-<p>Ziel ist es die Variable <code>body_mass_g</code> mit einem Regressionsbaum zu modellieren. Wir können hierfür die <code>decision_tree()</code> Funktion der <code>{tidymodels}</code> Bibliothek verwenden:</p>
+<p>Ziel ist es, die Variable <code>body_mass_g</code> mit einem Regressionsbaum zu modellieren. Wir können hierfür die <code>decision_tree()</code>-Funktion der <code>{tidymodels}</code>-Bibliothek verwenden:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tree_spec_penguins <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(<span class="at">mode =</span> <span class="st">"regression"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Änlich wie bei der linearen Regression können wir durch die <code>decision_tree()</code> Funktion einen Entscheidungsbaum spezifizieren. Da Entscheidungsbäume sowohl für Klassifikations- als auch für Regressionsaufgaben verwendet werden können, müssen wir mithilfe des <code>mode</code> Arguments spezifizieren, für welche Art von Problem wir den Entscheidungsbaum verwenden wollen. Das Aufrufen des <code>tree_spec_penguins</code> Objekts zeigt dann die Spezifikation des Entscheidungsbaums:</p>
+<p>Ähnlich wie bei der linearen Regression können wir durch die <code>decision_tree()</code>-Funktion einen Entscheidungsbaum spezifizieren. Da Entscheidungsbäume sowohl für Klassifikations- als auch für Regressionsaufgaben verwendet werden können, müssen wir mithilfe des <code>mode</code>-Arguments spezifizieren, für welche Art von Problem wir den Entscheidungsbaum verwenden wollen. Das Aufrufen des <code>tree_spec_penguins</code> Objekts zeigt dann die Spezifikation des Entscheidungsbaums:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tree_spec_penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -572,14 +572,14 @@ Weise jedem Blattknoten den Mittelwert der Zielvariablen <span class="math inlin
 Computational engine: rpart </code></pre>
 </div>
 </div>
-<p>Um die Parameter des Baumes zu schätzen, verwenden wir wie auch bei der linearen Regression die <code>fit()</code> Funktion:</p>
+<p>Um die Parameter des Baumes zu schätzen, verwenden wir wie auch bei der linearen Regression die <code>fit()</code>-Funktion:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tree_fit_penguins <span class="ot">&lt;-</span> tree_spec_penguins <span class="sc">%&gt;%</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> data_penguin,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">formula =</span> body_mass_g <span class="sc">~</span>.</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Der Rückgabewert der <code>fit()</code> Funktion ist ein Decision Tree Objekt welches neben der ursprünglichen Spezifikation nun auch ein <code>fit</code> Attribut enthält. Dieses <code>fit</code> Attribut enthält Informationen über die Variablen und Schwellenwerte, welche in den jeweiligen Splits verwendet wurden. Durch das Aufrufen der <code>extract_fit_engine()</code> Funktion können wir diese Informationen extrahieren:</p>
+<p>Der Rückgabewert der <code>fit()</code>-Funktion ist ein Decision-Tree-Objekt, welches neben der ursprünglichen Spezifikation nun auch ein <code>fit</code>-Attribut enthält. Dieses <code>fit</code> Attribut enthält Informationen über die Variablen und Schwellenwerte, welche in den jeweiligen Splits verwendet wurden. Durch das Aufrufen der <code>extract_fit_engine()</code>-Funktion können wir diese Informationen extrahieren:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tree_fit_penguins <span class="sc">%&gt;%</span> <span class="fu">extract_fit_engine</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -605,7 +605,7 @@ node), split, n, deviance, yval
 ...</code></pre>
 </div>
 </div>
-<p>Da in zwei Beobachtungen fehlende Werte vorhanden sind, hat die <code>fit</code> Funktion diese entfernt und die Parameter auf Basis der verbleibenden <code>342</code> Beobachtungen geschätzt.</p>
+<p>Da in zwei Beobachtungen fehlende Werte vorhanden sind, hat die <code>fit</code>-Funktion diese entfernt und die Parameter auf Basis der verbleibenden <code>342</code> Beobachtungen geschätzt.</p>
 <p>In der nächsten Zeile ist eine Legende gegeben, welche Informationen über den darauffolgenden Output enthält:</p>
 <div class="cell" data-out.lines="[3,4]">
 <div class="cell-output cell-output-stdout">
@@ -621,7 +621,7 @@ node), split, n, deviance, yval
 <li>In der zweiten Spalte (<code>split</code>) ist die Splittingvariable <span class="math inline">\(X_j\)</span> gegeben.</li>
 <li>In der dritten Spalte (<code>n</code>) ist die Anzahl der Observationen in dem entsprechenden Knoten aufgeführt.</li>
 <li>In der vierten Spalte (<code>deviance</code>) ist die quadrierte Abweichung der Observationen im Knoten von den tatsächlichen Werten im Knoten aufgeführt. Diese berechnet sich durch <span class="math inline">\(\text{deviance} = \text{MSE}\cdot n\)</span>.</li>
-<li>In der fünften Spalte (<code>yval</code>) ist der Schätzwert <span class="math inline">\(\hat{y}\)</span> des entsprechenden Knoten gegeben.</li>
+<li>In der fünften Spalte (<code>yval</code>) ist der Schätzwert <span class="math inline">\(\hat{y}\)</span> des entsprechenden Knotens gegeben.</li>
 <li>In der letzten Spalte (<code>* denotes terminal node</code>) einer Zeile steht ein <code>*</code>, falls es sich in der entsprechenden Zeile um einen Blattknoten handelt.</li>
 </ul>
 <div class="cell" data-out.lines="[6,7,8,9,10,11,12]">
@@ -639,12 +639,12 @@ node), split, n, deviance, yval
 </div>
 </div>
 <p>Die verbleibenden Zeilen enthalten die zuvor beschriebenen Informationen der Legende. In jeder Zeile steht entsprechend ein Knoten des Baums, wobei die Blattknoten mit einem <code>*</code> in der letzten Zeile versehen sind.</p>
-<p>Die erste Splitting Variable ist durch <code>species</code> gegeben. Falls eine Beobachtung die Ausprägungen <code>species=Adelie</code> oder <code>species=Chinstrap</code> enthält (Knoten <code>2)</code>), so werden diese zur Splitting Bedingung <code>sex=female</code> (Knoten <code>4)</code>) bzw. <code>sex = male</code> (Knoten <code>5)</code>) geleitet. Hat eine Beobachtung die Ausprägung <code>species=Gentoo</code> (Knoten <code>3)</code>), dann wird ebenso geprüft, ob der entsprechende Pinguin das Geschlecht <code>male</code> (Knoten <code>7)</code>) oder <code>female</code> (Knoten <code>6)</code>) besitzt.</p>
-<p>Es wurden in dem gegebenem Baum also lediglich die Variablen <code>species</code> und <code>sex</code> verwendet, um den Baum aufzuspannen.</p>
+<p>Die erste Splitting-Variable ist durch <code>species</code> gegeben. Falls eine Beobachtung die Ausprägungen <code>species=Adelie</code> oder <code>species=Chinstrap</code> enthält (Knoten <code>2)</code>), so werden diese zur Splitting-Bedingung <code>sex=female</code> (Knoten <code>4)</code>) bzw. <code>sex = male</code> (Knoten <code>5)</code>) geleitet. Hat eine Beobachtung die Ausprägung <code>species=Gentoo</code> (Knoten <code>3)</code>), dann wird ebenso geprüft, ob der entsprechende Pinguin das Geschlecht <code>male</code> (Knoten <code>7)</code>) oder <code>female</code> (Knoten <code>6)</code>) besitzt.</p>
+<p>Es wurden in dem gegebenen Baum also lediglich die Variablen <code>species</code> und <code>sex</code> verwendet, um den Baum aufzuspannen.</p>
 </section>
 <section id="darstellung-des-baums" class="level3" data-number="4.4.2">
 <h3 data-number="4.4.2" class="anchored" data-anchor-id="darstellung-des-baums"><span class="header-section-number">4.4.2</span> Darstellung des Baums</h3>
-<p>Wir können den geschätzten Baum aus <a href="#sec-paramestimate" class="quarto-xref"><span>Section 4.4.1</span></a> als Binärbaum mithilfe der <code>rpart.plot</code> Library darstellen<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
+<p>Wir können den geschätzten Baum aus <a href="#sec-paramestimate" class="quarto-xref"><span>Section 4.4.1</span></a> als Binärbaum mithilfe der <code>rpart.plot</code>-Library darstellen<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -659,17 +659,17 @@ node), split, n, deviance, yval
 </div>
 </div>
 </div>
-<p>Das vorgehen ist hierbei (dank der <code>{tidymodels}</code>) Syntax, ähnlich wie beim extrahieren der Modellparameter eines linearen Modells:</p>
+<p>Das Vorgehen ist hierbei (dank der <code>{tidymodels}</code>) Syntax, ähnlich wie beim Extrahieren der Modellparameter eines linearen Modells:</p>
 <ol type="1">
-<li>Im ersten Schritt übergeben wir das <code>tree_fit_penguins</code> Objekt in die <code>extract_fit_engine()</code> Funktion.</li>
-<li>Die <code>extract_fit_engine()</code> Funktion extrahiert die Modellparameter, welche dann an die <code>rpart.plot()</code> übergeben werden.</li>
-<li>Die <code>rpart.plot()</code> Funktion visualisiert die Splittingvariablen und Schwellenwerte in einer binären Baumdarstellung.</li>
+<li>Im ersten Schritt übergeben wir das <code>tree_fit_penguins</code>-Objekt in die <code>extract_fit_engine()</code>-Funktion.</li>
+<li>Die <code>extract_fit_engine()</code>-Funktion extrahiert die Modellparameter, welche dann an die <code>rpart.plot()</code> übergeben werden.</li>
+<li>Die <code>rpart.plot()</code>-Funktion visualisiert die Splittingvariablen und Schwellenwerte in einer binären Baumdarstellung.</li>
 </ol>
-<p>Der obere Wert in einem Knoten gibt dabei an, wie groß der relative Anteil der Datenpunkte im Vergleich zu allen Datenpunkten auf dieser Ebene des Baums ist. Da auf der Ebene des Wurzelknotens nur ein Knoten ist, ist der relative Anteil in diesem entsprechend <code>100%</code>. In der zweiten Ebene sind zwei Knoten, wobei der linke Knoten <code>64%</code> und der rechte Knoten <code>34%</code> der Datenpunkte enthält. Der untere Wert in einem Knoten gibt den Schätzwert der Zielvariable an. So ist zum Beispiel der Schätzwert <span class="math inline">\(\hat{y}\)</span> im linken unterem Blattknoten durch <span class="math inline">\(3421\)</span> g gegeben. Unter einem Knoten, welcher kein Blattknoten ist, steht eine Entscheidungsregel. Im Split nach dem Wurzelknoten wird zum Biepiel geprüft, ob ein Penguin zu den Spezies <code>Adelie</code> oder <code>Chinstrap</code> gehört.</p>
+<p>Der obere Wert in einem Knoten gibt dabei an, wie groß der relative Anteil der Datenpunkte im Vergleich zu allen Datenpunkten auf dieser Ebene des Baums ist. Da auf der Ebene des Wurzelknotens nur ein Knoten ist, ist der relative Anteil in diesem entsprechend <code>100%</code>. In der zweiten Ebene sind zwei Knoten, wobei der linke Knoten <code>64%</code> und der rechte Knoten <code>34%</code> der Datenpunkte enthält. Der untere Wert in einem Knoten gibt den Schätzwert der Zielvariable an. So ist etwa der Schätzwert <span class="math inline">\(\hat{y}\)</span> im linken unteren Blattknoten durch <span class="math inline">\(3421\)</span> g gegeben. Unter einem Knoten, welcher kein Blattknoten ist, steht eine Entscheidungsregel. Im Split nach dem Wurzelknoten wird zum Beispiel geprüft, ob ein Pinguin zu den Spezies <code>Adelie</code> oder <code>Chinstrap</code> gehört.</p>
 </section>
 <section id="wichtigkeit-der-variablen" class="level3" data-number="4.4.3">
 <h3 data-number="4.4.3" class="anchored" data-anchor-id="wichtigkeit-der-variablen"><span class="header-section-number">4.4.3</span> Wichtigkeit der Variablen</h3>
-<p>Damit wir die Wichtigkeit der Variablen wie in <a href="#sec-vip" class="quarto-xref"><span>Section 4.3</span></a> beschrieben berechnen können, verwenden wir das <code>{vip}</code> Paket. <code>vip</code> steht in diesem Kontext für <em>Variable Importance Plots</em>.</p>
+<p>Damit wir die Wichtigkeit der Variablen wie in <a href="#sec-vip" class="quarto-xref"><span>Section 4.3</span></a> beschrieben berechnen können, verwenden wir das <code>{vip}</code>-Paket. <code>vip</code> steht in diesem Kontext für <em>Variable Importance Plots</em>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vip)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1160,8 +1160,8 @@ node), split, n, deviance, yval
 </div>
 </div>
 </div>
-<p>Auffälig ist hierbei, dass obwohl der finale Baum nur die Variablen <code>sex</code> und <code>island</code> enthält, die wichtigsten Variablen <code>bill_depth_mm</code> und <code>flipper_length_mm</code> sind. Das liegt daran, dass die Wichtigkeit der Variablen auf Basis des ungetrimmten Baumes berechnet werden. Dieses Phänomen ist ein Indikator dafür, dass die Standardwerte <code>min_n</code>, <code>complexity_parameter</code> und <code>tree_depth</code> in diesem Beispiel nicht optimal sein könnten, da die wichtigsten Variablen aus dem Finalen Baum entfernt wurden.</p>
-<p>Wir können die Improvement Werte auch mithilfe der <code>vip()</code> Funktion grafisch darstellen:</p>
+<p>Auffällig ist hierbei, dass, obwohl der finale Baum nur die Variablen <code>sex</code> und <code>island</code> enthält, die wichtigsten Variablen <code>bill_depth_mm</code> und <code>flipper_length_mm</code> sind. Das liegt daran, dass die Wichtigkeit der Variablen auf Basis des ungetrimmten Baumes berechnet wird. Dieses Phänomen ist ein Indikator dafür, dass die Standardwerte <code>min_n</code>, <code>complexity_parameter</code> und <code>tree_depth</code> in diesem Beispiel nicht optimal sein könnten, da die wichtigsten Variablen aus dem finalen Baum entfernt wurden.</p>
+<p>Wir können die Improvement-Werte auch mithilfe der <code>vip()</code>-Funktion grafisch darstellen:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tree_fit_penguins <span class="sc">%&gt;%</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
@@ -1176,8 +1176,8 @@ node), split, n, deviance, yval
 </div>
 </section>
 <section id="sec-calcimp" class="level3" data-number="4.4.4">
-<h3 data-number="4.4.4" class="anchored" data-anchor-id="sec-calcimp"><span class="header-section-number">4.4.4</span> Berechnung der Improvement Werte</h3>
-<p>Um die Improvement Werte, bzw. die Reduktion der Fehler durch einen Split wie in <a href="#sec-improvement" class="quarto-xref"><span>Section 4.2.2.3</span></a> zu berechnen, können wir auf das <code>cptable</code> Attribut des Baumes zugreifen. Diese können wir durch die Anwendung der <code>pluck</code> Funktion extrahieren:</p>
+<h3 data-number="4.4.4" class="anchored" data-anchor-id="sec-calcimp"><span class="header-section-number">4.4.4</span> Berechnung der Improvement-Werte</h3>
+<p>Um die Improvement-Werte bzw. die Reduktion der Fehler durch einen Split wie in <a href="#sec-improvement" class="quarto-xref"><span>Section 4.2.2.3</span></a> zu berechnen, können wir auf das <code>cptable</code>-Attribut des Baumes zugreifen. Diese können wir durch die Anwendung der <code>pluck</code>-Funktion extrahieren:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tree_fit_penguins <span class="sc">%&gt;%</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
@@ -1200,20 +1200,20 @@ Hinweis
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Anstatt der <code>extract_fit_engine</code> und <code>pluck</code> Funktion kann man die Complexity Parameter Tabelle auch durch folgendes Code Snippet extrahieren:</p>
+<p>Anstatt der <code>extract_fit_engine</code>- und <code>pluck</code>-Funktion kann man die Complexity-Parameter-Tabelle auch durch folgendes Code-Snippet extrahieren:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tree_fit_penguins<span class="sc">$</span>fit<span class="sc">$</span>cptable</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Aus Konsistenzgründen ist es aber empfehlenswert die zuvor aufgeführte Tidy-Syntax zu verwenden.</p>
+<p>Aus Konsistenzgründen ist es aber empfehlenswert, die zuvor aufgeführte Tidy-Syntax zu verwenden.</p>
 </div>
 </div>
-<p>Die <code>cptable</code> gibt neben der Fehlerreduktion durhc einen Split noch weitere Informationen, welche wir im Folgenden analysieren wollen.</p>
+<p>Die <code>cptable</code> gibt neben der Fehlerreduktion durch einen Split noch weitere Informationen, welche wir im Folgenden analysieren wollen.</p>
 <ol type="1">
-<li><p>Die Spalte <code>CP</code> (Complexity Parameter) gibt einen Improvment Wert des jeweiligen Splits an. In der ersten Zeile wird somit der Improvment Wert durch das Teilen des Wurzelknotes anhand der Formel in <span class="math inline">\(\eqref{eq:improvement}\)</span> berechnet. Die darauffolgenden Improvement Werte beziehen sich ebenfalls auf die Verbesserung bezüglich dem Fehler des Wurzelknotens, weshalb hier die Formel</p>
+<li><p>Die Spalte <code>CP</code> (Complexity Parameter) gibt einen Improvement-Wert des jeweiligen Splits an. In der ersten Zeile wird somit der Improvement-Wert durch das Teilen des Wurzelknotens anhand der Formel in <span class="math inline">\(\eqref{eq:improvement}\)</span> berechnet. Die darauffolgenden Improvement-Werte beziehen sich ebenfalls auf die Verbesserung bezüglich des Fehlers des Wurzelknotens, weshalb hier die Formel</p>
 <p><span class="math display">\[\begin{align}\label{eq:lorem}
 \frac{|K_{\text{Eltern}}|\cdot\text{MSE}_{K_{\text{Eltern}}} -(|K_{\text{Kind}_1}|\cdot\text{MSE}_{K_{\text{Kind}_1}}+|K_{\text{Kind}_2}|\cdot\text{MSE}_{K_{\text{Kind}_2}})}{|K_{\text{Wurzel}}|\cdot\text{MSE}_{K_{\text{Wurzel}}}}
 \end{align}\]</span> verwendet wird.</p>
-<p>In Gleichung <span class="math inline">\(\eqref{eq:lorem}\)</span> steht im Nenner nicht mehr <span class="math inline">\(|K_{\text{Eltern}}|\cdot\text{MSE}_{K_{\text{Eltern}}}\)</span>, sondern <span class="math inline">\(|K_{\text{Wurzel}}|\cdot\text{MSE}_{K_{\text{Wurzel}}}\)</span>. Der Wert <code>CP</code> beschreibt also den Anteil der Fehlerverbesserung, den ein Split erzeugt, relativ zum Gesamtfehler des Modells ohne jegliche Splits (also nur der Wurzelknoten). Um also zum Beispiel den <code>CP</code> Wert in der zweiten Zeile zu berechnen, können wir die tabellarisch-hierarchische Darstellung</p>
+<p>In Gleichung <span class="math inline">\(\eqref{eq:lorem}\)</span> steht im Nenner nicht mehr <span class="math inline">\(|K_{\text{Eltern}}|\cdot\text{MSE}_{K_{\text{Eltern}}}\)</span>, sondern <span class="math inline">\(|K_{\text{Wurzel}}|\cdot\text{MSE}_{K_{\text{Wurzel}}}\)</span>. Der Wert <code>CP</code> beschreibt also den Anteil der Fehlerverbesserung, den ein Split erzeugt, relativ zum Gesamtfehler des Modells ohne jegliche Splits (also nur der Wurzelknoten). Um also etwa den <code>CP</code>-Wert in der zweiten Zeile zu berechnen, können wir die tabellarisch-hierarchische Darstellung</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>n=342 (2 Beobachtungen als fehlend gelöscht)
@@ -1230,21 +1230,21 @@ node), split, n, deviance, yval
     7) sex=male 62   6250000 5475.000 *</code></pre>
 </div>
 </div>
-<p>verwenden. Der <code>CP</code> Wert berechnet sich dann durch die <code>deviance</code> Terme, welche durch das Teilen von Knoten <code>3)</code> in die Knoten <code>6)</code> und <code>7)</code> entsehen:</p>
+<p>verwenden. Der <code>CP</code> Wert berechnet sich dann durch die <code>deviance</code> Terme, welche durch das Teilen von Knoten <code>3)</code> in die Knoten <code>6)</code> und <code>7)</code> entstehen:</p>
 <p><span class="math display">\[\begin{equation*}
 \frac{31004250-(4853135+6250000)}{219307700} = 0.09074517
 \end{equation*}\]</span></p>
-<p>Der letzte Eintrag in der Spalte <code>CP</code> (<code>0.01</code>) ist der Default Parameter der <code>decision_tree</code> Funktion für das Argument <code>cp</code> (vgl. <a href="#sec-improvement" class="quarto-xref"><span>Section 4.2.2.3</span></a>).</p></li>
-<li><p>Die Spalte <code>nsplit</code> beschreibt die Anzahl der Splits. Da der letzte Eintrag <code>3</code> ist, heißt das, dass der Feauture Space drei Mal geteilt wurde.</p></li>
-<li><p>Die Spalte <code>rel error</code> beschreibt den relativen Fehler des Entscheidungsbaumes beim entsprechenden Split bezüglich dem Wurzelknoten. Dieser kann mithilfe der Formel <span class="math display">\[\begin{equation*}
+<p>Der letzte Eintrag in der Spalte <code>CP</code> (<code>0.01</code>) ist der Default-Parameter der <code>decision_tree</code>-Funktion für das Argument <code>cp</code> (vgl. <a href="#sec-improvement" class="quarto-xref"><span>Section 4.2.2.3</span></a>).</p></li>
+<li><p>Die Spalte <code>nsplit</code> beschreibt die Anzahl der Splits. Da der letzte Eintrag <code>3</code> ist, heißt das, dass der Feauturespace dreimal geteilt wurde.</p></li>
+<li><p>Die Spalte <code>rel error</code> beschreibt den relativen Fehler des Entscheidungsbaumes beim entsprechenden Split bezüglich des Wurzelknotens. Dieser kann mithilfe der Formel <span class="math display">\[\begin{equation*}
   \text{rel error}_i = \begin{cases}
     1,\qquad &amp;\text{falls } i=1\\
     \text{rel error}_{i-1}-\text{CP}_{i-1},\qquad &amp;\text{falls } i&gt;1
   \end{cases}
-\end{equation*}\]</span> berechnet werden. Um also zum Beispiel den <code>rel err</code> für den letzten Eintrag <span class="math inline">\((i=4)\)</span> berechnen wollen, dann lautet die Formel mit eingesetzten Zahlen hierfür <span class="math display">\[\begin{equation*}
+\end{equation*}\]</span> berechnet werden. Um also etwa den <code>rel err</code> für den letzten Eintrag <span class="math inline">\((i=4)\)</span> berechnen wollen, dann lautet die Formel mit eingesetzten Zahlen hierfür <span class="math display">\[\begin{equation*}
 0.2398077-0.08326927 = 0.1565384
 \end{equation*}\]</span></p></li>
-<li><p>Die Spalten <code>xerror</code> und <code>xstd</code> beschreiben den <code>rel error</code> und dessen Standardabweichung welche sich durch eine Cross-Validation ergeben haben.</p></li>
+<li><p>Die Spalten <code>xerror</code> und <code>xstd</code> beschreiben den <code>rel error</code> und dessen Standardabweichung, welche sich durch eine Cross-Validation ergeben haben.</p></li>
 </ol>
 <!--
 
@@ -1286,24 +1286,24 @@ FeatureEffect$new(
 </section>
 <section id="sec-erweiterungen" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="sec-erweiterungen"><span class="header-section-number">4.5</span> Erweiterungen</h2>
-<p>Baummodelle bilden neben linearen Modellen eine wichtige Grundlage für weiterführende Modelle der Regression, welche zum Standardrepertoire eines Data Scientist gehören. <em>Random Forests</em> sind eine dieser Erweiterungen, welche wir in diesem Abschnitt diskutieren wollen.</p>
+<p>Baummodelle bilden neben linearen Modellen eine wichtige Grundlage für weiterführende Modelle der Regression, welche zum Standardrepertoire eines Data Scientists gehören. <em>Random Forests</em> sind eine dieser Erweiterungen, welche wir in diesem Abschnitt diskutieren wollen.</p>
 <p>Die grundlegende Idee kann in zwei Teilen erklärt werden.</p>
-<section id="erstellung-eines-bootstrap-datasets." class="level3" data-number="4.5.1">
-<h3 data-number="4.5.1" class="anchored" data-anchor-id="erstellung-eines-bootstrap-datasets."><span class="header-section-number">4.5.1</span> Erstellung eines Bootstrap Datasets.</h3>
-<p>Angnommen ein Feautre Datensatz besteht aus <span class="math inline">\(K\)</span> Datenpunkten <span class="math inline">\((x_1,...,x_K)\)</span> und <span class="math inline">\(J\)</span> Variablen, also <span class="math inline">\(x_k\in\mathbb{R}^J\)</span> für <span class="math inline">\(k=1,...,K\)</span>. Wir nehmen außerdem an, dass zu jedem Datenpunkt <span class="math inline">\(x_k\)</span> mit <span class="math inline">\(k=1,...,K\)</span> ein Zielwert <span class="math inline">\(y_k\)</span> existiert. Der gesamte Datensatz ist somit durch <span class="math inline">\(D=\{(x_k,y_k)|x_k\in\mathbb{R}^J, y\in\mathbb{R}, k=1,...,K\}\)</span> gegeben. Ein Bootstrap Sample ist dann ein Datensatz <span class="math inline">\(D^{(b)}\)</span> der größe <span class="math inline">\(K\)</span>, welcher durch zufällgies Ziehen mit Zurücklegen von Samples aus dem Datensatz <span class="math inline">\(D\)</span> generiert wird. Die Datenpunkte in <span class="math inline">\(D^{(b)}\)</span> können also durchaus mehrfach im auftauchen!</p>
+<section id="erstellung-eines-bootstrap-datasets" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="erstellung-eines-bootstrap-datasets"><span class="header-section-number">4.5.1</span> Erstellung eines Bootstrap-Datasets</h3>
+<p>Angenommen, ein Feature-Datensatz besteht aus <span class="math inline">\(K\)</span> Datenpunkten <span class="math inline">\((x_1,\ldots,x_K)\)</span> und <span class="math inline">\(J\)</span> Variablen, also <span class="math inline">\(x_k\in\mathbb{R}^J\)</span> für <span class="math inline">\(k=1,\ldots,K\)</span>. Wir nehmen außerdem an, dass zu jedem Datenpunkt <span class="math inline">\(x_k\)</span> mit <span class="math inline">\(k=1,\ldots,K\)</span> ein Zielwert <span class="math inline">\(y_k\)</span> existiert. Der gesamte Datensatz ist somit durch <span class="math inline">\(D=\{(x_k,y_k)|x_k\in\mathbb{R}^J, y\in\mathbb{R}, k=1,\ldots,K\}\)</span> gegeben. Ein Bootstrap-Sample ist dann ein Datensatz <span class="math inline">\(D^{(b)}\)</span> der Größe <span class="math inline">\(K\)</span>, welcher durch zufälliges Ziehen mit Zurücklegen von Samples aus dem Datensatz <span class="math inline">\(D\)</span> generiert wird. Die Datenpunkte in <span class="math inline">\(D^{(b)}\)</span> können also mehrfach im Bootstrap-Datensatz auftauchen!</p>
 </section>
 <section id="trainieren-der-baummodelle-und-aggregation" class="level3" data-number="4.5.2">
 <h3 data-number="4.5.2" class="anchored" data-anchor-id="trainieren-der-baummodelle-und-aggregation"><span class="header-section-number">4.5.2</span> Trainieren der Baummodelle und Aggregation</h3>
-<p>Nachdem ein Bootstrap Sample <span class="math inline">\(D^{(b)}\)</span> erstellt wurde, schätzen wir dann mithilfe dieses Samples einen Regressionsbaum. Beim Schätzen des Baumes verwenden wir allerdings in jedem Potenziellen Split nur <code>mtry</code><span class="math inline">\(&lt;J\)</span> zufällig ausgewählte Variablen um stark korellierte Bäume zu vermeiden.</p>
-<p>Dieses Vorgehen wiederholen wir dann <span class="math inline">\(B&gt;1\)</span> mal, so dass wir schlussendlich <span class="math inline">\(B\)</span> Regressionsbäume mithilfe von <span class="math inline">\(B\)</span> Bootstrap Sample geschätzt haben. Ein Random Forest Schätzwert <span class="math inline">\(\hat{y}\)</span> für einen Datenpunkt <span class="math inline">\(x\)</span> berechnet sich dann durch den Durschnittlichen vorhersagewert aller <span class="math inline">\(B\)</span> Bäume:</p>
+<p>Nachdem ein Bootstrap-Sample <span class="math inline">\(D^{(b)}\)</span> erstellt wurde, schätzen wir dann mithilfe dieses Samples einen Regressionsbaum. Beim Schätzen des Baumes verwenden wir allerdings in jedem potenziellen Split nur <code>mtry</code><span class="math inline">\(&lt;J\)</span> zufällig ausgewählte Variablen, um stark korrelierte Bäume zu vermeiden.</p>
+<p>Dieses Vorgehen wiederholen wir dann <span class="math inline">\(B&gt;1\)</span> mal, sodass wir schlussendlich <span class="math inline">\(B\)</span> Regressionsbäume mithilfe von <span class="math inline">\(B\)</span>&nbsp;Bootstrap-Samples geschätzt haben. Ein Random-Forest-Schätzwert <span class="math inline">\(\hat{y}\)</span> für einen Datenpunkt <span class="math inline">\(x\)</span> berechnet sich dann durch den durchschnittlichen Vorhersagewert aller <span class="math inline">\(B\)</span> Bäume:</p>
 <p><span class="math display">\[\begin{equation*}
   \hat{y} = \frac{1}{B}\sum_{b=1}^B \hat{y}^{(b)},
 \end{equation*}\]</span></p>
-<p>wobei <span class="math inline">\(\hat{y}^{(b)}\)</span> der Vorhersagewert generiert durch Baum <span class="math inline">\(b\)</span> ist.</p>
+<p>wobei <span class="math inline">\(\hat{y}^{(b)}\)</span> der Vorhersagewert ist, generiert durch Baum <span class="math inline">\(b\)</span>.</p>
 </section>
 <section id="random-forests-in-r" class="level3" data-number="4.5.3">
 <h3 data-number="4.5.3" class="anchored" data-anchor-id="random-forests-in-r"><span class="header-section-number">4.5.3</span> Random Forests in R</h3>
-<p>Ähnlich wie Regresseionsbäume können wir auch Random Forests mithilfe des <code>{tidymodels}</code> Pakets schätzen.</p>
+<p>Ähnlich wie Regressionsbäume können wir auch Random Forests mithilfe des <code>{tidymodels}</code>-Pakets schätzen.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1318,7 +1318,7 @@ FeatureEffect$new(
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> body_mass_g <span class="sc">~</span>.</span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Zuerst erstellen wir mithilfe der <code>rand_forest()</code> Funktion eine Modellspezifikation. Als Argumente übergeben wir wieder den Modus <code>"regression"</code> und zusätzlich das Argument <code>trees = 100</code>, welches Spezifiziert, dass <span class="math inline">\(B=100\)</span>. Das erstellen der Bootstrap Sample, das schätzen der Bäume und die Aggregation wird dann im zweiten Schritt durch die <code>fit()</code> Funktion vorgenommen. Als Argumente für die <code>fit</code> Funktion müssen wir wie gewöhnlich die Daten und die Formel übergeben. Dadurch, dass sowohl das erstellen der Bootstrap Samples als auch das Schätzen der Bäumen eine Zufallskomponente enthält, sollten wir durch die <code>set.seed()</code> Funktion reproduzierbare Ergebnisse ermöglichen.</p>
+<p>Zuerst erstellen wir mithilfe der <code>rand_forest()</code>-Funktion eine Modellspezifikation. Als Argumente übergeben wir wieder den Modus <code>"regression"</code> und zusätzlich das Argument <code>trees = 100</code>, welches spezifiziert, dass <span class="math inline">\(B=100\)</span>. Das Erstellen der Bootstrap-Sample, das Schätzen der Bäume und die Aggregation werden dann im zweiten Schritt durch die <code>fit()</code>-Funktion vorgenommen. Als Argumente für die <code>fit</code>-Funktion müssen wir wie gewöhnlich die Daten und die Formel übergeben. Dadurch, dass sowohl das Erstellen der Bootstrap-Samples als auch das Schätzen der Bäume eine Zufallskomponente enthält, sollten wir durch die <code>set.seed()</code>-Funktion reproduzierbare Ergebnisse ermöglichen.</p>
 <p>Nach dem Schätzen des Random Forests können wir durch das Aufrufen des Objekts <code>rf_fit_penguins</code> einige Informationen über den Random Forest extrahieren:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>rf_fit_penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1345,10 +1345,10 @@ R squared (OOB):                  0.8645322 </code></pre>
 <ul>
 <li>Der Parameter <code>Mtry</code> gibt an, wie viele Variablen zufällig für einen Split verwendet werden.</li>
 <li>Der Parameter <code>Target node size</code> gibt an, wie viele Datenpunkte mindestens in einem Knoten sein müssen, bevor dieser wieder geteilt wird.</li>
-<li><code>OOB prediction error (MSE)</code> gibt an, wie groß der MSE eines OOS Datensatzes ist, welcher im Zuge der Schätazung des Random Forests autmatisch generiert wird.</li>
-<li><code>R squared (OOB)</code> gibt für das gleiche OOS Sample den berechneten <span class="math inline">\(R^2\)</span> an.</li>
+<li><code>OOB prediction error (MSE)</code> gibt an, wie groß der MSE eines OOS-Datensatzes ist, welcher im Zuge der Schätzung des Random Forests automatisch generiert wird.</li>
+<li><code>R squared (OOB)</code> gibt für das gleiche OOS-Sample den berechneten <span class="math inline">\(R^2\)</span> an.</li>
 </ul>
-<p>Vorhersagen für die gegebenen Sample können wieder mithilfe der <code>predict()</code> Funktion erstellt werden:<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>Vorhersagen für die gegebenen Sample können wieder mithilfe der <code>predict()</code>-Funktion erstellt werden:<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>data_penguin_cleaned <span class="ot">&lt;-</span> data_penguin <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>()</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1376,19 +1376,19 @@ R squared (OOB):                  0.8645322 </code></pre>
 <div id="exr-tree_theory" class="theorem exercise">
 <p><span class="theorem-title"><strong>Aufgabe 4.1</strong></span> &nbsp;</p>
 <ol type="1">
-<li><p>Angenommen ein Regressionsbaum besteht lediglich aus dem Wurzelknoten. Seine Performance wird mit einem linearen Modell verglichen, welches lediglich den Parameter <span class="math inline">\(b_0\)</span> enthält. Ist zu erwarten, dass das Baummodell den Zusammenhang in den Daten besser erklärt, oder das lineare Modell? Begründe die Antwort.</p></li>
-<li><p>Angenommen es liegt ein Datensatz vor, welcher lediglich aus einer <span class="math inline">\(X\)</span> und <span class="math inline">\(Y\)</span> Variable besteht. Beim betrachten einer Punktewolke fällt auf, dass der Zusammenhang zwischen den beiden Variablen schon sehr einer geraden ähnelt. Ist zu erwarten, dass im Vergleich zu einem einfachen linearen Regressionsmodell ein Regressionsbaum den Zusammenhang besser erklärt?</p></li>
+<li><p>Angenommen, ein Regressionsbaum besteht lediglich aus dem Wurzelknoten. Seine Performance wird mit einem linearen Modell verglichen, welches lediglich den Parameter <span class="math inline">\(b_0\)</span> enthält. Ist zu erwarten, dass das Baummodell den Zusammenhang in den Daten besser erklärt, oder das lineare Modell? Begründe die Antwort.</p></li>
+<li><p>Angenommen, es liegt ein Datensatz vor, welcher lediglich aus einer <span class="math inline">\(X\)</span>- und <span class="math inline">\(Y\)</span>-Variable besteht. Beim Betrachten einer Punktewolke fällt auf, dass der Zusammenhang zwischen den beiden Variablen schon sehr einer Geraden ähnelt. Ist zu erwarten, dass im Vergleich zu einem einfachen linearen Regressionsmodell ein Regressionsbaum den Zusammenhang besser erklärt?</p></li>
 </ol>
 </div>
 <div id="exr-tree_theory_02" class="theorem exercise">
 <p><span class="theorem-title"><strong>Aufgabe 4.2</strong></span> &nbsp;</p>
 <ol type="1">
-<li>Erkläre, warum Cost-Complexity Tuning sowohl als Pre- als auch als Postpruning Methode gesehen werden kann.</li>
-<li>Warum ist es keine gute Idee, Cost Complexity Pruning als Prepruning Methode zu verwenden?</li>
+<li>Erkläre, warum Cost-Complexity-Tuning sowohl als Pre- als auch als Postpruning-Methode gesehen werden kann.</li>
+<li>Warum ist es keine gute Idee, Cost-Complexity-Pruning als Prepruning-Methode zu verwenden?</li>
 </ol>
 </div>
 <div id="exr-tree_plot" class="theorem exercise">
-<p><span class="theorem-title"><strong>Aufgabe 4.3</strong></span> Gegeben sei folgende Grafik welche die Prognosewerte eines Regressionsbaums zeigt.</p>
+<p><span class="theorem-title"><strong>Aufgabe 4.3</strong></span> Gegeben sei folgende Grafik, welche die Prognosewerte eines Regressionsbaums zeigt.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -1399,15 +1399,15 @@ R squared (OOB):                  0.8645322 </code></pre>
 </div>
 </div>
 <ol type="1">
-<li>Bestimme wie viele Blattknoten der abgebildete Baum enthält.</li>
-<li>Formuliere die Funktionsvorschrift des Regressionsbaums als Stückweise definierte Funktion. Runde die visuell abgelesenen Werte auf eine Nachkommastelle.</li>
+<li>Bestimme, wie viele Blattknoten der abgebildete Baum enthält.</li>
+<li>Formuliere die Funktionsvorschrift des Regressionsbaums als stückweise definierte Funktion. Runde die visuell abgelesenen Werte auf eine Nachkommastelle.</li>
 <li>Ist zu erwarten, dass bei einer einfachen linearen Regression eine ähnlich gute Anpassung an die Daten stattfinden würde?</li>
 </ol>
 </div>
 <div id="exr-create_tree_plot" class="theorem exercise">
 <p><span class="theorem-title"><strong>Aufgabe 4.4</strong></span> &nbsp;</p>
 <ol type="1">
-<li><p>Gegeben seien folgende beiden Feature spaces geschätzten Baummodellen:</p>
+<li><p>Gegeben seien folgende beiden Feature Spaces geschätzter Baummodelle:</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -1417,7 +1417,7 @@ R squared (OOB):                  0.8645322 </code></pre>
 </div>
 </div>
 </div>
-<p>Skizziere für beide Abbildungen den entsprechenden Binärbaum unter der Angabe der Splitting Variable, des Schwellenwertes und des Schätzwertes in den Blattknoten. Hierbei müssen nur die Schätzwerte in den Blattknoten angegeben werden. <em>Hinweis: In der unteren Abbildung sind die Schätzwerte in den entsprechenden Ausschnitten in Rot abgebildet.</em></p></li>
+<p>Skizziere für beide Abbildungen den entsprechenden Binärbaum unter der Angabe der Splitting-Variable, des Schwellenwertes und des Schätzwertes in den Blattknoten. Hierbei müssen nur die Schätzwerte in den Blattknoten angegeben werden. <em>Hinweis: In der unteren Abbildung sind die Schätzwerte in den entsprechenden Ausschnitten in Rot abgebildet.</em></p></li>
 <li><p>Gegeben seien folgende beiden Bäume in Binärbaumdarstellung:</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -1437,11 +1437,11 @@ R squared (OOB):                  0.8645322 </code></pre>
 </div>
 </div>
 </div>
-<p>Skizziere für beide Abbildungen die entsprechenden Featurespaces unter der Angabe der Splitting Variablen, des Schwellenwertes und des Schätzwertes auf den Geraden bzw. in den Regionen.</p></li>
+<p>Skizziere für beide Abbildungen die entsprechenden Featurespaces unter der Angabe der Splitting-Variablen, des Schwellenwertes und des Schätzwertes auf den Geraden bzw. in den Regionen.</p></li>
 </ol>
 </div>
 <div id="exr-cp_table" class="theorem exercise">
-<p><span class="theorem-title"><strong>Aufgabe 4.5</strong></span> Gegeben seien folgende tabellarisch/hierarchische Darstellung eines Baums:</p>
+<p><span class="theorem-title"><strong>Aufgabe 4.5</strong></span> Gegeben seien folgende tabellarische/hierarchische Darstellungen eines Baums:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>n= 300 
@@ -1463,7 +1463,7 @@ node), split, n, deviance, yval
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.1265061</span>      <span class="dv">1</span> <span class="fl">0.2399409</span> <span class="fl">0.2481654</span> <span class="fl">0.02622409</span></span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="fl">0.0500000</span>      <span class="dv">2</span>         c <span class="fl">0.1164630</span> <span class="fl">0.01292697</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Berechne die fehlende Werte <code>a</code>, <code>b</code> und <code>c</code>.</p>
+<p>Berechne die fehlenden Werte <code>a</code>, <code>b</code> und <code>c</code>.</p>
 <ol type="1">
 <li><p>Der Wert <span class="math inline">\(b\)</span> ist immer <span class="math inline">\(1\)</span>, da es sich um den relativen Fehler bezüglich des Wurzelknotens im Wurzelknoten selbst handelt.</p></li>
 <li><p>Da der Wert <span class="math inline">\(a\)</span> der erste in der <code>cp</code> Tablle ist, berechnet sich dieser durch die Formel</p>
@@ -1478,10 +1478,10 @@ node), split, n, deviance, yval
 </section>
 <section id="r-aufgaben" class="level3" data-number="4.6.2">
 <h3 data-number="4.6.2" class="anchored" data-anchor-id="r-aufgaben"><span class="header-section-number">4.6.2</span> R Aufgaben</h3>
-<p>In dieser Übung verwenden wir den bereits bekannten <code>hotel_rates</code> Datensatz aus den letzten Übungen.</p>
+<p>In dieser Übung verwenden wir den bereits bekannten <code>hotel_rates</code>-Datensatz aus den letzten Übungen.</p>
 <section id="modellvergleiche" class="level4" data-number="4.6.2.1">
 <h4 data-number="4.6.2.1" class="anchored" data-anchor-id="modellvergleiche"><span class="header-section-number">4.6.2.1</span> Modellvergleiche</h4>
-<p>Verwende die untenstehende Version des <code>hotel_rates</code> Datensatzes für die folgenden Aufgaben.</p>
+<p>Verwende die unten stehende Version des <code>hotel_rates</code>-Datensatzes für die folgenden Aufgaben.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>hotel_rates_filtered <span class="ot">&lt;-</span> hotel_rates <span class="sc">%&gt;%</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">mutate</span>(</span>
@@ -1496,10 +1496,10 @@ node), split, n, deviance, yval
 <span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="exr-cv_split" class="theorem exercise">
-<p><span class="theorem-title"><strong>Aufgabe 4.6</strong></span> Generiere mithilfe des <code>hotel_rates_filtered</code> Datensatzes einen <span class="math inline">\(5\)</span>-fold Cross Validation (CV) Split. Verwende dabei das Seed <code>123</code>.</p>
+<p><span class="theorem-title"><strong>Aufgabe 4.6</strong></span> Generiere mithilfe des <code>hotel_rates_filtered</code>-Datensatzes einen <span class="math inline">\(5\)</span>-fold Cross-Validation (CV)-Split. Verwende dabei das Seed <code>123</code>.</p>
 </div>
 <div id="exr-model_comp" class="theorem exercise">
-<p><span class="theorem-title"><strong>Aufgabe 4.7</strong></span> Verwende das CV Objekt aus <a href="#exr-cv_split" class="quarto-xref">Aufgabe&nbsp;<span>4.6</span></a> um jeweils eine multiple lineare Regression, einen Regressionsbaum und einen Randomforest (bestehend aus 500 Bäumen) zu schätzen und vergleiche die OOS Performance anhand den Metriken RMSE und <span class="math inline">\(R^2\)</span>. Die Zielvariable soll hierbei <code>avg_price_per_room</code> sein und die erklärenden Variablen alle verbleibenden. Setze beim Bearbeiten dieser Aufgabe ebenfalls einen Random Seed auf <code>123</code>, um auch beim Random Forest Modell reproduzierbare ergebnisse zu erzielen.</p>
+<p><span class="theorem-title"><strong>Aufgabe 4.7</strong></span> Verwende das CV-Objekt aus <a href="#exr-cv_split" class="quarto-xref">Aufgabe&nbsp;<span>4.6</span></a> um jeweils eine multiple lineare Regression, einen Regressionsbaum und einen Randomforest (bestehend aus 500 Bäumen) zu schätzen, und vergleiche die OOS-Performance anhand der Metriken RMSE und <span class="math inline">\(R^2\)</span>. Die Zielvariable soll hierbei <code>avg_price_per_room</code> sein und die erklärenden Variablen alle verbleibenden. Setze beim Bearbeiten dieser Aufgabe ebenfalls einen Random Seed auf <code>123</code>, um auch beim Random-Forest-Modell reproduzierbare Ergebnisse zu erzielen.</p>
 </div>
 </section>
 <section id="einfluss-der-hyperparameter" class="level4" data-number="4.6.2.2">
@@ -1519,15 +1519,15 @@ node), split, n, deviance, yval
 Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen zu wild aus.
 -->
 <div id="exr-ttsplit" class="theorem exercise">
-<p><span class="theorem-title"><strong>Aufgabe 4.8</strong></span> Erstelle mithilfe des oben eingeführten Datensatzes <code>hotel_rates_adj</code> ein Training- und Test-Split im Verhältnis 5:1 unter der Verwendung des Seeds <code>123</code>.</p>
+<p><span class="theorem-title"><strong>Aufgabe 4.8</strong></span> Erstelle mithilfe des oben eingeführten Datensatzes <code>hotel_rates_adj</code> einen Trainings- und Test-Split im Verhältnis 5:1 unter Verwendung des Seeds <code>123</code>.</p>
 </div>
 <div id="exr-tree-comp" class="theorem exercise">
-<p><span class="theorem-title"><strong>Aufgabe 4.9</strong></span> In dieser Aufgabe wollen wir verschiedene Versionen eines Regressionsbaums trainieren. Der Fokus soll hierbei auf die Wahl der verschiedenen Hyperparameter und deren Einfluss auf die Modellperformance auf den Testdaten liegen.</p>
-<p>Verwende für jeden der folgenden beschriebenen Regressionsbäumen die Formel</p>
+<p><span class="theorem-title"><strong>Aufgabe 4.9</strong></span> In dieser Aufgabe wollen wir verschiedene Versionen eines Regressionsbaums trainieren. Der Fokus soll hierbei auf der Wahl der verschiedenen Hyperparameter und deren Einfluss auf die Modellperformanz auf den Testdaten liegen.</p>
+<p>Verwende für jeden der folgenden beschriebenen Regressionsbäume die Formel</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>formula_hr <span class="ot">&lt;-</span> avg_price_per_room<span class="sc">~</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><em>Hinweis: Man kann in der <code>fit</code> Funktion dem Argument <code>formula</code> damit den wert <code>formula_hr</code> zuweisen und muss nicht immer die gleiche Spezifikaiton ausschreiben.</em></p>
+<p><em>Hinweis: Man kann in der <code>fit</code>-Funktion dem Argument <code>formula</code> damit den Wert <code>formula_hr</code> zuweisen und muss nicht immer die gleiche Spezifikation ausschreiben.</em></p>
 <ol type="1">
 <li><ol type="i">
 <li>Verwende den Trainings-Split aus <a href="#exr-ttsplit" class="quarto-xref">Aufgabe&nbsp;<span>4.8</span></a> um einen Regressionsbaum mithilfe der Formel <code>formula_hr</code> zu trainieren. Bei der Modellspezifikation sollen alle Hyperparameter des Baumes auf deren Standardeinstellung gelassen werden.</li>
@@ -1537,7 +1537,7 @@ Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen z
 <li>Welcher ist der größte bzw. kleinste Schätzwert im dargestellten Baum (bezogen auf alle Knoten)?</li>
 <li>Welche Tiefe hat der resultierende Baum?</li>
 </ol></li>
-<li>Bestimme mithilfe der <code>vip()</code> Funktion welche Variable im Modell den größten und kleinsten Importance Wert besitzt.</li>
+<li>Bestimme mithilfe der <code>vip()</code>-Funktion welche Variable im Modell den größten und kleinsten Importance-Wert besitzt.</li>
 <li>Berechne auf Basis der Testdaten den RMSE und <span class="math inline">\(R^2\)</span>.</li>
 </ol></li>
 <li>Verwende das Trainingsset aus <a href="#exr-ttsplit" class="quarto-xref">Aufgabe&nbsp;<span>4.8</span></a> um einen weiteren Regressionsbaum zu trainieren.
@@ -1551,7 +1551,7 @@ Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen z
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 <li><p>Welche Tiefe besitzt dieser neue Baum?</p></li>
-<li><p>Berechne für diesen Baum ebenso auf den Testdaten den RMSE und <span class="math inline">\(R^2\)</span> und vergleiche diese mit der Testperformance des Baumes aus Teilaufgabe 1. iv.</p></li>
+<li><p>Berechne für diesen Baum ebenso auf den Testdaten den RMSE und <span class="math inline">\(R^2\)</span> und vergleiche diese mit der Testperformanz des Baumes aus Teilaufgabe 1. iv.</p></li>
 </ol></li>
 </ol>
 </div>
@@ -1563,21 +1563,21 @@ Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen z
 <div id="sol-tree_theory" class="proof solution">
 <p><span class="proof-title"><em>Solution 4.1</em> (<a href="#exr-tree_theory" class="quarto-xref">Aufgabe&nbsp;<span>4.1</span></a>). </span></p>
 <ol type="1">
-<li><p>Ein lineares Modell, welches lediglich den Parameter <span class="math inline">\(b_0\)</span> enthält besitzt den Schätzwert <span class="math inline">\(\hat{y_k} = \hat{b_0} = \bar{y} = \frac{1}{K}\sum_{k=1}^{K}y_k\)</span> für alle <span class="math inline">\(k\)</span>. Ein Regressionsbaum, welcher lediglich aus dem Wurzelknoten besteht, besiztz ebenso den Schätzwert <span class="math inline">\(\hat{y_k} = \bar{y}_{R_0} = \frac{1}{|R_0|}\sum_{k:x_k \in R_0}^{K}y_k\)</span>. Die beiden Modelle werden in diesem Fall also gleichgut (bzw. gleichschlecht!) die Zusammenhänge in den Daten erklären.</p></li>
-<li><p>Falls der Datensatz bereits sehr einer Variablen ähnelt, dann ist zu erwarten, dass das lineare Modell den Zusammenhang besser erklärt. Das liegt daran, dass ein Baummodell eine stückweise konstante Funktion ist, nicht die Steigung (falls <span class="math inline">\(b_1\neq 0\)</span>) so gut abbilden kann, wie eine Gerade selbst.</p></li>
+<li><p>Ein lineares Modell, welches lediglich den Parameter <span class="math inline">\(b_0\)</span> enthält, besitzt den Schätzwert <span class="math inline">\(\hat{y_k} = \hat{b_0} = \bar{y} = \frac{1}{K}\sum_{k=1}^{K}y_k\)</span> für alle <span class="math inline">\(k\)</span>. Ein Regressionsbaum, welcher lediglich aus dem Wurzelknoten besteht, besitzt ebenso den Schätzwert <span class="math inline">\(\hat{y_k} = \bar{y}_{R_0} = \frac{1}{|R_0|}\sum_{k:x_k \in R_0}^{K}y_k\)</span>. Die beiden Modelle werden in diesem Fall also gleich gut (bzw. gleich schlecht!) die Zusammenhänge in den Daten erklären.</p></li>
+<li><p>Falls der Datensatz bereits sehr einer Variablen ähnelt, dann ist zu erwarten, dass das lineare Modell den Zusammenhang besser erklärt. Das liegt daran, dass ein Baummodell eine stückweise konstante Funktion ist und deshalb die Steigung (falls <span class="math inline">\(b_1\neq 0\)</span>) so gut abbilden kann wie eine Gerade selbst.</p></li>
 </ol>
 </div>
 <div id="sol-tree_theory_02" class="proof solution">
 <p><span class="proof-title"><em>Solution 4.2</em> (<a href="#exr-tree_theory_02" class="quarto-xref">Aufgabe&nbsp;<span>4.2</span></a>). </span></p>
 <ol type="1">
-<li>Cost Complexity Tuning kann als Postpruning Methode gesehen werden, da das Trimmen des Baumes anhand des <code>CP</code> Wertes nach dem vollständigen aufspannen stattfindet. Es kann auf der anderen Seite allerdings auch als Prepruning Kriterium aufgefasst werden, welches einen Baum daran hindert einen Knoten weiter zu splitten, falls der Improvement Wert zu klein ist.</li>
-<li>Wie in <a href="#sec-pruning" class="quarto-xref"><span>Section 4.2.2.4</span></a> erläutert, kann das frühzeitige Beenden des Aufspannen eines Baumes dazu führen, dass ein potenziell sehr guter Split nachfolgend nicht mehr durchgeführt wird.</li>
+<li>Cost-Complexity-Pruning kann als Postpruning-Methode gesehen werden, da das Trimmen des Baumes anhand des <code>CP</code>-Wertes nach dem vollständigen Aufspannen stattfindet. Es kann auf der anderen Seite allerdings auch als Prepruning-Kriterium aufgefasst werden, welches einen Baum daran hindert, einen Knoten weiter zu splitten, falls der Improvement-Wert zu klein ist.</li>
+<li>Wie in <a href="#sec-pruning" class="quarto-xref"><span>Section 4.2.2.4</span></a> erläutert, kann das frühzeitige Beenden des Aufspannens eines Baumes dazu führen, dass ein potenziell besserer Split nachfolgend nicht mehr durchgeführt wird.</li>
 </ol>
 </div>
 <div id="sol-tree_plot" class="proof solution">
 <p><span class="proof-title"><em>Solution 4.3</em> (<a href="#exr-tree_plot" class="quarto-xref">Aufgabe&nbsp;<span>4.3</span></a>). </span></p>
 <ol type="1">
-<li>Der Baum enthält sieben Blattknoten, was an den sieben horizontalen geraden zu erkennen ist.</li>
+<li>Der Baum enthält sieben Blattknoten, was an den sieben horizontalen Geraden zu erkennen ist.</li>
 <li>Die Funktionsvorschrift ist gegeben durch <span class="math display">\[\begin{equation*}
   f(x) = \begin{cases}
     0.25,\quad &amp;\text{ falls } x&lt;3.1\\
@@ -1589,7 +1589,7 @@ Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen z
     0.2,\quad  &amp;\text{ falls } 7.2\leq x \\
   \end{cases}
 \end{equation*}\]</span></li>
-<li>Es ist zu erwaten, dass eine einfache lineare Regression sich nur schlechter an die Daten anpassen kann, da der Zusammenhang der Daten stark nichtlinear ist.</li>
+<li>Es ist zu erwarten, dass eine einfache lineare Regression sich nur schlechter an die Daten anpassen kann, da der Zusammenhang der Daten stark nichtlinear ist.</li>
 </ol>
 </div>
 <div id="sol-create_tree_plot" class="proof solution">
@@ -1634,7 +1634,7 @@ Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen z
 </ol>
 </div>
 <div id="sol-cp_table" class="proof solution">
-<p><span class="proof-title"><em>Solution 4.5</em> (<a href="#exr-cp_table" class="quarto-xref">Aufgabe&nbsp;<span>4.5</span></a>). </span>Die vollständige CP Tabelle ist durch</p>
+<p><span class="proof-title"><em>Solution 4.5</em> (<a href="#exr-cp_table" class="quarto-xref">Aufgabe&nbsp;<span>4.5</span></a>). </span>Die vollständige CP-Tabelle ist durch</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>         CP nsplit rel error    xerror       xstd
@@ -2213,20 +2213,20 @@ Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen z
 </div>
 </div>
 </div>
-<p>Der Tabelle ist zu entnehmen, dass das Random Forest Modell bezüglich beiden Metriken die beste Performance hat. Auf den Test Folds beträgt bei diesem Modell der durschschnittliche <span class="math inline">\(R^2\)</span> über <span class="math inline">\(80\%\)</span>. Wir können also mithilfe dieses Modells mehr als <span class="math inline">\(80\%\)</span> der Varianz in unseren Testdaten erklären.</p>
+<p>Der Tabelle ist zu entnehmen, dass das Random-Forest-Modell bezüglich beider Metriken die beste Performance hat. Auf den Test Folds beträgt bei diesem Modell der durchschnittliche <span class="math inline">\(R^2\)</span> über <span class="math inline">\(80\%\)</span>. Wir können also mithilfe dieses Modells mehr als <span class="math inline">\(80\%\)</span> der Varianz in unseren Testdaten erklären.</p>
 <p>Das einfache Baummodell schneidet in diesem Vergleich am schlechtesten ab, was vor allem daran liegen könnte, dass wir die Parameter <code>complexity_parameter</code>, <code>min_n</code> und <code>tree_depth</code> nicht weiter angepasst haben.</p>
-<p>Durch die Beschränkung der Linearitätsannahme an die Koeffizienten und die Variablen ist das MLR Modell für diesen Datensatz vermutlich zu einfach. Eine Idee wäre an dieser Stelle, die einzelnen Variablen genauer zu untersuchen und durch die Einführung von nichtlinearen Variablentransformationen zu verbessern.</p>
+<p>Durch die Beschränkung der Linearitätsannahme auf die Koeffizienten und die Variablen ist das MLR-Modell für diesen Datensatz vermutlich zu einfach. Eine Idee wäre an dieser Stelle, die einzelnen Variablen genauer zu untersuchen und durch die Einführung von nichtlinearen Variablentransformationen zu verbessern.</p>
 </div>
 <div id="sol-ttsplit" class="proof solution">
-<p><span class="proof-title"><em>Solution 4.8</em> (<a href="#exr-ttsplit" class="quarto-xref">Aufgabe&nbsp;<span>4.8</span></a>). </span>Erstelle mithilfe des oben eingeführten Datensatzes <code>hotel_rates_adj</code> ein Training- und Test-Split im Verhältnis 5:1 unter der Verwendung des Seeds <code>123</code>.</p>
+<p><span class="proof-title"><em>Solution 4.8</em> (<a href="#exr-ttsplit" class="quarto-xref">Aufgabe&nbsp;<span>4.8</span></a>). </span>Erstelle mithilfe des oben eingeführten Datensatzes <code>hotel_rates_adj</code> einen Trainings- und Test-Split im Verhältnis 5:1 unter Verwendung des Seeds <code>123</code>.</p>
 </div>
 <div id="sol-tree-comp" class="proof solution">
-<p><span class="proof-title"><em>Solution 4.9</em> (<a href="#exr-tree-comp" class="quarto-xref">Aufgabe&nbsp;<span>4.9</span></a>). </span>In dieser Aufgabe wollen wir verschiedene Versionen eines Regressionsbaums trainieren. Der Fokus soll hierbei auf die Wahl der verschiedenen Hyperparameter und deren Einfluss auf die Modellperformance auf den Testdaten liegen.</p>
-<p>Verwende für jeden der folgenden beschriebenen Regressionsbäumen die Formel</p>
+<p><span class="proof-title"><em>Solution 4.9</em> (<a href="#exr-tree-comp" class="quarto-xref">Aufgabe&nbsp;<span>4.9</span></a>). </span>In dieser Aufgabe wollen wir verschiedene Versionen eines Regressionsbaums trainieren. Der Fokus soll hierbei auf der Wahl der verschiedenen Hyperparameter und deren Einfluss auf die Modellperformanz auf den Testdaten liegen.</p>
+<p>Verwende für jeden der folgenden beschriebenen Regressionsbäume die Formel</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>formula_hr <span class="ot">&lt;-</span> avg_price_per_room<span class="sc">~</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><em>Hinweis: Man kann in der <code>fit</code> Funktion dem Argument <code>formula</code> damit den wert <code>formula_hr</code> zuweisen und muss nicht immer die gleiche Spezifikaiton ausschreiben.</em></p>
+<p><em>Hinweis: Man kann in der <code>fit</code>-Funktion dem Argument <code>formula</code> damit den Wert <code>formula_hr</code> zuweisen und muss nicht immer die gleiche Spezifikation ausschreiben.</em></p>
 <ol type="1">
 <li><ol type="i">
 <li><!-- -->
@@ -2247,8 +2247,8 @@ Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen z
 </div>
 </div>
 <ol type="a">
-<li>Die meisten Datenpunkte enthält der ganz linke Knoten (<code>35%</code>) und der ganz fünfte Knoten von Links am wenigsten (<code>2%</code>).</li>
-<li>Der größte Schätzwert ist durch <span class="math inline">\(245\)</span> im ganz rechten Knoten gegeben und der kleinste Schätzwert durch $53% im ganz linken Knoten.</li>
+<li>Die meisten Datenpunkte enthält der ganz linke Knoten (<code>35%</code>) und der ganz fünfte Knoten von links am wenigsten (<code>2%</code>).</li>
+<li>Der größte Schätzwert ist durch <span class="math inline">\(245\)</span> im ganz rechten Knoten gegeben und der kleinste Schätzwert durch <span class="math inline">\(53\%\)</span> im ganz linken Knoten.</li>
 <li>Der Baum hat die Tiefe 5.</li>
 </ol></li>
 <li><!-- -->
@@ -2270,7 +2270,7 @@ Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen z
 1 rsq     standard       0.769</code></pre>
 </div>
 </div></li>
-<li><p>Durch das übergeben des <code>tree_fit_hr</code> Objektes and die <code>vip()</code> Funktion können wir die Wichtigkeitswerte der Variablen ablesen:</p>
+<li><p>Durch das Übergeben des <code>tree_fit_hr</code>-Objektes an die <code>vip()</code>-Funktion können wir die Wichtigkeitswerte der Variablen ablesen:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="sc">%&gt;%</span> <span class="fu">vip</span>(<span class="at">num_features =</span> <span class="dv">17</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -2281,7 +2281,7 @@ Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen z
 </div>
 </div>
 </div>
-<p>Falls wir allerdings nicht den Parameter <code>num_features</code> spezifizieren, wird nur der Wichtigkeitswert der wichtigsten <span class="math inline">\(10\)</span> Feature ausgegeben. Wir müssen diesen Wert deshalb auf die Anzahl der im Baum verwendeten Feature (<code>17</code>) setzen, um auch Informationen über alle 17 Feature zu erhalten. Die Variable <code>historical_adr</code> besitzt demnach den größten und die Variable <code>booking_changes</code> den kleinsten Improvement Wert.</p></li>
+<p>Falls wir allerdings nicht den Parameter <code>num_features</code> spezifizieren, wird nur der Wichtigkeitswert der wichtigsten <span class="math inline">\(10\)</span> Feature ausgegeben. Wir müssen diesen Wert deshalb auf die Anzahl der im Baum verwendeten Feature (<code>17</code>) setzen, um auch Informationen über alle 17 Feature zu erhalten. Die Variable <code>historical_adr</code> besitzt demnach den größten und die Variable <code>booking_changes</code> den kleinsten Improvement-Wert.</p></li>
 </ol></li>
 <li><ol type="i">
 <li><!-- -->
@@ -2296,15 +2296,15 @@ Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen z
 <span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>                             )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 <li><p>Um die Tiefe des Baumes zu bestimmen, kann man entweder wie zuvor den Baum grafisch darstellen und den längsten Pfad zwischen Wurzelknoten und Blattknoten bestimmen, oder man berechnet die Tiefe.</p>
-<p></p>
-<p>Jeder Knoten eins Baumes in R besitzt eine Identifikationsnummer, welche sich durch die Folge</p>
+<p><strong>Folgender Abschnitt ist nicht relevant für die Klausur, sondern für interessierte Leserinnen und Leser gedacht.</strong></p>
+<p>Jeder Knoten eines Baumes in R besitzt eine Identifikationsnummer, welche sich durch die Folge</p>
 <p><span class="math display">\[\begin{equation}
 a_{n+1} = \begin{cases}
 1\qquad &amp;\text{ falls } n=0 \text{ Wurzelknoten }\\
 a_n\cdot 2 &amp;\text{ falls } n\geq 1 \text{ und } a_{n+1} \text{ linker Kindknoten von } a_n\\
 a_n\cdot 2+1 &amp;\text{ falls } n\geq 1 \text{ und } a_{n+1} \text{ rechter Kindknoten von } a_n
 \end{cases}
-\end{equation}\]</span> bestimmen lässt. Diese rekursive Folge lässt sich dann zum Beispiel für alle rechten Knoten darstellen als <span class="math inline">\(a_n = 2^{n+1}-1\)</span>. <span class="math inline">\(n\)</span> steht hierbei für die <span class="math inline">\(n\)</span>-te Ebene des Baumes. Somit sind die ID’s für die Blattknoten durch die tiefste ebene <span class="math inline">\(N\)</span> gegeben und besitzen Werte zwischen <span class="math inline">\(2^n\)</span> und <span class="math inline">\(2^{n+1}-1\)</span>. Um die Tiefe des Baumes also rechnerisch zu bestimmen müssen wir zuerst den Knoten mit der höchsten ID finden:</p>
+\end{equation}\]</span> bestimmen lässt. Diese rekursive Folge lässt sich dann zum Beispiel für alle rechten Knoten darstellen als <span class="math inline">\(a_n = 2^{n+1}-1\)</span>. <span class="math inline">\(n\)</span> steht hierbei für die <span class="math inline">\(n\)</span>-te Ebene des Baumes. Somit sind die IDs für die Blattknoten durch die tiefste Ebene <span class="math inline">\(N\)</span> gegeben und besitzen Werte zwischen <span class="math inline">\(2^n\)</span> und <span class="math inline">\(2^{n+1}-1\)</span>. Um die Tiefe des Baumes also rechnerisch zu bestimmen, müssen wir zuerst den Knoten mit der höchsten ID finden:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_tuned <span class="sc">%&gt;%</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
@@ -2316,7 +2316,7 @@ a_n\cdot 2+1 &amp;\text{ falls } n\geq 1 \text{ und } a_{n+1} \text{ rechter Kin
 <pre><code>[1] 16643</code></pre>
 </div>
 </div>
-<p>Das Attribut <code>"frame"</code> enthällt Informationen über alle Knoten, welche im finalen Baum verwendet wurden. Die Zeilennamen enthalten zum Beispiel die Knoten ID, welche wir durch die Rekursive Folge bestimmen können. Durch das Anwenden der <code>row.names()</code> funktion extrahieren wir also aus dem Objekt <code>"frame"</code> alle Knoten IDs. Damit wir den maximalen Wert finden können, müssen wir die Knoten IDs in den Datentyp <code>&lt;int&gt;</code> umwandeln. Mithilfe der <code>max()</code> Funktion können wir dann den größten Wert extrahieren. Um nun die Ebene des tiefsten Knotens (der Knoten mit der höchsten ID) zu bestimmen, können wir folgende Umformung anwenden:</p>
+<p>Das Attribut <code>"frame"</code> enthält Informationen über alle Knoten, welche im finalen Baum verwendet wurden. Die Zeilennamen enthalten etwa die Knoten-ID, welche wir durch die rekursive Folge bestimmen können. Durch das Anwenden der <code>row.names()</code>-Funktion extrahieren wir also aus dem Objekt <code>"frame"</code> alle Knoten-IDs. Damit wir den maximalen Wert finden können, müssen wir die Knoten-IDs in den Datentyp <code>&lt;int&gt;</code> umwandeln. Mithilfe der <code>max()</code>-Funktion können wir dann den größten Wert extrahieren. Um nun die Ebene des tiefsten Knotens (der Knoten mit der höchsten ID) zu bestimmen, können wir folgende Umformung anwenden:</p>
 <p><span class="math display">\[\begin{align*}
 a_n  &amp;= 2^{n+1}-1 \iff n = \lceil\log_2(a_{n+1})-1\rceil
 \end{align*}\]</span></p>
@@ -2349,7 +2349,7 @@ a_n  &amp;= 2^{n+1}-1 \iff n = \lceil\log_2(a_{n+1})-1\rceil
 1 rsq     standard       0.846</code></pre>
 </div>
 </div>
-<p>Ebenso ist der <span class="math inline">\(R^2\)</span> im Vergleich zum vorherigen Modell (<code>0.769</code>) besser. Wir können also deshalb schlussfolgern, dass das Finden von guten Hyperparametern die Modellperformance stark verbessertn kann.</p></li>
+<p>Ebenso ist der <span class="math inline">\(R^2\)</span> im Vergleich zum vorherigen Modell (<code>0.769</code>) besser. Wir können also schlussfolgern, dass das Finden von guten Hyperparametern die Modellperformanz stark verbessern kann.</p></li>
 </ol></li>
 </ol>
 </div>
@@ -2359,10 +2359,10 @@ a_n  &amp;= 2^{n+1}-1 \iff n = \lceil\log_2(a_{n+1})-1\rceil
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>Diese sind durch die Mittelwerte aller benachbarten Punkte gegeben<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Diese sind durch die Mittelwerte aller benachbarten Punkte gegeben.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>Diese muss eventuell zuerst mit dem Befehl <code>install.packages("rpart.plot")</code> installiert werden<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>Streng genommen wird auch noch der Improvement Wert der sog. <em>Surrogate-Splits</em> verwendet. Für Details siehe <a href="https://cran.r-project.org/web/packages/rpart/rpart.pdf">rpart Dokumentation</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Exemplarisch wurden hier nur die ersten 5 Werte ausgegegben<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Exemplarisch wurden hier nur die ersten 5 Werte ausgegeben.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p>Für <span class="math inline">\(x\in (n,n+1),\: n\in \mathbb{N}\)</span> gilt <span class="math inline">\(\lceil x \rceil = n+1\)</span>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
