@@ -2218,26 +2218,33 @@ Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen z
 <p>Durch die Beschränkung der Linearitätsannahme auf die Koeffizienten und die Variablen ist das MLR-Modell für diesen Datensatz vermutlich zu einfach. Eine Idee wäre an dieser Stelle, die einzelnen Variablen genauer zu untersuchen und durch die Einführung von nichtlinearen Variablentransformationen zu verbessern.</p>
 </div>
 <div id="sol-ttsplit" class="proof solution">
-<p><span class="proof-title"><em>Solution 4.8</em> (<a href="#exr-ttsplit" class="quarto-xref">Aufgabe&nbsp;<span>4.8</span></a>). </span>Erstelle mithilfe des oben eingeführten Datensatzes <code>hotel_rates_adj</code> einen Trainings- und Test-Split im Verhältnis 5:1 unter Verwendung des Seeds <code>123</code>.</p>
+<p><span class="proof-title"><em>Solution 4.8</em> (<a href="#exr-ttsplit" class="quarto-xref">Aufgabe&nbsp;<span>4.8</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>hotel_rates_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(hotel_rates_adj, <span class="at">prop =</span> <span class="dv">5</span><span class="sc">/</span><span class="dv">6</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>data_train <span class="ot">&lt;-</span> <span class="fu">training</span>(hotel_rates_split)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(hotel_rates_split)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 <div id="sol-tree-comp" class="proof solution">
 <p><span class="proof-title"><em>Solution 4.9</em> (<a href="#exr-tree-comp" class="quarto-xref">Aufgabe&nbsp;<span>4.9</span></a>). </span>In dieser Aufgabe wollen wir verschiedene Versionen eines Regressionsbaums trainieren. Der Fokus soll hierbei auf der Wahl der verschiedenen Hyperparameter und deren Einfluss auf die Modellperformanz auf den Testdaten liegen.</p>
 <p>Verwende für jeden der folgenden beschriebenen Regressionsbäume die Formel</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>formula_hr <span class="ot">&lt;-</span> avg_price_per_room<span class="sc">~</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>formula_hr <span class="ot">&lt;-</span> avg_price_per_room<span class="sc">~</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><em>Hinweis: Man kann in der <code>fit</code>-Funktion dem Argument <code>formula</code> damit den Wert <code>formula_hr</code> zuweisen und muss nicht immer die gleiche Spezifikation ausschreiben.</em></p>
 <ol type="1">
 <li><ol type="i">
 <li><!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(<span class="at">mode =</span> <span class="st">"regression"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">formula =</span> formula_hr,</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> data_train)</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="sc">%&gt;%</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rpart.plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(<span class="at">mode =</span> <span class="st">"regression"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">formula =</span> formula_hr,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> data_train)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="sc">%&gt;%</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rpart.plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -2247,32 +2254,32 @@ Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen z
 </div>
 </div>
 <ol type="a">
-<li>Die meisten Datenpunkte enthält der ganz linke Knoten (<code>35%</code>) und der ganz fünfte Knoten von links am wenigsten (<code>2%</code>).</li>
-<li>Der größte Schätzwert ist durch <span class="math inline">\(245\)</span> im ganz rechten Knoten gegeben und der kleinste Schätzwert durch <span class="math inline">\(53\%\)</span> im ganz linken Knoten.</li>
+<li>Die meisten Datenpunkte enthält der ganz linke Wurzelknoten (<code>27%</code>) und der ganz rechte Knoten am wenigsten (<code>1%</code>).</li>
+<li>Der größte Schätzwert ist durch <span class="math inline">\(280\)</span> im ganz rechten Knoten gegeben und der kleinste Schätzwert durch <span class="math inline">\(50\)</span> im ganz linken Knoten.</li>
 <li>Der Baum hat die Tiefe 5.</li>
 </ol></li>
 <li><!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="sc">%&gt;%</span> <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">rmse</span>(.pred,avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="sc">%&gt;%</span> <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">rmse</span>(.pred,avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric .estimator .estimate
   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 rmse    standard        31.5</code></pre>
+1 rmse    standard        32.0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="sc">%&gt;%</span> <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">rsq</span>(.pred,avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="sc">%&gt;%</span> <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">rsq</span>(.pred,avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric .estimator .estimate
   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 rsq     standard       0.769</code></pre>
+1 rsq     standard       0.767</code></pre>
 </div>
 </div></li>
 <li><p>Durch das Übergeben des <code>tree_fit_hr</code>-Objektes an die <code>vip()</code>-Funktion können wir die Wichtigkeitswerte der Variablen ablesen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="sc">%&gt;%</span> <span class="fu">vip</span>(<span class="at">num_features =</span> <span class="dv">17</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_vanilla <span class="sc">%&gt;%</span> <span class="fu">vip</span>(<span class="at">num_features =</span> <span class="dv">17</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -2281,21 +2288,38 @@ Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen z
 </div>
 </div>
 </div>
-<p>Falls wir allerdings nicht den Parameter <code>num_features</code> spezifizieren, wird nur der Wichtigkeitswert der wichtigsten <span class="math inline">\(10\)</span> Feature ausgegeben. Wir müssen diesen Wert deshalb auf die Anzahl der im Baum verwendeten Feature (<code>17</code>) setzen, um auch Informationen über alle 17 Feature zu erhalten. Die Variable <code>historical_adr</code> besitzt demnach den größten und die Variable <code>booking_changes</code> den kleinsten Improvement-Wert.</p></li>
+<p>Falls wir allerdings nicht den Parameter <code>num_features</code> spezifizieren, wird nur der Wichtigkeitswert der wichtigsten <span class="math inline">\(10\)</span> Feature ausgegeben. Wir müssen diesen Wert deshalb auf die Anzahl der im Baum verwendeten Feature (<code>17</code>) setzen, um auch Informationen über alle 17 Feature zu erhalten. Die Variable <code>historical_adr</code> besitzt demnach den größten und die Variable <code>new_years</code> den kleinsten Improvement-Wert.</p></li>
 </ol></li>
 <li><ol type="i">
 <li><!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_tuned <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(<span class="at">mode =</span> <span class="st">"regression"</span>,</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">cost_complexity =</span> <span class="fl">0.00000000915</span>,</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">tree_depth =</span> <span class="dv">15</span>,</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">min_n =</span> <span class="dv">32</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>                         ) <span class="sc">%&gt;%</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">fit</span>(<span class="at">formula =</span> formula_hr,</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>                             <span class="at">data =</span> data_train</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>                             )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_tuned <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(<span class="at">mode =</span> <span class="st">"regression"</span>,</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">cost_complexity =</span> <span class="fl">0.00000000915</span>,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">tree_depth =</span> <span class="dv">15</span>,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">min_n =</span> <span class="dv">32</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>                         ) <span class="sc">%&gt;%</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">fit</span>(<span class="at">formula =</span> formula_hr,</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>                             <span class="at">data =</span> data_train</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>                             )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 <li><p>Um die Tiefe des Baumes zu bestimmen, kann man entweder wie zuvor den Baum grafisch darstellen und den längsten Pfad zwischen Wurzelknoten und Blattknoten bestimmen, oder man berechnet die Tiefe.</p>
+<p>Der Baum <code>tree_fit_hr_tuned</code> lässt sich mithilfe der <code>rpart.plot()</code> Funktion darstellen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_tuned <span class="sc">%&gt;%</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rpart.plot</span>(<span class="at">clip.facs =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">faclen =</span> <span class="dv">3</span>,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">cex =</span> <span class="fl">1e-5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04_Regressions_Baeume_files/figure-html/unnamed-chunk-55-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Durch das Setzen der Parameter <code>clip.facs = TRUE</code>, <code>faclen = 3</code> und <code>cex = 1e-5</code> erreichen wir, dass sich der sehr tiefe Baum halbwegs gut darstellen lässt. Wir können dann die Tiefe des Baumes Grafisch bestimmen. Diese ist durch 15 gegeben.</p>
+<p>Damit wir auch die Teife von Bäumen bestimmen können, welche sich nur sehr schlecht grafisch darstellen lassen, leiten wir im folgenden eine geschlossene Formel für die Tiefe des Baumes her.</p>
 <p><strong>Folgender Abschnitt ist nicht relevant für die Klausur, sondern für interessierte Leserinnen und Leser gedacht.</strong></p>
 <p>Jeder Knoten eines Baumes in R besitzt eine Identifikationsnummer, welche sich durch die Folge</p>
 <p><span class="math display">\[\begin{equation}
@@ -2306,14 +2330,14 @@ a_n\cdot 2+1 &amp;\text{ falls } n\geq 1 \text{ und } a_{n+1} \text{ rechter Kin
 \end{cases}
 \end{equation}\]</span> bestimmen lässt. Diese rekursive Folge lässt sich dann zum Beispiel für alle rechten Knoten darstellen als <span class="math inline">\(a_n = 2^{n+1}-1\)</span>. <span class="math inline">\(n\)</span> steht hierbei für die <span class="math inline">\(n\)</span>-te Ebene des Baumes. Somit sind die IDs für die Blattknoten durch die tiefste Ebene <span class="math inline">\(N\)</span> gegeben und besitzen Werte zwischen <span class="math inline">\(2^n\)</span> und <span class="math inline">\(2^{n+1}-1\)</span>. Um die Tiefe des Baumes also rechnerisch zu bestimmen, müssen wir zuerst den Knoten mit der höchsten ID finden:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_tuned <span class="sc">%&gt;%</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pluck</span>(<span class="st">"frame"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="fu">as.integer</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>()         </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_tuned <span class="sc">%&gt;%</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"frame"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row.names</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.integer</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>()         </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 16643</code></pre>
+<pre><code>[1] 62055</code></pre>
 </div>
 </div>
 <p>Das Attribut <code>"frame"</code> enthält Informationen über alle Knoten, welche im finalen Baum verwendet wurden. Die Zeilennamen enthalten etwa die Knoten-ID, welche wir durch die rekursive Folge bestimmen können. Durch das Anwenden der <code>row.names()</code>-Funktion extrahieren wir also aus dem Objekt <code>"frame"</code> alle Knoten-IDs. Damit wir den maximalen Wert finden können, müssen wir die Knoten-IDs in den Datentyp <code>&lt;int&gt;</code> umwandeln. Mithilfe der <code>max()</code>-Funktion können wir dann den größten Wert extrahieren. Um nun die Ebene des tiefsten Knotens (der Knoten mit der höchsten ID) zu bestimmen, können wir folgende Umformung anwenden:</p>
@@ -2322,34 +2346,34 @@ a_n  &amp;= 2^{n+1}-1 \iff n = \lceil\log_2(a_{n+1})-1\rceil
 \end{align*}\]</span></p>
 <p>Somit gilt für die Tiefe des Baumes</p>
 <p><span class="math display">\[\begin{equation*}
-  n = \lceil\log_2(16643)-1\rceil = 14,
+  n = \lceil\log_2(62055)-1\rceil = 15,
 \end{equation*}\]</span></p>
 <p>wobei <span class="math inline">\(\lceil \cdot \rceil\)</span> obere Gaußklammern darstellen.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p></li>
 <li><!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_tuned <span class="sc">%&gt;%</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">rmse</span>(.pred,avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 3
-  .metric .estimator .estimate
-  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 rmse    standard        25.8</code></pre>
-</div>
-</div>
-<p>Im Vergleich zum Modell mit unangepassten Hyperparametern ist das Modell aus dieser Teilaufgabe besser, da der Test-RMSE nur 25.8 beträgt (<code>31.5</code> für das Modell aus Teilaufgabe 4.9.1. ii.)</p>
-<div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_tuned <span class="sc">%&gt;%</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">rsq</span>(.pred,avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">rmse</span>(.pred,avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric .estimator .estimate
   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 rsq     standard       0.846</code></pre>
+1 rmse    standard        20.5</code></pre>
 </div>
 </div>
-<p>Ebenso ist der <span class="math inline">\(R^2\)</span> im Vergleich zum vorherigen Modell (<code>0.769</code>) besser. Wir können also schlussfolgern, dass das Finden von guten Hyperparametern die Modellperformanz stark verbessern kann.</p></li>
+<p>Im Vergleich zum Modell mit unangepassten Hyperparametern ist das Modell aus dieser Teilaufgabe besser, da der Test-RMSE nur 20.5 beträgt (<code>32</code> für das Modell aus Teilaufgabe 4.9.1. ii.)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>tree_fit_hr_tuned <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(data_test) <span class="sc">%&gt;%</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  yardstick<span class="sc">::</span><span class="fu">rsq</span>(.pred,avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rsq     standard       0.904</code></pre>
+</div>
+</div>
+<p>Ebenso ist der <span class="math inline">\(R^2\)</span> im Vergleich zum vorherigen Modell (<code>0.767</code>) besser. Wir können also schlussfolgern, dass das Finden von guten Hyperparametern die Modellperformanz stark verbessern kann.</p></li>
 </ol></li>
 </ol>
 </div>
