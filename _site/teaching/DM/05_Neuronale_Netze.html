@@ -360,6 +360,12 @@ f(x) = \sigma(\omega_{I_1,O_1}\cdot x + \omega_{B_1,O_1})
 \end{equation}\]</span></p>
 <p>beschreiben.</p>
 <p>Beispiele für Aktivierungsfunktionen sind:</p>
+<div id="tbl-Lorem" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-Lorem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.1: Übersicht über verschiedene Aktivierungsfunktionen
+</figcaption>
+<div aria-describedby="tbl-Lorem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
 <col style="width: 22%">
@@ -396,7 +402,9 @@ f(x) = \sigma(\omega_{I_1,O_1}\cdot x + \omega_{B_1,O_1})
 </tr>
 </tbody>
 </table>
-<p>Übersicht über verschiedene Aktivierungsfunktionen {#tbl-Lorem}</p>
+</div>
+</figure>
+</div>
 <div id="exm-NN01" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 5.1</strong></span> Wir können in R ein einfaches FFNN wie folgt darstellen. Die Notation ist hierbei konsistent mit der aus <a href="#fig-NN01" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>.</p>
 <div class="cell">
@@ -825,7 +833,7 @@ scaled validation loss after 200 epochs: 0.121 </code></pre>
 <p><span class="theorem-title"><strong>Aufgabe 5.1</strong></span> Angenommen es liegt ein FFDNN mit einem Inputneuron, zwei Hidden Layer bestehend aus zwei bzw. drei Neuronen und einem Outputneuron vor.</p>
 <ol type="1">
 <li>Skizziere die die Architektur im gleichen Stil wie <a href="#fig-NNFull" class="quarto-xref">Figure&nbsp;<span>5.3</span></a>.</li>
-<li>Schreibe Funktionsvorschrift dieses FFDNN so genau wie möglich auf. Gehe dabei davon aus, dass die Aktivierungsfunktion der ersten und zweiten Hidden Layer <code>"ReLU"</code> sind. Verwende hierbei die Notation aus Gleichung <span class="math inline">\(\eqref{eq:nn_anal}\)</span> bzw. <a href="#fig-NN01" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>. Setze für <span class="math inline">\(\sigma\)</span> die entsprechende Funktionsvorschrift aus <span class="quarto-unresolved-ref">?tbl-Lorem</span>.</li>
+<li>Schreibe Funktionsvorschrift dieses FFDNN so genau wie möglich auf. Gehe dabei davon aus, dass die Aktivierungsfunktion der ersten und zweiten Hidden Layer <code>"ReLU"</code> sind. Verwende hierbei die Notation aus Gleichung <span class="math inline">\(\eqref{eq:nn_anal}\)</span> bzw. <a href="#fig-NN01" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>. Setze für <span class="math inline">\(\sigma\)</span> die entsprechende Funktionsvorschrift aus <a href="#tbl-Lorem" class="quarto-xref">Table&nbsp;<span>5.1</span></a>.</li>
 <li>Aus wie vielen Parametern besteht dieses Neuronale Netz?</li>
 <li>Welche Werte kann das spezifizierte Neuronale Netz annehmen? Wie würde sich dieser Wert verändern, wenn wir auf den Output noch eine <span class="math inline">\(\text{tanh}\)</span> Aktivierungsfunktion anwenden?</li>
 </ol>
@@ -1586,6 +1594,7 @@ Warning
 </div>
 </div></li>
 </ol>
+</div>
 <!--
 
 :::{#sol-iml}
@@ -1645,7 +1654,6 @@ imp %>%
 -->
 
 
-</div>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
