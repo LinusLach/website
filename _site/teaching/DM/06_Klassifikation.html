@@ -318,20 +318,20 @@ window.Quarto = {
 </header>
 
 
-<p>Neben der Regression beschäftigen wir uns im Zuge des Supervised-Learnings auch mit der Klassifikation. Im Verlgeich zu Regressionsaufgaben ist die Zielvariable bei der Klassifikation nicht mehr metrisch, sondern nominal. Es gibt für die Zielvariablen also keine bestimmte Ordnung mehr und zusätzlich gehen wir auch davon aus, dass die Anzahl der Ausprägungen der Zielvariable endlich ist.</p>
+<p>Neben der Regression beschäftigen wir uns im Zuge des Supervised-Learnings auch mit der Klassifikation. Im Vergleich zu Regressionsaufgaben ist die Zielvariable bei der Klassifikation nicht mehr metrisch, sondern nominal. Es gibt für die Zielvariablen also keine bestimmte Ordnung mehr und zusätzlich gehen wir auch davon aus, dass die Anzahl der Ausprägungen der Zielvariable endlich ist.</p>
 <section id="sec-intro_class" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="sec-intro_class"><span class="header-section-number">6.1</span> Einführung</h2>
-<p>In dieser Verasntaltung setzen wir uns vor allem mit der binären Klassifikation auseinander. Die Zielvariable <span class="math inline">\(Y\)</span> nimmt also nur zwei Werte an. Normalerweise kodiert man diese Werte mit <span class="math inline">\(0\)</span> und <span class="math inline">\(1\)</span>, so dass sich <span class="math inline">\(Y\)</span> darstellen lässt als Vektor <span class="math inline">\(Y\in\{0,1\}^K\)</span>. Wir sind nun daran interessiert für einen Datenpunkt <span class="math inline">\(x\in\mathbb{R}^{J}\)</span> die Wahrscheinlichkeit <span class="math display">\[\begin{equation}
+<p>In dieser Veranstaltung setzen wir uns vorwiegend mit der binären Klassifikation auseinander. Die Zielvariable <span class="math inline">\(Y\)</span> nimmt also nur zwei Werte an. Normalerweise kodiert man diese Werte mit <span class="math inline">\(0\)</span> und <span class="math inline">\(1\)</span>, sodass sich <span class="math inline">\(Y\)</span> als Vektor <span class="math inline">\(Y\in\{0,1\}^K\)</span> darstellen lässt. Wir sind nun daran interessiert, für einen Datenpunkt <span class="math inline">\(x\in\mathbb{R}^{J}\)</span> die Wahrscheinlichkeit <span class="math display">\[\begin{equation}
   \mathbb{P}(Y=1|X=x)
 \end{equation}\]</span> zu schätzen. Falls die geschätzte Wahrscheinlichkeit <span class="math inline">\(\hat{p}\)</span> größer als ein bestimmter, vordefinierter Schwellenwert <span class="math inline">\(q\in(0,1)\)</span> ist, dann weisen wir das Sample der Klasse <span class="math inline">\(1\)</span> zu. Intuitiv macht hierbei der Wert <span class="math inline">\(q=0.5\)</span> Sinn, da wir uns bei einer Wahrscheinlichkeit <span class="math inline">\(p&gt;0.5\)</span> sicherer sind, dass der Datenpunkt zur Klasse <span class="math inline">\(1\)</span> als zur Klasse <span class="math inline">\(0\)</span> gehört.</p>
 </section>
 <section id="evaluation-eines-binären-klassifikationsmodells" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="evaluation-eines-binären-klassifikationsmodells"><span class="header-section-number">6.2</span> Evaluation eines binären Klassifikationsmodells</h2>
-<p>Da eine Evaluation mithilfe von Metriken wie <span class="math inline">\(\text{RMSE}\)</span> und <span class="math inline">\(R^2\)</span> bei der binären Klassifikation wenig Sinn ergeben, wollen wir in diesem Abschnitt verschiedene alternativen Metriken betrachten.</p>
+<p>Da eine Evaluation mithilfe von Metriken wie <span class="math inline">\(\text{RMSE}\)</span> und <span class="math inline">\(R^2\)</span> bei der binären Klassifikation wenig Sinn ergibt, wollen wir in diesem Abschnitt verschiedene alternative Metriken betrachten.</p>
 <section id="sec-confmat" class="level3" data-number="6.2.1">
 <h3 data-number="6.2.1" class="anchored" data-anchor-id="sec-confmat"><span class="header-section-number">6.2.1</span> Confusionmatrix</h3>
-<p>Als Grundlage für die Metriken welche wir im Folgenden betrachten wollen ist die sogenannte <em>Confusion Matrix</em>. Diese Kreuztabelle gibt an, wie viele Datenpunkte korrekt bzw. inkorrekt klassifiziert wurden. Hierbei wird insbesondere zwischen den Klassen <em>Negativ</em> und <em>Positiv</em> Unterschieden. Im vorherigen Abschnitt wurden die Klassen mit <span class="math inline">\(1\)</span> und <span class="math inline">\(0\)</span> enkodiert. Meistens steht <span class="math inline">\(1\)</span> im Kontext der Confusion Matrix für <strong>Positive</strong> und <span class="math inline">\(0\)</span> für <strong>Negative</strong>.</p>
-<div id="fig-cm" class="quarto-float quarto-figure quarto-figure-center anchored" width="50%" data-fig-align="center">
+<p>Als Grundlage für die Metriken, welche wir im Folgenden betrachten wollen, ist die sogenannte <em>Confusion Matrix</em>. Diese Kreuztabelle gibt an, wie viele Datenpunkte korrekt bzw. inkorrekt klassifiziert wurden. Hierbei wird insbesondere zwischen den Klassen <em>Negativ</em> und <em>Positiv</em> unterschieden. Im vorherigen Abschnitt wurden die Klassen mit <span class="math inline">\(1\)</span> und <span class="math inline">\(0\)</span> encodiert. Meistens steht <span class="math inline">\(1\)</span> im Kontext der Confusion Matrix für <strong>Positive</strong> und <span class="math inline">\(0\)</span> für <strong>Negative</strong>.</p>
+<div id="fig-cm" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="50%">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="pictures/CF.svg" id="fig-cm" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" style="width:50.0%">
@@ -343,16 +343,16 @@ Figure&nbsp;6.1
 </div>
 <p>Die Felder der Confusion Matrix können wir am besten anhand eines Beispiels illustrieren.</p>
 <div id="exm-cf" class="theorem example">
-<p><span class="theorem-title"><strong>Beispiel 6.1</strong></span> Ein Forscherteam des Universitätsklinikums hat einen Test für das Feststellen einer seltenen Herzkrankheit entwickelt. Falls die Ärzte diese Herzkrankheit korrekt feststellen, kann diese durch einen operativen Eingriff geheilt werden. Die Wahrscheinlichkeit eines erfolgreichen Eingriffs ist hierbei größer als die Wahrscheinlichkeit, dass eine kranke Person den Krankheitsverlauf überlebt. Ein positives Testergebnis wird mit <span class="math inline">\(1\)</span> bzw. <strong>Predicted Positive</strong> enkodiert und ein negatives Ergebnis mit <span class="math inline">\(0\)</span> bzw. <strong>Predicted Negative</strong>. Nun gibt es folgende Möglichkeiten:</p>
+<p><span class="theorem-title"><strong>Beispiel 6.1</strong></span> Ein Forscherteam des Universitätsklinikums hat einen Test für das Feststellen einer seltenen Herzkrankheit entwickelt. Falls die Ärzte diese Herzkrankheit korrekt feststellen, kann diese durch einen operativen Eingriff geheilt werden. Die Wahrscheinlichkeit eines erfolgreichen Eingriffs ist hierbei größer als die Wahrscheinlichkeit, dass eine kranke Person den Krankheitsverlauf überlebt. Ein positives Testergebnis wird mit <span class="math inline">\(1\)</span> bzw. <strong>Predicted Positive</strong> encodiert und ein negatives Ergebnis mit <span class="math inline">\(0\)</span> bzw. <strong>Predicted Negative</strong>. Nun gibt es folgende Möglichkeiten:</p>
 <ol type="1">
-<li>Der Test ist Positiv und die untersuchte Person hat die Krankheit. Dann spricht man von <strong>True Positive</strong>.</li>
-<li>Der Test ist Positiv und die untersuchte Person hat die Krankheit nicht. Dann spricht man von <strong>False Positive</strong>.</li>
-<li>Der Test ist Negativ und die untersuchte Person hat die Krankheit nicht. Dann spricht man von <strong>True Negative</strong>.</li>
-<li>Der Test ist Negativ und die untersuchte Person hat die Krankheit. Dann spricht man von <strong>False Negative</strong>.</li>
+<li>Der Test ist positiv und die untersuchte Person hat die Krankheit. Dann spricht man von einem <strong>True Positive</strong>.</li>
+<li>Der Test ist positiv und die untersuchte Person hat die Krankheit nicht. Dann spricht man von einem <strong>False Positive</strong>.</li>
+<li>Der Test ist negativ und die untersuchte Person hat die Krankheit nicht. Dann spricht man von einem <strong>True Negative</strong>.</li>
+<li>Der Test ist negativ und die untersuchte Person hat die Krankheit. Dann spricht man von einem <strong>False Negative</strong>.</li>
 </ol>
 </div>
-<p>Neben einer korrekten Klassifikation (TP und TN) sollten wir uns besonders mit den beiden fehlerhaften Klassifikationsszenarien auseinandersetzen. In <a href="#exm-cf" class="quarto-xref">Example&nbsp;<span>6.1</span></a> ist eine fälschlicherweise als Negativ klassifizierte Person (FN) also ein Patient oder eine Patientin, welche die Herzkrankheit besizt, aber nicht diagnostiziert wird. Diese Art von Fehler ist im Beispiel besonders gravierend, da die Person eine höhere Überlebenswahrscheinlichkeit durch den operativen Eingriff besitzt. Falls eine Person fälschlicherweise als Positiv klassifiziert wird (FP), dann bedeutet das, dass der Test positiv ausfällt, obwohl die Person nicht an der Herzkrankheit erkrankt ist. Unter gewöhnlichen Umständen wäre eine solche Fehlklassifikation nicht ganz so gravierend, da die Person schließlich nicht an der seltenen Krankheit erkrankt ist. Falls allerdings auf Basis des Testergebnisses trotzdem ein operativer Eingriff vorgenommen wird, dann setzt man den Patient oder die Patientin einem unnötigen Risiko aus.</p>
-<p>Wie gut also so ein Test tatsächlich funktioniert, sollte man also nicht nur an der absoluten oder relativen Anzahl der korrekt klassifizierten Datenpunkte festmachen, sondern auch daran, wie hoch die entsprechenden Fehlerquoten sind.</p>
+<p>Neben einer korrekten Klassifikation (TP und TN) sollten wir uns besonders mit den beiden fehlerhaften Klassifikationsszenarien auseinandersetzen. In <a href="#exm-cf" class="quarto-xref">Example&nbsp;<span>6.1</span></a> ist eine fälschlicherweise als negativ klassifizierte Person (FN) also ein Patient oder eine Patientin, welche die Herzkrankheit besitzt, aber nicht diagnostiziert wird. Diese Art von Fehler ist im Beispiel besonders gravierend, da die Person eine höhere Überlebenswahrscheinlichkeit durch den operativen Eingriff besitzt. Falls eine Person fälschlicherweise als positiv klassifiziert wird (FP), dann bedeutet das, dass der Test positiv ausfällt, obwohl die Person nicht an der Herzkrankheit erkrankt ist. Unter gewöhnlichen Umständen wäre eine solche Fehlklassifikation nicht ganz so gravierend, da die Person schließlich nicht an der seltenen Krankheit erkrankt ist. Falls allerdings auf Basis des Testergebnisses trotzdem ein operativer Eingriff vorgenommen wird, dann setzt man den Patienten oder die Patientin einem unnötigen Risiko aus.</p>
+<p>Wie gut also ein solcher Test tatsächlich funktioniert, sollte man also nicht nur an der absoluten oder relativen Anzahl der korrekt klassifizierten Datenpunkte festmachen, sondern auch daran, wie hoch die entsprechenden Fehlerquoten sind.</p>
 <p>Präziser lässt sich diese Aussage mit folgenden Kennzahlen ausdrücken:</p>
 <ul>
 <li>Accuracy: <span class="math display">\[\begin{equation*}
@@ -360,18 +360,18 @@ Figure&nbsp;6.1
 \end{equation*}\]</span> Die Accuracy misst den relativen Anteil der korrekt klassifizierten Datenpunkte an der Gesamtanzahl der Datenpunkte. Sie beschreibt die Wahrscheinlichkeit für ein korrektes Testergebnis.</li>
 <li>Sensitivität: <span class="math display">\[\begin{equation*}
   \text{Sensitivity} = \frac{TP}{TP+FN}
-\end{equation*}\]</span> Die Sensitivität misst den relativen Anteil der als korrekterweise positiv klassifizierten Datenpunkte an der Gesamtanzahl der positiven Datenpunkte. Sie beschreibt die bedingte Wahrscheinlichkeit, dass ein positives Ergebnis vorhergesagt wird unter der Annahme, dass das Ergebnis tatsächlich positiv ist.</li>
+\end{equation*}\]</span> Die Sensitivität misst den relativen Anteil der als korrekt positiv klassifizierten Datenpunkte an der Gesamtanzahl der positiven Datenpunkte. Sie beschreibt die bedingte Wahrscheinlichkeit, dass ein positives Ergebnis vorhergesagt wird, unter der Annahme, dass das Ergebnis tatsächlich positiv ist.</li>
 <li>Spezifizität: <span class="math display">\[\begin{equation*}
   \text{Specificity} = \frac{TN}{TN+FP}
-\end{equation*}\]</span> Die Spezifizität ist das Gegenstück zur Sensititivität. Sie misst den relativen Anteil der als korrekterweise negativ klassifizierten Datenpunkte an der Gesamtanzahl der negativen Datenpunkte. Spezifizität kann auch als die bedingte Wahrscheinlichkeit interpretiert werden, dass ein negatives Ergebnis vorhergesagt wird, unter der Annahme, dass das Ergebnis tatsächlich negativ ist.</li>
+\end{equation*}\]</span> Die Spezifität ist das Gegenstück zur Sensitivität. Sie misst den relativen Anteil der als korrekterweise negativ klassifizierten Datenpunkte an der Gesamtanzahl der negativen Datenpunkte. Spezifität kann auch als die bedingte Wahrscheinlichkeit interpretiert werden, dass ein negatives Ergebnis vorhergesagt wird, unter der Annahme, dass das Ergebnis tatsächlich negativ ist.</li>
 <li>Präzision: <span class="math display">\[\begin{equation*}
   \text{Precision} = \frac{TP}{TP+FP}
-\end{equation*}\]</span> Die Präzision misst den relativen Anteil der korrekterweise als positiv klassifizierten Datenpunkte an der Gesamtzahl der als positiv klassifizierten Datenpunkte. Besonders bei unbalancierten Datensätzen<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> ist die Präzision eine wichtige Metrik, da die Accuracy bei unbalacierten Datensätzen zu Trugschlüssen führen kann.</li>
+\end{equation*}\]</span> Die Präzision misst den relativen Anteil der korrekterweise als positiv klassifizierten Datenpunkte an der Gesamtzahl der als positiv klassifizierten Datenpunkte. Besonders bei unbalancierten Datensätzen<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> ist die Präzision eine wichtige Metrik, da die Accuracy bei unbalancierten Datensätzen zu Trugschlüssen führen kann.</li>
 </ul>
 </section>
 <section id="roc-kurve" class="level3" data-number="6.2.2">
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="roc-kurve"><span class="header-section-number">6.2.2</span> ROC-Kurve</h3>
-<p>In <a href="#sec-intro_class" class="quarto-xref"><span>Section 6.1</span></a> haben wir kurz den Entscheidungsprozess bei einer Klassifikation in Abhängigkeit des Schwellenwerts <span class="math inline">\(q\)</span> eingeführt. Da der Schwellenwert <span class="math inline">\(q\)</span> allerdings stark die Confusion Matrix beeinflussen kann, sollte man sich verschiedene Schwellenwerte in Abhängigkeit ausgewählter Metriken betrachten. Eine dieser Gegenüberstellungen ist durch die sogenannte <em>Receiver-Operator Characteristic</em> Kurve gegeben. Diese zeigt auf der <span class="math inline">\(x\)</span>-Achhse die False-Positive Rate (<span class="math inline">\(1-\text{specificity}\)</span>) und auf der <span class="math inline">\(y\)</span>-Achse die Sensitivität an. Der Kurve ergibt sich dann durch das Variieren des Schwellenwerts <span class="math inline">\(q\)</span>:</p>
+<p>In <a href="#sec-intro_class" class="quarto-xref"><span>Section 6.1</span></a> haben wir kurz den Entscheidungsprozess bei einer Klassifikation in Abhängigkeit des Schwellenwerts <span class="math inline">\(q\)</span> eingeführt. Da der Schwellenwert <span class="math inline">\(q\)</span> allerdings stark die Confusion-Matrix beeinflussen kann, sollte man sich verschiedene Schwellenwerte in Abhängigkeit von ausgewählten Metriken betrachten. Eine dieser Gegenüberstellungen ist durch die sogenannte <em>Receiver-Operator-Characteristic</em>-Kurve gegeben. Diese zeigt auf der <span class="math inline">\(x\)</span>-Achse die False-Positive-Rate (<span class="math inline">\(1-\text{specificity}\)</span>) und auf der <span class="math inline">\(y\)</span>-Achse die Sensitivität an. Der Kurve ergibt sich dann durch das Variieren des Schwellenwerts <span class="math inline">\(q\)</span>:</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -381,16 +381,16 @@ Figure&nbsp;6.1
 </div>
 </div>
 </div>
-<p>Die ROC-Kurve ist monoton steigend, d.h. je größer die False Positive Rate (<span class="math inline">\(1-\text{specificity}\)</span>) ist, desto größer wird die Sensitivität. Der optimale Threshold ist dann durch jenen Punkt gegeben, welcher am am nähsten zum Punkt <span class="math inline">\((1,0)\)</span> ist. Ein Entscheidungsschwellenwert von <span class="math inline">\(0.5\)</span> ist also nicht zwingende der optimale Schwellenwert für eine Entscheidung, wenn das Ziel ist gleichzeitig die Sensitivität zu maximieren und die False Positive Rate zu minimieren.</p>
-<p>Die Winkelhalbierende beschreibt den Fall, dass die Sensitivität gleich der False Positive Rate ist. Falls diese beiden Metriken gleich sind, dann kann das unterliegende Modell nicht zwischen True Positives und False Positives unterscheiden. Dieser Fall wird dann auch gerne als <em>Münzwurf</em> beschrieben, da die Wahrscheinlichkeit für eine korrekte, bzw. falsche Klassifizierung <span class="math inline">\(50\%\)</span> beträgt.</p>
-<p>Die ROC-Kurve kann allerdings auch irreführend sein, weshalb man neben dieser Metrik auch noch andere Metriken betrachten sollte. Besonders, falls die Klassen unbalanciert sind kann die ROC-Kurve irreführend sein, da sie keine Informationen bezüglich der Präzision des Modells enthält.</p>
-<p>Neben dem Ablesen der Sensitivität und False Positive Rate an der Kurve selbst können wir auch die Fläche unter der Kurve berechnen. Die sogenannte Area under the Receiver Operator Characteristic (AUROC) nimmt dabei Werte zwischen <span class="math inline">\(0\)</span> und <span class="math inline">\(1\)</span> an, wobei <span class="math inline">\(1\)</span> einem perfekten Modell entspricht und <span class="math inline">\(0\)</span> einem Modell, welches alle Vorhersagen falsch trifft.</p>
+<p>Die ROC-Kurve ist monoton steigend, d.&nbsp;h., je größer die False-Positive-Rate (<span class="math inline">\(1-\text{specificity}\)</span>) ist, desto größer wird die Sensitivität. Der optimale Threshold ist dann durch jenen Punkt gegeben, welcher am nächsten zum Punkt <span class="math inline">\((1,0)\)</span> ist. Ein Entscheidungsschwellenwert von <span class="math inline">\(0.5\)</span> ist also nicht zwingend der optimale Schwellenwert für eine Entscheidung, wenn das Ziel ist gleichzeitig die Sensitivität zu maximieren und die False Positive Rate zu minimieren.</p>
+<p>Die Winkelhalbierende beschreibt den Fall, dass die Sensitivität gleich der False-Positive-Rate ist. Falls diese beiden Metriken gleich sind, dann kann das unterliegende Modell nicht zwischen True Positives und False Positives unterscheiden. Dieser Fall wird dann auch gerne als <em>Münzwurf</em> beschrieben, da die Wahrscheinlichkeit für eine korrekte, bzw. falsche Klassifizierung <span class="math inline">\(50\%\)</span> beträgt.</p>
+<p>Die ROC-Kurve kann allerdings auch irreführend sein, weshalb man neben dieser Metrik auch noch andere Metriken betrachten sollte. Besonders, falls die Klassen unbalanciert sind, kann die ROC-Kurve irreführend sein, da sie keine Informationen bezüglich der Präzision des Modells enthält.</p>
+<p>Neben dem Ablesen der Sensitivität und der False-Positive-Rate an der Kurve selbst können wir auch die Fläche unter der Kurve berechnen. Die sogenannte Area under the Receiver Operator Characteristic (AUROC) nimmt dabei Werte zwischen <span class="math inline">\(0\)</span> und <span class="math inline">\(1\)</span> an, wobei <span class="math inline">\(1\)</span> einem perfekten Modell entspricht und <span class="math inline">\(0\)</span> einem Modell, welches alle Vorhersagen falsch trifft.</p>
 <!-- Warum ist AAUCROC= 0 nicht schlimm, sondern ROCAUC = 0.5? -->
 </section>
 </section>
 <section id="die-logistische-regression" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="die-logistische-regression"><span class="header-section-number">6.3</span> Die Logistische Regression</h2>
-<p>Als Erweiterung der linearen Regression erlaubt es uns die logisitische Regression ebenso eine einfache Parametrisierung der geschätzten Wahrscheinlichkeit <span class="math inline">\(\hat{p}\)</span>. Betrachten wir zuerst den Fall, dass unser Datensatz aus lediglich einer unabhängigen Variable besteht. Im Falle der linearen Regression schätzen wir dann die Parameter <span class="math inline">\(b_0\)</span> und <span class="math inline">\(b_1\)</span> der Gleichung (vgl. <a href="02_Lineare_Regression.html#eq-elr" class="quarto-xref">Gleichung&nbsp;<span>2.1</span></a>)</p>
+<p>Als Erweiterung der linearen Regression erlaubt es uns die logisitische Regression ebenso eine einfache Parametrisierung der geschätzten Wahrscheinlichkeit <span class="math inline">\(\hat{p}\)</span>. Betrachten wir zuerst den Fall, dass unser Datensatz aus lediglich einer unabhängigen Variable besteht. Im Falle der linearen Regression schätzen wir dann die Parameter <span class="math inline">\(b_0\)</span> und <span class="math inline">\(b_1\)</span> der Gleichung (vgl. <a href="02_Lineare_Regression.html#eq-elr" class="quarto-xref">Gleichung&nbsp;<span>2.1</span></a>).</p>
 <p><span class="math display">\[\begin{equation*}
 Y = b_0 + b_1 X + \varepsilon
 \end{equation*}\]</span></p>
@@ -402,11 +402,11 @@ Y = b_0 + b_1 X + \varepsilon
 <p><span class="math display">\[\begin{equation*}
   \widehat{\mathbb{P}(Y=1|X=x)} = \frac{1}{1+\exp\left(-(b_0+b_1x)\right)}
 \end{equation*}\]</span></p>
-<p>Diese Schätzgleichung lässt sich dann analog zum MLR Modell erweitern zu</p>
+<p>Diese Schätzgleichung lässt sich dann analog zum MLR-Modell erweitern zu</p>
 <p><span class="math display">\[\begin{equation*}
   \widehat{\mathbb{P}(Y=1|X=x_k)} = \frac{1}{1+\exp\left(-(b_0+\sum_{j=1}^Jb_jx_{k,j})\right)}
 \end{equation*}\]</span></p>
-<p>Die Parameter dieser Schätzgleichung werden mithilfe der Maximum Likelihood Methode durchgeführt, da eine analytische Lösung wie für die Parameter des MLR nur schwer zu berechnen ist.</p>
+<p>Die Parameter dieser Schätzgleichung werden mithilfe der Maximum-Likelihood-Methode geschätzt, da eine analytische Lösung wie für die Parameter des MLR nur schwer zu berechnen ist.</p>
 <div id="exm-logistic_reg" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 6.2</strong></span> Betrachten wir folgendes Beispiel:</p>
 <p>Die Schätzgleichung einer einfachen linearen Regression sei durch <span class="math display">\[\begin{equation*}
@@ -442,15 +442,15 @@ Y = b_0 + b_1 X + \varepsilon
 </section>
 <section id="sec-lrinterp" class="level3" data-number="6.3.2">
 <h3 data-number="6.3.2" class="anchored" data-anchor-id="sec-lrinterp"><span class="header-section-number">6.3.2</span> Interpretation der Koeffizienten</h3>
-<p>Im Vergleich zur multiplen Linearen Regression lassen sich die Koeffizienten des logistischen Modells nicht mehr direkt interpretieren. Auch die Überprüfung der Signifikanz einzelner Variablen ist nicht mehr mithilfe des <span class="math inline">\(t\)</span> Test umsetzbar.</p>
-<p>Grundlegend können wir allerdings folgende Aussagen treffen:f Das Vorzeichen eines geschätzeten Parameters gibt Auskunft darüber, ob die geschätzte Wahrscheinlichkeit beim Erhöhen der Variable (um eine Einheit) steigt oder sinkt.</p>
+<p>Im Vergleich zur multiplen linearen Regression lassen sich die Koeffizienten des logistischen Modells nicht mehr direkt interpretieren. Auch die Überprüfung der Signifikanz einzelner Variablen ist nicht mehr mithilfe des <span class="math inline">\(t\)</span>-Tests umsetzbar.</p>
+<p>Grundlegend können wir allerdings folgende Aussagen treffen: Das Vorzeichen eines geschätzeten Parameters gibt Auskunft darüber, ob die geschätzte Wahrscheinlichkeit beim Erhöhen der Variable (um eine Einheit) steigt oder sinkt.</p>
 <ul>
-<li>Falls <span class="math inline">\(b_j&gt;0,\: j\in\{1,...,J\}\)</span> so steigt die geschätzte Wahrscheinlichkeit <span class="math inline">\(\widehat{\mathbb{P}(Y=1|X)}\)</span>.</li>
-<li>Falls <span class="math inline">\(b_j&lt;0,\: j\in\{1,...,J\}\)</span>, dann sinkt die geschätzte Wahrscheinlichkeit <span class="math inline">\(\widehat{\mathbb{P}(Y=1|X)}\)</span>.</li>
+<li>Falls <span class="math inline">\(b_j&gt;0,\: j\in\{1,\ldots,J\}\)</span>, so steigt die geschätzte Wahrscheinlichkeit <span class="math inline">\(\widehat{\mathbb{P}(Y=1|X)}\)</span>.</li>
+<li>Falls <span class="math inline">\(b_j&lt;0,\: j\in\{1,\ldots,J\}\)</span>, dann sinkt die geschätzte Wahrscheinlichkeit <span class="math inline">\(\widehat{\mathbb{P}(Y=1|X)}\)</span>.</li>
 </ul>
 <p>Um den Einfluss einer Variable zu quantifizieren, betrachten wir die sogenannten <em>Odds</em>. Die Odds sind definiert als <span class="math display">\[\begin{equation}\label{eq:odds}
 \mathrm{Odds} = \frac{\mathbb{P}(Y=1|X=x)}{\mathbb{P}(Y=0|X=x)} = \exp(b_0+\sum_{j=1}^Jb_jx_j)
-\end{equation}\]</span> Die Odds können Werte im Intervall <span class="math inline">\((0,\infty)\)</span> annehmen. Sie können interpretiert werden als die Chance dessen, dass ein Event eintritt (<span class="math inline">\(y=1\)</span>) gegenüber dem nichteintreten des Events <span class="math inline">\((y=0)\)</span>.</p>
+\end{equation}\]</span> Die Odds können Werte im Intervall <span class="math inline">\((0,\infty)\)</span> annehmen. Sie können interpretiert werden als die Chance dessen, dass ein Event eintritt (<span class="math inline">\(y=1\)</span>), gegenüber dem Nichteintreten des Events <span class="math inline">\((y=0)\)</span>.</p>
 <div id="exm-odds" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 6.3</strong></span> Bei einem Wettanbieter für Fußballwetten sind für ein Spiel der Mannschaft <span class="math inline">\(A\)</span> gegen Mannschaft <span class="math inline">\(B\)</span> die dezimalen Odds (Quoten) für einen Sieg von Mannschaft <span class="math inline">\(A\)</span> mit <span class="math inline">\(1.75\)</span> und für einen Sieg von Mannschaft <span class="math inline">\(B\)</span> mit <span class="math inline">\(2.10\)</span> gegeben. Es wird angenommen, dass kein Unentschieden möglich ist. Die dezimalen Odds geben an, wie viel ein Spieler für einen eingesetzten Euro im Falle eines Gewinns zurückerhält (inklusive des Einsatzes). Die vom Wettanbieter implizierten Wahrscheinlichkeiten werden wie folgt berechnet:</p>
 <ol type="1">
@@ -475,19 +475,19 @@ Y = b_0 + b_1 X + \varepsilon
 <p>Falls <span class="math inline">\(\mathrm{Odds}=1\)</span>, dann sind beide Events gleich wahrscheinlich, während Odds <span class="math inline">\(&gt;1\)</span> bzw. <span class="math inline">\(&lt;1\)</span> implizieren, dass die Wahrscheinlichkeit für das Eintreten des untersuchten Events <span class="math inline">\(&gt;50\%\)</span> bzw. <span class="math inline">\(&lt;50\%\)</span> ist.</p>
 <p>Der Einfluss der Modellparameter auf die Odds kann ebenso interpretiert werden:</p>
 <ul>
-<li>Steigt eine Variable <span class="math inline">\(X_j\)</span> um eine Einheit, so erhöhen, bzw. sinken die Odds um <span class="math inline">\(\exp(b_j)\)</span>.</li>
+<li>Steigt eine Variable <span class="math inline">\(X_j\)</span> um eine Einheit, so erhöhen bzw. sinken die Odds um <span class="math inline">\(\exp(b_j)\)</span>.</li>
 </ul>
 <p>Falls zum Beispiel <span class="math inline">\(\exp(\hat{b}_j)=2\)</span>, so verdoppeln sich die Odds beim Erhöhen der Variable <span class="math inline">\(X_j\)</span> um eine Einheit.</p>
 </section>
 <section id="statistische-signifikanz" class="level3" data-number="6.3.3">
 <h3 data-number="6.3.3" class="anchored" data-anchor-id="statistische-signifikanz"><span class="header-section-number">6.3.3</span> Statistische Signifikanz</h3>
-<p>Im Vergleich zur linearen Regression können bei der logistischen Regression den <span class="math inline">\(t\)</span>-Test bzw. <span class="math inline">\(F\)</span>-Test nicht auf ein geschätztes Modell anwenden.</p>
-<p>Für die gschätzten Koeffizienten verwendet man den <em>Wald</em>-Test. Hierbei werden die Hypothesen <span class="math display">\[\begin{equation*}
+<p>Im Vergleich zur linearen Regression können wir bei der logistischen Regression den <span class="math inline">\(t\)</span>-Test bzw. <span class="math inline">\(F\)</span>-Test nicht auf ein geschätztes Modell anwenden.</p>
+<p>Für die geschätzten Koeffizienten verwendet man den <em>Wald</em>-Test. Hierbei werden die Hypothesen <span class="math display">\[\begin{equation*}
 H_0: b_j = 0\quad\text{vs.}\quad H_1:b_j\neq 0
-\end{equation*}\]</span> geprüft. Die Test Statistik ist durch <span class="math inline">\(W = \frac{\hat{b_j}}{\hat{\text{sd}}(\hat{b_j})}\)</span> gegeben und zum Berechnen des <span class="math inline">\(p\)</span>-Werts verwenden wir die Standardnormalverteilung.</p>
-<p>Die statistische Signifikanz des Gesamtmodells können wir zum Beispiel mithilfe des Likelihood Ratio Tests evaluieren. Das Hypothesenpaar ist durch</p>
+\end{equation*}\]</span> geprüft. Die Teststatistik ist durch <span class="math inline">\(W = \frac{\hat{b_j}}{\hat{\text{sd}}(\hat{b_j})}\)</span> gegeben und zum Berechnen des <span class="math inline">\(p\)</span>-Werts verwenden wir die Standardnormalverteilung.</p>
+<p>Die statistische Signifikanz des Gesamtmodells können wir zum Beispiel mithilfe des Likelihood-Ratio-Tests evaluieren. Das Hypothesenpaar ist durch</p>
 <p><span class="math display">\[\begin{equation*}
-H_0: b_j = 0\, \forall j=1,...,J\quad\text{vs.}\quad H_1:b_j\neq 0 \text{ für mind. ein } j.
+H_0: b_j = 0\, \forall j=1,\ldots,J\quad\text{vs.}\quad H_1:b_j\neq 0 \text{ für mind. ein } j.
 \end{equation*}\]</span></p>
 <p>gegeben.</p>
 <p>Die Teststatistik wird durch den Term</p>
@@ -503,11 +503,11 @@ H_0: b_j = 0\, \forall j=1,...,J\quad\text{vs.}\quad H_1:b_j\neq 0 \text{ für m
 </section>
 <section id="klassifikationsbäume" class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="klassifikationsbäume"><span class="header-section-number">6.4</span> Klassifikationsbäume</h2>
-<p>In <a href="04_Regressions_Baeume.html" class="quarto-xref"><span>Chapter 4</span></a> haben wir uns bereits intensiv mit Regressionsbäumen auseinandergesetzt. Der Übergang von Regressions zu klassifikationsbäumen ist letztendlich auch nicht mehr komplex! An Stelle einer Reelwertigen Zielvariable betrachten wir in den Blattknoten nun geschätzte Klassen, bzw. Klassenwahrscheinlichkeitn. Der Algorithmus zum schätzen eines Klassifikationsbaums im Verlgeich zu Regressionsbäumen ist hierbei fast unverändert. Lediglich der Improvement Wert, welcher bei Regressionsbäumen mithilfe des <span class="math inline">\(\text{MSE}\)</span> berechnet wird, muss durch eine passende Metrik im Klassifikationskontext ersetzt werden. Diese Metrik ist durch die Gini Impurity gegeben. Für einen Knoten <span class="math inline">\(K_n\)</span> ist diese definiert als <span class="math display">\[\begin{equation*}
+<p>In <a href="04_Regressions_Baeume.html" class="quarto-xref"><span>Chapter 4</span></a> haben wir uns bereits intensiv mit Regressionsbäumen auseinandergesetzt. Der Übergang von Regressions- zu Klassifikationsbäumen ist letztlich auch nicht mehr komplex! Anstelle einer reellwertigen Zielvariable betrachten wir in den Blattknoten nun geschätzte Klassen bzw. Klassenwahrscheinlichkeiten. Der Algorithmus zum Schätzen eines Klassifikationsbaums ist hierbei im Vergleich zu Regressionsbäumen fast unverändert. Lediglich der Improvement-Wert, welcher bei Regressionsbäumen mithilfe des <span class="math inline">\(\text{MSE}\)</span> berechnet wird, muss durch eine passende Metrik im Klassifikationskontext ersetzt werden. Diese Metrik ist durch die Gini-Impurity gegeben. Für einen Knoten <span class="math inline">\(K_n\)</span> ist diese definiert als <span class="math display">\[\begin{equation*}
   1-(p_1^2+p_0^2)
 \end{equation*}\]</span></p>
-<p>wobei <span class="math inline">\(p_1\)</span> die relative Häufigkeit der Klasse <span class="math inline">\(1\)</span> im Knoten ist und <span class="math inline">\(p_0\)</span> die relative Häufigkeit der Klasse <span class="math inline">\(0\)</span> im Knoten. Es wird dann getestet, für welches <span class="math inline">\(p_i,\: i=0,1\)</span> das entfernen zu einem größeren Impurity Index führt. D.h., falls <span class="math inline">\(p_1\geq p_0\)</span>, dann wird der Knoten als Klassifikationswert Klasse <span class="math inline">\(1\)</span> zurückgeben. Die Entscheidung bezüglich den Splittingvariablen funktioniert gleich: Teste, für welche Variable sich die größte Reduktion der Gini Impurity ergibt und verwende diese für einen weiteren Split.</p>
-<p>Die Wichtigkeit der Variablen kann dann ebenso bezüglich dieses Impurity Wertes gemessen werden, so dass wir effektiv die gleiche Permutation Feature Importance Methode verwenden können.</p>
+<p>wobei <span class="math inline">\(p_1\)</span> die relative Häufigkeit der Klasse <span class="math inline">\(1\)</span> im Knoten ist und <span class="math inline">\(p_0\)</span> die relative Häufigkeit der Klasse <span class="math inline">\(0\)</span> im Knoten. Es wird dann getestet, für welches <span class="math inline">\(p_i,\: i=0,1\)</span> das Entfernen zu einem größeren Impurity Index führt. D.&nbsp;h., falls <span class="math inline">\(p_1\geq p_0\)</span>, dann wird der Knoten als Klassifikationswert Klasse <span class="math inline">\(1\)</span> zurückgeben. Die Entscheidung bezüglich der Splittingvariablen funktioniert gleich: Teste, für welche Variable sich die größte Reduktion der Gini-Impurity ergibt, und verwende diese für einen weiteren Split.</p>
+<p>Die Wichtigkeit der Variablen kann dann ebenso bezüglich dieses Impurity-Wertes gemessen werden, sodass wir effektiv die gleiche Permutation-Feature-Importance-Methode verwenden können.</p>
 </section>
 <section id="neuronale-netze" class="level2" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="neuronale-netze"><span class="header-section-number">6.5</span> Neuronale Netze</h2>
@@ -2331,7 +2331,7 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>Datensätze bei welchen weitaus mehr Negatives als Positives vertreten sind<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Datensätze, bei welchen weitaus mehr Negatives als Positives vertreten sind<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>Funktioniert nur in der Web Version des Skripts<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>positives Krankheitsbild heißt hier, dass eine Person erkrankt ist.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>

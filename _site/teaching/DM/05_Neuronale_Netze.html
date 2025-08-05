@@ -573,7 +573,7 @@ Figure&nbsp;5.4
 <h2 data-number="5.2" class="anchored" data-anchor-id="anpassen-der-modellparameter"><span class="header-section-number">5.2</span> Anpassen der Modellparameter</h2>
 <p>Wir können die Anzahl der Parameter eines Neuronalen Netzes durch die Formel</p>
 <p><span class="math display">\[\begin{equation*}
-(J+1)N_1\cdot\left(\prod_{k=1}^{K} (N_k+1)\cdot N_{k+1}\right)
+(J+1)N_1+\left(\sum_{k=1}^{K} (N_k+1)\cdot N_{k+1}\right)
 \end{equation*}\]</span></p>
 <p>berechnen. Hierbei steht der Index <span class="math inline">\(k = 1,\ldots,K\)</span> für die verschiedenen Hidden Layer des FFNN. Somit beschreiben wir mit <span class="math inline">\(J\)</span> die Anzahl der Input-Neuronen, <span class="math inline">\(N_k\)</span>, <span class="math inline">\(k=1\ldots,K\)</span>, die Anzahl der Neuronen in den Hidden-Layern und mit <span class="math inline">\(N_{K+1}\)</span> die Anzahl der Output-Neuronen. Die Addition mit <code>1</code> steht in den entsprechenden Layern für den Biasterm, da dieser ebenso mit jedem Neuron der nächsten Layer verbunden ist. Die Anzahl der Parameter steigt also nicht linear, sondern polynomiell.</p>
 <section id="gradientenabstieg" class="level3" data-number="5.2.1">
@@ -598,7 +598,7 @@ Figure&nbsp;5.4
 </section>
 <section id="regularisierung-von-neuronalen-netzen" class="level3" data-number="5.2.2">
 <h3 data-number="5.2.2" class="anchored" data-anchor-id="regularisierung-von-neuronalen-netzen"><span class="header-section-number">5.2.2</span> Regularisierung von Neuronalen Netzen</h3>
-<p>Neuronale Netze in einem Regressions- und Klassifikationskontext tendieren stark dazu, sich zu sehr an die Trainingsdaten anzupassen. Das ist auch nicht weiter überraschend, wenn man bedenkt, wie viele Parameter letztlich in einem Neuronalen Netz enthalten sind. Zum Beispiel besteht das neuronale Netz aus <a href="#fig-exm2" class="quarto-xref">Figure&nbsp;<span>5.4</span></a> $ (1+1) +(3+1)+ (4+1) = 27$ Parametern, während ein einfaches lineares Modell den gleichen Zusammenhang mit nur zwei Parametern beschreiben würde.</p>
+<p>Neuronale Netze in einem Regressions- und Klassifikationskontext tendieren stark dazu, sich zu sehr an die Trainingsdaten anzupassen. Das ist auch nicht weiter überraschend, wenn man bedenkt, wie viele Parameter letztlich in einem Neuronalen Netz enthalten sind. Zum Beispiel besteht das neuronale Netz aus <a href="#fig-exm2" class="quarto-xref">Figure&nbsp;<span>5.4</span></a> <span class="math inline">\((1+1)\cdot3 +(3+1)\cdot 4+ (4+1)\cdot 1 = 27\)</span> Parametern, während ein einfaches lineares Modell den gleichen Zusammenhang mit nur zwei Parametern beschreiben würde.</p>
 <p>Wir wollen deshalb zwei Methoden besprechen, welche diesen Effekt mitigieren können.</p>
 <section id="dropout" class="level4" data-number="5.2.2.1">
 <h4 data-number="5.2.2.1" class="anchored" data-anchor-id="dropout"><span class="header-section-number">5.2.2.1</span> Dropout</h4>
@@ -832,7 +832,7 @@ scaled validation loss after 200 epochs: 0.121 </code></pre>
 <div id="exr-nnarchitecture" class="theorem exercise">
 <p><span class="theorem-title"><strong>Aufgabe 5.1</strong></span> Angenommen es liegt ein FFDNN mit einem Inputneuron, zwei Hidden Layer bestehend aus zwei bzw. drei Neuronen und einem Outputneuron vor.</p>
 <ol type="1">
-<li>Skizziere die die Architektur im gleichen Stil wie <a href="#fig-NNFull" class="quarto-xref">Figure&nbsp;<span>5.3</span></a>.</li>
+<li>Skizziere die Architektur im gleichen Stil wie <a href="#fig-NNFull" class="quarto-xref">Figure&nbsp;<span>5.3</span></a>.</li>
 <li>Schreibe Funktionsvorschrift dieses FFDNN so genau wie möglich auf. Gehe dabei davon aus, dass die Aktivierungsfunktion der ersten und zweiten Hidden Layer <code>"ReLU"</code> sind. Verwende hierbei die Notation aus Gleichung <span class="math inline">\(\eqref{eq:nn_anal}\)</span> bzw. <a href="#fig-NN01" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>. Setze für <span class="math inline">\(\sigma\)</span> die entsprechende Funktionsvorschrift aus <a href="#tbl-Lorem" class="quarto-xref">Table&nbsp;<span>5.1</span></a>.</li>
 <li>Aus wie vielen Parametern besteht dieses Neuronale Netz?</li>
 <li>Welche Werte kann das spezifizierte Neuronale Netz annehmen? Wie würde sich dieser Wert verändern, wenn wir auf den Output noch eine <span class="math inline">\(\text{tanh}\)</span> Aktivierungsfunktion anwenden?</li>
@@ -841,7 +841,7 @@ scaled validation loss after 200 epochs: 0.121 </code></pre>
 </section>
 <section id="r-übungen" class="level3" data-number="5.4.2">
 <h3 data-number="5.4.2" class="anchored" data-anchor-id="r-übungen"><span class="header-section-number">5.4.2</span> R Übungen</h3>
-<p>Wie auch in den vorherigen Übungen verwenden wir auch in dieser Übung den <code>hotelrates</code> Datensatz. Ziel wird es sein die Variable <code>avg_price_per_room</code> durch die verbleibenden Variablen vorherzusagen. Für eine initiale Transformation verwenden wir wieder folgendes Code Snippet:</p>
+<p>Wie auch in den vorherigen Übungen verwenden wir in dieser Übung ebenfalls den <code>hotelrates</code> Datensatz. Ziel wird es sein die Variable <code>avg_price_per_room</code> durch die verbleibenden Variablen vorherzusagen. Für eine initiale Transformation verwenden wir wieder folgendes Code Snippet:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>hotel_rates_adj <span class="ot">&lt;-</span> hotel_rates <span class="sc">%&gt;%</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">mutate</span>(</span>
@@ -861,8 +861,8 @@ scaled validation loss after 200 epochs: 0.121 </code></pre>
 </div>
 <div id="exr-data_split" class="theorem exercise">
 <p><span class="theorem-title"><strong>Aufgabe 5.3</strong></span> In dieser Übung wollen wir die Daten in Trainings- und Testdaten aufteilen. Wie wir in <a href="#sec-NNR" class="quarto-xref"><span>Section 5.3</span></a> gelernt haben, sollten wir die Daten normalisieren, also dafür sorgen, dass alle numerischen Feature Mean <span class="math inline">\(0\)</span> und Standardabweichung <span class="math inline">\(1\)</span> besitzen. Das einfache Anwenden der <code>training()</code> und <code>testing()</code>-Funktion ist in diesem Fall nicht mehr möglich, da sonst <em>Data Leakage</em> auftritt.</p>
-<p>Data Leakage beschreibt das Phänomen, wenn Informationen der Trainingsdaten direkt oder indirekt in die Testdaten übergehen. Da wir beim Testen der Modelle stets darauf achten sollen nur Stichproben zu verwenden, welche das Modell vorher in keinster Weise gehen hat, müssen wir beim Normalisieren der Daten entsprechend aufpassen.</p>
-<p>Es ist also ratsam die Daten zuerst in Trainings und Testdaten einzuteilen, bevor man irgendwelche Transformationen (mit Ausnahme der Dummy-Transformation) auf die Daten anwedet.</p>
+<p>Data Leakage beschreibt das Phänomen, wenn Informationen der Trainingsdaten direkt oder indirekt in die Testdaten übergehen. Da wir beim Testen der Modelle stets darauf achten sollen, nur Stichproben zu verwenden, welche das Modell vorher in keiner Weise gesehen hat, müssen wir beim Normalisieren der Daten entsprechend aufpassen.</p>
+<p>Es ist also ratsam, die Daten zuerst in Trainings- und Testdaten einzuteilen, bevor man Transformationen jeglicher Art (mit Ausnahme der Dummy-Transformation) auf die Daten anwendet.</p>
 <ol type="1">
 <li>Verwende das Seed <code>123</code>, die <code>initial_split(), training()</code> und <code>testing()</code>-Funktionen um ein Trainings- und Testset zu erstellen. Verwende hierbei die Default-Parameter der <code>initial_split()</code>-Funktion.</li>
 <li>Betrachte das folgende Code-Snippet.
@@ -907,7 +907,7 @@ scaled validation loss after 200 epochs: 0.121 </code></pre>
 <div id="exr-fitnn" class="theorem exercise">
 <p><span class="theorem-title"><strong>Aufgabe 5.4</strong></span> Wir wollen nun die angepassten Trainingsdaten verwenden, um ein Neuronales Netz zu trainieren.</p>
 <ol type="1">
-<li><p>Spezifiziere hierfür ein Neuronales Netz mit folgenden Parametern:</p>
+<li><p>Spezifiziere hierfür ein neuronales Netz mit folgenden Parametern:</p>
 <ul>
 <li><code>epochs = 200</code></li>
 <li><code>hidden_units = c(64,32)</code></li>
@@ -959,7 +959,7 @@ Warning
 <div id="sol-nnarchitecture" class="proof solution">
 <p><span class="proof-title"><em>Solution 5.1</em> (<a href="#exr-nnarchitecture" class="quarto-xref">Aufgabe&nbsp;<span>5.1</span></a>). </span></p>
 <ol type="1">
-<li><p>Das beschriebene Neuronale Netz lässt sich darstellen als:</p>
+<li><p>Das beschriebene neuronale Netz kann dargestellt werden als:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="pictures/exr_nnarchitecture.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
@@ -1033,7 +1033,7 @@ Warning
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.integer) <span class="sc">%&gt;%</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(train_features_dbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Nachdem wir die Metrischen Feature normiert haben, erstellen wir einen neuen Datensatz <code>train_features_norm</code> in welchen wir die normierten Feature und Dummy Feature zusammenführen. Der <code>cbind()</code> Befehl verbindet die Spalten miteinander, so dass wir dann einen neuen, vollständigen Trainingsfeature Datensatz erstellt haben.</p>
+<p>Nachdem wir die Metrischen Feature normiert haben, erstellen wir einen neuen Datensatz <code>train_features_norm</code> in welchen wir die normierten Feature und Dummy Feature zusammenführen. Der <code>cbind()</code> Befehl verbindet die Spalten miteinander, sodass wir dann einen neuen, vollständigen Trainingsfeature Datensatz erstellt haben.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>train_labels <span class="ot">&lt;-</span> data_train <span class="sc">%&gt;%</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(avg_price_per_room)</span>
@@ -1583,7 +1583,7 @@ Warning
 </div>
 </div>
 <p>Der Wert <span class="math inline">\(R^2 = 0.915\)</span> impliziert, dass wir <span class="math inline">\(91.5\%\)</span> der Varianz in den Testdaten erklären können.</p></li>
-<li><p>Da fast alle Datenpunkte mit <code>avg_price_per_room&gt;300</code> überhalb der Winkelhalbierenden liegen, spricht das dafür, dass das Modell dazu neigt die hochpreisigen Zimmer zu unterschätzen. Falls Punkte überhalb der Winkelhalbierenden liegen, dann gilt <code>avg_price_per_room&gt;.pred</code>.</p>
+<li><p>Da fast alle Datenpunkte mit <code>avg_price_per_room&gt;300</code> überhalb der Winkelhalbierenden liegen, spricht das dafür, dass das Modell dazu neigt, die hochpreisigen Zimmer zu unterschätzen. Falls Punkte überhalb der Winkelhalbierenden liegen, dann gilt <code>avg_price_per_room&gt;.pred</code>.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
