@@ -1,0 +1,3158 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="presentation_files/libs/clipboard/clipboard.min.js"></script>
+<script src="presentation_files/libs/quarto-html/tabby.min.js"></script>
+<script src="presentation_files/libs/quarto-html/popper.min.js"></script>
+<script src="presentation_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="presentation_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="presentation_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="presentation_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="presentation_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.5.57">
+
+  <title>Tidy{verse|models}</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="presentation_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="presentation_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="presentation_files/libs/revealjs/dist/theme/quarto.css">
+  <link href="presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="presentation_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="presentation_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="presentation_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-titled.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-titled) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-titled.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-titled .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-titled .callout-title  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-titled.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-titled.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-title {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-title {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-title {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-titled .callout-body > .callout-content > :last-child {
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
+  }
+
+  .callout.callout-titled .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-titled) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-title {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-title {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-title {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-title {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-title {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <link href="presentation_files/libs/countdown-0.4.0/countdown.css" rel="stylesheet">
+
+  <script src="presentation_files/libs/countdown-0.4.0/countdown.js"></script>
+
+  <style>
+  .center-xy {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translateY(-50%), translateX(-50%);
+    transform: translateY(-50%), translateX(-50%);
+  }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Tidy{verse|models}</h1>
+  <p class="subtitle">A modern approach for Data Science and Machine Learning in R</p>
+
+<div class="quarto-title-authors">
+</div>
+
+</section>
+<section>
+<section id="hallo" class="title-slide slide level1 center">
+<h1>Hallo!</h1>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img src="pictures/PP.jpg" style="width: 70%;
+         height: 70%;
+         border-radius: 50%;
+         z-index: 1;
+         align: 'center';"> </p>
+</div><div class="column" style="width:50%;">
+<p><br> <br></p>
+<ul style="list-style:none;">
+<li>
+<img data-src="pictures/website.svg" style="width:32px;                                             height:32px;                                             position:relative;                                             top:15px;"><a href="https://linus-lach.de">Linus-Lach.de</a>
+</li>
+<li>
+<img data-src="pictures/github-mark.svg" style="width:32px;                                             height:32px;                                             position:relative;                                             top:15px;"> <a href="github.com/linuslach">LinusLach</a>
+</li>
+<li>
+<img data-src="pictures/LinkedIn_icon.svg" style="width:32px;                                             height:32px;                                             position:relative;                                             top:15px;"> <a href="https://www.linkedin.com/in/linus-lach">linus-lach</a>
+</li>
+</ul>
+</div></div>
+</section>
+<section id="r-for-data-science-and-machine-learning" class="slide level2">
+<h2>R for Data Science and Machine Learning?</h2>
+<p><br></p>
+<blockquote>
+<p>Why don’t we just use Python?</p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-index="1">
+<p><img data-src="pictures/r_vs_python.jpg"></p>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-index="1">
+<p><img data-src="pictures/r_vs_python2.jpg"></p>
+</div>
+</div></div>
+</section>
+<section id="agenda" class="slide level2">
+<h2>Agenda</h2>
+<div>
+<ol type="1">
+<li class="fragment">Preliminaries</li>
+<li class="fragment">Tidyverse
+<ol type="i">
+<li class="fragment"><code>{dplyr}</code></li>
+<li class="fragment"><code>{ggplot2}</code></li>
+<li class="fragment"><code>{lubridate}</code></li>
+</ol></li>
+<li class="fragment">Tidymodels
+<ol type="i">
+<li class="fragment">Modelling Workflow</li>
+<li class="fragment">Tuning Models (Regression)</li>
+<li class="fragment">Tuning Models (Classification)</li>
+</ol></li>
+</ol>
+</div>
+</section>
+<section id="goals-of-this-workshop" class="slide level2">
+<h2>Goals of this Workshop</h2>
+<div>
+<ol type="1">
+<li class="fragment">Familiarize yourself with the <code>{tidy}</code> ecosystem</li>
+<li class="fragment">Pique your curiosity about what else the <code>{tidy}</code> ecosystem has to offer</li>
+<li class="fragment">Equip you with tools that can be used in your day-to-day work</li>
+</ol>
+</div>
+</section>
+<section id="resources-for-this-tutorial" class="slide level2">
+<h2>Resources for this Tutorial</h2>
+<p><br></p>
+<p>Or, clone the repo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>LinusLach<span class="sc">/</span>tidy_workshop.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="resources-beyond-this-tutorial" class="slide level2">
+<h2>Resources beyond this Tutorial</h2>
+<div>
+<ul>
+<li class="fragment"><p><a href="https://www.tmwr.org/">Tidy Modelling with R</a> by Max Kuhn and Julia Silge</p></li>
+<li class="fragment"><p><a href="https://r4ds.hadley.nz/">R for Data Science (R4DS)</a> by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.</p></li>
+<li class="fragment"><p><a href="https://moderndive.com/">Statistical Inference via Data Science: A Modern Dive into R and the Tidyverse</a> by Chester Ismay and Albert Y. Kim.</p></li>
+<li class="fragment"><p><a href="https://datasciencebox.org/">Data Science Box</a> by Mine Çetinkaya-Rundel</p></li>
+</ul>
+</div>
+</section>
+<section id="quarto" class="slide level2">
+<h2>Quarto</h2>
+<div style="font-size:20pt;">
+<p><strong>What</strong> is Quarto?</p>
+<div class="fragment" data-index="1">
+<blockquote>
+<p>An open-source scientific and technical publishing system for R, Python, Julia, and Observable</p>
+</blockquote>
+</div>
+<p><strong>Why</strong> should I use it?</p>
+<div class="fragment" data-index="1">
+<blockquote>
+<p>Publish reproducible, production quality articles, presentations, dashboards, websites, blogs, and books in HTML, PDF, MS Word, ePub, and more.</p>
+</blockquote>
+</div>
+<p><strong>How</strong> can I use it?</p>
+<div class="fragment" data-index="1">
+<blockquote>
+<p>Quarto is bundled with newer versions of RStudio and Positron. VS Code also provides an extension.</p>
+</blockquote>
+<p>For further information, see <a href="https://quarto.org/">Official Quarto Website</a></p>
+</div>
+</div>
+</section>
+<section id="quickstart-for-quarto" class="slide level2">
+<h2>Quickstart for Quarto</h2>
+
+<img data-src="pictures/quarto_document.gif" class="r-stretch"></section>
+<section id="working-with-quarto" class="slide level2">
+<h2>Working with Quarto</h2>
+<p>We can then</p>
+<div>
+<ul>
+<li class="fragment">Write code snippets</li>
+<li class="fragment">Insert content (images, videos, and even raw html code!)</li>
+<li class="fragment">Export documents as different formats (PDF,HTML, and DOCX)</li>
+</ul>
+</div>
+</section>
+<section id="required-packages" class="slide level2">
+<h2>Required Packages</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="co"># Core meta-packages (these will install many dependencies)</span></span>
+<span id="cb2-2"><a href=""></a>core_packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"tidymodels"</span>)</span>
+<span id="cb2-3"><a href=""></a></span>
+<span id="cb2-4"><a href=""></a><span class="co"># Additional packages not included in tidyverse/tidymodels</span></span>
+<span id="cb2-5"><a href=""></a>extra_packages <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb2-6"><a href=""></a>  <span class="st">"glue"</span>, <span class="st">"patchwork"</span>, <span class="st">"ggtext"</span>, <span class="st">"themis"</span>, <span class="st">"xgboost"</span>,</span>
+<span id="cb2-7"><a href=""></a>  <span class="st">"ranger"</span>, <span class="st">"glmnet"</span>, <span class="st">"ISLR2"</span>, <span class="st">"nycflights13"</span></span>
+<span id="cb2-8"><a href=""></a>)</span>
+<span id="cb2-9"><a href=""></a></span>
+<span id="cb2-10"><a href=""></a><span class="co"># Combine all required packages</span></span>
+<span id="cb2-11"><a href=""></a>required_packages <span class="ot">&lt;-</span> <span class="fu">c</span>(core_packages, extra_packages)</span>
+<span id="cb2-12"><a href=""></a></span>
+<span id="cb2-13"><a href=""></a><span class="co"># Install missing packages</span></span>
+<span id="cb2-14"><a href=""></a><span class="cf">for</span> (pkg <span class="cf">in</span> required_packages) {</span>
+<span id="cb2-15"><a href=""></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(pkg, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb2-16"><a href=""></a>    <span class="fu">message</span>(<span class="fu">paste</span>(<span class="st">"Installing"</span>, pkg, <span class="st">"..."</span>))</span>
+<span id="cb2-17"><a href=""></a>    <span class="fu">install.packages</span>(pkg)</span>
+<span id="cb2-18"><a href=""></a>  } <span class="cf">else</span> {</span>
+<span id="cb2-19"><a href=""></a>    <span class="fu">message</span>(<span class="fu">paste</span>(pkg, <span class="st">"is already installed."</span>))</span>
+<span id="cb2-20"><a href=""></a>  }</span>
+<span id="cb2-21"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section></section>
+<section>
+<section id="slidetidyverse-id" class="title-slide slide level1 center" data-background-image="pictures/tidyverse/tidyverse-bg.svg" data-background-size="cover" data-menu-title="{tidyverse}">
+<h1></h1>
+
+</section>
+<section id="tidyverse" class="slide level2">
+<h2>{tidyverse}</h2>
+
+<img data-src="pictures/tidyverse/tidyverse_hex.svg" class="r-stretch"><p>As a meta-package, the <code>{tidyverse}</code> contains many different packages.</p>
+</section>
+<section id="using-the-tidyverse-in-r" class="slide level2" style="font-size:32pt;">
+<h2>Using the Tidyverse in R</h2>
+<div style="font-size:32pt;">
+<p>Most importantly:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.1.0     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="the-penguins-dataset-tabular-data" class="slide level2">
+<h2>The Penguins Dataset (Tabular Data)</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<blockquote>
+<p>Includes measurements for penguin species, island in Palmer Archipelago, size (flipper length, body mass, bill dimensions), and sex.</p>
+</blockquote>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption>Artist: Allison Horst</figcaption>
+<p><img data-src="pictures/lter_penguins.png"></p>
+</figure>
+</div>
+</div></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>data_penguin <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-dplyr-package---cheatsheet" class="slide level2">
+<h2>The <code>{dplyr}</code>-Package - Cheatsheet</h2>
+<figure style="position:absolute; top:20vh; left:15vw; width:60%;">
+<img src="pictures/tidyverse/dplyr_02.png" alt="dplyr cheatsheet" style="width:100%; height:auto;">
+<figcaption style="font-size:0.9rem; margin-top:0.4rem;">
+<a href="https://rstudio.github.io/cheatsheets/data-transformation.pdf" target="_blank" rel="noopener noreferrer"> Source: RStudio Github </a>
+</figcaption>
+</figure>
+<p><img data-src="pictures/tidyverse/dplyr_01.png" class="absolute" style="top: 10vh; left: 10vw; width: 60%; "></p>
+<!--
+![](pictures/tidyverse/dplyr_02.png){.absolute top=20vh left=15vw width=60%}^[Source:RStudio Github](https://rstudio.github.io/cheatsheets/data-transformation.pdf)
+-->
+</section>
+<section id="getting-a-glimpse-of-the-data" class="slide level2">
+<h2>Getting a <em>glimpse</em> of the Data</h2>
+<h3>
+Base R
+</h3>
+<div class="fragment" data-index="1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">head</span>(data_penguin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 8
+  species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+1 Adelie  Torgersen           39.1          18.7               181        3750
+2 Adelie  Torgersen           39.5          17.4               186        3800
+3 Adelie  Torgersen           40.3          18                 195        3250
+4 Adelie  Torgersen           NA            NA                  NA          NA
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+</div>
+<h3>
+🌟<code>{tidyverse}</code>🌟
+</h3>
+<div class="fragment" data-index="2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(data_penguin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 344
+Columns: 8
+$ species           &lt;fct&gt; Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adel…
+$ island            &lt;fct&gt; Torgersen, Torgersen, Torgersen, Torgersen, Torgerse…
+$ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, NA, 36.7, 39.3, 38.9, 39.2, 34.1, …
+$ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, NA, 19.3, 20.6, 17.8, 19.6, 18.1, …
+$ flipper_length_mm &lt;int&gt; 181, 186, 195, NA, 193, 190, 181, 195, 193, 190, 186…
+$ body_mass_g       &lt;int&gt; 3750, 3800, 3250, NA, 3450, 3650, 3625, 4675, 3475, …
+$ sex               &lt;fct&gt; male, female, female, NA, female, male, female, male…
+$ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="easy-grouping-and-summaries" class="slide level2">
+<h2>Easy Grouping and Summaries</h2>
+<!-- 
+`{dplyr}` is one of the libraries that is used everywhere and the possible combinations with functions from other packages are endless.
+It is the perfect toolkit for tabular data wrangling!
+-->
+<div style="font-size:23pt;">
+<p>What is the average male and female body mass of each species on each island?</p>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3>
+Base R
+</h3>
+<div class="fragment" data-index="1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10" data-code-line-numbers="1-5|7-11|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>avg_mass <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(</span>
+<span id="cb10-2"><a href=""></a>  body_mass_g <span class="sc">~</span> sex<span class="sc">+</span>species<span class="sc">+</span>island,</span>
+<span id="cb10-3"><a href=""></a>  <span class="at">data =</span> data_penguin,</span>
+<span id="cb10-4"><a href=""></a>  <span class="at">FUN =</span> <span class="cf">function</span>(x) <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-5"><a href=""></a>)</span>
+<span id="cb10-6"><a href=""></a></span>
+<span id="cb10-7"><a href=""></a><span class="fu">names</span>(avg_mass)[</span>
+<span id="cb10-8"><a href=""></a>  <span class="fu">names</span>(avg_mass) <span class="sc">==</span> <span class="st">"body_mass_g"</span></span>
+<span id="cb10-9"><a href=""></a>  ] <span class="ot">&lt;-</span> <span class="st">"mean_weight"</span></span>
+<span id="cb10-10"><a href=""></a></span>
+<span id="cb10-11"><a href=""></a><span class="fu">print</span>(avg_mass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      sex   species    island mean_weight
+1  female    Adelie    Biscoe    3369.318
+2    male    Adelie    Biscoe    4050.000
+3  female    Gentoo    Biscoe    4679.741
+4    male    Gentoo    Biscoe    5484.836
+5  female    Adelie     Dream    3344.444
+6    male    Adelie     Dream    4045.536
+7  female Chinstrap     Dream    3527.206
+8    male Chinstrap     Dream    3938.971
+9  female    Adelie Torgersen    3395.833
+10   male    Adelie Torgersen    4034.783</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<h3>
+🌟<code>{tidyverse}</code>🌟
+</h3>
+<div class="fragment" data-index="2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>data_penguin <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href=""></a>  <span class="fu">na.omit</span>() <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href=""></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(sex,species,island) <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href=""></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb12-5"><a href=""></a>    <span class="at">mean_weight =</span> <span class="fu">mean</span>(body_mass_g)</span>
+<span id="cb12-6"><a href=""></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+# Groups:   sex, species [6]
+   sex    species   island    mean_weight
+   &lt;fct&gt;  &lt;fct&gt;     &lt;fct&gt;           &lt;dbl&gt;
+ 1 female Adelie    Biscoe          3369.
+ 2 female Adelie    Dream           3344.
+ 3 female Adelie    Torgersen       3396.
+ 4 female Chinstrap Dream           3527.
+ 5 female Gentoo    Biscoe          4680.
+ 6 male   Adelie    Biscoe          4050 
+ 7 male   Adelie    Dream           4046.
+ 8 male   Adelie    Torgersen       4035.
+ 9 male   Chinstrap Dream           3939.
+10 male   Gentoo    Biscoe          5485.</code></pre>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="or" class="slide level2">
+<h2><code>|&gt;</code> or <code>%&gt;%</code>?</h2>
+<p>Both pass <strong>LHS as the first argument</strong> to RHS</p>
+<div class="fragment" data-index="1">
+<!-- -->
+<h3 id="base-r-pipe"><strong>Base R Pipe <code>|&gt;</code></strong></h3>
+<ul>
+<li>Introduced in <strong>R &gt;= 4.1</strong></li>
+<li><strong>Does not support placeholders</strong> (always first argument)</li>
+</ul>
+</div>
+<div class="fragment" data-index="2">
+<!-- -->
+<h3 id="magrittr-pipe"><strong><code>{magrittr}</code> Pipe <code>%&gt;%</code></strong></h3>
+<ul>
+<li>Comes from the <code>{magrittr}</code>-library (included in <code>{tidyverse}</code>)</li>
+<li>Allows placeholder <code>.</code> for flexible positioning</li>
+<li>Supports custom operators (<code>%&lt;&gt;%</code>, <code>%$%</code>)</li>
+</ul>
+</div>
+</section>
+<section id="exercise-grouping-filtering-and-summaries" class="slide level2">
+<h2>Exercise: Grouping, Filtering, and Summaries</h2>
+<div id="exr-filter_n" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1</strong></span> &nbsp;</p>
+<div class="fragment" data-index="1">
+<p>Use the <code>dplyr::filter()</code>- and <code>dplyr::n()</code>-functions to find out how many penguins on each island have a body mass higher than <code>3500</code>g.</p>
+</div>
+<div class="fragment" data-index="2">
+<p><strong>Bonus:</strong> Also include the relative number with respect to the total number of penguins by using the <code>mutate</code>-function.</p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="countdown" id="countdown_dplyr" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+</div>
+</div>
+<div class="fragment" data-index="3">
+<p><a href="#/solution-dplyr" class="quarto-xref">Solution&nbsp;1</a></p>
+</div>
+</section>
+<section id="ggplot2" class="slide level2">
+<h2><code>{ggplot2}</code></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="pictures/tidyverse/ggplot_meme.jpg" class="fragment" data-index="1"></p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="pictures/tidyverse/ggplot_meme2.jpg" class="fragment" data-index="2"></p>
+</div></div>
+</section>
+<section id="ggplot2-1" class="slide level2">
+<h2><code>{ggplot2}</code></h2>
+<div class="r-stack">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pictures/tidyverse/20210828_woc033.png" class="fragment quarto-figure quarto-figure-center" data-caption="Benjamin Nowak"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pictures/tidyverse/17-network-who-speaks-office.png" class="fragment quarto-figure quarto-figure-center" style="width:50.0%" data-caption="Benjamin Nowak"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pictures/tidyverse/web-map-choropleth-quantile.png" class="fragment quarto-figure quarto-figure-center" style="width:40.0%" data-caption="Benjamin Nowak"></p>
+</figure>
+</div>
+</div>
+</section>
+<section id="the-ggplot2-package---cheatsheet" class="slide level2">
+<h2>The <code>{ggplot2}</code>-Package - Cheatsheet</h2>
+<figure style="position:absolute; top:20vh; left:15vw; width:60%;">
+<img src="pictures/tidyverse/ggplot_02.png" alt="ggplot cheatsheet" style="width:100%; height:auto;">
+<figcaption style="font-size:0.9rem; margin-top:0.4rem;">
+<a href="https://rstudio.github.io/cheatsheets/data-visualization.pdf" target="_blank" rel="noopener noreferrer"> Source: RStudio Github </a>
+</figcaption>
+</figure>
+<p><img data-src="pictures/tidyverse/ggplot_01.png" class="absolute" style="top: 10vh; left: 10vw; width: 60%; "></p>
+</section>
+<section id="ggplot2-basics" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title"><code>{ggplot2}</code>-Basics</h2>
+<div class="columns">
+<div class="column" style="width:35%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb14-1" class="hljs-ln-code"><a href=""></a>data_penguin <span class="sc">|&gt;</span></span>
+<span id="cb14-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">ggplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:65%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-12-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="ggplot2-basics-1" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title"><code>{ggplot2}</code>-Basics</h2>
+<div class="columns">
+<div class="column" style="width:35%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15" data-code-line-numbers="|3-6|"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb15-1" class="hljs-ln-code"><a href=""></a>data_penguin <span class="sc">|&gt;</span></span>
+<span id="cb15-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb15-3" class="hljs-ln-code"><a href=""></a>    <span class="fu">aes</span>(</span>
+<span id="cb15-4" class="hljs-ln-code"><a href=""></a>      <span class="at">x=</span>bill_depth_mm,</span>
+<span id="cb15-5" class="hljs-ln-code"><a href=""></a>      <span class="at">y=</span>bill_length_mm</span>
+<span id="cb15-6" class="hljs-ln-code"><a href=""></a>      )</span>
+<span id="cb15-7" class="hljs-ln-code"><a href=""></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:65%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-14-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="ggplot2-basics-2" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title"><code>{ggplot2}</code>-Basics</h2>
+<div class="columns">
+<div class="column" style="width:35%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb16-1" class="hljs-ln-code"><a href=""></a>data_penguin <span class="sc">|&gt;</span></span>
+<span id="cb16-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb16-3" class="hljs-ln-code"><a href=""></a>    <span class="fu">aes</span>(</span>
+<span id="cb16-4" class="hljs-ln-code"><a href=""></a>      <span class="at">x=</span>bill_depth_mm,</span>
+<span id="cb16-5" class="hljs-ln-code"><a href=""></a>      <span class="at">y=</span>bill_length_mm</span>
+<span id="cb16-6" class="hljs-ln-code"><a href=""></a>      )</span>
+<span id="cb16-7" class="hljs-ln-code"><a href=""></a>    )<span class="sc">+</span></span>
+<span id="cb16-8" class="hljs-ln-code"><a href=""></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:65%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-16-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="ggplot2-basics-3" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title"><code>{ggplot2}</code>-Basics</h2>
+<div class="columns">
+<div class="column" style="width:35%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17" data-code-line-numbers="|9-11|"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb17-1" class="hljs-ln-code"><a href=""></a>data_penguin <span class="sc">|&gt;</span></span>
+<span id="cb17-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb17-3" class="hljs-ln-code"><a href=""></a>    <span class="fu">aes</span>(</span>
+<span id="cb17-4" class="hljs-ln-code"><a href=""></a>      <span class="at">x=</span>bill_depth_mm,</span>
+<span id="cb17-5" class="hljs-ln-code"><a href=""></a>      <span class="at">y=</span>bill_length_mm</span>
+<span id="cb17-6" class="hljs-ln-code"><a href=""></a>      )</span>
+<span id="cb17-7" class="hljs-ln-code"><a href=""></a>    )<span class="sc">+</span></span>
+<span id="cb17-8" class="hljs-ln-code"><a href=""></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb17-9" class="hljs-ln-code"><a href=""></a>    <span class="fu">aes</span>(</span>
+<span id="cb17-10" class="hljs-ln-code"><a href=""></a>      <span class="at">color=</span>species</span>
+<span id="cb17-11" class="hljs-ln-code"><a href=""></a>      )</span>
+<span id="cb17-12" class="hljs-ln-code"><a href=""></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:65%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-18-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="ggplot2-basics-4" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title"><code>{ggplot2}</code>-Basics</h2>
+<div class="columns">
+<div class="column" style="width:35%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18" data-code-line-numbers="|3-6|"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb18-1" class="hljs-ln-code"><a href=""></a>data_penguin <span class="sc">|&gt;</span></span>
+<span id="cb18-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb18-3" class="hljs-ln-code"><a href=""></a>    <span class="fu">aes</span>(</span>
+<span id="cb18-4" class="hljs-ln-code"><a href=""></a>      <span class="at">x=</span>bill_depth_mm,</span>
+<span id="cb18-5" class="hljs-ln-code"><a href=""></a>      <span class="at">y=</span>bill_length_mm,</span>
+<span id="cb18-6" class="hljs-ln-code"><a href=""></a>      <span class="at">color=</span>species</span>
+<span id="cb18-7" class="hljs-ln-code"><a href=""></a>      )</span>
+<span id="cb18-8" class="hljs-ln-code"><a href=""></a>    )<span class="sc">+</span></span>
+<span id="cb18-9" class="hljs-ln-code"><a href=""></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:65%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-20-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="ggplot2-basics-5" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title"><code>{ggplot2}</code>-Basics</h2>
+<div class="columns">
+<div class="column" style="width:35%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19" data-code-line-numbers="|10-11|"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb19-1" class="hljs-ln-code"><a href=""></a>data_penguin <span class="sc">|&gt;</span></span>
+<span id="cb19-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb19-3" class="hljs-ln-code"><a href=""></a>    <span class="fu">aes</span>(</span>
+<span id="cb19-4" class="hljs-ln-code"><a href=""></a>      <span class="at">x=</span>bill_depth_mm,</span>
+<span id="cb19-5" class="hljs-ln-code"><a href=""></a>      <span class="at">y=</span>bill_length_mm,</span>
+<span id="cb19-6" class="hljs-ln-code"><a href=""></a>      <span class="at">color=</span>species</span>
+<span id="cb19-7" class="hljs-ln-code"><a href=""></a>      )</span>
+<span id="cb19-8" class="hljs-ln-code"><a href=""></a>    )<span class="sc">+</span></span>
+<span id="cb19-9" class="hljs-ln-code"><a href=""></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb19-10" class="hljs-ln-code"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>,</span>
+<span id="cb19-11" class="hljs-ln-code"><a href=""></a>              <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:65%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-22-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="ggplot2-basics-6" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title"><code>{ggplot2}</code>-Basics</h2>
+<div class="columns">
+<div class="column" style="width:35%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20" data-code-line-numbers="|9-11|"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb20-1" class="hljs-ln-code"><a href=""></a>data_penguin <span class="sc">|&gt;</span></span>
+<span id="cb20-2" class="hljs-ln-code"><a href=""></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb20-3" class="hljs-ln-code"><a href=""></a>    <span class="fu">aes</span>(</span>
+<span id="cb20-4" class="hljs-ln-code"><a href=""></a>      <span class="at">x=</span>bill_depth_mm,</span>
+<span id="cb20-5" class="hljs-ln-code"><a href=""></a>      <span class="at">y=</span>bill_length_mm</span>
+<span id="cb20-6" class="hljs-ln-code"><a href=""></a>      )</span>
+<span id="cb20-7" class="hljs-ln-code"><a href=""></a>    )<span class="sc">+</span></span>
+<span id="cb20-8" class="hljs-ln-code"><a href=""></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb20-9" class="hljs-ln-code"><a href=""></a>    <span class="fu">aes</span>(</span>
+<span id="cb20-10" class="hljs-ln-code"><a href=""></a>      <span class="at">color=</span>species</span>
+<span id="cb20-11" class="hljs-ln-code"><a href=""></a>      )</span>
+<span id="cb20-12" class="hljs-ln-code"><a href=""></a>    )<span class="sc">+</span></span>
+<span id="cb20-13" class="hljs-ln-code"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>,</span>
+<span id="cb20-14" class="hljs-ln-code"><a href=""></a>              <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:65%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-24-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="exercise-ggplot2" class="slide level2">
+<h2>Exercise: <code>{ggplot2}</code></h2>
+<div id="exr-ggplot" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 2</strong></span> &nbsp;</p>
+<div class="fragment" data-index="1">
+<p>Using the <code>geom_histogram()</code>-function, create a histogram for the variable <code>flipper_length</code>.</p>
+</div>
+<div class="fragment" data-index="2">
+<p><strong>Bonus:</strong> Use the <code>after_stat()</code>- and <code>sum()</code>-functions in combination with the <code>count</code> argument to display the relative frequencies of the flipper lengths. Then, set the <code>y</code>-scale to percentages with the <code>scale_y_continuous()</code>- and <code>scales::percent()</code>-function and change the <code>y</code>-axis label to <code>"relative frequency"</code> with the help of the <code>labs()</code>-function.</p>
+</div>
+</div>
+<div class="fragment" data-index="3">
+<p><a href="#/solution-ggplot2" class="quarto-xref">Solution&nbsp;2</a></p>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="countdown" id="countdown_ggplot" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+</div>
+</div>
+</section>
+<section id="ggplot2-extensions" class="slide level2">
+<h2><code>{ggplot2}</code>: Extensions</h2>
+<div>
+<ul>
+<li class="fragment"><code>{ggtext}</code>: Markdown and HTML rendering for ggplot2</li>
+<li class="fragment"><code>{patchwork}</code>: Makes it ridiculously simple to combine separate ggplots into the same graphic.</li>
+<li class="fragment"><code>{ggmap}</code>: Makes it easy to retrieve raster map tiles from popular online mapping services like Google Maps, Stadia Maps, and OpenStreetMap</li>
+</ul>
+</div>
+</section>
+<section id="ggplot2-further-resources" class="slide level2">
+<h2><code>{ggplot2}</code>: Further Resources</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-index="1">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption><a href="https://r-graphics.org/index.html">R Graphics Cookbook</a></figcaption>
+<p><img data-src="pictures/tidyverse/R_Graphics_Cookbook.jpg" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-index="2">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<figcaption><a href="https://ggplot2-book.org/">ggplot2: Elegant Graphics for Data Analysis</a></figcaption>
+<p><img data-src="pictures/tidyverse/ggplot_book.jpg" style="width:52.0%"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section>
+<section id="nyc-flight-data" class="slide level2">
+<h2>NYC Flight Data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">library</span>(nycflights13)</span>
+<span id="cb21-2"><a href=""></a>flight_data <span class="ot">&lt;-</span> flights</span>
+<span id="cb21-3"><a href=""></a><span class="fu">glimpse</span>(flight_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 336,776
+Columns: 19
+$ year           &lt;int&gt; 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2…
+$ month          &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ day            &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ dep_time       &lt;int&gt; 517, 533, 542, 544, 554, 554, 555, 557, 557, 558, 558, …
+$ sched_dep_time &lt;int&gt; 515, 529, 540, 545, 600, 558, 600, 600, 600, 600, 600, …
+$ dep_delay      &lt;dbl&gt; 2, 4, 2, -1, -6, -4, -5, -3, -3, -2, -2, -2, -2, -2, -1…
+$ arr_time       &lt;int&gt; 830, 850, 923, 1004, 812, 740, 913, 709, 838, 753, 849,…
+$ sched_arr_time &lt;int&gt; 819, 830, 850, 1022, 837, 728, 854, 723, 846, 745, 851,…
+$ arr_delay      &lt;dbl&gt; 11, 20, 33, -18, -25, 12, 19, -14, -8, 8, -2, -3, 7, -1…
+$ carrier        &lt;chr&gt; "UA", "UA", "AA", "B6", "DL", "UA", "B6", "EV", "B6", "…
+$ flight         &lt;int&gt; 1545, 1714, 1141, 725, 461, 1696, 507, 5708, 79, 301, 4…
+$ tailnum        &lt;chr&gt; "N14228", "N24211", "N619AA", "N804JB", "N668DN", "N394…
+$ origin         &lt;chr&gt; "EWR", "LGA", "JFK", "JFK", "LGA", "EWR", "EWR", "LGA",…
+$ dest           &lt;chr&gt; "IAH", "IAH", "MIA", "BQN", "ATL", "ORD", "FLL", "IAD",…
+$ air_time       &lt;dbl&gt; 227, 227, 160, 183, 116, 150, 158, 53, 140, 138, 149, 1…
+$ distance       &lt;dbl&gt; 1400, 1416, 1089, 1576, 762, 719, 1065, 229, 944, 733, …
+$ hour           &lt;dbl&gt; 5, 5, 5, 5, 6, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 6, 6, 6…
+$ minute         &lt;dbl&gt; 15, 29, 40, 45, 0, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 59, 0…
+$ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-01 0…</code></pre>
+</div>
+</div>
+<!-- 
+Scheduled date and hour of the flight as a POSIXct date. Along with origin, can be used to join flights data to weather data
+-->
+<!-- 
+JFK: John F Kennedy
+LGA: La Guardia Airport
+EWR: Newark Liberty International Airport
+
+-->
+</section>
+<section id="nyc-flight-data---quick-eda-example" class="slide level2">
+<h2>NYC Flight Data - Quick EDA Example</h2>
+<p>How much missing data are we dealing with?</p>
+<div class="fragment" data-index="1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23" data-code-line-numbers="|2-6|7-9|10|11|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>flight_data <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href=""></a>  <span class="fu">summarise</span>(</span>
+<span id="cb23-3"><a href=""></a>    <span class="fu">across</span>(</span>
+<span id="cb23-4"><a href=""></a>      <span class="at">.cols =</span> <span class="fu">everything</span>(),</span>
+<span id="cb23-5"><a href=""></a>      <span class="at">.fns =</span> <span class="sc">~</span><span class="fu">sum</span>(<span class="fu">is.na</span>(.)))</span>
+<span id="cb23-6"><a href=""></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb23-7"><a href=""></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">everything</span>(),</span>
+<span id="cb23-8"><a href=""></a>               <span class="at">names_to =</span> <span class="st">"column"</span>,</span>
+<span id="cb23-9"><a href=""></a>               <span class="at">values_to =</span> <span class="st">"na_count"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-10"><a href=""></a>  <span class="fu">filter</span>(na_count<span class="sc">&gt;</span><span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-11"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">na_percent =</span> (na_count <span class="sc">/</span> <span class="fu">nrow</span>(flight_data)) <span class="sc">*</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  column    na_count na_percent
+  &lt;chr&gt;        &lt;int&gt;      &lt;dbl&gt;
+1 dep_time      8255      2.45 
+2 dep_delay     8255      2.45 
+3 arr_time      8713      2.59 
+4 arr_delay     9430      2.80 
+5 tailnum       2512      0.746
+6 air_time      9430      2.80 </code></pre>
+</div>
+</div>
+</div>
+<div class="fragment" data-index="2">
+<p>This can be done easier, right?</p>
+</div>
+</section>
+<section id="nyc-flight-data---quick-eda-example-1" class="slide level2">
+<h2>NYC Flight Data - Quick EDA Example</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>flight_data <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a href=""></a>  <span class="fu">is.na</span>() <span class="sc">|&gt;</span></span>
+<span id="cb25-3"><a href=""></a>  <span class="fu">colSums</span>()  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          year          month            day       dep_time sched_dep_time 
+             0              0              0           8255              0 
+     dep_delay       arr_time sched_arr_time      arr_delay        carrier 
+          8255           8713              0           9430              0 
+        flight        tailnum         origin           dest       air_time 
+             0           2512              0              0           9430 
+      distance           hour         minute      time_hour 
+             0              0              0              0 </code></pre>
+</div>
+</div>
+<div class="fragment" data-index="1">
+<p>Problem: The return value is a vector and not a Tibble.</p>
+</div>
+<div class="fragment" data-index="2">
+<p><strong>Question:</strong> What is a possible and plausible cause for the <code>NA</code> values?</p>
+</div>
+</section>
+<section id="lubridate-make-dealing-with-dates-a-little-easier" class="slide level2">
+<h2><code>{lubridate}</code>: Make Dealing with Dates a Little Easier</h2>
+<figure style="position:absolute; top:20vh; left:15vw; width:60%;">
+<img src="pictures/tidyverse/lubridate_02.png" alt="dplyr cheatsheet" style="width:100%; height:auto;">
+<figcaption style="font-size:0.9rem; margin-top:0.4rem;">
+<a href="https://rstudio.github.io/cheatsheets/data-visualization.pdf" target="_blank" rel="noopener noreferrer"> Source: RStudio Github </a>
+</figcaption>
+</figure>
+<p><img data-src="pictures/tidyverse/lubridate_01.png" class="absolute" style="top: 10vh; left: 10vw; width: 60%; "></p>
+</section>
+<section id="lubridate-creating-columns-in-the-posix-dateformat" class="slide level2">
+<h2>Lubridate: Creating Columns in the POSIX Dateformat</h2>
+<div class="{.style=&quot;font-size:22pt;&quot;}">
+<div class="columns">
+<div class="column" style="width:40%;">
+<div class="fragment" data-index="1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27" data-code-line-numbers="|3-8|9-21|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a>flight_time <span class="ot">&lt;-</span> flight_data <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb27-3"><a href=""></a>    <span class="at">dep_dt =</span> <span class="fu">make_datetime</span>(</span>
+<span id="cb27-4"><a href=""></a>      year,</span>
+<span id="cb27-5"><a href=""></a>      month,</span>
+<span id="cb27-6"><a href=""></a>      day,</span>
+<span id="cb27-7"><a href=""></a>      dep_time <span class="sc">%/%</span> <span class="dv">100</span>,</span>
+<span id="cb27-8"><a href=""></a>      dep_time <span class="sc">%%</span> <span class="dv">100</span>),</span>
+<span id="cb27-9"><a href=""></a>    <span class="at">sched_dep_dt =</span> <span class="fu">make_datetime</span>(</span>
+<span id="cb27-10"><a href=""></a>      year,</span>
+<span id="cb27-11"><a href=""></a>      month,</span>
+<span id="cb27-12"><a href=""></a>      day,</span>
+<span id="cb27-13"><a href=""></a>      sched_dep_time <span class="sc">%/%</span> <span class="dv">100</span>,</span>
+<span id="cb27-14"><a href=""></a>      sched_dep_time <span class="sc">%%</span> <span class="dv">100</span>),</span>
+<span id="cb27-15"><a href=""></a>    <span class="at">arr_time_dt =</span> <span class="fu">make_datetime</span>(</span>
+<span id="cb27-16"><a href=""></a>      year,</span>
+<span id="cb27-17"><a href=""></a>      month,</span>
+<span id="cb27-18"><a href=""></a>      day,</span>
+<span id="cb27-19"><a href=""></a>      arr_time <span class="sc">%/%</span> <span class="dv">100</span>,</span>
+<span id="cb27-20"><a href=""></a>      arr_time <span class="sc">%%</span> <span class="dv">100</span>)</span>
+<span id="cb27-21"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<!--
+%/% → Integer Division (quotient without remainder)
+
+%% → Modulo (remainder after division)
+-->
+</div><!--
+
+The basic POSIX measure of time, calendar time,
+is the number of seconds since the beginning of 1970,
+in the UTC timezone (GMT as described by the French).
+--><div class="column" style="width:60%;">
+<div class="fragment" data-index="2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>flight_time <span class="sc">|&gt;</span> <span class="fu">select</span>(</span>
+<span id="cb28-2"><a href=""></a>  dep_dt,</span>
+<span id="cb28-3"><a href=""></a>  sched_dep_dt,</span>
+<span id="cb28-4"><a href=""></a>  arr_time_dt</span>
+<span id="cb28-5"><a href=""></a>) <span class="sc">|&gt;</span></span>
+<span id="cb28-6"><a href=""></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  dep_dt              sched_dep_dt        arr_time_dt        
+  &lt;dttm&gt;              &lt;dttm&gt;              &lt;dttm&gt;             
+1 2013-01-01 05:17:00 2013-01-01 05:15:00 2013-01-01 08:30:00
+2 2013-01-01 05:33:00 2013-01-01 05:29:00 2013-01-01 08:50:00
+3 2013-01-01 05:42:00 2013-01-01 05:40:00 2013-01-01 09:23:00
+4 2013-01-01 05:44:00 2013-01-01 05:45:00 2013-01-01 10:04:00
+5 2013-01-01 05:54:00 2013-01-01 06:00:00 2013-01-01 08:12:00</code></pre>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="calculating-the-net-air-time" class="slide level2">
+<h2>Calculating the Net Air Time</h2>
+<p>Let’s calculate the airtime using the new <code>dep_dt</code> and <code>arr_time_dt</code> columns and compare it to the <code>air_time</code> column provided in the dataset:</p>
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="fragment" data-index="1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a>flight_time <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb30-3"><a href=""></a>    <span class="at">net_air_time =</span> <span class="fu">as.duration</span>(arr_time_dt <span class="sc">-</span> sched_dep_dt),</span>
+<span id="cb30-4"><a href=""></a>    <span class="at">air_time =</span> <span class="fu">minutes</span>(air_time) <span class="sc">|&gt;</span> <span class="fu">as.duration</span>()</span>
+<span id="cb30-5"><a href=""></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb30-6"><a href=""></a>  <span class="fu">select</span>(net_air_time,air_time) <span class="sc">|&gt;</span></span>
+<span id="cb30-7"><a href=""></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  net_air_time         air_time            
+  &lt;Duration&gt;           &lt;Duration&gt;          
+1 11700s (~3.25 hours) 13620s (~3.78 hours)
+2 12060s (~3.35 hours) 13620s (~3.78 hours)
+3 13380s (~3.72 hours) 9600s (~2.67 hours) 
+4 15540s (~4.32 hours) 10980s (~3.05 hours)
+5 7920s (~2.2 hours)   6960s (~1.93 hours) </code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:30%;">
+<div class="fragment" data-index="2">
+<p><img data-src="pictures/tidyverse/the-simpsons-bush.gif"></p>
+</div>
+</div></div>
+</section>
+<section id="are-time-zones-an-issue" class="slide level2">
+<h2>Are Time Zones an Issue?!</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32" data-code-line-numbers="|2|3-6|7-9|10|11-14|15-18|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>flights_tz <span class="ot">&lt;-</span> flight_time <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href=""></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(dep_time), <span class="sc">!</span><span class="fu">is.na</span>(arr_time)) <span class="sc">|&gt;</span></span>
+<span id="cb32-3"><a href=""></a>  <span class="fu">left_join</span>(airports <span class="sc">|&gt;</span> <span class="fu">select</span>(faa, <span class="at">tz =</span> tzone),</span>
+<span id="cb32-4"><a href=""></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"origin"</span> <span class="ot">=</span> <span class="st">"faa"</span>)</span>
+<span id="cb32-5"><a href=""></a>            ) <span class="sc">|&gt;</span></span>
+<span id="cb32-6"><a href=""></a>  <span class="fu">rename</span>(<span class="at">origin_tz =</span> tz) <span class="sc">|&gt;</span></span>
+<span id="cb32-7"><a href=""></a>  <span class="fu">left_join</span>(airports <span class="sc">|&gt;</span> <span class="fu">select</span>(faa, <span class="at">tz =</span> tzone),</span>
+<span id="cb32-8"><a href=""></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"dest"</span> <span class="ot">=</span> <span class="st">"faa"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb32-9"><a href=""></a>  <span class="fu">rename</span>(<span class="at">dest_tz =</span> tz) <span class="sc">|&gt;</span></span>
+<span id="cb32-10"><a href=""></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(origin_tz), <span class="sc">!</span><span class="fu">is.na</span>(dest_tz)) <span class="sc">|&gt;</span></span>
+<span id="cb32-11"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb32-12"><a href=""></a>    <span class="at">dep_time_local =</span> <span class="fu">force_tz</span>(sched_dep_dt, <span class="at">tzone =</span> origin_tz),</span>
+<span id="cb32-13"><a href=""></a>    <span class="at">arr_time_local =</span> <span class="fu">force_tz</span>(arr_time_dt,  <span class="at">tzone =</span> dest_tz)</span>
+<span id="cb32-14"><a href=""></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb32-15"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb32-16"><a href=""></a>    <span class="at">net_air_time =</span> <span class="fu">as.duration</span>(arr_time_local <span class="sc">-</span> dep_time_local),</span>
+<span id="cb32-17"><a href=""></a>    <span class="at">air_time =</span> <span class="fu">minutes</span>(air_time) <span class="sc">|&gt;</span> <span class="fu">as.duration</span>()</span>
+<span id="cb32-18"><a href=""></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb32-19"><a href=""></a>  <span class="fu">select</span>(net_air_time, air_time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="are-time-zones-an-issue-1" class="slide level2">
+<h2>Are Time Zones an Issue?!</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-index="1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>flights_tz <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href=""></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  net_air_time         air_time            
+  &lt;Duration&gt;           &lt;Duration&gt;          
+1 15300s (~4.25 hours) 13620s (~3.78 hours)
+2 15660s (~4.35 hours) 13620s (~3.78 hours)
+3 13380s (~3.72 hours) 9600s (~2.67 hours) 
+4 7920s (~2.2 hours)   6960s (~1.93 hours) 
+5 9720s (~2.7 hours)   9000s (~2.5 hours)  </code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-index="2">
+<p><img data-src="pictures/tidyverse/Oof_Size_Large.jpg"></p>
+</div>
+</div></div>
+<div class="fragment" data-index="3">
+<h3>
+Possible Issues
+</h3>
+<div>
+<ul>
+<li class="fragment">No taxi times are included</li>
+<li class="fragment">No wheel data is included (i.e.&nbsp;timestamps for the exact takeoff and landing)</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="exercise-weekday-conversion" class="slide level2">
+<h2>Exercise: Weekday Conversion</h2>
+<div id="exr-avoid_weekdays" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 3</strong></span> &nbsp;</p>
+<div>
+<ol type="1">
+<li class="fragment">Using the <code>flight_time</code> dataset, create a new feature <code>weekday</code> which contains the weekday of the flights. To create this new feature, you can use the <code>lubridate::wday()</code>-function.</li>
+<li class="fragment">The default parameters of the <code>lubridate::weekday()</code>-function return integer values instead of ordered factors. Use the <code>help</code> function to find out how to set the arguments that weekdays in the <code>"en_US.UTF-8"</code> format are returned.</li>
+<li class="fragment">Find out which weekday has the highest average departure delay.</li>
+</ol>
+</div>
+</div>
+<div class="fragment" data-index="4">
+<p><a href="#/solution-lubridate" class="quarto-xref">Solution&nbsp;3</a></p>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="countdown" id="countdown_lubridate" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="slidetidymodels-id" class="title-slide slide level1 center" data-background-image="pictures/tidymodels/tidymodels_bg.svg" data-background-size="cover" data-menu-title="{tidymodels}">
+<h1></h1>
+
+</section>
+<section id="tidymodels" class="slide level2">
+<h2>{tidymodels}</h2>
+
+<img data-src="pictures/tidymodels/tidymodels.svg" style="width:80.0%" class="r-stretch"><p>As a meta-package, the <code>{tidymodels}</code>-library also contains many different packages.</p>
+<!--
+ML/SL Framwork that works really well with tidyverse
+Packages are a lot more intertwined
+-->
+</section>
+<section id="the-hitters-dataset" class="slide level2">
+<h2>The Hitters Dataset</h2>
+<div class="columns">
+<div class="column" style="width:80%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb35-2"><a href=""></a><span class="fu">library</span>(ISLR2)</span>
+<span id="cb35-3"><a href=""></a>data_hitters <span class="ot">&lt;-</span> Hitters</span>
+<span id="cb35-4"><a href=""></a>data_hitters <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 322
+Columns: 20
+$ AtBat     &lt;int&gt; 293, 315, 479, 496, 321, 594, 185, 298, 323, 401, 574, 202, …
+$ Hits      &lt;int&gt; 66, 81, 130, 141, 87, 169, 37, 73, 81, 92, 159, 53, 113, 60,…
+$ HmRun     &lt;int&gt; 1, 7, 18, 20, 10, 4, 1, 0, 6, 17, 21, 4, 13, 0, 7, 3, 20, 2,…
+$ Runs      &lt;int&gt; 30, 24, 66, 65, 39, 74, 23, 24, 26, 49, 107, 31, 48, 30, 29,…
+$ RBI       &lt;int&gt; 29, 38, 72, 78, 42, 51, 8, 24, 32, 66, 75, 26, 61, 11, 27, 1…
+$ Walks     &lt;int&gt; 14, 39, 76, 37, 30, 35, 21, 7, 8, 65, 59, 27, 47, 22, 30, 11…
+$ Years     &lt;int&gt; 1, 14, 3, 11, 2, 11, 2, 3, 2, 13, 10, 9, 4, 6, 13, 3, 15, 5,…
+$ CAtBat    &lt;int&gt; 293, 3449, 1624, 5628, 396, 4408, 214, 509, 341, 5206, 4631,…
+$ CHits     &lt;int&gt; 66, 835, 457, 1575, 101, 1133, 42, 108, 86, 1332, 1300, 467,…
+$ CHmRun    &lt;int&gt; 1, 69, 63, 225, 12, 19, 1, 0, 6, 253, 90, 15, 41, 4, 36, 3, …
+$ CRuns     &lt;int&gt; 30, 321, 224, 828, 48, 501, 30, 41, 32, 784, 702, 192, 205, …
+$ CRBI      &lt;int&gt; 29, 414, 266, 838, 46, 336, 9, 37, 34, 890, 504, 186, 204, 1…
+$ CWalks    &lt;int&gt; 14, 375, 263, 354, 33, 194, 24, 12, 8, 866, 488, 161, 203, 2…
+$ League    &lt;fct&gt; A, N, A, N, N, A, N, A, N, A, A, N, N, A, N, A, N, A, A, N, …
+$ Division  &lt;fct&gt; E, W, W, E, E, W, E, W, W, E, E, W, E, E, E, W, W, W, W, W, …
+$ PutOuts   &lt;int&gt; 446, 632, 880, 200, 805, 282, 76, 121, 143, 0, 238, 304, 211…
+$ Assists   &lt;int&gt; 33, 43, 82, 11, 40, 421, 127, 283, 290, 0, 445, 45, 11, 151,…
+$ Errors    &lt;int&gt; 20, 10, 14, 3, 4, 25, 7, 9, 19, 0, 22, 11, 7, 6, 8, 0, 10, 1…
+$ Salary    &lt;dbl&gt; NA, 475.000, 480.000, 500.000, 91.500, 750.000, 70.000, 100.…
+$ NewLeague &lt;fct&gt; A, N, A, N, N, A, A, A, N, A, A, N, N, A, N, A, N, A, A, N, …</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:20%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pictures/tidymodels/baseball.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="the-hitters-dataset-1" class="slide level2">
+<h2>The Hitters Dataset</h2>
+<div style="font-size:18pt;">
+<table class="caption-top">
+<caption>Description of various features in the dataset</caption>
+<colgroup>
+<col style="width: 15%">
+<col style="width: 84%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AtBat</td>
+<td>Number of times at bat in 1986</td>
+</tr>
+<tr class="even">
+<td>Hits</td>
+<td>Number of hits in 1986</td>
+</tr>
+<tr class="odd">
+<td>HmRun</td>
+<td>Number of home runs in 1986</td>
+</tr>
+<tr class="even">
+<td>Runs</td>
+<td>Number of runs in 1986</td>
+</tr>
+<tr class="odd">
+<td>RBI</td>
+<td>Number of runs batted in in 1986</td>
+</tr>
+<tr class="even">
+<td>League</td>
+<td>A factor with levels A and N indicating player’s league at the end of 1986</td>
+</tr>
+<tr class="odd">
+<td>Division</td>
+<td>A factor with levels E and W indicating player’s division at the end of 1986</td>
+</tr>
+<tr class="even">
+<td>PutOuts</td>
+<td>Number of put outs in 1986</td>
+</tr>
+<tr class="odd">
+<td>Errors</td>
+<td>Number of errors in 1986</td>
+</tr>
+<tr class="even">
+<td>Salary</td>
+<td>1987 annual salary on opening day in thousands of dollars</td>
+</tr>
+<tr class="odd">
+<td>NewLeague</td>
+<td>A factor with levels A and N indicating player’s league at the beginning of 1987</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="quick-eda" class="slide level2">
+<h2>Quick EDA</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>data_hitters <span class="sc">|&gt;</span></span>
+<span id="cb37-2"><a href=""></a>  <span class="fu">select_if</span>(</span>
+<span id="cb37-3"><a href=""></a>    is.numeric</span>
+<span id="cb37-4"><a href=""></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb37-5"><a href=""></a>  corrr<span class="sc">::</span><span class="fu">correlate</span>()<span class="sc">|&gt;</span></span>
+<span id="cb37-6"><a href=""></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="presentation_files/figure-revealjs/unnamed-chunk-36-1.png" width="960" class="r-stretch"></section>
+<section id="quick-eda-exercise" class="slide level2">
+<h2>Quick EDA: Exercise</h2>
+<div id="exr-CountRelNA" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4</strong></span> &nbsp;</p>
+<div class="fragment" data-index="1">
+<p>Write a script that returns the absolute and relative number of missing entries of each feature. Only return those where there is at least one missing entry.</p>
+</div>
+<div class="fragment" data-index="2">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  column na_count na_percent
+  &lt;chr&gt;     &lt;int&gt;      &lt;dbl&gt;
+1 Salary       59       18.3</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment" data-index="3">
+<p><a href="#/solution-eda-hitters" class="quarto-xref">Solution&nbsp;4</a></p>
+</div>
+<div class="fragment" data-index="4">
+<p><span class="math inline">\(\implies\)</span> Simply dropping <code>NA</code> rows would remove ~<span class="math inline">\(18\%\)</span> of the dataset.</p>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="countdown" id="countdown_rf" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+</div>
+</div>
+</section>
+<section id="recipes-workflows-and-parsnip" class="slide level2">
+<h2><code>{recipes}</code>, <code>{workflows}</code>, and <code>{parsnip}</code></h2>
+
+<img data-src="pictures/tidymodels/rec_wf_diag.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:120.0%"><div style="font-size:18pt;">
+<div class="fragment" data-index="1">
+<blockquote>
+<p>The goal of parsnip is to provide a tidy, unified interface to models that can be used to try a range of models […].</p>
+</blockquote>
+</div>
+<div class="fragment" data-index="2">
+<blockquote>
+<p>A workflow is an object that can bundle together your pre-processing, modeling, and post-processing requests.</p>
+</blockquote>
+</div>
+<div class="fragment" data-index="3">
+<blockquote>
+<p>With recipes, you can use dplyr-like pipeable sequences of feature engineering steps to get your data ready for modeling.</p>
+</blockquote>
+</div>
+</div>
+</section>
+<section id="modelling-workflow-with-tidymodels" class="slide level2">
+<h2>Modelling Workflow with <code>{tidymodels}</code></h2>
+<div style="font-size:21pt;">
+<div class="columns">
+<div class="column add-space" style="width:45%;">
+<div class="fragment" data-index="1">
+<p>Generating a data split with <code>{rsample}</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39" data-code-line-numbers="|1|3-6|8-9|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2025</span>)</span>
+<span id="cb39-2"><a href=""></a></span>
+<span id="cb39-3"><a href=""></a>split_hitters <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(</span>
+<span id="cb39-4"><a href=""></a>  data_hitters,</span>
+<span id="cb39-5"><a href=""></a>  <span class="at">prop =</span> <span class="fl">0.8</span></span>
+<span id="cb39-6"><a href=""></a>  )</span>
+<span id="cb39-7"><a href=""></a></span>
+<span id="cb39-8"><a href=""></a>data_train_hitters <span class="ot">&lt;-</span> <span class="fu">training</span>(split_hitters)</span>
+<span id="cb39-9"><a href=""></a>data_test_hitters <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_hitters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="fragment" data-index="2">
+<p>Defining a recipe with <code>{recipes}</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40" data-code-line-numbers="|1-4|5|6|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a>rec_hitters<span class="ot">&lt;-</span> <span class="fu">recipe</span>(</span>
+<span id="cb40-2"><a href=""></a>  <span class="at">formula =</span>  Hits<span class="sc">~</span>.,</span>
+<span id="cb40-3"><a href=""></a>  <span class="at">data =</span> data_train_hitters</span>
+<span id="cb40-4"><a href=""></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb40-5"><a href=""></a>  <span class="fu">step_impute_knn</span>(Salary) <span class="sc">|&gt;</span></span>
+<span id="cb40-6"><a href=""></a>  <span class="fu">step_dummy</span>(<span class="fu">all_factor</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="fragment" data-index="3">
+<p>Specifying a model with <code>{parsnip}</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>lm_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div><div class="column" style="width:53%;">
+<div class="fragment" data-index="4">
+<p>Bundle together the preprocessing steps and model specification:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42" data-code-line-numbers="|1|1-2|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a>wf_hitters <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a href=""></a>  <span class="fu">add_model</span>(lm_spec) <span class="sc">|&gt;</span></span>
+<span id="cb42-3"><a href=""></a>  <span class="fu">add_recipe</span>(rec_hitters)</span>
+<span id="cb42-4"><a href=""></a>wf_hitters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>══ Workflow ════════════════════════════════════════════════════════════════════
+Preprocessor: Recipe
+Model: linear_reg()
+
+── Preprocessor ────────────────────────────────────────────────────────────────
+2 Recipe Steps
+
+• step_impute_knn()
+• step_dummy()
+
+── Model ───────────────────────────────────────────────────────────────────────
+Linear Regression Model Specification (regression)
+
+Computational engine: lm </code></pre>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="fitting-and-evaluating-a-model" class="slide level2">
+<h2>Fitting and Evaluating a Model</h2>
+<div style="font-size:22pt;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-index="1">
+<p>Fitting a worklflow with <code>{workflows}</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>lm_res <span class="ot">&lt;-</span> wf_hitters <span class="sc">|&gt;</span></span>
+<span id="cb44-2"><a href=""></a>  <span class="fu">fit</span>(<span class="at">data=</span>data_train_hitters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="fragment" data-index="2">
+<p>Generating predictions with <code>{broom}</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45" data-code-line-numbers="|1-2|4-6|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a>lm_res_pred <span class="ot">&lt;-</span> lm_res <span class="sc">|&gt;</span></span>
+<span id="cb45-2"><a href=""></a>  <span class="fu">augment</span>(data_test_hitters)</span>
+<span id="cb45-3"><a href=""></a></span>
+<span id="cb45-4"><a href=""></a>lm_res_pred <span class="sc">|&gt;</span></span>
+<span id="cb45-5"><a href=""></a>  <span class="fu">select</span>(.pred,.resid,Hits) <span class="sc">|&gt;</span></span>
+<span id="cb45-6"><a href=""></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  .pred .resid  Hits
+  &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;
+1  71.1  -5.11    66
+2 123.    7.10   130
+3  74.7   6.33    81
+4 168.   -9.35   159
+5 167.   -4.05   163</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-index="3">
+<p>Creating a <code>metric_set</code> with <code>{yardstick}</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47" data-code-line-numbers="|1|3-6|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a>hitter_metrics <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(rmse,mae,rsq)</span>
+<span id="cb47-2"><a href=""></a></span>
+<span id="cb47-3"><a href=""></a>lm_metrics <span class="ot">&lt;-</span> lm_res_pred <span class="sc">|&gt;</span></span>
+<span id="cb47-4"><a href=""></a>  <span class="fu">hitter_metrics</span>(.pred,Hits)</span>
+<span id="cb47-5"><a href=""></a></span>
+<span id="cb47-6"><a href=""></a>lm_metrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard       8.09 
+2 mae     standard       6.27 
+3 rsq     standard       0.964</code></pre>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="exercise-using-a-different-model" class="slide level2">
+<h2>Exercise: Using a Different Model</h2>
+<div id="exr-rf_base" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5</strong></span> &nbsp;</p>
+<div>
+<ol type="1">
+<li class="fragment">Use the <code>rand_forest()</code>-function with argument <code>mode="regression"</code> to define a random forest model.</li>
+<li class="fragment">Replace the current model specification in the workflow with the help of the <code>update_model()</code>-function.</li>
+<li class="fragment">Fit the newly specified workflow on the training data and evaluate it on the testing data.</li>
+</ol>
+</div>
+</div>
+<div class="fragment" data-index="4">
+<p><a href="#/solution-random-forest" class="quarto-xref">Solution&nbsp;5</a></p>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="countdown" id="countdown_rf" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+</div>
+</div>
+</section>
+<section id="problem" class="slide level2">
+<h2>Problem</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">rbind</span>(</span>
+<span id="cb49-2"><a href=""></a>  rf_metrics <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">model=</span><span class="st">"Random Forest"</span>),</span>
+<span id="cb49-3"><a href=""></a>  lm_metrics <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">model=</span><span class="st">"Linear Model"</span>)</span>
+<span id="cb49-4"><a href=""></a>) <span class="sc">|&gt;</span></span>
+<span id="cb49-5"><a href=""></a>  <span class="fu">arrange</span>(.metric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  .metric .estimator .estimate model        
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;        
+1 mae     standard       8.00  Random Forest
+2 mae     standard       6.27  Linear Model 
+3 rmse    standard      10.5   Random Forest
+4 rmse    standard       8.09  Linear Model 
+5 rsq     standard       0.944 Random Forest
+6 rsq     standard       0.964 Linear Model </code></pre>
+</div>
+</div>
+<p>The default hyper parameters of the random forest model yield worse metrics than than the linear model. We should, therefore, tune the parameters to achieve a better out of sample performance.</p>
+</section>
+<section id="tune" class="slide level2">
+<h2><code>{tune}</code></h2>
+
+<img data-src="pictures/tidymodels/tune_illustration.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:120.0%"></section>
+<section id="creating-a-cross-validation-object-and-tune-specification" class="slide level2">
+<h2>Creating a Cross-Validation Object and Tune Specification</h2>
+<div class="fragment" data-index="1">
+<p>Using the <code>{rsample}</code>-library, we can create a 5-fold CV object:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2025</span>)</span>
+<span id="cb51-2"><a href=""></a>folds_hitters <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(data_train_hitters,<span class="at">v=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="fragment" data-index="2">
+<p>By setting the hyperparameters to <code>tune()</code>, we prepare the model for tuning.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a>elnet_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(</span>
+<span id="cb52-2"><a href=""></a>  <span class="at">penalty =</span> <span class="fu">tune</span>(),</span>
+<span id="cb52-3"><a href=""></a>  <span class="at">mixture =</span> <span class="fu">tune</span>()</span>
+<span id="cb52-4"><a href=""></a>) <span class="sc">|&gt;</span></span>
+<span id="cb52-5"><a href=""></a>  <span class="fu">set_engine</span>(<span class="st">"glmnet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="fragment" data-index="3">
+<p>We manually define a tune-grid as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a>tune_spec <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb53-2"><a href=""></a>  <span class="at">penalty =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">1.5</span>,<span class="at">length.out=</span><span class="dv">30</span>),</span>
+<span id="cb53-3"><a href=""></a>  <span class="at">mixture =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">length.out=</span><span class="dv">30</span>)</span>
+<span id="cb53-4"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="tuning-a-model" class="slide level2">
+<h2>Tuning a Model</h2>
+<div class="columns">
+<div class="column" style="width:43%;">
+<div class="fragment" data-index="1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a>wf_hitters <span class="ot">&lt;-</span> wf_hitters <span class="sc">|&gt;</span></span>
+<span id="cb54-2"><a href=""></a>  <span class="fu">update_model</span>(elnet_spec)</span>
+<span id="cb54-3"><a href=""></a></span>
+<span id="cb54-4"><a href=""></a>elnet_res_tune <span class="ot">&lt;-</span> wf_hitters <span class="sc">|&gt;</span></span>
+<span id="cb54-5"><a href=""></a>  <span class="fu">tune_grid</span>(</span>
+<span id="cb54-6"><a href=""></a>    <span class="at">grid =</span> tune_spec,</span>
+<span id="cb54-7"><a href=""></a>    <span class="at">resamples =</span> folds_hitters</span>
+<span id="cb54-8"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div><div class="column" style="width:57%;">
+<div class="fragment" data-index="2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a>elnet_res_tune <span class="sc">|&gt;</span></span>
+<span id="cb55-2"><a href=""></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-53-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="training-a-final-model" class="slide level2">
+<h2>Training a Final Model</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56" data-code-line-numbers="|1-2|4-7|8-11|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a>parms_opt <span class="ot">&lt;-</span> elnet_res_tune <span class="sc">|&gt;</span></span>
+<span id="cb56-2"><a href=""></a>  <span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">"rmse"</span>)</span>
+<span id="cb56-3"><a href=""></a></span>
+<span id="cb56-4"><a href=""></a>elnet_res <span class="ot">&lt;-</span> <span class="fu">finalize_workflow</span>(</span>
+<span id="cb56-5"><a href=""></a>  wf_hitters,</span>
+<span id="cb56-6"><a href=""></a>  parms_opt</span>
+<span id="cb56-7"><a href=""></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb56-8"><a href=""></a>  <span class="fu">last_fit</span>(</span>
+<span id="cb56-9"><a href=""></a>    <span class="at">split =</span> split_hitters,</span>
+<span id="cb56-10"><a href=""></a>    <span class="at">metrics =</span> hitter_metrics</span>
+<span id="cb56-11"><a href=""></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment" data-index="1">
+<p>We can then assess the performance of the tuned model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href=""></a>elnet_res <span class="sc">|&gt;</span> </span>
+<span id="cb57-2"><a href=""></a>  <span class="fu">collect_metrics</span>() <span class="sc">|&gt;</span></span>
+<span id="cb57-3"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span>.config)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard       8.76 
+2 mae     standard       6.48 
+3 rsq     standard       0.958</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="going-beyond-regular-grids" class="slide level2">
+<h2>Going Beyond Regular Grids</h2>
+<div style="font-size:22pt;">
+<div class="fragment" data-index="1">
+<p>Instead of using a regular grid, we can also use space filling curves</p>
+<div class="{columns}">
+<div class="column add-space" style="width:35%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href=""></a>rf_spec <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(</span>
+<span id="cb59-2"><a href=""></a>  <span class="at">mode =</span> <span class="st">"regression"</span>,</span>
+<span id="cb59-3"><a href=""></a>  <span class="at">trees =</span> <span class="fu">tune</span>(),</span>
+<span id="cb59-4"><a href=""></a>  <span class="at">mtry =</span> <span class="fu">tune</span>(),</span>
+<span id="cb59-5"><a href=""></a>  <span class="at">min_n =</span> <span class="fu">tune</span>()</span>
+<span id="cb59-6"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:63%;">
+<p>Note, that we have to consider the <code>mtry()</code> parameter first since it depends on the underlying data.</p>
+</div></div>
+</div>
+<div class="{columns}">
+<div class="column add-space" style="width:49%;">
+<div class="fragment" data-index="2">
+<p>Before preparing the parameters:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a><span class="fu">extract_parameter_set_dials</span>(rf_spec) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Collection of 3 parameters for tuning
+
+ identifier  type    object
+       mtry  mtry nparam[?]
+      trees trees nparam[+]
+      min_n min_n nparam[+]
+
+Model parameters needing finalization:
+# Randomly Selected Predictors ('mtry')
+
+See dials::finalize or dials::update.parameters for more
+information.</code></pre>
+</div>
+</div><div class="column" style="width:49%;">
+<div class="fragment" data-index="3">
+<p>After preparing the parameters:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a>param_set <span class="ot">&lt;-</span> <span class="fu">extract_parameter_set_dials</span>(</span>
+<span id="cb62-2"><a href=""></a>  rf_spec</span>
+<span id="cb62-3"><a href=""></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb62-4"><a href=""></a>  <span class="fu">finalize</span>(data_train_hitters <span class="sc">|&gt;</span></span>
+<span id="cb62-5"><a href=""></a>             <span class="fu">select</span>(<span class="sc">-</span>Hits)</span>
+<span id="cb62-6"><a href=""></a>           )</span>
+<span id="cb62-7"><a href=""></a></span>
+<span id="cb62-8"><a href=""></a>param_set </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Collection of 3 parameters for tuning
+
+ identifier  type    object
+       mtry  mtry nparam[+]
+      trees trees nparam[+]
+      min_n min_n nparam[+]</code></pre>
+</div>
+</div></div>
+</div>
+</section>
+<section id="using-space-filling-curves" class="slide level2">
+<h2>Using Space Filling Curves</h2>
+<div style="font-size:22pt;">
+<div class="{columns}">
+<div class="column add-space" style="width:49%;">
+<div class="fragment" data-index="1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a>tune_spec <span class="ot">&lt;-</span> <span class="fu">grid_space_filling</span>(</span>
+<span id="cb64-2"><a href=""></a>  param_set,</span>
+<span id="cb64-3"><a href=""></a>  <span class="at">size =</span> <span class="dv">15</span></span>
+<span id="cb64-4"><a href=""></a>  )</span>
+<span id="cb64-5"><a href=""></a></span>
+<span id="cb64-6"><a href=""></a>wf_hitters <span class="ot">&lt;-</span> wf_hitters <span class="sc">|&gt;</span></span>
+<span id="cb64-7"><a href=""></a>  <span class="fu">update_model</span>(rf_spec)</span>
+<span id="cb64-8"><a href=""></a></span>
+<span id="cb64-9"><a href=""></a>rf_res_gsf_tune <span class="ot">&lt;-</span> wf_hitters <span class="sc">|&gt;</span></span>
+<span id="cb64-10"><a href=""></a>  <span class="fu">tune_grid</span>(</span>
+<span id="cb64-11"><a href=""></a>    <span class="at">resamples =</span> folds_hitters,</span>
+<span id="cb64-12"><a href=""></a>    <span class="at">grid =</span> tune_spec,</span>
+<span id="cb64-13"><a href=""></a>    <span class="at">metrics =</span> hitter_metrics</span>
+<span id="cb64-14"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div><div class="column" style="width:49%;">
+<div class="fragment" data-index="2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href=""></a>parms_opt <span class="ot">&lt;-</span> rf_res_gsf_tune <span class="sc">|&gt;</span></span>
+<span id="cb65-2"><a href=""></a>  <span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">"rmse"</span>)</span>
+<span id="cb65-3"><a href=""></a></span>
+<span id="cb65-4"><a href=""></a>rf_res_gsf <span class="ot">&lt;-</span> <span class="fu">finalize_workflow</span>(</span>
+<span id="cb65-5"><a href=""></a>  wf_hitters,</span>
+<span id="cb65-6"><a href=""></a>  parms_opt</span>
+<span id="cb65-7"><a href=""></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb65-8"><a href=""></a>  <span class="fu">last_fit</span>(</span>
+<span id="cb65-9"><a href=""></a>    <span class="at">split =</span> split_hitters,</span>
+<span id="cb65-10"><a href=""></a>    <span class="at">metrics =</span> hitter_metrics</span>
+<span id="cb65-11"><a href=""></a>    )</span>
+<span id="cb65-12"><a href=""></a></span>
+<span id="cb65-13"><a href=""></a>rf_tune_metrics <span class="ot">&lt;-</span> rf_res_gsf <span class="sc">|&gt;</span></span>
+<span id="cb65-14"><a href=""></a>  <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div></div>
+<div class="fragment" data-index="3">
+<p>Comparing the tuned results to the untuned results:</p>
+</div>
+<div class="{columns}">
+<div class="column add-space" style="width:49%;">
+<div class="fragment" data-index="3">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href=""></a><span class="fu">rbind</span>(</span>
+<span id="cb66-2"><a href=""></a>  rf_metrics <span class="sc">|&gt;</span></span>
+<span id="cb66-3"><a href=""></a>    <span class="fu">mutate</span>(<span class="at">tuned=</span><span class="cn">FALSE</span>),</span>
+<span id="cb66-4"><a href=""></a>  rf_tune_metrics <span class="sc">|&gt;</span></span>
+<span id="cb66-5"><a href=""></a>    <span class="fu">mutate</span>(<span class="at">tuned=</span><span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb66-6"><a href=""></a>    <span class="fu">select</span>(<span class="sc">-</span>.config)</span>
+<span id="cb66-7"><a href=""></a>) <span class="sc">|&gt;</span></span>
+<span id="cb66-8"><a href=""></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(.metric))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div><div class="column" style="width:49%;">
+<div class="fragment" data-index="4">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  .metric .estimator .estimate tuned
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;lgl&gt;
+1 rsq     standard       0.944 FALSE
+2 rsq     standard       0.951 TRUE 
+3 rmse    standard      10.5   FALSE
+4 rmse    standard       9.61  TRUE 
+5 mae     standard       8.00  FALSE
+6 mae     standard       7.33  TRUE </code></pre>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="exercise-xgboost" class="slide level2">
+<h2>Exercise: XGBoost</h2>
+<div id="exr-xgb" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 6</strong></span> Instead of tuning a random forest or linear model, tune an XGBoost model. The <code>{parsnip}</code> interface is given by the <code>boost_tree()</code>-function. Parameters that can be tuned are:</p>
+<ul>
+<li><code>mtry</code></li>
+<li><code>trees</code>,</li>
+<li><code>min_n</code>,</li>
+<li><code>tree_depth</code>,</li>
+<li><code>learn_rate</code></li>
+</ul>
+<p>To tune the model, generate a grid using the <code>grid_space_filling()</code>-function</p>
+</div>
+<div class="fragment" data-index="1">
+<p><a href="#/solution-xgboost" class="quarto-xref">Solution&nbsp;6</a></p>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="countdown" id="countdown_xgb" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+</div>
+</div>
+</section>
+<section id="classification-tasks-with-tidymodels" class="slide level2">
+<h2>Classification Tasks with <code>{tidymodels}</code></h2>
+<div class="{columns}">
+<div class="column add-space" style="width:62%;">
+<div style="font-size:20pt;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href=""></a>weather <span class="sc">|&gt;</span> </span>
+<span id="cb68-2"><a href=""></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 26,115
+Columns: 15
+$ origin     &lt;chr&gt; "EWR", "EWR", "EWR", "EWR", "EWR", "EWR", "EWR", "EWR", "EW…
+$ year       &lt;int&gt; 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013,…
+$ month      &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ day        &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ hour       &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, …
+$ temp       &lt;dbl&gt; 39.02, 39.02, 39.02, 39.92, 39.02, 37.94, 39.02, 39.92, 39.…
+$ dewp       &lt;dbl&gt; 26.06, 26.96, 28.04, 28.04, 28.04, 28.04, 28.04, 28.04, 28.…
+$ humid      &lt;dbl&gt; 59.37, 61.63, 64.43, 62.21, 64.43, 67.21, 64.43, 62.21, 62.…
+$ wind_dir   &lt;dbl&gt; 270, 250, 240, 250, 260, 240, 240, 250, 260, 260, 260, 330,…
+$ wind_speed &lt;dbl&gt; 10.35702, 8.05546, 11.50780, 12.65858, 12.65858, 11.50780, …
+$ wind_gust  &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 20.…
+$ precip     &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+$ pressure   &lt;dbl&gt; 1012.0, 1012.3, 1012.5, 1012.2, 1011.9, 1012.4, 1012.2, 101…
+$ visib      &lt;dbl&gt; 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,…
+$ time_hour  &lt;dttm&gt; 2013-01-01 01:00:00, 2013-01-01 02:00:00, 2013-01-01 03:00…</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:36%;">
+<div style="font-size:20pt;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70" data-code-line-numbers="|2-6|7-12|13-16|17-21|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href=""></a>flight_data_cl <span class="ot">&lt;-</span> flight_data <span class="sc">|&gt;</span></span>
+<span id="cb70-2"><a href=""></a>  <span class="fu">inner_join</span>(weather,</span>
+<span id="cb70-3"><a href=""></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"month"</span>,</span>
+<span id="cb70-4"><a href=""></a>                   <span class="st">"day"</span>, <span class="st">"hour"</span>,</span>
+<span id="cb70-5"><a href=""></a>                   <span class="st">"origin"</span>)</span>
+<span id="cb70-6"><a href=""></a>            ) <span class="sc">|&gt;</span></span>
+<span id="cb70-7"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb70-8"><a href=""></a>    <span class="at">is_delayed =</span> <span class="fu">if_else</span>(</span>
+<span id="cb70-9"><a href=""></a>      <span class="fu">abs</span>(dep_delay) <span class="sc">&gt;=</span> <span class="dv">30</span>,</span>
+<span id="cb70-10"><a href=""></a>      <span class="dv">1</span>,</span>
+<span id="cb70-11"><a href=""></a>      <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb70-12"><a href=""></a>      <span class="fu">as_factor</span>(),</span>
+<span id="cb70-13"><a href=""></a>    <span class="at">weekday =</span> <span class="fu">wday</span>(</span>
+<span id="cb70-14"><a href=""></a>      time_hour.x,</span>
+<span id="cb70-15"><a href=""></a>      <span class="at">locale =</span> <span class="st">"en_US.UTF-8"</span></span>
+<span id="cb70-16"><a href=""></a>      ),</span>
+<span id="cb70-17"><a href=""></a>    <span class="at">wind_gust =</span> <span class="fu">if_else</span>(</span>
+<span id="cb70-18"><a href=""></a>      <span class="fu">is.na</span>(wind_gust),</span>
+<span id="cb70-19"><a href=""></a>      <span class="dv">0</span>,</span>
+<span id="cb70-20"><a href=""></a>      wind_gust</span>
+<span id="cb70-21"><a href=""></a>    )</span>
+<span id="cb70-22"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="data-split-and-sample-size-reduction" class="slide level2">
+<h2>Data Split and Sample Size Reduction</h2>
+<p>There are currently <code>336,776</code> samples in the data set</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71" data-code-line-numbers="|3|4|5-9|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2025</span>)</span>
+<span id="cb71-2"><a href=""></a>flight_data_cl <span class="ot">&lt;-</span> flight_data_cl <span class="sc">|&gt;</span></span>
+<span id="cb71-3"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">prop =</span> <span class="fl">0.01</span>) <span class="sc">|&gt;</span></span>
+<span id="cb71-4"><a href=""></a>  <span class="fu">na.omit</span>() <span class="sc">|&gt;</span></span>
+<span id="cb71-5"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(dep_time, dep_delay,</span>
+<span id="cb71-6"><a href=""></a>            arr_time, arr_delay,</span>
+<span id="cb71-7"><a href=""></a>            time_hour.x, time_hour.y,</span>
+<span id="cb71-8"><a href=""></a>            tailnum, hour, day)</span>
+<span id="cb71-9"><a href=""></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment" data-index="1">
+<p>We can then create a data split:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72" data-code-line-numbers="|1-3|5-6|8|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2025</span>)</span>
+<span id="cb72-2"><a href=""></a>split_flights <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(flight_data_cl,</span>
+<span id="cb72-3"><a href=""></a>                               <span class="at">strata =</span> is_delayed)</span>
+<span id="cb72-4"><a href=""></a></span>
+<span id="cb72-5"><a href=""></a>data_train_flights <span class="ot">&lt;-</span> <span class="fu">training</span>(split_flights)</span>
+<span id="cb72-6"><a href=""></a>data_test_flights <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_flights)</span>
+<span id="cb72-7"><a href=""></a></span>
+<span id="cb72-8"><a href=""></a>folds_flights <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(data_train_flights,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="imbalance-check-and-recipe" class="slide level2">
+<h2>Imbalance Check and Recipe</h2>
+<p>There are probably not too many flights with <code>30+</code> minutes delay?!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href=""></a>data_train_flights <span class="sc">|&gt;</span></span>
+<span id="cb73-2"><a href=""></a>  <span class="fu">group_by</span>(is_delayed) <span class="sc">|&gt;</span></span>
+<span id="cb73-3"><a href=""></a>  <span class="fu">summarise</span>(</span>
+<span id="cb73-4"><a href=""></a>    <span class="at">n=</span><span class="fu">n</span>(),</span>
+<span id="cb73-5"><a href=""></a>    <span class="at">rel_n =</span> <span class="fu">n</span>()<span class="sc">/</span><span class="fu">nrow</span>(data_train_flights)</span>
+<span id="cb73-6"><a href=""></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  is_delayed     n rel_n
+  &lt;fct&gt;      &lt;int&gt; &lt;dbl&gt;
+1 0           1853 0.858
+2 1            306 0.142</code></pre>
+</div>
+</div>
+<div class="fragment" data-index="1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75" data-code-line-numbers="|3-6|7-8|9|10|11-12|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href=""></a><span class="fu">library</span>(themis)</span>
+<span id="cb75-2"><a href=""></a></span>
+<span id="cb75-3"><a href=""></a>rec_flights <span class="ot">&lt;-</span> <span class="fu">recipe</span>(</span>
+<span id="cb75-4"><a href=""></a>  <span class="at">formula =</span> is_delayed <span class="sc">~</span>.,</span>
+<span id="cb75-5"><a href=""></a>  <span class="at">data =</span> data_train_flights</span>
+<span id="cb75-6"><a href=""></a>) <span class="sc">|&gt;</span></span>
+<span id="cb75-7"><a href=""></a>  <span class="fu">step_novel</span>(<span class="fu">all_nominal_predictors</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb75-8"><a href=""></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb75-9"><a href=""></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb75-10"><a href=""></a>  <span class="fu">step_corr</span>(<span class="fu">all_predictors</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb75-11"><a href=""></a>  <span class="fu">step_smote</span>(is_delayed,</span>
+<span id="cb75-12"><a href=""></a>             <span class="at">over_ratio =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="sanity-check" class="slide level2">
+<h2>Sanity Check</h2>
+<div class="{columns}">
+<div class="column add-space" style="width:29%;">
+<div class="fragment" data-index="1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href=""></a>rec_flights <span class="sc">|&gt;</span></span>
+<span id="cb76-2"><a href=""></a>  <span class="fu">prep</span>() <span class="sc">|&gt;</span></span>
+<span id="cb76-3"><a href=""></a>  <span class="fu">bake</span>(<span class="at">new_data=</span><span class="cn">NULL</span>) <span class="sc">|&gt;</span></span>
+<span id="cb76-4"><a href=""></a>  <span class="fu">group_by</span>(is_delayed) <span class="sc">|&gt;</span></span>
+<span id="cb76-5"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  is_delayed     n
+  &lt;fct&gt;      &lt;int&gt;
+1 0           1853
+2 1           1853</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" data-with="69%">
+<div class="fragment" data-index="2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78" data-code-line-numbers="|1-6|8-13|15-17|19-22|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href=""></a>rf_spec <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(</span>
+<span id="cb78-2"><a href=""></a>  <span class="at">mode =</span> <span class="st">"classification"</span>,</span>
+<span id="cb78-3"><a href=""></a>  <span class="at">trees =</span> <span class="fu">tune</span>(),</span>
+<span id="cb78-4"><a href=""></a>  <span class="at">mtry =</span> <span class="fu">tune</span>(),</span>
+<span id="cb78-5"><a href=""></a>  <span class="at">min_n =</span> <span class="fu">tune</span>()</span>
+<span id="cb78-6"><a href=""></a>)</span>
+<span id="cb78-7"><a href=""></a></span>
+<span id="cb78-8"><a href=""></a>param_set <span class="ot">&lt;-</span> <span class="fu">extract_parameter_set_dials</span>(</span>
+<span id="cb78-9"><a href=""></a>  rf_spec</span>
+<span id="cb78-10"><a href=""></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb78-11"><a href=""></a>  <span class="fu">finalize</span>(data_train_flights <span class="sc">|&gt;</span></span>
+<span id="cb78-12"><a href=""></a>             <span class="fu">select</span>(<span class="sc">-</span>is_delayed)</span>
+<span id="cb78-13"><a href=""></a>           )</span>
+<span id="cb78-14"><a href=""></a></span>
+<span id="cb78-15"><a href=""></a>wf_flights <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span></span>
+<span id="cb78-16"><a href=""></a>  <span class="fu">add_model</span>(rf_spec) <span class="sc">|&gt;</span></span>
+<span id="cb78-17"><a href=""></a>  <span class="fu">add_recipe</span>(rec_flights)</span>
+<span id="cb78-18"><a href=""></a></span>
+<span id="cb78-19"><a href=""></a>flights_metrics <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(</span>
+<span id="cb78-20"><a href=""></a>  accuracy, roc_auc,</span>
+<span id="cb78-21"><a href=""></a>  sensitivity, specificity</span>
+<span id="cb78-22"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="tuning-the-model" class="slide level2">
+<h2>Tuning the Model</h2>
+<div class="{columns}">
+<div class="column add-space" style="width:49%;">
+<div class="fragment" data-index="1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79" data-code-line-numbers="|1-4|6-11|13-14|16-19|20-23|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href=""></a>tune_spec <span class="ot">&lt;-</span> <span class="fu">grid_space_filling</span>(</span>
+<span id="cb79-2"><a href=""></a>  param_set,</span>
+<span id="cb79-3"><a href=""></a>  <span class="at">size =</span> <span class="dv">10</span></span>
+<span id="cb79-4"><a href=""></a>  )</span>
+<span id="cb79-5"><a href=""></a></span>
+<span id="cb79-6"><a href=""></a>rf_res_tune <span class="ot">&lt;-</span> wf_flights <span class="sc">|&gt;</span></span>
+<span id="cb79-7"><a href=""></a>  <span class="fu">tune_grid</span>(</span>
+<span id="cb79-8"><a href=""></a>    <span class="at">resamples =</span> folds_flights,</span>
+<span id="cb79-9"><a href=""></a>    <span class="at">grid =</span> tune_spec,</span>
+<span id="cb79-10"><a href=""></a>    <span class="at">metrics =</span> flights_metrics</span>
+<span id="cb79-11"><a href=""></a>  )</span>
+<span id="cb79-12"><a href=""></a></span>
+<span id="cb79-13"><a href=""></a>parms_opt <span class="ot">&lt;-</span> rf_res_tune <span class="sc">|&gt;</span></span>
+<span id="cb79-14"><a href=""></a>  <span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">"accuracy"</span>)</span>
+<span id="cb79-15"><a href=""></a></span>
+<span id="cb79-16"><a href=""></a>rf_res_gsf <span class="ot">&lt;-</span> <span class="fu">finalize_workflow</span>(</span>
+<span id="cb79-17"><a href=""></a>  wf_flights,</span>
+<span id="cb79-18"><a href=""></a>  parms_opt</span>
+<span id="cb79-19"><a href=""></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb79-20"><a href=""></a>  <span class="fu">last_fit</span>(</span>
+<span id="cb79-21"><a href=""></a>    <span class="at">split =</span> split_flights,</span>
+<span id="cb79-22"><a href=""></a>    <span class="at">metrics =</span> flights_metrics</span>
+<span id="cb79-23"><a href=""></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div><div class="column" style="width:49%;">
+<div class="fragment" data-index="2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href=""></a>rf_tune_metrics <span class="ot">&lt;-</span> rf_res_gsf <span class="sc">|&gt;</span></span>
+<span id="cb80-2"><a href=""></a>  <span class="fu">collect_metrics</span>()</span>
+<span id="cb80-3"><a href=""></a></span>
+<span id="cb80-4"><a href=""></a>rf_tune_metrics <span class="sc">|&gt;</span></span>
+<span id="cb80-5"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span>.config)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  .metric     .estimator .estimate
+  &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy    binary         0.856
+2 sensitivity binary         0.969
+3 specificity binary         0.167
+4 roc_auc     binary         0.706</code></pre>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="confusion-matrices-with-ggplot2" class="slide level2">
+<h2>Confusion Matrices with <code>{ggplot2}</code></h2>
+
+<img data-src="presentation_files/figure-revealjs/unnamed-chunk-74-1.png" width="960" class="r-stretch"></section>
+<section id="generating-a-confusion-matrix-tibble" class="slide level2">
+<h2>Generating a Confusion Matrix Tibble</h2>
+<div style="font-size:21pt;">
+<div class="{columns}">
+<div class="column add-space" style="width:49%;">
+<div class="fragment" data-index="1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82" data-code-line-numbers="|2-4|1-7|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href=""></a>get_cm <span class="ot">&lt;-</span> <span class="cf">function</span>(final_model){</span>
+<span id="cb82-2"><a href=""></a>  cm <span class="ot">&lt;-</span> rf_res_gsf <span class="sc">|&gt;</span></span>
+<span id="cb82-3"><a href=""></a>    <span class="fu">collect_predictions</span>() <span class="sc">|&gt;</span></span>
+<span id="cb82-4"><a href=""></a>    <span class="fu">conf_mat</span>(is_delayed, .pred_class)</span>
+<span id="cb82-5"><a href=""></a>  </span>
+<span id="cb82-6"><a href=""></a>  <span class="fu">return</span>(cm)</span>
+<span id="cb82-7"><a href=""></a>}</span>
+<span id="cb82-8"><a href=""></a></span>
+<span id="cb82-9"><a href=""></a>cm_rf <span class="ot">&lt;-</span> <span class="fu">get_cm</span>(rf_res_gsf)</span>
+<span id="cb82-10"><a href=""></a></span>
+<span id="cb82-11"><a href=""></a>cm_rf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Truth
+Prediction   0   1
+         0 599  85
+         1  19  17</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:49%;">
+<div class="fragment" data-index="2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84" data-code-line-numbers="|2|4-7|8-11|12-14|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href=""></a>transform_cm <span class="ot">&lt;-</span> <span class="cf">function</span>(cm){</span>
+<span id="cb84-2"><a href=""></a> cm_tib <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(cm<span class="sc">$</span>table)<span class="sc">|&gt;</span></span>
+<span id="cb84-3"><a href=""></a>   <span class="fu">mutate</span>(</span>
+<span id="cb84-4"><a href=""></a>     <span class="at">Prediction =</span> <span class="fu">factor</span>(</span>
+<span id="cb84-5"><a href=""></a>       Prediction,</span>
+<span id="cb84-6"><a href=""></a>       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Negative"</span>, <span class="st">"Postive"</span>)</span>
+<span id="cb84-7"><a href=""></a>       ),</span>
+<span id="cb84-8"><a href=""></a>     <span class="at">Truth =</span> <span class="fu">factor</span>(</span>
+<span id="cb84-9"><a href=""></a>       Truth,</span>
+<span id="cb84-10"><a href=""></a>       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Negative"</span>, <span class="st">"Postive"</span>)</span>
+<span id="cb84-11"><a href=""></a>       ),</span>
+<span id="cb84-12"><a href=""></a>     <span class="at">Prediction =</span> <span class="fu">factor</span>(</span>
+<span id="cb84-13"><a href=""></a>       Prediction, </span>
+<span id="cb84-14"><a href=""></a>       <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">levels</span>(Prediction)))</span>
+<span id="cb84-15"><a href=""></a>  )</span>
+<span id="cb84-16"><a href=""></a> </span>
+<span id="cb84-17"><a href=""></a> <span class="fu">return</span>(cm_tib)</span>
+<span id="cb84-18"><a href=""></a> </span>
+<span id="cb84-19"><a href=""></a>}</span>
+<span id="cb84-20"><a href=""></a></span>
+<span id="cb84-21"><a href=""></a>cm_rf_tib <span class="ot">&lt;-</span> <span class="fu">transform_cm</span>(cm_rf)</span>
+<span id="cb84-22"><a href=""></a>cm_rf_tib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  Prediction Truth        n
+  &lt;fct&gt;      &lt;fct&gt;    &lt;dbl&gt;
+1 Negative   Negative   599
+2 Postive    Negative    19
+3 Negative   Postive     85
+4 Postive    Postive     17</code></pre>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="plotting-the-matrix-and-defining-a-wrapper-function" class="slide level2">
+<h2>Plotting the Matrix and Defining a Wrapper-Function</h2>
+<div style="font-size:21pt;">
+<div class="{columns}">
+<div class="column add-space" style="width:39%;">
+<div class="fragment" data-index="1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86" data-code-line-numbers="|2-9|10|11|12-15|16-17|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href=""></a>plot_cm_tibble <span class="ot">&lt;-</span> <span class="cf">function</span>(cm_tib, high){</span>
+<span id="cb86-2"><a href=""></a>  p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb86-3"><a href=""></a>    <span class="at">data =</span> cm_tib,</span>
+<span id="cb86-4"><a href=""></a>    <span class="fu">aes</span>(</span>
+<span id="cb86-5"><a href=""></a>      <span class="at">x =</span> Prediction,</span>
+<span id="cb86-6"><a href=""></a>      <span class="at">y =</span> Truth,</span>
+<span id="cb86-7"><a href=""></a>      <span class="at">fill =</span> n</span>
+<span id="cb86-8"><a href=""></a>      )</span>
+<span id="cb86-9"><a href=""></a>    ) <span class="sc">+</span></span>
+<span id="cb86-10"><a href=""></a>    <span class="fu">geom_tile</span>( <span class="at">colour =</span> <span class="st">"gray50"</span>)<span class="sc">+</span></span>
+<span id="cb86-11"><a href=""></a>    <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> n))<span class="sc">+</span></span>
+<span id="cb86-12"><a href=""></a>    <span class="fu">scale_fill_gradient</span>(</span>
+<span id="cb86-13"><a href=""></a>      <span class="at">low =</span> <span class="st">"#FFFFFF"</span>,</span>
+<span id="cb86-14"><a href=""></a>      <span class="at">high =</span> high</span>
+<span id="cb86-15"><a href=""></a>      )<span class="sc">+</span></span>
+<span id="cb86-16"><a href=""></a>    <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb86-17"><a href=""></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb86-18"><a href=""></a>  </span>
+<span id="cb86-19"><a href=""></a>  <span class="fu">return</span>(p1)</span>
+<span id="cb86-20"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div><div class="column" style="width:59%;">
+<div class="fragment" data-index="2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87" data-code-line-numbers="|2-5|10-11|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href=""></a>cm_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(last_fit_model,high){ </span>
+<span id="cb87-2"><a href=""></a>  p <span class="ot">&lt;-</span> last_fit_model <span class="sc">%&gt;%</span></span>
+<span id="cb87-3"><a href=""></a>    <span class="fu">get_cm</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb87-4"><a href=""></a>    <span class="fu">transform_cm</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb87-5"><a href=""></a>    <span class="fu">plot_cm_tibble</span>(.,<span class="at">high =</span> high)</span>
+<span id="cb87-6"><a href=""></a>  </span>
+<span id="cb87-7"><a href=""></a>  <span class="fu">return</span>(p)</span>
+<span id="cb87-8"><a href=""></a>}</span>
+<span id="cb87-9"><a href=""></a></span>
+<span id="cb87-10"><a href=""></a><span class="fu">cm_plot</span>(<span class="at">last_fit_model =</span> rf_res_gsf,</span>
+<span id="cb87-11"><a href=""></a>        <span class="at">high =</span> <span class="st">"#506432"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-78-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="generating-metrics-and-text" class="slide level2">
+<h2>Generating Metrics and Text</h2>
+<div style="font-size:21pt;">
+<div class="{columns}">
+<div class="column add-space" style="width:38%;">
+<div class="fragment" data-index="1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88" data-code-line-numbers="|1-3|5-7|9-11|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href=""></a>acc<span class="ot">&lt;-</span> rf_tune_metrics <span class="sc">|&gt;</span></span>
+<span id="cb88-2"><a href=""></a>  <span class="fu">filter</span>(.metric<span class="sc">==</span><span class="st">'accuracy'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb88-3"><a href=""></a>  <span class="fu">pluck</span>(<span class="dv">3</span>)</span>
+<span id="cb88-4"><a href=""></a></span>
+<span id="cb88-5"><a href=""></a>sensi <span class="ot">&lt;-</span> rf_tune_metrics <span class="sc">|&gt;</span></span>
+<span id="cb88-6"><a href=""></a>  <span class="fu">filter</span>(.metric<span class="sc">==</span><span class="st">'sensitivity'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb88-7"><a href=""></a>  <span class="fu">pluck</span>(<span class="dv">3</span>)</span>
+<span id="cb88-8"><a href=""></a></span>
+<span id="cb88-9"><a href=""></a>speci <span class="ot">&lt;-</span> rf_tune_metrics <span class="sc">|&gt;</span></span>
+<span id="cb88-10"><a href=""></a>  <span class="fu">filter</span>(.metric<span class="sc">==</span><span class="st">'specificity'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb88-11"><a href=""></a>  <span class="fu">pluck</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div><div class="column" style="width:60%;">
+<div class="fragment" data-index="2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89" data-code-line-numbers="|1-3|5-6|8-10|11-21|13-16|17|18|19|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href=""></a><span class="fu">library</span>(ggtext)</span>
+<span id="cb89-2"><a href=""></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb89-3"><a href=""></a><span class="fu">library</span>(glue)</span>
+<span id="cb89-4"><a href=""></a></span>
+<span id="cb89-5"><a href=""></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#506432"</span>)</span>
+<span id="cb89-6"><a href=""></a><span class="fu">names</span>(cols) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"rf"</span>)</span>
+<span id="cb89-7"><a href=""></a></span>
+<span id="cb89-8"><a href=""></a>title_tib <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb89-9"><a href=""></a>  <span class="at">x=</span><span class="dv">0</span>,</span>
+<span id="cb89-10"><a href=""></a>  <span class="at">y=</span><span class="dv">1</span>,</span>
+<span id="cb89-11"><a href=""></a>  <span class="at">label =</span> <span class="fu">glue</span>(</span>
+<span id="cb89-12"><a href=""></a>    <span class="st">"</span></span>
+<span id="cb89-13"><a href=""></a><span class="st">    &lt;p&gt;&lt;b&gt;Confusion matrix for a</span></span>
+<span id="cb89-14"><a href=""></a><span class="st">      &lt;span style='color:{cols['rf']};'&gt;random forest&lt;/span&gt;</span></span>
+<span id="cb89-15"><a href=""></a><span class="st">      &lt;br/&gt;</span></span>
+<span id="cb89-16"><a href=""></a><span class="st">    &lt;/b&gt;&lt;/p&gt;</span></span>
+<span id="cb89-17"><a href=""></a><span class="st">    &lt;p&gt; - Accuracy =    {scales::percent(round(acc,3))} &lt;/p&gt;</span></span>
+<span id="cb89-18"><a href=""></a><span class="st">    &lt;p&gt; - Sensitivity = {scales::percent(round(sensi,3))} &lt;/p&gt; </span></span>
+<span id="cb89-19"><a href=""></a><span class="st">    &lt;p&gt; - Specificity = {scales::percent(round(speci,3))} &lt;/p&gt; </span></span>
+<span id="cb89-20"><a href=""></a><span class="st">    "</span></span>
+<span id="cb89-21"><a href=""></a>    )</span>
+<span id="cb89-22"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="stichting-it-all-together" class="slide level2">
+<h2>Stichting it all Together</h2>
+<div class="{columns}">
+<div class="column add-space" style="width:39%;">
+<div class="fragment" data-index="1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90" data-code-line-numbers="|2-7,14|8,14|9,14|11-13|15-18|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href=""></a>title_pane <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb90-2"><a href=""></a>  <span class="fu">geom_richtext</span>(</span>
+<span id="cb90-3"><a href=""></a>    <span class="at">data =</span> title_tib,</span>
+<span id="cb90-4"><a href=""></a>    <span class="fu">aes</span>(x, y, <span class="at">label =</span> label),</span>
+<span id="cb90-5"><a href=""></a>    <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">vjust =</span> <span class="dv">1</span>, </span>
+<span id="cb90-6"><a href=""></a>    <span class="at">label.color =</span> <span class="cn">NA</span></span>
+<span id="cb90-7"><a href=""></a>  ) <span class="sc">+</span></span>
+<span id="cb90-8"><a href=""></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb90-9"><a href=""></a>  <span class="fu">theme_void</span>()</span>
+<span id="cb90-10"><a href=""></a></span>
+<span id="cb90-11"><a href=""></a><span class="fu">cm_plot</span>(</span>
+<span id="cb90-12"><a href=""></a>  <span class="at">last_fit_model =</span> rf_res_gsf,</span>
+<span id="cb90-13"><a href=""></a>  <span class="at">high =</span> <span class="st">"#506432"</span>) <span class="sc">+</span></span>
+<span id="cb90-14"><a href=""></a>  title_pane<span class="sc">+</span></span>
+<span id="cb90-15"><a href=""></a>  <span class="fu">plot_layout</span>(</span>
+<span id="cb90-16"><a href=""></a>    <span class="at">ncol =</span> <span class="dv">2</span>,</span>
+<span id="cb90-17"><a href=""></a>    <span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">1.04</span>)</span>
+<span id="cb90-18"><a href=""></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div><div class="column" style="width:59%;">
+<div class="fragment" data-index="2">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-82-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="next-steps" class="slide level2">
+<h2>Next Steps</h2>
+<ol type="1">
+<li>Screening Many Models: <a href="https://www.tmwr.org/workflow-sets">Tidy Modelling With R</a></li>
+<li>Deploying Models with <code>{vetiver}</code></li>
+<li>Time Series Analysis/Forecasting with <code>{tidyverts}</code></li>
+</ol>
+</section></section>
+<section>
+<section id="solutions-to-the-exercises" class="title-slide slide level1 center">
+<h1>Solutions to the Exercises</h1>
+
+</section>
+<section id="solution-dplyr" class="slide level2">
+<h2>Solution: <code>{dplyr}</code></h2>
+<div id="sol-filter_n" class="proof solution">
+<p><span class="proof-title"><em>Solution 1</em> (<a href="#/exercise-grouping-filtering-and-summaries" class="quarto-xref">Exercise&nbsp;1</a>). </span></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href=""></a>data_penguin <span class="sc">|&gt;</span></span>
+<span id="cb91-2"><a href=""></a>  <span class="fu">filter</span>(body_mass_g<span class="sc">&gt;</span><span class="dv">3500</span>) <span class="sc">|&gt;</span></span>
+<span id="cb91-3"><a href=""></a>  <span class="fu">group_by</span>(island) <span class="sc">|&gt;</span></span>
+<span id="cb91-4"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  island        n
+  &lt;fct&gt;     &lt;int&gt;
+1 Biscoe      153
+2 Dream        80
+3 Torgersen    31</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href=""></a>data_penguin <span class="sc">|&gt;</span></span>
+<span id="cb93-2"><a href=""></a>  <span class="fu">filter</span>(body_mass_g<span class="sc">&gt;</span><span class="dv">3500</span>) <span class="sc">|&gt;</span></span>
+<span id="cb93-3"><a href=""></a>  <span class="fu">group_by</span>(island) <span class="sc">|&gt;</span></span>
+<span id="cb93-4"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>())<span class="sc">|&gt;</span></span>
+<span id="cb93-5"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">rel_n =</span> n<span class="sc">/</span><span class="fu">sum</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  island        n rel_n
+  &lt;fct&gt;     &lt;int&gt; &lt;dbl&gt;
+1 Biscoe      153 0.580
+2 Dream        80 0.303
+3 Torgersen    31 0.117</code></pre>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="solution-ggplot2" class="slide level2">
+<h2>Solution: <code>{ggplot2}</code></h2>
+<div id="sol-ggplot" class="proof solution">
+<p><span class="proof-title"><em>Solution 2</em> (<a href="#/exercise-ggplot2" class="quarto-xref">Exercise&nbsp;2</a>). </span></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href=""></a>data_penguin <span class="sc">|&gt;</span></span>
+<span id="cb95-2"><a href=""></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb95-3"><a href=""></a>    <span class="fu">aes</span>(</span>
+<span id="cb95-4"><a href=""></a>      <span class="at">x=</span>flipper_length_mm</span>
+<span id="cb95-5"><a href=""></a>      )</span>
+<span id="cb95-6"><a href=""></a>    )<span class="sc">+</span></span>
+<span id="cb95-7"><a href=""></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-85-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href=""></a>data_penguin <span class="sc">|&gt;</span></span>
+<span id="cb96-2"><a href=""></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb96-3"><a href=""></a>    <span class="fu">aes</span>(</span>
+<span id="cb96-4"><a href=""></a>      <span class="at">x=</span>flipper_length_mm</span>
+<span id="cb96-5"><a href=""></a>      )</span>
+<span id="cb96-6"><a href=""></a>    )<span class="sc">+</span></span>
+<span id="cb96-7"><a href=""></a>  <span class="fu">geom_histogram</span>(</span>
+<span id="cb96-8"><a href=""></a>    <span class="fu">aes</span>(</span>
+<span id="cb96-9"><a href=""></a>      <span class="at">y=</span><span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))</span>
+<span id="cb96-10"><a href=""></a>      )</span>
+<span id="cb96-11"><a href=""></a>    )<span class="sc">+</span></span>
+<span id="cb96-12"><a href=""></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb96-13"><a href=""></a>    <span class="at">labels =</span> scales<span class="sc">::</span>percent</span>
+<span id="cb96-14"><a href=""></a>    )<span class="sc">+</span></span>
+<span id="cb96-15"><a href=""></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"relative frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="presentation_files/figure-revealjs/unnamed-chunk-86-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="solution-lubridate" class="slide level2">
+<h2>Solution: Lubridate</h2>
+<div id="sol-avoid_weekdays" class="proof solution">
+<p><span class="proof-title"><em>Solution 3</em> (<a href="#/exercise-weekday-conversion" class="quarto-xref">Exercise&nbsp;3</a>). </span></p>
+<div class="{columns}">
+<div class="column add-space" style="width:49%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href=""></a>flight_time <span class="sc">|&gt;</span></span>
+<span id="cb97-2"><a href=""></a>  <span class="fu">na.omit</span>()<span class="sc">|&gt;</span></span>
+<span id="cb97-3"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb97-4"><a href=""></a>    <span class="at">weekday =</span> <span class="fu">wday</span>(</span>
+<span id="cb97-5"><a href=""></a>      dep_dt,</span>
+<span id="cb97-6"><a href=""></a>      <span class="at">label =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb97-7"><a href=""></a>      <span class="at">abbr =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb97-8"><a href=""></a>      <span class="at">locale =</span> <span class="st">"en_US.UTF-8"</span></span>
+<span id="cb97-9"><a href=""></a>      )</span>
+<span id="cb97-10"><a href=""></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb97-11"><a href=""></a>  <span class="fu">group_by</span>(weekday) <span class="sc">|&gt;</span></span>
+<span id="cb97-12"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">mean_delay=</span><span class="fu">mean</span>(dep_delay))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:49%;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 2
+  weekday   mean_delay
+  &lt;ord&gt;          &lt;dbl&gt;
+1 Sunday         11.5 
+2 Monday         14.7 
+3 Tuesday        10.6 
+4 Wednesday      11.6 
+5 Thursday       16.0 
+6 Friday         14.7 
+7 Saturday        7.59</code></pre>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="solution-eda-hitters" class="slide level2">
+<h2>Solution: EDA Hitters</h2>
+<div id="sol-CountRelNA" class="proof solution">
+<p><span class="proof-title"><em>Solution 4</em> (<a href="#/quick-eda-exercise" class="quarto-xref">Exercise&nbsp;4</a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href=""></a>data_hitters <span class="sc">|&gt;</span></span>
+<span id="cb99-2"><a href=""></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(),</span>
+<span id="cb99-3"><a href=""></a>                   <span class="sc">~</span><span class="fu">sum</span>(<span class="fu">is.na</span>(.)))) <span class="sc">|&gt;</span></span>
+<span id="cb99-4"><a href=""></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">everything</span>(),</span>
+<span id="cb99-5"><a href=""></a>               <span class="at">names_to =</span> <span class="st">"column"</span>,</span>
+<span id="cb99-6"><a href=""></a>               <span class="at">values_to =</span> <span class="st">"na_count"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb99-7"><a href=""></a>  <span class="fu">filter</span>(na_count<span class="sc">&gt;</span><span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb99-8"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">na_percent =</span> (na_count <span class="sc">/</span> <span class="fu">nrow</span>(data_hitters)) <span class="sc">*</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  column na_count na_percent
+  &lt;chr&gt;     &lt;int&gt;      &lt;dbl&gt;
+1 Salary       59       18.3</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="solution-random-forest" class="slide level2">
+<h2>Solution: Random Forest</h2>
+<div id="sol-rf_base" class="proof solution">
+<p><span class="proof-title"><em>Solution 5</em> (<a href="#/exercise-using-a-different-model" class="quarto-xref">Exercise&nbsp;5</a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href=""></a>rf_spec <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">mode =</span> <span class="st">"regression"</span>)</span>
+<span id="cb101-2"><a href=""></a></span>
+<span id="cb101-3"><a href=""></a>wf_hitters <span class="ot">&lt;-</span> wf_hitters <span class="sc">|&gt;</span></span>
+<span id="cb101-4"><a href=""></a>  <span class="fu">update_model</span>(rf_spec)</span>
+<span id="cb101-5"><a href=""></a></span>
+<span id="cb101-6"><a href=""></a>rf_res <span class="ot">&lt;-</span> wf_hitters <span class="sc">|&gt;</span></span>
+<span id="cb101-7"><a href=""></a>  <span class="fu">fit</span>(<span class="at">data=</span>data_train_hitters)</span>
+<span id="cb101-8"><a href=""></a></span>
+<span id="cb101-9"><a href=""></a>rf_metrics <span class="ot">&lt;-</span> rf_res <span class="sc">|&gt;</span></span>
+<span id="cb101-10"><a href=""></a>  <span class="fu">augment</span>(data_test_hitters) <span class="sc">|&gt;</span></span>
+<span id="cb101-11"><a href=""></a>  <span class="fu">hitter_metrics</span>(.pred,Hits)</span>
+<span id="cb101-12"><a href=""></a></span>
+<span id="cb101-13"><a href=""></a>rf_metrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard      10.4  
+2 mae     standard       8.08 
+3 rsq     standard       0.945</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="solution-xgboost" class="slide level2">
+<h2>Solution: XGBoost</h2>
+<div style="font-size:22pt;">
+<div id="sol-xgb" class="proof solution">
+<p><span class="proof-title"><em>Solution 6</em> (<a href="#/exercise-xgboost" class="quarto-xref">Exercise&nbsp;6</a>). </span></p>
+<div class="{columns}">
+<div class="column add-space" style="width:49%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href=""></a>xgb_spec <span class="ot">&lt;-</span> <span class="fu">boost_tree</span>(</span>
+<span id="cb103-2"><a href=""></a>  <span class="at">mode =</span> <span class="st">"regression"</span>,</span>
+<span id="cb103-3"><a href=""></a>  <span class="at">mtry =</span> <span class="fu">tune</span>(),</span>
+<span id="cb103-4"><a href=""></a>  <span class="at">trees =</span> <span class="fu">tune</span>(),</span>
+<span id="cb103-5"><a href=""></a>  <span class="at">min_n =</span> <span class="fu">tune</span>(),</span>
+<span id="cb103-6"><a href=""></a>  <span class="at">tree_depth =</span> <span class="fu">tune</span>(),</span>
+<span id="cb103-7"><a href=""></a>  <span class="at">learn_rate =</span> <span class="fu">tune</span>()</span>
+<span id="cb103-8"><a href=""></a>  )</span>
+<span id="cb103-9"><a href=""></a></span>
+<span id="cb103-10"><a href=""></a>param_set <span class="ot">&lt;-</span> <span class="fu">extract_parameter_set_dials</span>(</span>
+<span id="cb103-11"><a href=""></a>  xgb_spec</span>
+<span id="cb103-12"><a href=""></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb103-13"><a href=""></a>  <span class="fu">finalize</span>(data_train_hitters <span class="sc">|&gt;</span></span>
+<span id="cb103-14"><a href=""></a>             <span class="fu">select</span>(<span class="sc">-</span>Hits)</span>
+<span id="cb103-15"><a href=""></a>           )</span>
+<span id="cb103-16"><a href=""></a></span>
+<span id="cb103-17"><a href=""></a>tune_spec <span class="ot">&lt;-</span> <span class="fu">grid_space_filling</span>(</span>
+<span id="cb103-18"><a href=""></a>  param_set,</span>
+<span id="cb103-19"><a href=""></a>  <span class="at">size =</span> <span class="dv">15</span></span>
+<span id="cb103-20"><a href=""></a>  )</span>
+<span id="cb103-21"><a href=""></a></span>
+<span id="cb103-22"><a href=""></a>wf_hitters <span class="ot">&lt;-</span> wf_hitters <span class="sc">|&gt;</span></span>
+<span id="cb103-23"><a href=""></a>  <span class="fu">update_model</span>(xgb_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:49%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href=""></a>xgb_res_tune <span class="ot">&lt;-</span> wf_hitters <span class="sc">|&gt;</span></span>
+<span id="cb104-2"><a href=""></a>  <span class="fu">tune_grid</span>(</span>
+<span id="cb104-3"><a href=""></a>    <span class="at">resamples =</span> folds_hitters,</span>
+<span id="cb104-4"><a href=""></a>    <span class="at">grid =</span> tune_spec,</span>
+<span id="cb104-5"><a href=""></a>    <span class="at">metrics =</span> hitter_metrics</span>
+<span id="cb104-6"><a href=""></a>  )</span>
+<span id="cb104-7"><a href=""></a></span>
+<span id="cb104-8"><a href=""></a>parms_opt <span class="ot">&lt;-</span> xgb_res_tune <span class="sc">|&gt;</span></span>
+<span id="cb104-9"><a href=""></a>  <span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">"rmse"</span>)</span>
+<span id="cb104-10"><a href=""></a></span>
+<span id="cb104-11"><a href=""></a>xgb_res <span class="ot">&lt;-</span> <span class="fu">finalize_workflow</span>(</span>
+<span id="cb104-12"><a href=""></a>  wf_hitters,</span>
+<span id="cb104-13"><a href=""></a>  parms_opt</span>
+<span id="cb104-14"><a href=""></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb104-15"><a href=""></a>  <span class="fu">last_fit</span>(</span>
+<span id="cb104-16"><a href=""></a>    <span class="at">split =</span> split_hitters,</span>
+<span id="cb104-17"><a href=""></a>    <span class="at">metrics =</span> hitter_metrics)</span>
+<span id="cb104-18"><a href=""></a></span>
+<span id="cb104-19"><a href=""></a>(xgb_tune_metrics <span class="ot">&lt;-</span> xgb_res <span class="sc">|&gt;</span></span>
+<span id="cb104-20"><a href=""></a>  <span class="fu">collect_metrics</span>() <span class="sc">|&gt;</span></span>
+<span id="cb104-21"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span>.config))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard       9.67 
+2 mae     standard       7.43 
+3 rsq     standard       0.947</code></pre>
+</div>
+</div>
+</div></div>
+</div>
+</div>
+<div class="quarto-auto-generated-content">
+<p><img src="pictures/Logo_cc.svg" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Linus Lach © 2025</p>
+</div>
+</div>
+</section></section>
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="presentation_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="presentation_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const onCopySuccess = function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
+      });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        // For code content inside modals, clipBoardJS needs to be initialized with a container option
+        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>
