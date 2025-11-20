@@ -359,18 +359,18 @@ window.Quarto = {
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>n<span class="ot">&lt;-</span> <span class="dv">100</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>data_synth_high_corr <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="at">length.out =</span> n),</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> x<span class="sc">+</span><span class="fu">rnorm</span>(n,<span class="dv">0</span>,<span class="fl">1.5</span>),</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> x<span class="sc">+</span><span class="fu">rnorm</span>(n),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="at">length.out =</span> n) <span class="sc">+</span> <span class="fu">rnorm</span>(n),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(n),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> x <span class="sc">+</span> y,</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>data_synth_low_corr <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10</span>,<span class="at">length.out =</span> n),</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> <span class="fu">exp</span>(<span class="fu">cos</span>(x)),</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> x<span class="sc">+</span><span class="fu">rnorm</span>(n),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">exp</span>(<span class="fu">cos</span>((x<span class="sc">/</span><span class="dv">10</span>)<span class="sc">*</span><span class="dv">8</span><span class="sc">*</span>pi))<span class="sc">+</span><span class="fu">rnorm</span>(n,<span class="dv">0</span>,<span class="fl">0.5</span>),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> x<span class="sc">+</span>y</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Both data sets consist of three variables <span class="math inline">\(x,y,z\)</span>, where both, <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span> are generated using <span class="math inline">\(x\)</span>. In the first data set all three variables are highly correlated, whereas in the second data set only <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are highly correlated. Depending on the complexity of the imputation technique, correlation between variables can determine how well they perform.</p>
+<p>Both data sets consist of three variables <span class="math inline">\(x,y,z\)</span>. In the first data set not only <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are highly correlated (since <span class="math inline">\(y=x+Y\)</span> with <span class="math inline">\(Y\sim N(0,1)\)</span>) but also <span class="math inline">\(z\)</span> and <span class="math inline">\(x\)</span> (since <span class="math inline">\(z=x+y\)</span>) and <span class="math inline">\(z\)</span> and <span class="math inline">\(y\)</span> (since <span class="math inline">\(z=x+y\)</span>). In the second data set <span class="math inline">\(x\)</span> and <span class="math inline">\(z\)</span> are still highly correlated, but <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are not. Therefore, imputing <span class="math inline">\(x\)</span> with <span class="math inline">\(y\)</span> in a setting where correlation matters should influence the performance of the following applied imputaton techniques.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -380,7 +380,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Consider the case where <span class="math inline">\(10\%\)</span> of the <span class="math inline">\(x\)</span>-values are removed. We can apply all four imputation techniques to impute those missing values:</p>
+<p>Consider the case where <span class="math inline">\(10\%\)</span> of the <span class="math inline">\(x\)</span>-values are removed. We can use <span class="math inline">\(y\)</span> to impute the missing <span class="math inline">\(x\)</span> values:</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -400,8 +400,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>While sophisticated imputation techniques seem to outperform simple techniques on highly correlated data, simple imputation techniques seem to be a good choice if the different features are less correlated.</p>
-<p>However, as a rule of thumb, if computational resources are available, I recommend trying different techniques and choose the one that yields best validation results.</p>
+<p>While sophisticated imputation techniques seem to outperform simple techniques on highly correlated data, either method fails to correctly assign missing values if the data is not correlated.</p>
+<p>However, as a rule of thumb, if computational resources are available, I recommend checking for correlation before applying any of the techniques.</p>
 </section>
 <section id="regression-trees-in-r" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="regression-trees-in-r"><span class="header-section-number">4.2</span> Regression trees in R</h2>
