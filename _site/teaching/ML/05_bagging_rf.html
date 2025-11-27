@@ -289,21 +289,22 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">5.1</span> Introduction</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">5.1</span> Introduction</a></li>
+  <li><a href="#evaluation-of-a-binary-classification-model" id="toc-evaluation-of-a-binary-classification-model" class="nav-link" data-scroll-target="#evaluation-of-a-binary-classification-model"><span class="header-section-number">5.2</span> Evaluation of a Binary Classification Model</a>
   <ul>
-  <li><a href="#evaluation-of-binary-classifiers" id="toc-evaluation-of-binary-classifiers" class="nav-link" data-scroll-target="#evaluation-of-binary-classifiers"><span class="header-section-number">5.1.1</span> Evaluation of binary classifiers</a>
+  <li><a href="#sec-confmat" id="toc-sec-confmat" class="nav-link" data-scroll-target="#sec-confmat"><span class="header-section-number">5.2.1</span> Confusion Matrix</a>
   <ul class="collapse">
-  <li><a href="#confusion-matrix" id="toc-confusion-matrix" class="nav-link" data-scroll-target="#confusion-matrix"><span class="header-section-number">5.1.1.1</span> Confusion Matrix</a></li>
-  <li><a href="#roc-curve-and-precision-recall-curve" id="toc-roc-curve-and-precision-recall-curve" class="nav-link" data-scroll-target="#roc-curve-and-precision-recall-curve"><span class="header-section-number">5.1.1.2</span> ROC Curve and Precision-Recall Curve</a></li>
+  <li><a href="#roc-curve-and-precision-recall-curve" id="toc-roc-curve-and-precision-recall-curve" class="nav-link" data-scroll-target="#roc-curve-and-precision-recall-curve"><span class="header-section-number">5.2.1.1</span> ROC Curve and Precision-Recall Curve</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#random-forests" id="toc-random-forests" class="nav-link" data-scroll-target="#random-forests"><span class="header-section-number">5.2</span> Random forests</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">5.3</span> Exercises</a>
+  <li><a href="#classification-with-trees" id="toc-classification-with-trees" class="nav-link" data-scroll-target="#classification-with-trees"><span class="header-section-number">5.3</span> Classification with Trees</a></li>
+  <li><a href="#random-forests" id="toc-random-forests" class="nav-link" data-scroll-target="#random-forests"><span class="header-section-number">5.4</span> Random forests</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">5.5</span> Exercises</a>
   <ul>
-  <li><a href="#theoretical-exercises" id="toc-theoretical-exercises" class="nav-link" data-scroll-target="#theoretical-exercises"><span class="header-section-number">5.3.1</span> Theoretical Exercises</a></li>
-  <li><a href="#programming-exercises" id="toc-programming-exercises" class="nav-link" data-scroll-target="#programming-exercises"><span class="header-section-number">5.3.2</span> Programming Exercises</a></li>
+  <li><a href="#theoretical-exercises" id="toc-theoretical-exercises" class="nav-link" data-scroll-target="#theoretical-exercises"><span class="header-section-number">5.5.1</span> Theoretical Exercises</a></li>
+  <li><a href="#programming-exercises" id="toc-programming-exercises" class="nav-link" data-scroll-target="#programming-exercises"><span class="header-section-number">5.5.2</span> Programming Exercises</a></li>
   </ul></li>
-  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions"><span class="header-section-number">5.4</span> Solutions</a></li>
+  <li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions"><span class="header-section-number">5.6</span> Solutions</a></li>
   </ul>
 </nav>
     </div>
@@ -329,24 +330,55 @@ window.Quarto = {
 </header>
 
 
-<section id="introduction" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">5.1</span> Introduction</h2>
 <p>In this exercise session we will briefly talk about some theoretical considerations when applying bootstrap sampling, bagging and training a random forest before performing a more in-depth case study of binary classification. The case-study assumes that you are familiar with <em>penalized logistic regressions</em> (similar to lasso regression, see <a href="https://linus-lach.de/teaching/ml/03_regularization">Session 03</a> ) and <em>classification trees</em> (similar to regression trees introduced in <a href="https://linus-lach.de/teaching/ml/04_regression_trees">Session 4</a>). We will however, revisit different evaluation metrics for a binary classifier before training any of the models which should help you to develop a feeling for model performance.</p>
 <p>Note, that some of the models we train might take a few (up to many) minutes depending on your hardware. One way to circumvent long training processes is to use a simple training/validation/test split instead of CV.</p>
-<section id="evaluation-of-binary-classifiers" class="level3" data-number="5.1.1">
-<h3 data-number="5.1.1" class="anchored" data-anchor-id="evaluation-of-binary-classifiers"><span class="header-section-number">5.1.1</span> Evaluation of binary classifiers</h3>
-<p>Before we start with the actual exercise, let us quickly review some important metrics and concepts for evaluating binary classifiers.</p>
-<section id="confusion-matrix" class="level4" data-number="5.1.1.1">
-<h4 data-number="5.1.1.1" class="anchored" data-anchor-id="confusion-matrix"><span class="header-section-number">5.1.1.1</span> Confusion Matrix</h4>
+<section id="introduction" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">5.1</span> Introduction</h2>
+<p>In this session, we primarily deal with binary classification. The target variable <span class="math inline">\(Y\)</span> therefore takes on only two values. Usually, these values are encoded as <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>, so that <span class="math inline">\(Y\)</span> can be represented as a vector <span class="math inline">\(Y\in\{0,1\}^K\)</span>. We are now interested in estimating the probability <span class="math display">\[\begin{equation}
+  \mathbb{P}(Y=1|X=x)
+\end{equation}\]</span> for a data point <span class="math inline">\(x\in\mathbb{R}^{J}\)</span>. If the estimated probability <span class="math inline">\(\hat{p}\)</span> is greater than a certain, predefined threshold <span class="math inline">\(q\in(0,1)\)</span>, then we assign the sample to class <span class="math inline">\(1\)</span>. Intuitively, the value <span class="math inline">\(q=0.5\)</span> makes sense here, since with a probability <span class="math inline">\(p&gt;0.5\)</span> we are more certain that the data point belongs to class <span class="math inline">\(1\)</span> than to class <span class="math inline">\(0\)</span>.</p>
+</section>
+<section id="evaluation-of-a-binary-classification-model" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="evaluation-of-a-binary-classification-model"><span class="header-section-number">5.2</span> Evaluation of a Binary Classification Model</h2>
+<p>Since an evaluation using metrics like <span class="math inline">\(\text{RMSE}\)</span> and <span class="math inline">\(R^2\)</span> makes little sense in binary classification, we want to look at various alternative metrics in this section.</p>
+<section id="sec-confmat" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="sec-confmat"><span class="header-section-number">5.2.1</span> Confusion Matrix</h3>
+<p>The so-called <em>confusion matrix</em> serves as the basis for the metrics we want to consider in the following. This cross-tabulation indicates how many data points were classified correctly or incorrectly. Here, a distinction is made in particular between the classes <em>Negative</em> and <em>Positive</em> which are encoded with the numeric values <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>. Mostly, in the context of the confusion matrix, <span class="math inline">\(1\)</span> stands for <strong>Positive</strong> and <span class="math inline">\(0\)</span> for <strong>Negative</strong>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="pictures/Confusion_Matrix.png" class="img-fluid figure-img"></p>
 <figcaption>Confusion Matrix, Source: Wikipedia</figcaption>
 </figure>
 </div>
-</section>
-<section id="roc-curve-and-precision-recall-curve" class="level4" data-number="5.1.1.2">
-<h4 data-number="5.1.1.2" class="anchored" data-anchor-id="roc-curve-and-precision-recall-curve"><span class="header-section-number">5.1.1.2</span> ROC Curve and Precision-Recall Curve</h4>
+<p>We can best illustrate the fields of the confusion matrix using an example.</p>
+<div id="exm-cf" class="theorem example">
+<p><span class="theorem-title"><strong>Example 5.1</strong></span> A research team at the university hospital has developed a test for detecting a rare heart disease. If doctors correctly detect this heart disease, it can be cured by a surgical intervention. The probability of a successful intervention is greater than the probability that a sick person survives the course of the disease. A positive test result is encoded as <span class="math inline">\(1\)</span> or <strong>Predicted Positive</strong> and a negative result as <span class="math inline">\(0\)</span> or <strong>Predicted Negative</strong>. Now there are the following possibilities:</p>
+<ol type="1">
+<li>The test is positive and the examined person has the disease. This is called a <strong>True Positive</strong>.</li>
+<li>The test is positive and the examined person does not have the disease. This is called a <strong>False Positive</strong>.</li>
+<li>The test is negative and the examined person does not have the disease. This is called a <strong>True Negative</strong>.</li>
+<li>The test is negative and the examined person has the disease. This is called a <strong>False Negative</strong>.</li>
+</ol>
+</div>
+<p>Besides correct classification (TP and TN), we should particularly deal with the two incorrect classification scenarios. In <a href="#exm-cf" class="quarto-xref">Example&nbsp;<span>5.1</span></a>, a person falsely classified as negative (FN) is therefore a patient who has the heart disease but is not diagnosed. This type of error is particularly serious in the example, since the person has a higher survival probability through the surgical intervention. If a person is falsely classified as positive (FP), this means that the test turns out positive even though the person is not suffering from the heart disease. Under ordinary circumstances, such a misclassification would not be quite as serious, since the person is, after all, not suffering from the rare disease. However, if a surgical intervention is performed based on the test result anyway, then the patient is exposed to an unnecessary risk.</p>
+<p>How well such a test actually works should therefore not only be determined by the absolute or relative number of correctly classified data points, but also by how high the corresponding error rates are.</p>
+<p>This statement can be expressed more precisely with the following key figures:</p>
+<ul>
+<li><strong>Accuracy</strong>: <span class="math display">\[\begin{equation*}
+  \text{Accuracy} = \frac{TP+TN}{TP+TN+FP+FN}
+\end{equation*}\]</span> Accuracy measures the relative proportion of correctly classified data points to the total number of data points. It describes the probability of a correct test result.</li>
+<li><strong>Sensitivity</strong>: <span class="math display">\[\begin{equation*}
+  \text{Sensitivity} = \frac{TP}{TP+FN}
+\end{equation*}\]</span> Sensitivity measures the relative proportion of data points correctly classified as positive to the total number of positive data points. It describes the conditional probability that a positive result is predicted, assuming that the result is actually positive.</li>
+<li><strong>Specificity</strong>: <span class="math display">\[\begin{equation*}
+  \text{Specificity} = \frac{TN}{TN+FP}
+\end{equation*}\]</span> Specificity is the counterpart to sensitivity. It measures the relative proportion of data points correctly classified as negative to the total number of negative data points. Specificity can also be interpreted as the conditional probability that a negative result is predicted, assuming that the result is actually negative.</li>
+<li><strong>Precision</strong>: <span class="math display">\[\begin{equation*}
+  \text{Precision} = \frac{TP}{TP+FP}
+\end{equation*}\]</span> Precision measures the relative proportion of data points correctly classified as positive to the total number of data points classified as positive. Particularly with unbalanced datasets<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, precision is an important metric, as accuracy can lead to fallacies with unbalanced datasets.</li>
+</ul>
+<section id="roc-curve-and-precision-recall-curve" class="level4" data-number="5.2.1.1">
+<h4 data-number="5.2.1.1" class="anchored" data-anchor-id="roc-curve-and-precision-recall-curve"><span class="header-section-number">5.2.1.1</span> ROC Curve and Precision-Recall Curve</h4>
 <p>When passing a sample into the classification model, the return-value is usually a probability <span class="math inline">\(p\in[0,1]\)</span> that denotes the probability of the sample belonging to the Positives (in this hypothetical setting we assume that there are two classes “Positives” and “Negatives”). Intuitively it makes sense to say, that a given sample <span class="math inline">\(x\)</span> belongs to the Positives if <span class="math inline">\(p\geq q = 0.5\)</span>. However, this threshold <span class="math inline">\(q = 0.5\)</span> can be adjusted. Depending on this threshold <span class="math inline">\(q\)</span> , the values in our confusion matrix change.</p>
 <p><strong>Example:</strong></p>
 <p>Set <span class="math inline">\(q = 0\)</span>, then <span class="math inline">\(p\)</span> is always larger or equal to <span class="math inline">\(q\)</span>, which means that we assign every value to the positives. Then, our True Positive Rate (<span class="math inline">\(\mathrm{TPR} = \frac{\mathrm{TP}}{\mathrm{P}}\)</span>) will be equal to <span class="math inline">\(1\)</span> since all samples are assigned to the Positives. However, the True Negative Rate (<span class="math inline">\(\mathrm{TNR} = \frac{\mathrm{TN}}{\mathrm{N}}\)</span>) will be equal to 0, since not one sample has been assigned to the Negatives, meaning that <span class="math inline">\(\mathrm{TN} = 0\)</span> .</p>
@@ -355,16 +387,16 @@ window.Quarto = {
 <p>The ROC curve shows the <span class="math inline">\(\mathrm{TPR}\)</span> (also known as <em>recall</em> or <em>sensitivity</em>) plotted against the <span class="math inline">\(\mathrm{TNR}\)</span> (also known as <em>1-specificity</em>). By plotting these two values against each other, we can identify a good model by checking whether the curve generated by all the thresholds is approaching the left top corner of a plot, indicating that both <span class="math inline">\(\mathrm{TPR}\)</span> and <span class="math inline">\(\mathrm{TNR}\)</span> are equal to 1, i.e.&nbsp;the model perfectly classifies all True Positives and all True Negatives. An exemplary plot can be found below.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pictures/ROCCurve.svg" class="img-fluid figure-img" width="350"></p>
+<p><img src="pictures/ROCCurve.svg" class="img-fluid figure-img" width="320"></p>
 <figcaption>ROC Curve, Source: developers.google.com</figcaption>
 </figure>
 </div>
 <p><strong>PR Curve:</strong></p>
-<p>The Precision-Recall Curve on the other hand shows the Precision (<span class="math inline">\(\mathrm{Precision} = \frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FP}}\)</span> ) plotted against the Recall (<span class="math inline">\(\mathrm{Recall} = \frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FN}}\)</span>). Precision basically measures the proportion of correctly identified Positives, while Recall measures the proportion of correctly identified actual Positives. If the line generated by a model is close to the top right corner, the model is relevant, has a high precision, and sensitivity.</p>
+<p>The Precision-Recall Curve on the other hand shows the Precision (<span class="math inline">\(\mathrm{Precision} = \frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FP}}\)</span> ) plotted against the Recall (<span class="math inline">\(\mathrm{Recall} = \frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FN}}\)</span>). If the line generated by a model is close to the top right corner, the model is relevant, has a high precision, and sensitivity.</p>
 <p>An exemplary plot can be found below.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="pictures/PR-Curve.png" class="img-fluid figure-img" width="350"></p>
+<p><img src="pictures/PR-Curve.png" class="img-fluid figure-img" width="320"></p>
 <figcaption>PR Curve</figcaption>
 </figure>
 </div>
@@ -375,8 +407,16 @@ window.Quarto = {
 </section>
 </section>
 </section>
-<section id="random-forests" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="random-forests"><span class="header-section-number">5.2</span> Random forests</h2>
+<section id="classification-with-trees" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="classification-with-trees"><span class="header-section-number">5.3</span> Classification with Trees</h2>
+<p>In the previous section, we have already extensively discussed regression trees. The transition from regression to classification trees is ultimately not complex either! Instead of a real-valued target variable, we now consider estimated classes or class probabilities in the leaf nodes. The algorithm for estimating a classification tree remains almost unchanged compared to regression trees. Only the improvement value, which is calculated using the <span class="math inline">\(\text{MSE}\)</span> for regression trees, must be replaced by a suitable metric in the classification context. This metric is given by the Gini impurity. For a node <span class="math inline">\(K_n\)</span>, this is defined as <span class="math display">\[\begin{equation*}
+  1-(p_1^2+p_0^2)
+\end{equation*}\]</span></p>
+<p>where <span class="math inline">\(p_1\)</span> is the relative frequency of class <span class="math inline">\(1\)</span> in the node and <span class="math inline">\(p_0\)</span> is the relative frequency of class <span class="math inline">\(0\)</span> in the node. It is then tested for which <span class="math inline">\(p_i,\: i=0,1\)</span> the removal leads to a larger impurity index. I.e., if <span class="math inline">\(p_1\geq p_0\)</span>, the node will return class <span class="math inline">\(1\)</span> as the classification value. The decision regarding the splitting variables works the same way: Test for which variable the greatest reduction in Gini impurity results, and use this for a further split.</p>
+<p>The importance of the variables can then also be measured with respect to this impurity value, so that we can effectively use the same permutation feature importance method.</p>
+</section>
+<section id="random-forests" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="random-forests"><span class="header-section-number">5.4</span> Random forests</h2>
 <p>Throughout this exercise we will use the following libraries:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -393,7 +433,7 @@ window.Quarto = {
 </div>
 <p>For this sessions example, we will also use the white wine data set, but extend it by adding the red wine data set. The red wine data set can be downloaded directly from the <a href="https://archive.ics.uci.edu/dataset/186/wine+quality">UC Irvine Machine Learning Repository</a> or by clicking the button below.</p>
 <div style="text-align: center;">
-<p><a href="data/winequality-red.csv" class="btn btn-outline-primary" role="button" data-toggle="tooltip" title="270 KB">Download Red Wine Data</a></p>
+<p><a href="https://linus-lach.de/teaching/ml/data/winequality-red.csv" class="btn btn-outline-primary" role="button" data-toggle="tooltip" title="270 KB">Download Red Wine Data</a></p>
 </div>
 <p>A detailed description of each parameter see <a href="https://www.semanticscholar.org/paper/Modeling-wine-preferences-by-data-mining-from-Cortez-Cerdeira/bf15a0ccc14ac1deb5cea570c870389c16be019c">Cortez et al.</a></p>
 <p>Note, that importing the red wine data set with the <code>read.csv</code> function requires the argument <code>sep = ";"</code> which indicates that<br>
@@ -578,10 +618,10 @@ Warning
 </div>
 <p>Considering the figure above, the variable <code>total.sulfur.dioxide</code> has the highest score which indicates that this variable helps determining the color of the wines most.</p>
 </section>
-<section id="exercises" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="exercises"><span class="header-section-number">5.3</span> Exercises</h2>
-<section id="theoretical-exercises" class="level3" data-number="5.3.1">
-<h3 data-number="5.3.1" class="anchored" data-anchor-id="theoretical-exercises"><span class="header-section-number">5.3.1</span> Theoretical Exercises</h3>
+<section id="exercises" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">5.5</span> Exercises</h2>
+<section id="theoretical-exercises" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="theoretical-exercises"><span class="header-section-number">5.5.1</span> Theoretical Exercises</h3>
 <p>In this exercise we will discuss some aspects of bootstrap sampling, bagging and random forest.</p>
 <div id="exr-bootstrap01" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 5.1</strong></span> Assume, we have a data set with <span class="math inline">\(n\)</span> sample and a bootstrap sample of size <span class="math inline">\(n\)</span>. Furthermore, assume that the probability of an observation not being in the bootstrap sample is <span class="math inline">\(\left(1-\frac{1}{n}\right)^n\)</span>. Show that the probability for any sample <span class="math inline">\(j\)</span> to be in the data set is approximately <span class="math inline">\(0.6321206\)</span>.</p>
@@ -596,8 +636,8 @@ Warning
 <p><span class="theorem-title"><strong>Exercise 5.3</strong></span> Random forests can solve the problem mentioned in <a href="#exr-bagging01" class="quarto-xref">Exercise&nbsp;<span>5.2</span></a> of having trees that are too similar. Describe how this is achieved!</p>
 </div>
 </section>
-<section id="programming-exercises" class="level3" data-number="5.3.2">
-<h3 data-number="5.3.2" class="anchored" data-anchor-id="programming-exercises"><span class="header-section-number">5.3.2</span> Programming Exercises</h3>
+<section id="programming-exercises" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="programming-exercises"><span class="header-section-number">5.5.2</span> Programming Exercises</h3>
 <p>In this exercise we want to utilize our newly gained knowledge about Bagging and compare a random forest model to a single classification tree and penalized logistic regression.</p>
 <p>The dataset we will consider in this exercise will be the <a href="https://www.kaggle.com/datasets/sakshigoyal7/credit-card-customers">Credit Card Customers</a> data set that can either be downloaded using the provided link or the button below.</p>
 <div style="text-align: center;">
@@ -781,8 +821,8 @@ $ Avg_Utilization_Ratio    &lt;dbl&gt; 0.061, 0.105, 0.000, 0.760, 0.000, 0.311,
 </div>
 </section>
 </section>
-<section id="solutions" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="solutions"><span class="header-section-number">5.4</span> Solutions</h2>
+<section id="solutions" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="solutions"><span class="header-section-number">5.6</span> Solutions</h2>
 <div id="sol-bootstrap01" class="proof solution">
 <p><span class="proof-title"><em>Solution 5.1</em> (<a href="#exr-bootstrap01" class="quarto-xref">Exercise&nbsp;<span>5.1</span></a>). </span>For <span class="math inline">\(n\)</span> sufficiently big, the estimate <span class="math inline">\(\left(1-\frac{1}{n}\right)^n \approx \exp(-1)\)</span> holds. Since the probability of any sample not being in the data set is therefore approximately <span class="math inline">\(\exp(-1)\)</span>, we can simply calculate the complementary probability. The complementary probability is given by <span class="math inline">\(1-\exp(-1)\approx 0.63212\)</span>.</p>
 </div>
@@ -1206,6 +1246,12 @@ an accuracy of at least 0.839.</code></pre>
 </div>
 
 
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Datasets in which negatives are far more represented than positives<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
