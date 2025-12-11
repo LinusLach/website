@@ -747,44 +747,55 @@ $ Avg_Utilization_Ratio    &lt;dbl&gt; 0.061, 0.105, 0.000, 0.760, 0.000, 0.311,
   \max\left(\frac{\mathrm{P}}{\mathrm{N+P}},\frac{\mathrm{N}}{\mathrm{N+P}}\right)
 \end{equation*}\]</span></p>
 </div>
-<div id="exr-data_prep" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.5</strong></span> Create a training and test split using <code>set.seed(121)</code> and a 5-fold CV object based on the training data. Use stratification for the target variable <code>Attrition_Flag</code> to ensure that the ratio of positive and negative sample remains the same in the training and testing data.</p>
-</div>
-<div id="exr-recipe" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.6</strong></span> Create a recipe by following the steps described below.</p>
+<div id="exr-preprocessing" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.5</strong></span> Before splitting the data, some preprocessing steps should be applied to the whole dataset:</p>
 <ol type="1">
-<li><p>As a formula, fit the variable <code>Attrition_Flag</code> on every other feature and set the <code>data</code> parameter to <code>data_train</code>.</p></li>
-<li><p>Update the role of the variable <code>CLIENTNUM</code> by setting it to <code>"ID"</code>.</p></li>
-<li><p>Convert all <code>"Unknown"</code> and <code>"unknown"</code> values contained in character or factor columns into NA values using the code snippet</p>
+<li><p>Use the following code snippet to convert all the <code>"Unknown"</code> and <code>"unknown"</code> values into <code>NA</code> values:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">across</span>(</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">where</span>(<span class="sc">~</span><span class="fu">is.character</span>(.)<span class="sc">|</span><span class="fu">is.factor</span>(.)),</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span><span class="fu">if_else</span>(.<span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Unknown"</span>,<span class="st">"unknown"</span>),<span class="cn">NA</span>,.)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
-<li><p>Convert the features <code>Income_Category</code> and <code>Education_Level</code> into ordered factors.</p></li>
-<li><p>Convert the features <code>Marital_Status</code>, <code>Card_Category</code>, <code>Gender</code>, <code>CLIENTNUM</code>, and the outcome variable <code>Attrition_Flag</code> into factors.</p></li>
-<li><p>For the factor Attrition_Flag, change the labels to <code>"Inactive"</code> and <code>"Active"</code>.</p></li>
-<li><p>Create ordinal scores for all ordered predictors.</p></li>
-<li><p>Impute all <code>NA</code> values using kNN imputation.</p></li>
-<li><p>Create dummy variables for all factor predictors.</p></li>
-<li><p>Apply a zero variance filter on all predictors.</p></li>
-<li><p>Familiarize yourself with the <code>step_corr</code> function, add it to the recipe, and apply it to all predictors.</p></li>
+<li><p>Convert the features <code>Income_Category</code> and <code>Education_Level</code> to ordered factors by using the levels provided below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>levels_income <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Less than $40K"</span>,<span class="st">"$40K - $60K"</span>,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>             <span class="st">"$60K - $80K"</span>,<span class="st">"$80K - $120K"</span>,<span class="st">"$120K +"</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>levels_education <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Uneducated"</span>, <span class="st">"High School"</span>,<span class="st">"College"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Graduate"</span>,  <span class="st">"Post-Graduate"</span>, <span class="st">"Doctorate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><p>The target variable <code>Attrition_Flag</code> currently has the values <code>"Existing Customer"</code> and <code>"Attrited Customer"</code>. Change the variable into an unordered factor variable which has the value <code>0</code>, if a customer is of the class <code>"Existing Customer"</code> and <code>1</code> if the customer is of the class <code>"Attrited Customer"</code>.</p></li>
+</ol>
+</div>
+<div id="exr-data_prep" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.6</strong></span> Create a training and test split based on the previously modified dataset using <code>set.seed(121)</code> and a 5-fold CV object based on the training data. Use stratification for the target variable <code>Attrition_Flag</code> to ensure that the ratio of positive and negative sample remains the same in the training and testing data.</p>
+</div>
+<div id="exr-recipe" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.7</strong></span> Create a recipe by following the steps described below.</p>
+<ol type="1">
+<li><p>As a formula, fit the variable <code>Attrition_Flag</code> on every other feature and set the <code>data</code> parameter to <code>data_train</code>.</p></li>
+<li><p>Update the role of the variable <code>CLIENTNUM</code> by setting it to <code>"ID"</code>.</p></li>
+<li><p>Create ordnial scores for all ordered predictors.</p></li>
+<li><p>Use the <code>step_unknown()</code>-function on all factor predictors to handle unknown values.</p></li>
+<li><p>Create dummy variable for the features <code>Maritial_Status, Gender</code> and <code>Card_Category</code>.</p></li>
+<li><p>Use mean imputation for all the numeric predictors.</p></li>
+<li><p>Create a zero-variance and correlation filter for the data.</p></li>
 </ol>
 </div>
 <div id="exr-wf_metric_set" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.7</strong></span> Create a workflow object and add the newly created recipe <code>rec_ci</code>. Afterwards, create a <code>metric_set</code> that contains the metrics <code>roc_auc</code>,<code>pr_auc</code>,<code>accuracy</code>,<code>precision</code>, and <code>recall</code>.</p>
+<p><span class="theorem-title"><strong>Exercise 5.8</strong></span> Create a workflow object and add the newly created recipe <code>rec_ci</code>. Afterwards, create a <code>metric_set</code> that contains the metrics <code>roc_auc</code>,<code>pr_auc</code>,<code>accuracy</code>,<code>precision</code>, and <code>recall</code>.</p>
 </div>
 <div id="exr-log_mod_tune" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.8 (Tuning a lasso model)</strong></span> &nbsp;</p>
+<p><span class="theorem-title"><strong>Exercise 5.9 (Tuning a lasso model)</strong></span> &nbsp;</p>
 <ol type="1">
 <li><p>Utilize the <code>logistic_reg</code> function to create a lasso model.</p></li>
 <li><p>Create a regular grid for the logistic model penalty with <span class="math inline">\(30\)</span> levels.</p></li>
-<li><p>Tune the linear model using the 5-fold CV object created in <a href="#exr-data_prep" class="quarto-xref">Exercise&nbsp;<span>5.5</span></a>, the grid specified in 2., and the metric set specified in <a href="#exr-wf_metric_set" class="quarto-xref">Exercise&nbsp;<span>5.7</span></a>.</p></li>
+<li><p>Tune the linear model using the 5-fold CV object created in <a href="#exr-data_prep" class="quarto-xref">Exercise&nbsp;<span>5.6</span></a>, the grid specified in 2., and the metric set specified in <a href="#exr-wf_metric_set" class="quarto-xref">Exercise&nbsp;<span>5.8</span></a>.</p></li>
 </ol>
 </div>
 <div id="exr-eval_log_tuning" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.9</strong></span> &nbsp;</p>
+<p><span class="theorem-title"><strong>Exercise 5.10</strong></span> &nbsp;</p>
 <ol type="1">
 <li>Given the results of the previous exercise, select the best model according to the “one-standard” rule based on the <code>"pr_auc"</code> metric.</li>
 <li>Train a final model on the whole training data.</li>
@@ -792,19 +803,19 @@ $ Avg_Utilization_Ratio    &lt;dbl&gt; 0.061, 0.105, 0.000, 0.760, 0.000, 0.311,
 </ol>
 </div>
 <div id="exr-bonus_lasso" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.10 (Bonus Exercise)</strong></span> The following exercise is not mandatory but still helps for gaining a deeper understanding of the penalization behavior. Since we have used a lasso logistic regression, some of the parameters might have been driven to 0. Find if there were any!</p>
+<p><span class="theorem-title"><strong>Exercise 5.11 (Bonus Exercise)</strong></span> The following exercise is not mandatory but still helps for gaining a deeper understanding of the penalization behavior. Since we have used a lasso logistic regression, some of the parameters might have been driven to 0. Find if there were any!</p>
 </div>
 <div id="exr-decision_tree" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.11</strong></span> Repeat <a href="#exr-log_mod_tune" class="quarto-xref">Exercise&nbsp;<span>5.8</span></a> - <a href="#exr-eval_log_tuning" class="quarto-xref">Exercise&nbsp;<span>5.9</span></a> by tuning a classification tree. Tune the parameters <code>min_n</code>, <code>tree_depth</code>, and <code>cost_complexity</code> using 5-fold CV and a regular grid with four levels. Instead of using the one standard error rule, use the <code>select_best</code> function instead.</p>
+<p><span class="theorem-title"><strong>Exercise 5.12</strong></span> Repeat <a href="#exr-log_mod_tune" class="quarto-xref">Exercise&nbsp;<span>5.9</span></a> - <a href="#exr-eval_log_tuning" class="quarto-xref">Exercise&nbsp;<span>5.10</span></a> by tuning a classification tree. Tune the parameters <code>min_n</code>, <code>tree_depth</code>, and <code>cost_complexity</code> using 5-fold CV and a regular grid with four levels. Instead of using the one standard error rule, use the <code>select_best</code> function instead.</p>
 </div>
 <div id="exr-vip_ct" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.12</strong></span> Use the <code>vip::vip</code> function to find the most important features of the final classification tree.</p>
+<p><span class="theorem-title"><strong>Exercise 5.13</strong></span> Use the <code>vip::vip</code> function to find the most important features of the final classification tree.</p>
 </div>
 <div id="exr-rf" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.13</strong></span> Repeat <a href="#exr-decision_tree" class="quarto-xref">Exercise&nbsp;<span>5.11</span></a> and <a href="#exr-vip_ct" class="quarto-xref">Exercise&nbsp;<span>5.12</span></a> for a random forest model with <span class="math inline">\(1000\)</span> trees. Tune the parameters <code>mtry</code> and <code>min_n</code> with a grid of size <span class="math inline">\(10\)</span> using 5-fold CV.</p>
+<p><span class="theorem-title"><strong>Exercise 5.14</strong></span> Repeat <a href="#exr-decision_tree" class="quarto-xref">Exercise&nbsp;<span>5.12</span></a> and <a href="#exr-vip_ct" class="quarto-xref">Exercise&nbsp;<span>5.13</span></a> for a random forest model with <span class="math inline">\(1000\)</span> trees. Tune the parameters <code>mtry</code> and <code>min_n</code> with a grid of size <span class="math inline">\(10\)</span> using 5-fold CV.</p>
 </div>
 <div id="exr-model_comparison" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.14</strong></span> Given the following plots, answer the following questions:</p>
+<p><span class="theorem-title"><strong>Exercise 5.15</strong></span> Given the following plots, answer the following questions:</p>
 <ol type="1">
 <li>What can be said about the discriminatory power of the classes?</li>
 <li>Which curve should be considered for assessing the accurracy of the models?</li>
@@ -817,7 +828,7 @@ $ Avg_Utilization_Ratio    &lt;dbl&gt; 0.061, 0.105, 0.000, 0.760, 0.000, 0.311,
 </div>
 </div>
 <div id="exr-rocpr_plot" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.15 (Bonus exercise)</strong></span> Use the previously saved data frames containing the ROC- and PR-curve data for each model to recreate the plot in exercise <a href="#exr-model_comparison" class="quarto-xref">Exercise&nbsp;<span>5.14</span></a></p>
+<p><span class="theorem-title"><strong>Exercise 5.16 (Bonus exercise)</strong></span> Use the previously saved data frames containing the ROC- and PR-curve data for each model to recreate the plot in exercise <a href="#exr-model_comparison" class="quarto-xref">Exercise&nbsp;<span>5.15</span></a></p>
 </div>
 </section>
 </section>
@@ -835,18 +846,18 @@ $ Avg_Utilization_Ratio    &lt;dbl&gt; 0.061, 0.105, 0.000, 0.760, 0.000, 0.311,
 <div id="sol-NIR" class="proof solution">
 <p><span class="proof-title"><em>Solution 5.4</em> (<a href="#exr-NIR" class="quarto-xref">Exercise&nbsp;<span>5.4</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>NIR<span class="ot">&lt;-</span> credit_info <span class="sc">%&gt;%</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Attrition_Flag)<span class="sc">%&gt;%</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">NIR =</span> n<span class="sc">/</span><span class="fu">sum</span>(n)) <span class="sc">%&gt;%</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>()</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>glue<span class="sc">::</span><span class="fu">glue</span>(</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"The NIR of the underlying dataset is {round(NIR,3)},</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="st">   meaning that a classification model should have</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="st">   an accuracy of at least {round(NIR,3)}."</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>NIR<span class="ot">&lt;-</span> credit_info <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Attrition_Flag)<span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">NIR =</span> n<span class="sc">/</span><span class="fu">sum</span>(n)) <span class="sc">%&gt;%</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>()</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>glue<span class="sc">::</span><span class="fu">glue</span>(</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"The NIR of the underlying dataset is {round(NIR,3)},</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="st">   meaning that a classification model should have</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="st">   an accuracy of at least {round(NIR,3)}."</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>The NIR of the underlying dataset is 0.839,
 meaning that a classification model should have
@@ -854,258 +865,135 @@ an accuracy of at least 0.839.</code></pre>
 </div>
 </div>
 </div>
-<div id="sol-data_prep" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.5</em> (<a href="#exr-data_prep" class="quarto-xref">Exercise&nbsp;<span>5.5</span></a>). </span>Create a training and test split using <code>set.seed(121)</code> and a 5-fold CV object based on the training data.</p>
+<div id="sol-preprocessing" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.5</em> (<a href="#exr-preprocessing" class="quarto-xref">Exercise&nbsp;<span>5.5</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">121</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(credit_info, <span class="at">strata =</span> Attrition_Flag)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>data_train_ci <span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>data_test_ci <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>folds_ci <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(data_train_ci, <span class="at">v =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="ot">&lt;-</span> credit_info <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">where</span>(<span class="sc">~</span><span class="fu">is.character</span>(.)<span class="sc">|</span><span class="fu">is.factor</span>(.)),</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span><span class="fu">if_else</span>(.<span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Unknown"</span>,<span class="st">"unknown"</span>),<span class="cn">NA</span>,.)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Income_Category =</span> <span class="fu">factor</span>(</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>        Income_Category,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">levels =</span> levels_income,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Education_Level =</span> <span class="fu">factor</span>(</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        Education_Level,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">levels =</span> levels_education,</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">Attrition_Flag =</span> <span class="fu">factor</span>(</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">if_else</span>(</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>        Attrition_Flag<span class="sc">==</span><span class="st">"Existing Customer"</span>,</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>        <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">Attrition_Flag =</span> <span class="fu">fct_rev</span>(Attrition_Flag)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="sol-data_prep" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.6</em> (<a href="#exr-data_prep" class="quarto-xref">Exercise&nbsp;<span>5.6</span></a>). </span>Create a training and test split using <code>set.seed(121)</code> and a 5-fold CV object based on the training data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">121</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(credit_info, <span class="at">strata =</span> Attrition_Flag)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>data_train_ci <span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>data_test_ci <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>folds_ci <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(data_train_ci, <span class="at">v =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-recipe" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.6</em> (<a href="#exr-recipe" class="quarto-xref">Exercise&nbsp;<span>5.6</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 5.7</em> (<a href="#exr-recipe" class="quarto-xref">Exercise&nbsp;<span>5.7</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>levels_income <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Less than $40K"</span>,<span class="st">"$40K - $60K"</span>,</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"$60K - $80K"</span>,<span class="st">"$80K - $120K"</span>,<span class="st">"$120K +"</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>levels_education <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Uneducated"</span>, <span class="st">"High School"</span>,<span class="st">"College"</span>,</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Graduate"</span>,  <span class="st">"Post-Graduate"</span>, <span class="st">"Doctorate"</span>)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>rec_ci <span class="ot">&lt;-</span> <span class="fu">recipe</span>(Attrition_Flag <span class="sc">~</span>., <span class="at">data =</span> data_train_ci) <span class="sc">%&gt;%</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_role</span>(CLIENTNUM, <span class="at">new_role =</span> <span class="st">"ID"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_mutate_at</span>(<span class="fu">all_nominal_predictors</span>(),</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">fn =</span> <span class="sc">~</span><span class="fu">if_else</span>(.<span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Unknown"</span>,<span class="st">"unknown"</span>),<span class="cn">NA</span>,.)</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>               ) <span class="sc">%&gt;%</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_string2factor</span>(Income_Category,</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels =</span> levels_income,</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ordered =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_string2factor</span>(Education_Level,</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels =</span> levels_education,</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ordered =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_string2factor</span>(Attrition_Flag) <span class="sc">%&gt;%</span></span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_ordinalscore</span>(<span class="fu">all_ordered_predictors</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_unknown</span>(<span class="fu">all_factor_predictors</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_impute_knn</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_corr</span>(<span class="fu">all_predictors</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>rec_ci <span class="ot">&lt;-</span> <span class="fu">recipe</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> Attrition_Flag <span class="sc">~</span>.,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_train_ci</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_role</span>(CLIENTNUM, <span class="at">new_role =</span> <span class="st">"Unique Identifier"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_ordinalscore</span>(<span class="fu">all_ordered_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_unknown</span>(<span class="fu">all_factor_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(Marital_Status,Gender,Card_Category)<span class="sc">%&gt;%</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_impute_mean</span>(<span class="fu">all_numeric_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_corr</span>(<span class="fu">all_predictors</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-wf_metric_set" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.7</em> (<a href="#exr-wf_metric_set" class="quarto-xref">Exercise&nbsp;<span>5.7</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 5.8</em> (<a href="#exr-wf_metric_set" class="quarto-xref">Exercise&nbsp;<span>5.8</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ci_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_ci) </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>multi_metrics <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(roc_auc,pr_auc,accuracy,recall)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ci_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_ci) </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>multi_metrics <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(roc_auc,pr_auc,accuracy,recall)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-log_mod_tune" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.8</em> (<a href="#exr-log_mod_tune" class="quarto-xref">Exercise&nbsp;<span>5.8</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 5.9</em> (<a href="#exr-log_mod_tune" class="quarto-xref">Exercise&nbsp;<span>5.9</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>log_mod_tune_spec <span class="ot">&lt;-</span><span class="fu">logistic_reg</span>(<span class="at">penalty =</span> <span class="fu">tune</span>(), <span class="at">mixture =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glmnet"</span>)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>ci_wf <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span> <span class="fu">add_model</span>(log_mod_tune_spec)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>lr_grid <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  extract_parameter_set_dials <span class="sc">%&gt;%</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grid_regular</span>(<span class="at">levels =</span> <span class="dv">30</span>)</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>lr_tune_res <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> lr_grid,</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">metrics =</span> multi_metrics,</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds_ci</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>log_mod_tune_spec <span class="ot">&lt;-</span><span class="fu">logistic_reg</span>(<span class="at">penalty =</span> <span class="fu">tune</span>(), <span class="at">mixture =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glmnet"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>ci_wf <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span> <span class="fu">add_model</span>(log_mod_tune_spec)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>lr_grid <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  extract_parameter_set_dials <span class="sc">%&gt;%</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grid_regular</span>(<span class="at">levels =</span> <span class="dv">30</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>lr_tune_res <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> lr_grid,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">metrics =</span> multi_metrics,</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> folds_ci</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="sol-eval_log_tuning" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.9</em> (<a href="#exr-eval_log_tuning" class="quarto-xref">Exercise&nbsp;<span>5.9</span></a>). </span></p>
+<p><span class="proof-title"><em>Solution 5.10</em> (<a href="#exr-eval_log_tuning" class="quarto-xref">Exercise&nbsp;<span>5.10</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>lr_res_best <span class="ot">&lt;-</span> lr_tune_res <span class="sc">%&gt;%</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_by_one_std_err</span>(<span class="at">metric =</span> <span class="st">"pr_auc"</span>, <span class="fu">desc</span>(penalty))</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>last_lr_fit <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(lr_res_best) <span class="sc">%&gt;%</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split,</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">metrics =</span> multi_metrics)</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>lr_auc<span class="ot">&lt;-</span> last_lr_fit <span class="sc">%&gt;%</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(Attrition_Flag,<span class="st">`</span><span class="at">.pred_Attrited Customer</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Logistic Regression"</span>)</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>lr_pr<span class="ot">&lt;-</span> last_lr_fit <span class="sc">%&gt;%</span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pr_curve</span>(Attrition_Flag,<span class="st">`</span><span class="at">.pred_Attrited Customer</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Logistic Regression"</span>)</span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> lr_auc <span class="sc">%&gt;%</span></span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span> <span class="sc">-</span> specificity, <span class="at">y =</span> sensitivity, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">lty =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
-<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">end =</span> .<span class="dv">6</span>)<span class="sc">+</span></span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
-<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> lr_pr <span class="sc">%&gt;%</span></span>
-<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> recall, <span class="at">y =</span> precision, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
-<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
-<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">end =</span> .<span class="dv">6</span>)<span class="sc">+</span></span>
-<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
-<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>p<span class="ot">&lt;-</span>p1 <span class="sc">|</span> p2</span>
-<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">plot_annotation</span>(</span>
-<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"ROC curve and Precision-Recall curve for a penalized logistic regression"</span></span>
-<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="05_bagging_rf_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="exr-bonus_lasso" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.16 (<a href="#exr-bonus_lasso" class="quarto-xref">Exercise&nbsp;<span>5.16</span></a>)</strong></span> &nbsp;</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>last_lr_fit <span class="sc">%&gt;%</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(estimate <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(term)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 1
-   term                          
-   &lt;chr&gt;                         
- 1 Avg_Utilization_Ratio         
- 2 Education_Level_Graduate      
- 3 Education_Level_High.School   
- 4 Education_Level_Uneducated    
- 5 Education_Level_unknown       
- 6 Marital_Status_unknown        
- 7 Income_Category_X.40K....60K  
- 8 Income_Category_X.80K....120K 
- 9 Income_Category_Less.than..40K
-10 Income_Category_unknown       </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>last_lr_fit <span class="sc">%&gt;%</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(estimate <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(estimate)) <span class="sc">%&gt;%</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(term)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 11 × 1
-   term                        
-   &lt;chr&gt;                       
- 1 Total_Ct_Chng_Q4_Q1         
- 2 Gender_M                    
- 3 Total_Relationship_Count    
- 4 Marital_Status_Married      
- 5 Total_Amt_Chng_Q4_Q1        
- 6 Total_Trans_Ct              
- 7 Income_Category_X.60K....80K
- 8 Months_on_book              
- 9 Customer_Age                
-10 Total_Revolving_Bal         
-11 Credit_Limit                </code></pre>
-</div>
-</div>
-</div>
-<div id="sol-decision_tree" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.10</em> (<a href="#exr-decision_tree" class="quarto-xref">Exercise&nbsp;<span>5.11</span></a>). </span></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>ct_model_spec <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n =</span> <span class="fu">tune</span>(),</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">tree_depth =</span> <span class="fu">tune</span>(),</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">cost_complexity =</span> <span class="fu">tune</span>()</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>)</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>ci_wf <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span> <span class="fu">update_model</span>(ct_model_spec)</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>ct_grid <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_parameter_set_dials</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grid_regular</span>(<span class="at">levels =</span> <span class="dv">4</span>)</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>ct_tune_res <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span></span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a> <span class="fu">tune_grid</span>(</span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>   <span class="at">grid =</span> ct_grid,</span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>   <span class="at">metrics =</span> multi_metrics,</span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>   <span class="at">resamples =</span> folds_ci</span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>ct_res_best <span class="ot">&lt;-</span> ct_tune_res <span class="sc">%&gt;%</span> </span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">"pr_auc"</span>)</span>
-<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>last_ct_fit <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span></span>
-<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(ct_res_best) <span class="sc">%&gt;%</span></span>
-<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split,</span>
-<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>           <span class="at">metrics =</span> multi_metrics)</span>
-<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>ct_auc<span class="ot">&lt;-</span> last_ct_fit <span class="sc">%&gt;%</span></span>
-<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(Attrition_Flag,<span class="st">`</span><span class="at">.pred_Attrited Customer</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Classification Tree"</span>)</span>
-<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>ct_pr<span class="ot">&lt;-</span> last_ct_fit <span class="sc">%&gt;%</span></span>
-<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pr_curve</span>(Attrition_Flag,<span class="st">`</span><span class="at">.pred_Attrited Customer</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Classification Tree"</span>)</span>
-<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> ct_auc <span class="sc">%&gt;%</span></span>
-<span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span> <span class="sc">-</span> specificity, <span class="at">y =</span> sensitivity, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
-<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">lty =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
-<span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
-<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">end =</span> .<span class="dv">6</span>)<span class="sc">+</span></span>
-<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
-<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> ct_pr <span class="sc">%&gt;%</span></span>
-<span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> recall, <span class="at">y =</span> precision, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
-<span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
-<span id="cb29-53"><a href="#cb29-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">end =</span> .<span class="dv">6</span>)<span class="sc">+</span></span>
-<span id="cb29-54"><a href="#cb29-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb29-55"><a href="#cb29-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
-<span id="cb29-56"><a href="#cb29-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb29-57"><a href="#cb29-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-58"><a href="#cb29-58" aria-hidden="true" tabindex="-1"></a>p<span class="ot">&lt;-</span>p1 <span class="sc">|</span> p2</span>
-<span id="cb29-59"><a href="#cb29-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-60"><a href="#cb29-60" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">plot_annotation</span>(</span>
-<span id="cb29-61"><a href="#cb29-61" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"ROC curve and PR curve for a classification tree"</span></span>
-<span id="cb29-62"><a href="#cb29-62" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="05_bagging_rf_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="sol-vip_ct" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.11</em> (<a href="#exr-vip_ct" class="quarto-xref">Exercise&nbsp;<span>5.12</span></a>). </span></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>last_ct_fit <span class="sc">%&gt;%</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vip</span>(<span class="at">geom =</span> <span class="st">"col"</span>, <span class="at">aesthetics =</span> <span class="fu">list</span>(<span class="at">fill =</span> <span class="st">"midnightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>)) <span class="sc">+</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))<span class="sc">+</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>lr_res_best <span class="ot">&lt;-</span> lr_tune_res <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_by_one_std_err</span>(<span class="at">metric =</span> <span class="st">"pr_auc"</span>, <span class="fu">desc</span>(penalty))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>last_lr_fit <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(lr_res_best) <span class="sc">%&gt;%</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">metrics =</span> multi_metrics)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>lr_auc<span class="ot">&lt;-</span> last_lr_fit <span class="sc">%&gt;%</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(Attrition_Flag,.pred_1) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Logistic Regression"</span>)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>lr_pr<span class="ot">&lt;-</span> last_lr_fit <span class="sc">%&gt;%</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pr_curve</span>(Attrition_Flag,.pred_1) <span class="sc">%&gt;%</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Logistic Regression"</span>)</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> lr_auc <span class="sc">%&gt;%</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span> <span class="sc">-</span> specificity, <span class="at">y =</span> sensitivity, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">lty =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">end =</span> .<span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> lr_pr <span class="sc">%&gt;%</span></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> recall, <span class="at">y =</span> precision, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">end =</span> .<span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>p<span class="ot">&lt;-</span>p1 <span class="sc">|</span> p2</span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">plot_annotation</span>(</span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"ROC curve and Precision-Recall curve for a penalized logistic regression"</span></span>
+<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1115,89 +1003,115 @@ an accuracy of at least 0.839.</code></pre>
 </div>
 </div>
 </div>
-<div id="sol-rf" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.12</em> (<a href="#exr-rf" class="quarto-xref">Exercise&nbsp;<span>5.13</span></a>). </span></p>
+<div id="exr-bonus_lasso" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 5.17 (<a href="#exr-bonus_lasso" class="quarto-xref">Exercise&nbsp;<span>5.17</span></a>)</strong></span> &nbsp;</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>cores <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>rf_model_spec <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"classification"</span>,</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mtry =</span> <span class="fu">tune</span>(),</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n =</span> <span class="fu">tune</span>(),</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">trees =</span> <span class="dv">1000</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>,</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">num.threads =</span> cores,</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">importance =</span> <span class="st">"permutation"</span>)</span>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>last_lr_fit <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(estimate <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(term)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 1
+   term                  
+   &lt;chr&gt;                 
+ 1 Customer_Age          
+ 2 Education_Level       
+ 3 Income_Category       
+ 4 Months_on_book        
+ 5 Credit_Limit          
+ 6 Total_Amt_Chng_Q4_Q1  
+ 7 Avg_Utilization_Ratio 
+ 8 Marital_Status_Single 
+ 9 Marital_Status_unknown
+10 Card_Category_Gold    
+11 Card_Category_Platinum
+12 Card_Category_Silver  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>last_lr_fit <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(estimate <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(estimate)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(term)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 1
+  term                    
+  &lt;chr&gt;                   
+1 Total_Ct_Chng_Q4_Q1     
+2 Total_Relationship_Count
+3 Gender_M                
+4 Marital_Status_Married  
+5 Total_Trans_Ct          
+6 Total_Revolving_Bal     </code></pre>
+</div>
+</div>
+</div>
+<div id="sol-decision_tree" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.11</em> (<a href="#exr-decision_tree" class="quarto-xref">Exercise&nbsp;<span>5.12</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>ct_model_spec <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n =</span> <span class="fu">tune</span>(),</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">tree_depth =</span> <span class="fu">tune</span>(),</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">cost_complexity =</span> <span class="fu">tune</span>()</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>ci_wf <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span> <span class="fu">update_model</span>(ct_model_spec)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>ct_grid <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_parameter_set_dials</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grid_regular</span>(<span class="at">levels =</span> <span class="dv">4</span>)</span>
 <span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>ci_wf <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span> <span class="fu">update_model</span>(rf_model_spec)</span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>rf_res <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span> </span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(<span class="at">grid =</span> <span class="dv">10</span>,</span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">metrics =</span> multi_metrics,</span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">resamples =</span> folds_ci,</span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">control =</span> <span class="fu">control_grid</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>i Creating pre-processing data to finalize unknown parameter: mtry</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>rf_res_best <span class="ot">&lt;-</span> rf_res <span class="sc">%&gt;%</span> <span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">"roc_auc"</span>)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>rf_auc <span class="ot">&lt;-</span> </span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  rf_res <span class="sc">%&gt;%</span> </span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>(<span class="at">parameters =</span> rf_res_best) <span class="sc">%&gt;%</span> </span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(Attrition_Flag, <span class="st">`</span><span class="at">.pred_Attrited Customer</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Random Forest"</span>)</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>rf_pr <span class="ot">&lt;-</span> </span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  rf_res <span class="sc">%&gt;%</span> </span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>(<span class="at">parameters =</span> rf_res_best) <span class="sc">%&gt;%</span> </span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pr_curve</span>(Attrition_Flag, <span class="st">`</span><span class="at">.pred_Attrited Customer</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Random Forest"</span>)</span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> rf_auc <span class="sc">%&gt;%</span></span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span> <span class="sc">-</span> specificity, <span class="at">y =</span> sensitivity, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
-<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">lty =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
-<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
-<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">end =</span> .<span class="dv">6</span>)<span class="sc">+</span></span>
-<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
-<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> rf_pr <span class="sc">%&gt;%</span></span>
-<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> recall, <span class="at">y =</span> precision, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
-<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
-<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">end =</span> .<span class="dv">6</span>)<span class="sc">+</span></span>
-<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
-<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a>p<span class="ot">&lt;-</span>p1 <span class="sc">|</span> p2</span>
-<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">plot_annotation</span>(</span>
-<span id="cb33-37"><a href="#cb33-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"ROC Curve and PR curve for a random forest"</span></span>
-<span id="cb33-38"><a href="#cb33-38" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="05_bagging_rf_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Feature importance plot:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>last_rf_fit <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(rf_res_best) <span class="sc">%&gt;%</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split)</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>last_rf_fit <span class="sc">%&gt;%</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_parsnip</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vip</span>(<span class="at">geom =</span> <span class="st">"col"</span>, <span class="at">aesthetics =</span> <span class="fu">list</span>(<span class="at">fill =</span> <span class="st">"midnightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>)) <span class="sc">+</span></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))<span class="sc">+</span></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>ct_tune_res <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a> <span class="fu">tune_grid</span>(</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>   <span class="at">grid =</span> ct_grid,</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>   <span class="at">metrics =</span> multi_metrics,</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>   <span class="at">resamples =</span> folds_ci</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>ct_res_best <span class="ot">&lt;-</span> ct_tune_res <span class="sc">%&gt;%</span> </span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">"pr_auc"</span>)</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>last_ct_fit <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span></span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(ct_res_best) <span class="sc">%&gt;%</span></span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split,</span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>           <span class="at">metrics =</span> multi_metrics)</span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>ct_auc<span class="ot">&lt;-</span> last_ct_fit <span class="sc">%&gt;%</span></span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(Attrition_Flag,.pred_1) <span class="sc">%&gt;%</span></span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Classification Tree"</span>)</span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>ct_pr<span class="ot">&lt;-</span> last_ct_fit <span class="sc">%&gt;%</span></span>
+<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pr_curve</span>(Attrition_Flag,.pred_1) <span class="sc">%&gt;%</span></span>
+<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Classification Tree"</span>)</span>
+<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> ct_auc <span class="sc">%&gt;%</span></span>
+<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span> <span class="sc">-</span> specificity, <span class="at">y =</span> sensitivity, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
+<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb31-42"><a href="#cb31-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">lty =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb31-43"><a href="#cb31-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
+<span id="cb31-44"><a href="#cb31-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">end =</span> .<span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb31-45"><a href="#cb31-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb31-46"><a href="#cb31-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
+<span id="cb31-47"><a href="#cb31-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb31-48"><a href="#cb31-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-49"><a href="#cb31-49" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> ct_pr <span class="sc">%&gt;%</span></span>
+<span id="cb31-50"><a href="#cb31-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> recall, <span class="at">y =</span> precision, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
+<span id="cb31-51"><a href="#cb31-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb31-52"><a href="#cb31-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
+<span id="cb31-53"><a href="#cb31-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">end =</span> .<span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb31-54"><a href="#cb31-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb31-55"><a href="#cb31-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
+<span id="cb31-56"><a href="#cb31-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb31-57"><a href="#cb31-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-58"><a href="#cb31-58" aria-hidden="true" tabindex="-1"></a>p<span class="ot">&lt;-</span>p1 <span class="sc">|</span> p2</span>
+<span id="cb31-59"><a href="#cb31-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-60"><a href="#cb31-60" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">plot_annotation</span>(</span>
+<span id="cb31-61"><a href="#cb31-61" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"ROC curve and PR curve for a classification tree"</span></span>
+<span id="cb31-62"><a href="#cb31-62" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1207,40 +1121,149 @@ an accuracy of at least 0.839.</code></pre>
 </div>
 </div>
 </div>
-<div id="sol-rocpr_plot" class="proof solution">
-<p><span class="proof-title"><em>Solution 5.13</em> (<a href="#exr-rocpr_plot" class="quarto-xref">Exercise&nbsp;<span>5.15</span></a>). </span></p>
+<div id="sol-vip_ct" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.12</em> (<a href="#exr-vip_ct" class="quarto-xref">Exercise&nbsp;<span>5.13</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#80003A"</span>,<span class="st">"#506432"</span>,<span class="st">"#FFC500"</span>)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(cols) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"cl"</span>, <span class="st">"lr"</span>, <span class="st">"rf"</span>)</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>plot_title <span class="ot">&lt;-</span> glue<span class="sc">::</span><span class="fu">glue</span>(</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ROC- and PR-curve for &lt;span style='color:{cols['lr']};'&gt;</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="st">    penalized logistic regression&lt;/span&gt;,&lt;br&gt;</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;span style='color:{cols['cl']};'&gt;classification tree&lt;/span&gt;,</span></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="st">    and &lt;span style='color:{cols['rf']};'&gt;random forest&lt;/span&gt;"</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(ct_auc, lr_auc, rf_auc) <span class="sc">%&gt;%</span> </span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span> <span class="sc">-</span> specificity, <span class="at">y =</span> sensitivity, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">lty =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">unname</span>(cols))<span class="sc">+</span></span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(ct_pr, lr_pr, rf_pr) <span class="sc">%&gt;%</span> </span>
-<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> recall, <span class="at">y =</span> precision, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
-<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
-<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">unname</span>(cols))<span class="sc">+</span></span>
-<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
-<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>(p1<span class="sc">|</span>p2) <span class="sc">+</span></span>
-<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(</span>
-<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> plot_title,</span>
-<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_markdown</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>last_ct_fit <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vip</span>(<span class="at">geom =</span> <span class="st">"col"</span>, <span class="at">aesthetics =</span> <span class="fu">list</span>(<span class="at">fill =</span> <span class="st">"midnightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>)) <span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))<span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_bagging_rf_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="sol-rf" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.13</em> (<a href="#exr-rf" class="quarto-xref">Exercise&nbsp;<span>5.14</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>cores <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>rf_model_spec <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"classification"</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mtry =</span> <span class="fu">tune</span>(),</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n =</span> <span class="fu">tune</span>(),</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">trees =</span> <span class="dv">1000</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>,</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">num.threads =</span> cores,</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">importance =</span> <span class="st">"permutation"</span>)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>ci_wf <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span> <span class="fu">update_model</span>(rf_model_spec)</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>rf_res <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(<span class="at">grid =</span> <span class="dv">10</span>,</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">metrics =</span> multi_metrics,</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">resamples =</span> folds_ci,</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">control =</span> <span class="fu">control_grid</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>i Creating pre-processing data to finalize unknown parameter: mtry</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>rf_res_best <span class="ot">&lt;-</span> rf_res <span class="sc">%&gt;%</span> <span class="fu">select_best</span>(<span class="at">metric =</span> <span class="st">"roc_auc"</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>rf_auc <span class="ot">&lt;-</span> </span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  rf_res <span class="sc">%&gt;%</span> </span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>(<span class="at">parameters =</span> rf_res_best) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(Attrition_Flag, .pred_1) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Random Forest"</span>)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>rf_pr <span class="ot">&lt;-</span> </span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  rf_res <span class="sc">%&gt;%</span> </span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>(<span class="at">parameters =</span> rf_res_best) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pr_curve</span>(Attrition_Flag, .pred_1) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Random Forest"</span>)</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> rf_auc <span class="sc">%&gt;%</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span> <span class="sc">-</span> specificity, <span class="at">y =</span> sensitivity, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">lty =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">end =</span> .<span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> rf_pr <span class="sc">%&gt;%</span></span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> recall, <span class="at">y =</span> precision, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
+<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">end =</span> .<span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
+<span id="cb35-32"><a href="#cb35-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-34"><a href="#cb35-34" aria-hidden="true" tabindex="-1"></a>p<span class="ot">&lt;-</span>p1 <span class="sc">|</span> p2</span>
+<span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-36"><a href="#cb35-36" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">plot_annotation</span>(</span>
+<span id="cb35-37"><a href="#cb35-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"ROC Curve and PR curve for a random forest"</span></span>
+<span id="cb35-38"><a href="#cb35-38" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_bagging_rf_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Feature importance plot:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>last_rf_fit <span class="ot">&lt;-</span> ci_wf <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">finalize_workflow</span>(rf_res_best) <span class="sc">%&gt;%</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_fit</span>(split)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>last_rf_fit <span class="sc">%&gt;%</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_parsnip</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vip</span>(<span class="at">geom =</span> <span class="st">"col"</span>, <span class="at">aesthetics =</span> <span class="fu">list</span>(<span class="at">fill =</span> <span class="st">"midnightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>)) <span class="sc">+</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))<span class="sc">+</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_bagging_rf_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="sol-rocpr_plot" class="proof solution">
+<p><span class="proof-title"><em>Solution 5.14</em> (<a href="#exr-rocpr_plot" class="quarto-xref">Exercise&nbsp;<span>5.16</span></a>). </span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#80003A"</span>,<span class="st">"#506432"</span>,<span class="st">"#FFC500"</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(cols) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"cl"</span>, <span class="st">"lr"</span>, <span class="st">"rf"</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>plot_title <span class="ot">&lt;-</span> glue<span class="sc">::</span><span class="fu">glue</span>(</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ROC- and PR-curve for &lt;span style='color:{cols['lr']};'&gt;</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="st">    penalized logistic regression&lt;/span&gt;,&lt;br&gt;</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;span style='color:{cols['cl']};'&gt;classification tree&lt;/span&gt;,</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="st">    and &lt;span style='color:{cols['rf']};'&gt;random forest&lt;/span&gt;"</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(ct_auc, lr_auc, rf_auc) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span> <span class="sc">-</span> specificity, <span class="at">y =</span> sensitivity, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">lty =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">unname</span>(cols))<span class="sc">+</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(ct_pr, lr_pr, rf_pr) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> recall, <span class="at">y =</span> precision, <span class="at">col =</span> model)) <span class="sc">+</span> </span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">unname</span>(cols))<span class="sc">+</span></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>(p1<span class="sc">|</span>p2) <span class="sc">+</span></span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(</span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> plot_title,</span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_markdown</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="pictures/ROC_PR_Comparison.png" class="img-fluid"></p>
 </div>
