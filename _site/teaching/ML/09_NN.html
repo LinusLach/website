@@ -824,11 +824,11 @@ $ max_rent &lt;dbl&gt; 1854.401, 2537.562, 2966.345, 2012.074, 2507.589, 1804.19
 <p>Here,</p>
 <ul>
 <li><p><span class="math inline">\((x_1, x_2)^\top\in \mathbb{R}^2\)</span> denotes an input vector</p></li>
-<li><p><span class="math inline">\(\{h_i^{(1)}\}_{i=1}^3\)</span> denote a hidden layer with each neuron defined by <span class="math display">\[ h_i^{(1)} := \sigma_1\left(\sum_{j=1}^{2}w_{ij}^{(1)} x_j + b_1\right)\]</span> where <span class="math inline">\(\sigma_1:\mathbb{R}\to\mathbb{R}\)</span> denotes an activation function, <span class="math inline">\(w_{i1}^{(1)},w_{i2}^{(1)}, b_1\in\mathbb{R},i=1,...,3\)</span> denote weights and a bias for the first layer.</p></li>
+<li><p><span class="math inline">\(\{h_i^{(1)}\}_{i=1}^3\)</span> denote a hidden layer with each neuron defined by <span class="math display">\[ h_i^{(1)} := \sigma_1\left(\sum_{j=1}^{2}w_{ij}^{(1)} x_j + b^{(1)}_i\right)\]</span> where <span class="math inline">\(\sigma_1:\mathbb{R}\to\mathbb{R}\)</span> denotes an activation function, <span class="math inline">\(w_{i1}^{(1)},w_{i2}^{(1)}, b^{(1)}_i\in\mathbb{R},i=1,...,3\)</span> denote weights and a bias for the first layer.</p></li>
 <li><p><span class="math inline">\(y_1\)</span> is the output of the neural network that is defined as <span id="eq-nn_simple"><span class="math display">\[
-y_1 = \sigma_2\left(\sum_{i=1}^{3}w_{i1}^{(2)}h_i^{(1)}+b_2\right),
+y_1 = \sigma_2\left(\sum_{i=1}^{3}w_{i1}^{(2)}h_i^{(1)}+b_i^{(2)}\right),
 \tag{9.1}\]</span></span></p>
-<p>where <span class="math inline">\(\sigma_2:\mathbb{R}\to\mathbb{R}\)</span> denotes another activation function, and <span class="math inline">\(w_{i1}^{(2)}, b_2\in\mathbb{R},i=1,...,3\)</span> denote weights and a bias for the second/final layer.</p></li>
+<p>where <span class="math inline">\(\sigma_2:\mathbb{R}\to\mathbb{R}\)</span> denotes another activation function, and <span class="math inline">\(w_{i1}^{(2)}, b^{(2)}_i\in\mathbb{R},i=1,...,3\)</span> denote weights and a bias for the second/final layer.</p></li>
 </ul>
 <div id="exr-nn01" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 9.1</strong></span> Assume that <span class="math inline">\(\sigma_1 = \sigma_2 = \mathrm{ReLU}\)</span>, i.e., <span class="math inline">\(x\mapsto \max\{0,x\}\)</span>. Set up the model equation for this neural network by expanding the term <span class="math inline">\(y_1\)</span>.</p>
@@ -861,7 +861,6 @@ Tip
 </div>
 <div id="exr-post_hoc" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 9.5</strong></span> Explain in your own words the meaning of “post-hoc” interpretation mehtods.</p>
-<p>Post-hoc intepretation refers to the process of interpreting the model’s behavior subsequent to model training. The goal is to make use of the predifined structure of the model without modifying the training process itself.</p>
 </div>
 <div id="exr-ICE" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 9.6</strong></span> Explain in your own words the difference between individual conditional expectation (ICE) for a feature and partial dependence on a feature.</p>
@@ -963,16 +962,16 @@ Tip
 <h2 data-number="9.4" class="anchored" data-anchor-id="solutions"><span class="header-section-number">9.4</span> Solutions</h2>
 <div id="sol-nn01" class="proof solution">
 <p><span class="proof-title"><em>Solution 9.1</em> (<a href="#exr-nn01" class="quarto-xref">Exercise&nbsp;<span>9.1</span></a>). </span><span class="math display">\[\begin{align*}
-  y_1 &amp;= &amp;&amp;\sigma_2\left(\sum_{i=1}^{3}w_{i1}^{(2)}h_i^{(1)}+b_2\right)\\
-      &amp;= &amp;&amp;\max\left\{\sum_{i=1}^{3}w_{i1}^{(2)}h_i^{(1)}+b_2,0\right\}\\
-      &amp;= &amp;&amp;\max\left\{\sum_{i=1}^{3}w_{i1}^{(2)}\sigma_1\left(\sum_{j=1}^{2}w_{ij}^{(1)} x_j + b_1\right)+b_2,0\right\}\\
-      &amp;= &amp;&amp;\max\left\{\sum_{i=1}^{3}w_{i1}^{(2)}\max\left\{\sum_{j=1}^{2}w_{ij}^{(1)} x_j + b_1,0\right\}+b_2,0\right\}\\
-      &amp;=&amp;&amp;\max\left\{\sum_{i=1}^{3}w_{i1}^{(2)}\max\left\{w_{i1}^{(1)} x_1 + w_{i2}^{(1)} x_2 + b_1,0\right\}+b_2,0\right\} \\
+  y_1 &amp;= &amp;&amp;\sigma_2\left(\sum_{i=1}^{3}w_{i1}^{(2)}h_i^{(1)}+b_i^{(2)}\right)\\
+      &amp;= &amp;&amp;\max\left\{\sum_{i=1}^{3}w_{i1}^{(2)}h_i^{(1)}+b_i^{(2)},0\right\}\\
+      &amp;= &amp;&amp;\max\left\{\sum_{i=1}^{3}w_{i1}^{(2)}\sigma_1\left(\sum_{j=1}^{2}w_{ij}^{(1)} x_j + b_i^{(1)}\right)+b_i^{(2)},0\right\}\\
+      &amp;= &amp;&amp;\max\left\{\sum_{i=1}^{3}w_{i1}^{(2)}\max\left\{\sum_{j=1}^{2}w_{ij}^{(1)} x_j + b_i^{(1)},0\right\}+b_i^{(2)},0\right\}\\
+      &amp;=&amp;&amp;\max\left\{\sum_{i=1}^{3}w_{i1}^{(2)}\max\left\{w_{i1}^{(1)} x_1 + w_{i2}^{(1)} x_2 + b_i^{(1)},0\right\}+b_i^{(2)},0\right\} \\
       &amp;=&amp;&amp;\max\left\{\right.\\
-      &amp; &amp;&amp; w_{11}^{(2)}\max\left\{w_{11}^{(1)} x_1 + w_{12}^{(1)} x_2 + b_1,0\right\} + \\
-      &amp; &amp;&amp; w_{21}^{(2)}\max\left\{w_{21}^{(1)} x_1 + w_{22}^{(1)} x_2 + b_1,0\right\} + \\
-      &amp; &amp;&amp; w_{31}^{(2)}\max\left\{w_{31}^{(1)} x_1 + w_{32}^{(1)} x_2 + b_1,0\right\} + \\
-      &amp; &amp;&amp; \left. b_2,0\right\}
+      &amp; &amp;&amp; w_{11}^{(2)}\max\left\{w_{11}^{(1)} x_1 + w_{12}^{(1)} x_2 + b^{(1)}_1,0\right\} + b_1^{(2)}\\
+      &amp; &amp;&amp; w_{21}^{(2)}\max\left\{w_{21}^{(1)} x_1 + w_{22}^{(1)} x_2 + b^{(1)}_2,0\right\} + b_2^{(2)}\\
+      &amp; &amp;&amp; w_{31}^{(2)}\max\left\{w_{31}^{(1)} x_1 + w_{32}^{(1)} x_2 + b^{(1)}_3,0\right\} + b_3^{(2)}\\
+      &amp; &amp;&amp; \left.,0\right\}
 \end{align*}\]</span></p>
 </div>
 <div id="sol-nn02" class="proof solution">
