@@ -336,15 +336,15 @@ window.Quarto = {
 
 <section id="introduction" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">10.1</span> Introduction</h2>
-<p>In this last exercise session, we will consider a major subfield of machine learning: unsupervised learning. In particular, we will consider clustering with hierarchical methods, the k-means algorithm, and dbscan. Besides unsupervised learning, we will also consider dimension reduction algorithms such as principal component analysis and autoencoders.</p>
+<p>In the remaining exercise sessions, we will consider another major subfield of machine learning: unsupervised learning. In particular, we will consider clustering with hierarchical methods, the k-means algorithm, and SBSCAN. We will also consider dimension reduction algorithms such as principal component analysis and autoencoders which are a common preprocessing step.</p>
 <section id="dimension-reduction" class="level3" data-number="10.1.1">
 <h3 data-number="10.1.1" class="anchored" data-anchor-id="dimension-reduction"><span class="header-section-number">10.1.1</span> Dimension reduction</h3>
-<p>Many of the data sets we encountered so far have a dimension <span class="math inline">\(\gg 2\)</span>. We can therefore not directly visualize all features and the response variable in one figure. One solution is to build a facet plot (similar to <a href="https://linus-lach.de/teaching/ml/01_prerequisites#exr-VDE5">Exercise 1.15</a>) that displays every possible combination of variables. However, this is increasingly difficult: Consider the Credit Info data set we frequently use. There are <span class="math inline">\(n=10\)</span> variables we usually use and to display every variable combination, <span class="math inline">\(\begin{pmatrix} 10 \\ 2\end{pmatrix} = 45\)</span> subplots would be required. The idea of dimension reduction aims to solve this problem. Instead of considering every feature individually, dimension reduction usually merges feature values based on some rule set. Principal component analysis combines features linearly in a way that the resulting linear combinations explain most of the variability in the data set. Autoencoders on the other hand aim to map the features into a lower dimensional subspace (latent space) and rebuild the true features based on the features in the latent space.</p>
+<p>Many of the data sets we encountered so far have a dimension <span class="math inline">\(\gg 2\)</span>, i.e.&nbsp;there are a lot more than two features. We can therefore not directly visualize all features and the response variable in one figure. One solution is to build a facet plot (similar to <a href="https://linus-lach.de/teaching/ml/01_prerequisites#exr-VDE5">Exercise 1.15</a>) that displays every possible combination of variables. However, this is increasingly difficult: Consider the Credit Info data set we frequently use. There are <span class="math inline">\(n=10\)</span> variables we usually use and to display every variable combination, <span class="math inline">\(\begin{pmatrix} 10 \\ 2\end{pmatrix} = 45\)</span> subplots would be required. The idea of dimension reduction aims to solve this problem. Instead of considering every feature individually, dimension reduction usually merges feature values based on some rule set. Principal component analysis combines features linearly in a way that the resulting linear combinations explain most of the variability in the data set. Autoencoders on the other hand aim to map the features into a lower dimensional subspace (latent space) and rebuild the true features based on the features in the latent space.</p>
 <section id="principal-component-analysis-pca" class="level4" data-number="10.1.1.1">
 <h4 data-number="10.1.1.1" class="anchored" data-anchor-id="principal-component-analysis-pca"><span class="header-section-number">10.1.1.1</span> Principal Component Analysis (PCA)</h4>
 <p>Heuristically speaking, PCA assumes that in a <span class="math inline">\(n\)</span> dimensional (feature) space, not every variable is equally important in terms of variability. Consider a feature matrix <span class="math inline">\(X\in\mathbb{R}^{n\times p}\)</span> (<span class="math inline">\(p\)</span> features and <span class="math inline">\(n\)</span> observations) with normalized features. To find the features that explain the most variance, the following steps are performed:</p>
 <ol type="1">
-<li>Center the features such that <span class="math inline">\(\mathbb{E}(X_j) = \frac{1}{n}\sum_{i=1}^n x_{ij} = 0\)</span> for <span class="math inline">\(j=1,...,p\)</span>.</li>
+<li>Center the features such that <span class="math inline">\(\hat{\mathbb{E}(X_j)} = \frac{1}{n}\sum_{i=1}^n x_{ij} = 0\)</span> for <span class="math inline">\(j=1,...,p\)</span>.</li>
 <li>Calculate the empirical covariance matrix <span class="math inline">\(X^\prime X =: \Sigma\in\mathbb{R}^{p\times p}\)</span> that measures the joint variability of each pair of features.</li>
 <li>Calculate the singular value decomposition of <span class="math inline">\(\Sigma\)</span>:
 <ol type="i">
@@ -356,9 +356,9 @@ window.Quarto = {
             0 &amp; 0 &amp; ... &amp; 1
         \end{pmatrix} \in \mathbb{R}^{p\times p} \text{ and}\\
   \lambda &amp;\in\mathbb{R}.
-\end{align}\]</span> for <span class="math inline">\(\lambda\)</span>. Here, we assume that there are <span class="math inline">\(p\)</span> distinct solutions.</li>
+\end{align}\]</span> for <span class="math inline">\(\lambda\)</span>. Here, we assume that there are <span class="math inline">\(p\)</span> unique solutions.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</li>
 <li>Reorder the solutions <span class="math inline">\(\lambda_j,\, j=1,...,p\)</span> descending such that <span class="math inline">\(\lambda_{(1)}\geq...\geq \lambda_{(q)}\)</span>.</li>
-<li>For each ordered solution <span class="math inline">\(\lambda_{(j)},\, j=1,...,p\)</span> that solves <span class="math inline">\(\mathrm{det}(\Sigma - \lambda I_p)= 0\)</span>, solve the system <span class="math display">\[\begin{align}
+<li>For each ordered solution <span class="math inline">\(\lambda_{(j)},\, j=1,...,p\)</span> that solves <span class="math inline">\(\mathrm{det}(\Sigma - \lambda_{(j)} I_p)= 0\)</span>, solve the system <span class="math display">\[\begin{align}
 (\Sigma - \lambda_{(j)} I_p)\gamma_{(j)} = 0,
       \end{align}\]</span> where <span class="math inline">\(\gamma_{(j)} \in \mathbb{R}^p\)</span> for <span class="math inline">\(j=1,...,p\)</span>.</li>
 <li>Normalize the resulting vectors to obtain the principal components of the data. Note, that the normalizing constant of each vector <span class="math inline">\(\gamma_{(j)}\)</span> is given by <span class="math inline">\(\frac{1}{\|\gamma_{(j)}\|}\)</span>.</li>
@@ -381,80 +381,90 @@ By choosing the first <span class="math inline">\(k\leq p\)</span> of the <span 
 </div>
 <p>Let us consider the Bank Churners or Credit Info data set that we already used in previous exercises. You can either download it again using the provided link or the button below.</p>
 <div style="text-align: center;">
-<p><a href="data/BankChurners.csv" class="btn btn-outline-primary" role="button" data-toggle="tooltip" title="1.2 MB">Download BankChurners</a></p>
+<p><a href="https://linus-lach.de/teaching/ml/data/BankChurners.csv" class="btn btn-outline-primary" role="button" data-toggle="tooltip" title="1.2 MB">Download BankChurners</a></p>
 </div>
 <p>Recall that the data set consists of 10,127 entries that represent individual customers of a bank including but not limited to their age, salary, credit card limit, and credit card category.</p>
 <p>The goal is to reduce the dimensionality of the data set while leaving out the variable <code>Attrition_Flag</code>. By doing so, we might be able to get a better intuition on the distribution of attrited customers within the reduced data set.</p>
-<p>The following code snippet takes care of the pre processing:</p>
+<p>The following code snippet takes care of the preprocessing:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>credit_info <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/BankChurners.csv"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>credit_info <span class="ot">&lt;-</span> credit_info <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(CLIENTNUM))</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>levels_income <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Less than $40K"</span>,<span class="st">"$40K - $60K"</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"$60K - $80K"</span>,<span class="st">"$80K - $120K"</span>,<span class="st">"$120K +"</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>levels_education <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Uneducated"</span>, <span class="st">"High School"</span>,<span class="st">"College"</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Graduate"</span>,  <span class="st">"Post-Graduate"</span>, <span class="st">"Doctorate"</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>rec_ci <span class="ot">&lt;-</span> <span class="fu">recipe</span>(Attrition_Flag<span class="sc">~</span>., <span class="at">data =</span>credit_info ) <span class="sc">%&gt;%</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_mutate_at</span>(<span class="fu">all_nominal_predictors</span>(),</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">fn =</span> <span class="sc">~</span><span class="fu">if_else</span>(.<span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Unknown"</span>,<span class="st">"unknown"</span>),<span class="cn">NA</span>,.)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">%&gt;%</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_string2factor</span>(Income_Category,</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels =</span> levels_income,</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ordered =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_string2factor</span>(Education_Level,</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels =</span> levels_education,</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ordered =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_ordinalscore</span>(<span class="fu">all_ordered_predictors</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_unknown</span>(<span class="fu">all_factor_predictors</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_impute_knn</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_corr</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_normalize</span>(<span class="fu">all_predictors</span>())</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>credit_info_prepped <span class="ot">&lt;-</span> rec_ci <span class="sc">%&gt;%</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prep</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bake</span>(credit_info)</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>credit_info_prepped <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>levels_income <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Less than $40K"</span>,<span class="st">"$40K - $60K"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"$60K - $80K"</span>,<span class="st">"$80K - $120K"</span>,<span class="st">"$120K +"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>levels_education <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Uneducated"</span>, <span class="st">"High School"</span>,<span class="st">"College"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Graduate"</span>,  <span class="st">"Post-Graduate"</span>, <span class="st">"Doctorate"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>credit_info <span class="ot">&lt;-</span> credit_info <span class="sc">%&gt;%</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(CLIENTNUM)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">where</span>(<span class="sc">~</span>(<span class="fu">is.factor</span>(.)<span class="sc">|</span><span class="fu">is.character</span>(.))),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                 <span class="sc">~</span><span class="fu">if_else</span>(.<span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Unknown"</span>,<span class="st">"unknown"</span>),<span class="cn">NA</span>,.)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>           ),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">Income_Category =</span> <span class="fu">factor</span>(</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>      Income_Category,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> levels_income,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">Education_Level =</span> <span class="fu">factor</span>(</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>      Education_Level,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> levels_education,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>rec_ci <span class="ot">&lt;-</span> <span class="fu">recipe</span>(Attrition_Flag<span class="sc">~</span>., <span class="at">data =</span>credit_info ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_novel</span>(<span class="fu">all_nominal_predictors</span>())<span class="sc">%&gt;%</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_unknown</span>(<span class="fu">all_nominal_predictors</span>(), <span class="fu">all_ordered_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>())<span class="sc">%&gt;%</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_ordinalscore</span>(<span class="fu">all_ordered_predictors</span>())<span class="sc">%&gt;%</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_impute_mean</span>(<span class="fu">all_numeric_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_normalize</span>(<span class="fu">all_numeric_predictors</span>())</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>credit_info_prepped <span class="ot">&lt;-</span> rec_ci <span class="sc">%&gt;%</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prep</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bake</span>(credit_info)</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>credit_info_prepped <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 10,127
-Columns: 32
-$ Customer_Age                   &lt;dbl&gt; -0.16539741, 0.33355391, 0.58302958, -0…
-$ Dependent_count                &lt;dbl&gt; 0.5033433, 2.0430978, 0.5033433, 1.2732…
-$ Months_on_book                 &lt;dbl&gt; 0.38460189, 1.01066492, 0.00896407, -0.…
-$ Total_Relationship_Count       &lt;dbl&gt; 0.7639049, 1.4072367, 0.1205731, -0.522…
-$ Months_Inactive_12_mon         &lt;dbl&gt; -1.3270705, -1.3270705, -1.3270705, 1.6…
-$ Contacts_Count_12_mon          &lt;dbl&gt; 0.4923795, -0.4115957, -2.2195459, -1.3…
-$ Credit_Limit                   &lt;dbl&gt; 0.446599851, -0.041364610, -0.573669472…
-$ Total_Revolving_Bal            &lt;dbl&gt; -0.473398843, -0.366648718, -1.42678789…
-$ Total_Amt_Chng_Q4_Q1           &lt;dbl&gt; 2.6233649, 3.5631169, 8.3668007, 2.9426…
-$ Total_Trans_Amt                &lt;dbl&gt; -0.9596592, -0.9163874, -0.7409451, -0.…
-$ Total_Trans_Ct                 &lt;dbl&gt; -0.9738471, -1.3572734, -1.9111113, -1.…
-$ Total_Ct_Chng_Q4_Q1            &lt;dbl&gt; 3.833813303, 12.607950374, 6.807527542,…
-$ Avg_Utilization_Ratio          &lt;dbl&gt; -0.77584393, -0.61624523, -0.99710576, …
-$ Attrition_Flag                 &lt;fct&gt; Existing Customer, Existing Customer, E…
-$ Gender_M                       &lt;dbl&gt; 1.0599033, -0.9433891, 1.0599033, -0.94…
-$ Education_Level_Doctorate      &lt;dbl&gt; -0.2158832, -0.2158832, -0.2158832, -0.…
-$ Education_Level_Graduate       &lt;dbl&gt; -0.6684885, 1.4957644, 1.4957644, -0.66…
-$ Education_Level_High.School    &lt;dbl&gt; 2.0075861, -0.4980615, -0.4980615, 2.00…
-$ Education_Level_Post.Graduate  &lt;dbl&gt; -0.2316963, -0.2316963, -0.2316963, -0.…
-$ Education_Level_Uneducated     &lt;dbl&gt; -0.4148367, -0.4148367, -0.4148367, -0.…
-$ Education_Level_unknown        &lt;dbl&gt; -0.4200552, -0.4200552, -0.4200552, -0.…
-$ Marital_Status_Married         &lt;dbl&gt; 1.077285, -0.928168, 1.077285, -0.92816…
-$ Marital_Status_Single          &lt;dbl&gt; -0.7984674, 1.2522756, -0.7984674, -0.7…
-$ Marital_Status_unknown         &lt;dbl&gt; -0.2825949, -0.2825949, -0.2825949, 3.5…
-$ Income_Category_X.40K....60K   &lt;dbl&gt; -0.4633404, -0.4633404, -0.4633404, -0.…
-$ Income_Category_X.60K....80K   &lt;dbl&gt; 2.4945216, -0.4008389, -0.4008389, -0.4…
-$ Income_Category_X.80K....120K  &lt;dbl&gt; -0.4226546, -0.4226546, 2.3657644, -0.4…
-$ Income_Category_Less.than..40K &lt;dbl&gt; -0.7364005, 1.3578225, -0.7364005, 1.35…
-$ Income_Category_unknown        &lt;dbl&gt; -0.3511948, -0.3511948, -0.3511948, -0.…
-$ Card_Category_Gold             &lt;dbl&gt; -0.1076388, -0.1076388, -0.1076388, -0.…
-$ Card_Category_Platinum         &lt;dbl&gt; -0.04448181, -0.04448181, -0.04448181, …
-$ Card_Category_Silver           &lt;dbl&gt; -0.2407818, -0.2407818, -0.2407818, -0.…</code></pre>
+Columns: 35
+$ Customer_Age             &lt;dbl&gt; -0.16539741, 0.33355391, 0.58302958, -0.78908…
+$ Dependent_count          &lt;dbl&gt; 0.5033433, 2.0430978, 0.5033433, 1.2732205, 0…
+$ Months_on_book           &lt;dbl&gt; 0.38460189, 1.01066492, 0.00896407, -0.241461…
+$ Total_Relationship_Count &lt;dbl&gt; 0.7639049, 1.4072367, 0.1205731, -0.5227587, …
+$ Months_Inactive_12_mon   &lt;dbl&gt; -1.3270705, -1.3270705, -1.3270705, 1.6413972…
+$ Contacts_Count_12_mon    &lt;dbl&gt; 0.4923795, -0.4115957, -2.2195459, -1.3155708…
+$ Credit_Limit             &lt;dbl&gt; 0.446599851, -0.041364610, -0.573669472, -0.5…
+$ Total_Revolving_Bal      &lt;dbl&gt; -0.473398843, -0.366648718, -1.426787891, 1.6…
+$ Avg_Open_To_Buy          &lt;dbl&gt; 0.488946675, -0.008485569, -0.445636329, -0.7…
+$ Total_Amt_Chng_Q4_Q1     &lt;dbl&gt; 2.6233649, 3.5631169, 8.3668007, 2.9426981, 6…
+$ Total_Trans_Amt          &lt;dbl&gt; -0.9596592, -0.9163874, -0.7409451, -0.951711…
+$ Total_Trans_Ct           &lt;dbl&gt; -0.9738471, -1.3572734, -1.9111113, -1.911111…
+$ Total_Ct_Chng_Q4_Q1      &lt;dbl&gt; 3.833813303, 12.607950374, 6.807527542, 6.807…
+$ Avg_Utilization_Ratio    &lt;dbl&gt; -0.77584393, -0.61624523, -0.99710576, 1.7595…
+$ Attrition_Flag           &lt;fct&gt; Existing Customer, Existing Customer, Existin…
+$ Gender_M                 &lt;dbl&gt; 1.0599033, -0.9433891, 1.0599033, -0.9433891,…
+$ Education_Level_1        &lt;dbl&gt; -0.82186794, 0.09034782, 0.09034782, -0.82186…
+$ Education_Level_2        &lt;dbl&gt; 0.1910951, -1.0079258, -1.0079258, 0.1910951,…
+$ Education_Level_3        &lt;dbl&gt; 0.5632953, 0.1640448, 0.1640448, 0.5632953, -…
+$ Education_Level_4        &lt;dbl&gt; -1.7867754, 0.7826945, 0.7826945, -1.7867754,…
+$ Education_Level_5        &lt;dbl&gt; 1.4912555, -0.9493902, -0.9493902, 1.4912555,…
+$ Education_Level_6        &lt;dbl&gt; -0.7679845, -0.7679845, -0.7679845, -0.767984…
+$ Education_Level_7        &lt;dbl&gt; -0.1089545, 1.2429924, 1.2429924, -0.1089545,…
+$ Marital_Status_Married   &lt;dbl&gt; 1.077285, -0.928168, 1.077285, -0.928168, 1.0…
+$ Marital_Status_Single    &lt;dbl&gt; -0.7984674, 1.2522756, -0.7984674, -0.7984674…
+$ Marital_Status_unknown   &lt;dbl&gt; -0.2825949, -0.2825949, -0.2825949, 3.5382846…
+$ Income_Category_1        &lt;dbl&gt; 0.07513271, -0.95655404, 0.59097609, -0.95655…
+$ Income_Category_2        &lt;dbl&gt; -1.0612546, 1.0246428, -1.3219918, 1.0246428,…
+$ Income_Category_3        &lt;dbl&gt; 1.083891390, -1.087321766, -0.001715188, -1.0…
+$ Income_Category_4        &lt;dbl&gt; -0.06492072, 0.42190053, 1.15213241, 0.421900…
+$ Income_Category_5        &lt;dbl&gt; -1.75727006, -0.38759283, -0.04517352, -0.387…
+$ Income_Category_6        &lt;dbl&gt; 1.4461457, 0.1380203, -1.8241677, 0.1380203, …
+$ Card_Category_Gold       &lt;dbl&gt; -0.1076388, -0.1076388, -0.1076388, -0.107638…
+$ Card_Category_Platinum   &lt;dbl&gt; -0.04448181, -0.04448181, -0.04448181, -0.044…
+$ Card_Category_Silver     &lt;dbl&gt; -0.2407818, -0.2407818, -0.2407818, -0.240781…</code></pre>
 </div>
 </div>
 <p>We now have a preprocessed data set <code>credit_info_prepped</code> that can be applied to different dimension reduction algorithms.</p>
@@ -474,10 +484,10 @@ $ Card_Category_Silver           &lt;dbl&gt; -0.2407818, -0.2407818, -0.2407818,
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>title_text_p1 <span class="ot">&lt;-</span> <span class="st">"Visualisation of the first two principal components"</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>subtitle_text_p1 <span class="ot">&lt;-</span> <span class="st">"The &lt;span style='color:#0000FF;'&gt; blue &lt;/span&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>subtitle_text_p1 <span class="ot">&lt;-</span> <span class="st">"The &lt;span style='color:#0000FF;'&gt;blue&lt;/span&gt;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="st">                     dots represent customers with positive attrition flag"</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>title_text_p2 <span class="ot">&lt;-</span> <span class="st">"Visualisation of the explained variance &lt;/br&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>title_text_p2 <span class="ot">&lt;-</span> <span class="st">"Visualisation of the explained variance &lt;br&gt;</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="st">                  per principal component"</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
@@ -503,7 +513,7 @@ $ Card_Category_Silver           &lt;dbl&gt; -0.2407818, -0.2407818, -0.2407818,
 <span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"first PC"</span>,</span>
 <span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"second PC"</span></span>
 <span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    )<span class="sc">+</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>)<span class="sc">+</span></span>
 <span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.subtitle =</span> <span class="fu">element_markdown</span>())</span>
 <span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
@@ -515,8 +525,8 @@ $ Card_Category_Silver           &lt;dbl&gt; -0.2407818, -0.2407818, -0.2407818,
 <span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.01</span>))</span>
 <span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> title_text_p2)<span class="sc">+</span></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_markdown</span>())</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">10</span>)<span class="sc">+</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title=</span><span class="fu">element_markdown</span>())</span>
 <span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>p1<span class="sc">|</span>p2 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -554,52 +564,58 @@ Figure&nbsp;10.1
 <p>The encoder network in this example consists of an input layer with dimension <code>n_imp</code>, two hidden layers with dimension <code>h1</code> and <code>h2</code>, activation function layers (ReLU) for the hidden layers, and two dropout layers with dropout probabilities <code>d1</code> and <code>d2</code> respectively that are applied to the output of the hidden layers.</p>
 <p>Instead of returning a <code>keras_sequential</code> model, we can also specify a model by passing the input and output into the <code>keras_model</code> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>encoder_spec <span class="ot">&lt;-</span> <span class="cf">function</span>(n_inp,h1,h2,d1,d2,n_out){</span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>encoder_spec <span class="ot">&lt;-</span> <span class="cf">function</span>(n_input,h1,h2,h3,d1,d2,d3,n_output){</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  enc_input <span class="ot">&lt;-</span> <span class="fu">layer_input</span>(<span class="at">shape =</span> n_inp)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  enc_input <span class="ot">&lt;-</span> <span class="fu">layer_input</span>(<span class="at">shape =</span> n_input)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  enc_output <span class="ot">&lt;-</span> enc_input <span class="sc">%&gt;%</span> </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(<span class="at">units=</span>h1) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_activation_relu</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dropout</span>(d1) <span class="sc">%&gt;%</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(<span class="at">units=</span>h2) <span class="sc">%&gt;%</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_activation_relu</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dropout</span>(d2)<span class="sc">%&gt;%</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(<span class="at">units=</span>n_out) </span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">keras_model</span>(enc_input, enc_output)</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(h1, <span class="at">activation =</span> <span class="st">'relu'</span>, <span class="at">input_shape =</span> n_input) <span class="sc">%&gt;%</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_batch_normalization</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dropout</span>(<span class="at">rate =</span> d1) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(h2, <span class="at">activation =</span> <span class="st">'relu'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_batch_normalization</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dropout</span>(<span class="at">rate =</span> d2) <span class="sc">%&gt;%</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(h3, <span class="at">activation =</span> <span class="st">'relu'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_batch_normalization</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dropout</span>(<span class="at">rate =</span> d3) <span class="sc">%&gt;%</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(n_output) </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">keras_model</span>(enc_input, enc_output)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The decoder specification function has the same input as the encoder specification function. Why we choose to do that can be seen in the auto encoder specification function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>decoder_spec <span class="ot">&lt;-</span> <span class="cf">function</span>(n_input,h1,h2,d1,d2,n_out){</span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>decoder_spec <span class="ot">&lt;-</span> <span class="cf">function</span>(n_input,h1,h2,h3,d1,d2,d3,n_output){</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  dec_input <span class="ot">&lt;-</span> <span class="fu">layer_input</span>(<span class="at">shape =</span> n_input)</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  dec_output <span class="ot">&lt;-</span> dec_input <span class="sc">%&gt;%</span> </span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(<span class="at">units=</span>h1) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_activation_relu</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dropout</span>(d1) <span class="sc">%&gt;%</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(<span class="at">units=</span>h2) <span class="sc">%&gt;%</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_activation_relu</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dropout</span>(d2) <span class="sc">%&gt;%</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(<span class="at">units=</span>n_out) </span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">keras_model</span>(dec_input, dec_output)</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(h1, <span class="at">activation =</span> <span class="st">'relu'</span>, <span class="at">input_shape =</span> n_input) <span class="sc">%&gt;%</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_batch_normalization</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dropout</span>(<span class="at">rate =</span> d1) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(h2, <span class="at">activation =</span> <span class="st">'relu'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_batch_normalization</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dropout</span>(<span class="at">rate =</span> d2) <span class="sc">%&gt;%</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(h3, <span class="at">activation =</span> <span class="st">'relu'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_batch_normalization</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dropout</span>(<span class="at">rate =</span> d3) <span class="sc">%&gt;%</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layer_dense</span>(n_output, <span class="at">activation =</span> <span class="st">'relu'</span>) </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">keras_model</span>(dec_input, dec_output)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The function <code>aen_spec</code> specifies an autoencoder with input dimension <code>n_inp</code>, <strong>four</strong> hidden layers <code>(h1,h2,h2,h1)</code>, and a dense layer specifying the dimension of the latent space <code>n_latent</code>. Inside the function, we first specify the input <code>aen_input</code> of the autoencoder as an input layer with dimension <code>n_inp</code>. Then, we define an encoder using the previously defined <code>encoder_spec</code> function. Note, that we defined the encoder using the <code>&lt;&lt;-</code> symbol. This is not a typo! The <code>&lt;&lt;-</code> operator allows us to access the specified encoder outside the <code>aen_spec</code> function once the autoencoder has been trained.</p>
 <p>We then specify the decoder architecture where the output dimension (latent dimension) of the encoder is passed as the input dimension of the decoder. Additionally the dimension of the hidden layer are mirrored, meaning that the first hidden layer of the decoder has dimension <code>h2</code> and the second hidden layer has the dimension <code>d1</code>. When mirroring the dimensions of the hidden layers, we need to adapt the drop out rates accordingly. The output dimension of the decoder is given by the dimension of the input.</p>
 <p>The return value of the autoencoder specification is a keras model with input specified by an input layer and output specified as the sequence <code>aen_input %&gt;% encoder() %&gt;% decoder()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>aen_spec<span class="ot">&lt;-</span> <span class="cf">function</span>(n_inp,h1,h2,d1,d2,n_latent){</span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>aen_spec<span class="ot">&lt;-</span> <span class="cf">function</span>(n_input,h1,h2,h3,d1,d2,d3,n_latent){</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a> aen_input <span class="ot">&lt;-</span> <span class="fu">layer_input</span>(<span class="at">shape =</span> n_inp)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a> aen_input <span class="ot">&lt;-</span> <span class="fu">layer_input</span>(<span class="at">shape =</span> n_input)</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a> encoder <span class="ot">&lt;&lt;-</span> <span class="fu">encoder_spec</span>(n_inp,h1,h2,d1,d2,n_latent)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> decoder <span class="ot">&lt;-</span> <span class="fu">decoder_spec</span>(n_latent,h2,h1,d2,d1,n_inp)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a> encoder <span class="ot">&lt;&lt;-</span> <span class="fu">encoder_spec</span>(n_input,h1,h2,h3,d1,d2,d3,n_latent)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> decoder <span class="ot">&lt;-</span> <span class="fu">decoder_spec</span>(n_latent,h3,h2,h1,d3,d2,d1,n_input)</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a> aen_output <span class="ot">&lt;-</span> aen_input <span class="sc">%&gt;%</span></span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">encoder</span>() <span class="sc">%&gt;%</span> </span>
@@ -624,26 +640,28 @@ Figure&nbsp;10.1
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Attrition_Flag)</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>aen <span class="ot">&lt;-</span> <span class="fu">aen_spec</span>(<span class="at">n_inp =</span> <span class="fu">ncol</span>(train_features),</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">h1 =</span> <span class="dv">256</span>,</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">h2 =</span> <span class="dv">128</span>,</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">d1 =</span> <span class="fl">0.2</span>,</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">d2 =</span> <span class="dv">0</span>,</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">n_latent =</span> <span class="dv">2</span>)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>ed_nn <span class="ot">&lt;-</span> aen <span class="sc">%&gt;%</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">compile</span>(</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">loss =</span> <span class="st">'mse'</span>,</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">optimizer =</span> <span class="fu">optimizer_adam</span>(<span class="fl">1e-4</span>)</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>history_aen <span class="ot">&lt;-</span> ed_nn <span class="sc">%&gt;%</span> <span class="fu">fit</span>(</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.matrix</span>(train_features),</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.matrix</span>(train_features),</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">validation_split =</span> <span class="dv">0</span>,</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">epochs =</span> <span class="dv">100</span></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>aen <span class="ot">&lt;-</span> <span class="fu">aen_spec</span>(<span class="at">n_input =</span> <span class="fu">ncol</span>(train_features),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">h1 =</span> <span class="dv">128</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">h2 =</span> <span class="dv">64</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">h3 =</span> <span class="dv">32</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">d1 =</span> <span class="fl">0.2</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">d2 =</span> <span class="fl">0.1</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">d3 =</span> <span class="fl">0.1</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>                <span class="at">n_latent =</span> <span class="dv">2</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>ed_nn <span class="ot">&lt;-</span> aen <span class="sc">%&gt;%</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">compile</span>(</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">loss =</span> <span class="st">'mse'</span>,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">optimizer =</span> <span class="fu">optimizer_adam</span>(<span class="fl">1e-3</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>history_aen <span class="ot">&lt;-</span> ed_nn <span class="sc">%&gt;%</span> <span class="fu">fit</span>(</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.matrix</span>(train_features),</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.matrix</span>(train_features),</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">validation_split =</span> <span class="dv">0</span>,</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">epochs =</span> <span class="dv">100</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can access the trained encoder directly using the obejct name (<code>encoder</code>). To create the lower dimensional representation of the data, we have to pass the data set as a matrix into the <code>predict</code> function.</p>
 <div class="cell">
@@ -690,7 +708,11 @@ Figure&nbsp;10.1
 </div>
 </div>
 </div>
-<p>While we do not have a direct comparisson in explained variance, we can still see that the resulting lower dimensional data set seems more refined.</p>
+<p>While we do not have a <strong>direct</strong> comparisson in explained variance, we can still see that the resulting lower dimensional data set seems more refined. However, we can use the resulting <strong>MSE</strong> to build a proxy <span class="math inline">\(R^2\)</span>: Since our data is <span class="math inline">\(z\)</span>-normalized, i.e.&nbsp;<span class="math inline">\(\hat{\mathbb{E}(X_j)}=0\)</span> and <span class="math inline">\(\hat{sd(X_j)}=1\)</span>, the <strong>MSE</strong> measures the average deviation of the true values in “variance” units. A <strong>MSE</strong> of <span class="math inline">\(1\)</span> implies that the autoencoder roughly explains none of the variance, meaning that the empiraical means are likely returned. A <strong>MSE</strong> of <span class="math inline">\(0\)</span> implies that the autoencoder roughly all of the variance in the data is explained.</p>
+<p>Mathematically, this can be explained as follows: In MLR <span class="math inline">\(R^2\)</span> is defined as <span class="math display">\[\begin{equation}
+  R^2 = 1-\frac{SS_{\text{residuals}}}{SS_{\text{total}}}.
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(SS_{\text{residual}}\)</span> denotes the sum of squared residuals and <span class="math inline">\(SS_{\text{total}}\)</span> denotes the total sum of squares, i.e., the variance of the whole dataset. Since we <span class="math inline">\(z\)</span>-normalized the data, <span class="math inline">\(SS_{\text{total}}=1\)</span>$, implying that <span class="math inline">\(R^2=1-SS_{\text{residual}}=1-MSE\)</span>.</p>
 </section>
 </section>
 <section id="clustering" class="level3" data-number="10.1.2">
@@ -1065,26 +1087,28 @@ $ sex               &lt;fct&gt; male, female, female, female, male, female, male
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>tensorflow<span class="sc">::</span><span class="fu">set_random_seed</span>(<span class="dv">6</span>)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>aen <span class="ot">&lt;-</span> <span class="fu">aen_spec</span>(<span class="at">n_inp =</span> <span class="fu">ncol</span>(pen_prepped),</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>aen <span class="ot">&lt;-</span> <span class="fu">aen_spec</span>(<span class="at">n_input =</span> <span class="fu">ncol</span>(pen_prepped),</span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">h1 =</span> <span class="dv">256</span>,</span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">h2 =</span> <span class="dv">128</span>,</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">d1 =</span> <span class="fl">0.2</span>,</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">d2 =</span> <span class="dv">0</span>,</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">n_latent =</span> <span class="dv">2</span>)</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>ed_nn <span class="ot">&lt;-</span> aen <span class="sc">%&gt;%</span></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">compile</span>(</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">loss =</span> <span class="st">'mse'</span>,</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">optimizer =</span> <span class="fu">optimizer_adam</span>(<span class="fl">1e-4</span>)</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>history_aen <span class="ot">&lt;-</span> ed_nn <span class="sc">%&gt;%</span> <span class="fu">fit</span>(</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.matrix</span>(pen_prepped),</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.matrix</span>(pen_prepped),</span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">validation_split =</span> <span class="dv">0</span>,</span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">epochs =</span> <span class="dv">100</span></span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">h3 =</span> <span class="dv">64</span>,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">d1 =</span> <span class="fl">0.2</span>,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">d2 =</span> <span class="dv">0</span>,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">d3 =</span> <span class="dv">0</span>,</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">n_latent =</span> <span class="dv">2</span>)</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>ed_nn <span class="ot">&lt;-</span> aen <span class="sc">%&gt;%</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">compile</span>(</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">loss =</span> <span class="st">'mse'</span>,</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">optimizer =</span> <span class="fu">optimizer_adam</span>(<span class="fl">1e-4</span>)</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>history_aen <span class="ot">&lt;-</span> ed_nn <span class="sc">%&gt;%</span> <span class="fu">fit</span>(</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.matrix</span>(pen_prepped),</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.matrix</span>(pen_prepped),</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">validation_split =</span> <span class="dv">0</span>,</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">epochs =</span> <span class="dv">100</span></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 <li><!-- Lorem -->
 <div class="cell">
@@ -1145,7 +1169,7 @@ $ sex               &lt;fct&gt; male, female, female, female, male, female, male
 <span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.01</span>))</span>
 <span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Visualisation of the explained variance &lt;br/&gt;</span></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Visualisation of the explained variance &lt;br&gt;</span></span>
 <span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a><span class="st">             per principal component"</span>)<span class="sc">+</span></span>
 <span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
 <span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_markdown</span>())</span>
@@ -1186,6 +1210,12 @@ $ sex               &lt;fct&gt; male, female, female, female, male, female, male
 </div>
 
 
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>If some of the features are perfectly correlated, there are less than <span class="math inline">\(p\)</span> unique solutions<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
