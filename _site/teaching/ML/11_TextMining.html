@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>11&nbsp; Text Mining – Machine Learning Supplementary Material</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./10_clustering.html" rel="prev">
+<script src="site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-70a47bd5681a7291082a5b9f83d58762.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RKE6FHR659"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-RKE6FHR659', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"express",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<script>
+  MathJax = {
+    tex: {
+      tags: 'ams'  // should be 'ams', 'none', or 'all'
+    }
+  };
+</script>
+<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9752146314349572" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./11_TextMining.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Mining</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Machine Learning Supplementary Material</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Important R concepts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_linear_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_regression_trees.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regression Trees</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_bagging_rf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Random Forests</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_boosting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Boosting</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_MMc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Maximum Margin Classifier</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_SVM.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Support Vector Machines and Stacking</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_NN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Neural Networks</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_TextMining.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Mining</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">11.1</span> Introduction</a></li>
+  <li><a href="#proprocessing" id="toc-proprocessing" class="nav-link" data-scroll-target="#proprocessing"><span class="header-section-number">11.2</span> Proprocessing</a></li>
+  <li><a href="#frequency-tables" id="toc-frequency-tables" class="nav-link" data-scroll-target="#frequency-tables"><span class="header-section-number">11.3</span> Frequency Tables</a></li>
+  <li><a href="#sentiment-analysis" id="toc-sentiment-analysis" class="nav-link" data-scroll-target="#sentiment-analysis"><span class="header-section-number">11.4</span> Sentiment Analysis</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Text Mining</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">11.1</span> Introduction</h2>
+<p>In this final exercise we will shorty consider different text mining methodologies.</p>
+<p>Textmining is becoming evermore important due to the abundance of available data and the ability to process it using modern machine learning architectures. Source for aggregated data sets are provided by Organisations like <a href="https://commoncrawl.org/overview">Common Crawl</a> which have made it their goal to not only archive but also distribute all publicly available website on the internet. A corpus that focuses on distributing books, research papers, and all sorts of other literature is <a href="https://en.wikipedia.org/wiki/Anna%27s_Archive">Anna’s Archive</a>. However, the data published on this site usually violates local copyright laws which is why it should be used with caution.</p>
+<p>For this exercise, we will use a publicly available dataset sourced from non other than the white house itself: <a href="https://www.whitehouse.gov/presidential-actions/executive-orders/">whitehouse.gov</a> releases every executive order placed by the POTUS in the past year.</p>
+<p>Our goal will be to analyse some of the wordings and get a feeling of the general sentiment.</p>
+</section>
+<section id="proprocessing" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="proprocessing"><span class="header-section-number">11.2</span> Proprocessing</h2>
+<p>Before we dive into the exercises, make sure you have the <code>jsonlite</code>-package installed. This library allows us to read <code>.json</code>-files. These files are commonly used in databases and web applications since they allow for an intuitive storage of data that is not necessarily tabular.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"jsonlite"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We can then read the dataset <code>white_house detailed_executive_order_dump.json</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data_wh <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(<span class="st">"data/white_house_detailed_executive_order_dump.json"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The Data is already in a tibble format which makes it easier to work with:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data_wh <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 144
+Columns: 5
+$ headline      &lt;chr&gt; "ADDRESSING STATE AND LOCAL FAILURES TO REBUILD LOS ANGE…
+$ date          &lt;chr&gt; "January 27, 2026", "January 23, 2026", "January 20, 202…
+$ url           &lt;chr&gt; "https://www.whitehouse.gov/presidential-actions/2026/01…
+$ page_found_on &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2,…
+$ text          &lt;chr&gt; "Presidential Actions\n\nADDRESSING STATE AND LOCAL FAIL…</code></pre>
+</div>
+</div>
+<p>The tibble contains five columns and 144 entries, meaning that the white house has published information about 144 different executive orders.</p>
+<ul>
+<li>The column <code>headline</code> contains the headlines of the executive order.</li>
+<li><code>date</code> contains the date at which an execuitve order was published.</li>
+<li><code>url</code> contains the link to the article on the whitehouse webpage.</li>
+<li><code>page_found_on</code> describes on which page index the article has been found.</li>
+<li>Lastly, <code>text</code> contains the statement of the executive order encoded in a long string.</li>
+</ul>
+<p>As a first preprocessing step, we convert the <code>date</code> column into a suitable datatype, since the type <code>&lt;chr&gt;</code> makes it hard to filter for specific date ranges.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data_wh <span class="ot">&lt;-</span> data_wh <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">mdy</span>(date)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Since each entry in the <code>text</code> column currently contains a long string, the next step is to split the strings at each line break.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_wh <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   text
+1 Presidential Actions\n\nADDRESSING STATE AND LOCAL FAILURES TO REBUILD LOS ANGELES AFTER WILDFIRE DISASTERS\n\nExecutive Orders\n\nJanuary 27, 2026\n\nBy the authority vested in me as President by the Constitution and the laws of the United States of America, it&nbsp;is&nbsp;hereby ordered:\n\nSection\n\n1\n\n.\n\nPurpose\n\n. &nbsp;One year ago, the California State and Los Angeles city and county governments failed to contain wildfires that ravaged Los Angeles and consumed nearly 40,000 acres of homes and businesses.&nbsp; The State and local governments failed to engage in responsible forest management systems out of a misguided commitment to naturalist and climate policies, which increased the severity of the fires. &nbsp;They failed to maintain water distribution and reservoir systems so that these systems would be available and fully functional in case of emergency. They then failed to quickly communicate evacuation warnings and failed to act decisively or cohesively to contain the fire once it started burning.&nbsp; In fact, Mayor Karen Bass was not in Los Angeles to respond to the crisis because she was traveling abroad.&nbsp; This marked one of the greatest failures of elected political leadership in American history, from enabling the wildfires to failing to manage them, and it continues today with&nbsp;the abject failure to rebuild.\n\nWhile the Biden Administration made big promises, debris removal did not actually begin until my Administration, through Executive Order 14181 of January 24, 2025 (Emergency Measures to Provide Water Resources in California and Improve Disaster Response in Certain Areas), initiated the fastest debris-removal operation in United States history. &nbsp;The Federal Government completed hazardous-materials sweeps and cleared over 9,500 properties of over 2.6 million tons of debris in just 6 months.\n\nBut since then, American families and small businesses affected by the wildfires have been forced to continue living in a nightmare of delay, uncertainty, and bureaucratic malaise as they remain displaced from their homes, often without a source of income, while State and local governments delay or prevent reconstruction by approving only a fraction of the permits needed to rebuild.\n\nThe Federal Government has approved numerous individual relief claims to provide financial support directly to owners of homes and businesses and help survivors repair, rebuild, return home, reopen their businesses, and restore their communities.&nbsp; But many homeowners and businesses have been unable to use these funds as they navigate overly burdensome, confusing, and inconsistent permitting requirements, duplicative permitting reviews, procedural bottlenecks, and administrative delays at the city, county, and State levels. &nbsp;Elected leaders have refused to take even the minimum action necessary to allow many of these survivors to move forward and rebuild their lives — the ultimate tragic failure of the State of California and City of Los Angeles to live up to their moral and legal obligations to their citizens.&nbsp; As a result, despite the Federal Government expeditiously clearing debris and doing its part to support survivors, the actions of State and local authorities have ensured that the vast majority of the tens of thousands of homes and businesses destroyed in the wildfires have not yet been rebuilt a year later.\n\nIn furtherance of the Presidential Declaration of a Major Disaster for the State of California (FEMA-4856-DR), immediate and decisive Federal action is required to ensure that Federal disaster assistance is delivered and utilized swiftly, effectively, and without obstruction by State and local governments, to accomplish the purposes for which it is allocated, as well as to support the American people who have been devastated by the Pacific Palisades and Eaton Canyon wildfires.\n\nSec\n\n.\n\n2\n\n.\n\nPolicy\n\n.&nbsp; It is the policy of my Administration that federally funded reconstruction projects for homes and businesses in the wildfire-impacted neighborhoods of the Pacific Palisades and Eaton Canyon areas proceed with the maximum speed consistent with public safety, and that Federal assistance not be frustrated by unnecessary, duplicative, or obstructive permitting requirements that prevent families and businesses from rebuilding.\n\nSec\n\n.\n\n3\n\n.\n\nPreempting State Permitting Obstacles\n\n. &nbsp;(a) &nbsp;The Secretary of Homeland Security (Secretary), acting through the Administrator of the Federal Emergency Management Agency (FEMA), and the Administrator of the Small Business Administration (SBA) shall each consider promulgating regulations to advance the policies of this order.&nbsp; In particular, the Administrator of the SBA and the Secretary, through the Administrator of FEMA, shall consider promulgating regulations that:\n\n(i) &nbsp;&nbsp;preempt State or local permitting processes, and other similar pre-approval requirements, that each agency has found to have unduly impeded the timely use of Federal emergency-relief funds by homeowners, businesses, or houses of worship in rebuilding such structures following a disaster; and\n\n(ii) &nbsp;replace preempted State or local permitting regimes, or other similar pre-approval requirements, with a requirement that builders self-certify to a Federal designee from each agency that they have complied with all applicable substantive State and local health and safety standards with respect to the&nbsp;structure proposed to be rebuilt using Federal emergency-relief funds.\n\n(b) &nbsp;The Secretary, through the Administrator of FEMA, and&nbsp;the Administrator of the SBA shall each publish proposed regulations under subsection (a) of this section, if any, within 30 days of the date of this order and final regulations within 90 days of the date of this order.&nbsp; Each agency head shall further consider whether notice and comment is unnecessary under&nbsp;5 U.S.C. 553 or any other statute.\n\n(c) &nbsp;The Secretary, through the Administrator of FEMA, shall continue to review all repairs and construction activities conducted under this order for compliance with applicable health, safety, and other substantive standards.\n\nSec\n\n.\n\n4\n\n.\n\nExpediting Federal Response\n\n.&nbsp; (a) &nbsp;The Federal Government has already taken action to expedite administrative processes related to water delivery, as detailed in Executive Order 14181 of January 24, 2025 (Emergency Measures to Provide Water Resources in California and Improve Disaster Response in Certain Areas).&nbsp; In addition, the heads of relevant executive departments and agencies (agencies) shall seek to use all authorities available under Federal environmental, historic preservation, natural resource laws, or other similar laws, including the National Environmental Protection Act (42 U.S.C. 4321\n\net seq.\n\n), the Endangered Species Act (16 U.S.C. 1531\n\net seq\n\n.), and the National Historic Preservation Act (54 U.S.C. 300101\n\net seq.\n\n), to expedite waivers, permits, reviews, consultations, or approvals with respect to homes, businesses, or other such structures proposed to be rebuilt using Federal emergency-relief funds that are required to facilitate Federal response and recovery actions that will advance the policy of this order, consistent with applicable law.\n\n(b)&nbsp; The heads of relevant agencies shall take steps to ensure that the process for evaluating and issuing such waivers, permits, reviews, consultations, or approvals shall be limited to the minimum scope and duration required to expeditiously advance the policy of this order and implement Individual Assistance and Hazard Mitigation Grant Programs while ensuring public health and safety.\n\n(c)&nbsp; The heads of relevant agencies shall each designate a senior official from their agency to ensure timely execution of these actions without delay.\n\nSec\n\n.\n\n5\n\n.\n\nLegislation\n\n. &nbsp;Within 90 days of the date of this order, the Secretary, through the Administrator of FEMA, and the Administrator of the SBA, in consultation with the Assistant to the President for Domestic Policy and the White House Director of Legislative Affairs, shall submit to the President, through the Director of the Office of Management and Budget,&nbsp;legislative proposals that enable FEMA and SBA to address situations in which States or local governments are not enabling timely recovery after disasters, including through appropriate regulation.\n\nSec\n\n.\n\n6\n\n.\n\nAccountability for Use of Taxpayer Dollars\n\n. &nbsp;(a) &nbsp;The Secretary, through the Administrator of FEMA, shall:\n\n(i)&nbsp;&nbsp; within 30 days of the date of this order, determine what amount, if any, of the nearly $3&nbsp;billion in unspent Hazard Mitigation Grant Program (HMGP) funding granted to California, which was awarded to mitigate hazards, including the threat of future wildfires to the citizens of California, was awarded arbitrarily, capriciously, or contrary to law; and\n\n(ii)&nbsp; within 60 days of the date of this order, conduct a Federal audit of California’s use of HMGP funding, including of whether funded projects were completed as approved and on time, whether projected risk reduction matched actual outcomes, and whether California used Federal funding in a way that demonstrably mitigated the impact of future wildfires&nbsp;on its citizens.\n\n(b) &nbsp;Within 30 days of the completion of the audit described in subsection (a)(ii) of this section, the Secretary, through the Administrator of FEMA, shall make administrative determinations in light of the audit’s findings and recommendations, and shall enforce such determinations by, where appropriate, imposing future grant conditions, initiating recoupment or recovery actions in accordance with applicable law, or deploying oversight and technical assistance to expedite the administration and use of HMGP funds for individuals, families, and small businesses, to implement this order.\n\nSec\n\n.\n\n7\n\n.\n\nGeneral Provisions\n\n.&nbsp; (a) &nbsp;Nothing in this order shall be construed to impair or otherwise effect:\n\n(i)&nbsp;&nbsp; the authority granted by law to an executive department or agency, or the head thereof; or\n\n(ii)&nbsp; the functions of the Director of the Office of Management and Budget related to budgetary, administrative, or legislative proposals.\n\n(b)&nbsp; This order shall be implemented consistent with applicable law and subject to the availability of appropriations.\n\n(c)&nbsp; This order is not intended to, and does not, create any right or benefit, substantive or procedural, enforceable at law or in equity by any party against the United States, its departments, agencies, or entities, its officers, employees, or agents, or any other person.\n\n(d)&nbsp; The costs for publication of this order shall be borne by the Department of Homeland Security.\n\nDONALD J. TRUMP\n\nTHE WHITE HOUSE,\n\nJanuary 23, 2026.</code></pre>
+</div>
+</div>
+<p>A linebreak is indicated by the <code>\n</code> symbol, so using the <code>str_split()</code>-function allows us to seperate the long string into a list of strings where each element contains exactly one line.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>str_list <span class="ot">&lt;-</span> data_wh <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(str_split,<span class="at">pattern=</span><span class="st">"</span><span class="sc">\n</span><span class="st">"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The list <code>str_list</code> now contains a list of length <code>144</code> where each entry contains another list of strings, i.e.&nbsp;the statement split by line breaks.</p>
+<p>To combine this list of strings with the original dataset, we can simply remove the column <code>text</code> and add this newly created column <code>str_list</code> using the <code>cbind()</code>-function. As a last step, we remove the columns <code>headline</code>, <code>url</code> and <code>page</code>, since we are only interested in the dates and texts so far.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>words_wh <span class="ot">&lt;-</span> data_wh <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>text) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(.,str_list) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(headline,url,page_found_on)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The next step is to extract the relevant tokens from the <code>text</code>-column. As of now, each entry of the <code>text</code>-column is still a list, which is why the first step of extracting the word tokens is converting the lists into individual elements. Since each element is an individual line, the dataframe now contains as many rows as there are lines of text in the whole dataset.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>words_wh <span class="ot">&lt;-</span> words_wh <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(text) </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>words_wh <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 25,038
+Columns: 2
+$ date &lt;date&gt; 2026-01-27, 2026-01-27, 2026-01-27, 2026-01-27, 2026-01-27, 2026…
+$ text &lt;chr&gt; "Presidential Actions", "", "ADDRESSING STATE AND LOCAL FAILURES …</code></pre>
+</div>
+</div>
+<p>We now want to extract the word tokens using the <code>unnest_tokens</code> function. The <code>output</code> argument specifies the name of the resulting column containing the tokens. The <code>input</code>-argument specifies which column of the data frame contains the raw data. Lastly the <code>token</code>-argument specifies what kind of token shall be extracted. We will stick to words for now.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>words_wh <span class="ot">&lt;-</span> words_wh <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">output =</span> word,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">input =</span> text,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">token =</span> <span class="st">"words"</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>words_wh <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 199,433
+Columns: 2
+$ date &lt;date&gt; 2026-01-27, 2026-01-27, 2026-01-27, 2026-01-27, 2026-01-27, 2026…
+$ word &lt;chr&gt; "presidential", "actions", "addressing", "state", "and", "local",…</code></pre>
+</div>
+</div>
+<p>The new dataset contains roughly 200k words, of which a majority are so-called stop words like <code>"and"</code>, <code>"or"</code>, and <code>"which"</code>. Since these words only offer little information, we want to filter them directly. Luckily the <code>stop_words</code> dataset contains a list of all commonly used stop words. We can use the <code>anti_join()</code>-function to remove these from the <code>word</code>-column.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"stop_words"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>words_wh_filtered <span class="ot">&lt;-</span> words_wh <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(words_wh_filtered)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 105,029
+Columns: 2
+$ date &lt;date&gt; 2026-01-27, 2026-01-27, 2026-01-27, 2026-01-27, 2026-01-27, 2026…
+$ word &lt;chr&gt; "presidential", "actions", "addressing", "local", "failures", "re…</code></pre>
+</div>
+</div>
+<p>The <code>words_wh_filtered</code> dataset now contains only roughly 105k words, meaning we reduced the size by approximately <code>50%</code>.</p>
+<p>Say, we want to get an overview of the most used nouns in the dataset. We can use another dataset called <code>parts_of_speech</code> which contains commonly used words and their respective type.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"parts_of_speech"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(parts_of_speech)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 208,259
+Columns: 2
+$ word &lt;chr&gt; "3-d", "3-d", "4-f", "4-h'er", "4-h", "a'", "a-1", "a-axis", "a-b…
+$ pos  &lt;chr&gt; "Adjective", "Noun", "Noun", "Noun", "Adjective", "Adjective", "N…</code></pre>
+</div>
+</div>
+<p>The <code>semi_join()</code>-function behaves similiraly to the <code>filter()</code>-function, allowing us to only retain words in the <code>word</code> column that are present in the nouns of the <code>parts_of_speech</code>-dataset.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>nouns_wh_filtered <span class="ot">&lt;-</span> words_wh_filtered <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">semi_join</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>      parts_of_speech <span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(<span class="fu">str_detect</span>(pos,<span class="st">"Noun"</span>)), </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">by =</span> <span class="st">"word"</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>nouns_wh_filtered <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 51,116
+Columns: 2
+$ date &lt;date&gt; 2026-01-27, 2026-01-27, 2026-01-27, 2026-01-27, 2026-01-27, 2026…
+$ word &lt;chr&gt; "local", "wildfire", "january", "authority", "president", "consti…</code></pre>
+</div>
+</div>
+<p>Let us now visualize the most frequently used nouns. We define “most frequently” in terms of the <span class="math inline">\(99\%\)</span>-quantile, meaning that only words should be contained that appear in the <span class="math inline">\(99\%\)</span>-quantile of the frequency. Using a column-plot, we can neatly visualize the most frequently used nouns:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>nouns_wh_filtered <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    n<span class="sc">&gt;</span><span class="fu">quantile</span>(n,<span class="fl">0.99</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">reorder</span>(word,n)) <span class="sc">%&gt;%</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>word,<span class="at">y=</span>n))<span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()<span class="sc">+</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="11_TextMining_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="frequency-tables" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="frequency-tables"><span class="header-section-number">11.3</span> Frequency Tables</h2>
+<p>Now that we have a broad overview of the most frequently used words, we now want to get a feeling for the importance of the different tokens.</p>
+<p>The term frequency measures the relative frequency of a term within a certain document. In our example, we will consider each month a document. Furthermore, to reduce computational effort, we will still only use the most frequently used terms.:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>nouns_to_filter <span class="ot">&lt;-</span> nouns_wh_filtered <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    n<span class="sc">&gt;</span><span class="fu">quantile</span>(n,<span class="fl">0.99</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(word)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>To compute the term frequency, we have to proceed as follows:</p>
+<ol type="1">
+<li>Filter for the most frequently used terms using the <code>filter()</code>-function. This is equivalent to using the <code>semi_join()</code>-statemtn.</li>
+<li>Next, we have have to extract the month from the date column using the <code>month()</code>-function.</li>
+<li>By grouping for the <code>month</code> and <code>word</code> column we create groups for each words occurence in the respective month.</li>
+<li>Using the <code>summarise(n=n())</code>-function returns the absolute frequency of each word in the respective month.</li>
+<li>To create relative frequencies, we can simply use the <code>mutate()</code>-function. Since the data is still grouped, the <code>sum()</code>-function is also applied group-wise, meaning that the return value is the relative frequency with respect to the different months.</li>
+<li>Then, to create the frequency table, we use the <code>pivot_wider()</code>-function, that pivots the long table into a wider format. The wider format creates a column for each value specified with the <code>names_from</code> argument. Setting it to <code>month</code> implies, that the wider format will have 12 different columns, one for each month The argument <code>values_from</code> specifies how the different rows of the columns shall be filled. Setting it to <code>rel_frequency</code> yields the relative frequencies of each row in the respective month.</li>
+<li>As a last step, we have to take care of the case when words only occur in a certain month. The wider table format currently treats these entries in the months where a word does not occur as <code>NA</code> values. Ideally, we would like to encode them with <code>0</code> to indicate that they did not occur in the specific month. We can do that by using the <code>mutate()</code>-function across every column and replace the value <code>NA</code> with 0.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tbl_freq <span class="ot">&lt;-</span> nouns_wh_filtered <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">%in%</span> <span class="fu">pull</span>(nouns_to_filter)) <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">month</span>(date)) <span class="sc">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month,word) <span class="sc">%&gt;%</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rel_freq =</span> n<span class="sc">/</span><span class="fu">sum</span>(n)) <span class="sc">%&gt;%</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(word,month,rel_freq) <span class="sc">%&gt;%</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> month, <span class="at">values_from =</span> rel_freq) <span class="sc">%&gt;%</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(),<span class="sc">~</span><span class="fu">replace_na</span>(.,<span class="dv">0</span>)))</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>tbl_freq <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 13
+  word       `1`    `2`    `3`    `4`    `5`     `6`    `7`    `8`    `9`   `10`
+  &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 act     0.0228 0      0.0145 0.0351 0.0180 0.0519  0.0224 0.0230 0.0589 0     
+2 action  0.0180 0      0.0135 0.0171 0.0150 0.00985 0.0202 0.0118 0.0161 0     
+3 agency  0.0516 0.0233 0.0518 0.0362 0.0553 0.0179  0.0229 0.0439 0.0152 0.107 
+4 americ… 0.0264 0.0388 0.0264 0.0252 0.0234 0.0188  0.0186 0.0292 0.0116 0.0194
+# ℹ 2 more variables: `11` &lt;dbl&gt;, `12` &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Interestingly, neither the word <code>act</code> nor <code>action</code> seem to have been mentioned in the month “February”. In January, every 20-th noun in the most frequently used word list was <code>agency</code>, since it’s relative frequency is approximately <code>0.05</code>.</p>
+<p>To compute the tf-idf score which measures the importance of words in a specific document, we now have to calculate the inverse document frequency defined as</p>
+<p><span class="math display">\[\begin{equation*}
+  \text{idf} = \begin{pmatrix}
+      \log\left(\frac{N}{\text{df}_1}\right),...,\log\left(\frac{N}{\text{df}_K}\right)
+  \end{pmatrix}
+\end{equation*}\]</span></p>
+<p>Note, that <span class="math inline">\(\text{idf}\)</span> is a vector with as many entries as words, i.e.&nbsp;<span class="math inline">\(\text{idf}_i =\log(\frac{N}{\text{df}_i})\)</span> where <span class="math inline">\(N\)</span> is the total number of documents.</p>
+<p>The calculation of the inverse document frequency extends the computation of the document frequency. Since the first four steps are the same, we will continue in line 3.</p>
+<ol start="4" type="1">
+<li>Instead of grouping by <code>month</code> and <code>word</code>, we now group by <code>word</code> and <code>month</code>, meaning, that there is a group for each word.</li>
+<li>Summarising the groups with respect to the occurances of each term, we obtain a tibble containing the frequency of each word in the respective month.</li>
+<li>This tibble needs to be grouped by the word again, since we are interested in the number of months in which the respective word occured.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>inv_doc_freq <span class="ot">&lt;-</span> nouns_wh_filtered <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a>  <span class="fu">filter</span>(word <span class="sc">%in%</span> <span class="fu">pull</span>(nouns_to_filter)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">month</span>(date)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a>  <span class="fu">group_by</span>(word,month) <span class="sc">%&gt;%</span></span>
+<span id="cb25-5"><a href="#cb25-5"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb25-6"><a href="#cb25-6"></a>  <span class="fu">group_by</span>(word) <span class="sc">%&gt;%</span></span>
+<span id="cb25-7"><a href="#cb25-7"></a>  <span class="fu">summarise</span>(<span class="at">n_month=</span><span class="fu">n</span>())</span>
+<span id="cb25-8"><a href="#cb25-8"></a></span>
+<span id="cb25-9"><a href="#cb25-9"></a>inv_doc_freq <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  word      n_month
+  &lt;chr&gt;       &lt;int&gt;
+1 act            10
+2 action         10
+3 agency         12
+4 american       12
+5 authority      12
+6 date           12</code></pre>
+</div>
+</div>
+<p>Now, that we have obtained the number of months in which each word occurs, we can calculate the log-ratio by applying the mutate function:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>inv_doc_freq <span class="ot">&lt;-</span> inv_doc_freq <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">inv_doc_freq =</span> <span class="fu">log</span>(<span class="dv">12</span><span class="sc">/</span>n_month)) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(word,inv_doc_freq)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>inv_doc_freq <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  word      inv_doc_freq
+  &lt;chr&gt;            &lt;dbl&gt;
+1 act              0.182
+2 action           0.182
+3 agency           0    
+4 american         0    
+5 authority        0    
+6 date             0    </code></pre>
+</div>
+</div>
+<p>As a last step, we have to compute the tf-idf weights by multiplying the resulting vector <code>inv_doc_freq</code> elementwise with each column of the termfrequency matrix. This is most easily done by using the <code>*</code> on the matrix representations of the respective data frames:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>m_tbl_freq <span class="ot">&lt;-</span> tbl_freq <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>word) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>m_inv_doc_freq <span class="ot">&lt;-</span> inv_doc_freq <span class="sc">%&gt;%</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>word) <span class="sc">%&gt;%</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>tf_idf <span class="ot">&lt;-</span> (m_tbl_freq <span class="sc">*</span> <span class="fu">as.vector</span>(m_inv_doc_freq)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Since the matrix format lacks proper display properties, we can convert it back to a tibble and add the words as an initial column:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>tf_idf <span class="ot">&lt;-</span> tf_idf <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    inv_doc_freq <span class="sc">%&gt;%</span> <span class="fu">select</span>(word),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    .</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>tf_idf <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       word           1 2           3           4           5           6
+1       act 0.004158595 0 0.002645080 0.006398104 0.003285073 0.009467010
+2    action 0.003283101 0 0.002456145 0.003125791 0.002737561 0.001795467
+3    agency 0.000000000 0 0.000000000 0.000000000 0.000000000 0.000000000
+4  american 0.000000000 0 0.000000000 0.000000000 0.000000000 0.000000000
+5 authority 0.000000000 0 0.000000000 0.000000000 0.000000000 0.000000000
+6      date 0.000000000 0 0.000000000 0.000000000 0.000000000 0.000000000
+            7           8           9 10          11          12
+1 0.004080341 0.004189841 0.010734365  0 0.004188091 0.004356949
+2 0.003682259 0.002158403 0.002927554  0 0.003071267 0.002010900
+3 0.000000000 0.000000000 0.000000000  0 0.000000000 0.000000000
+4 0.000000000 0.000000000 0.000000000  0 0.000000000 0.000000000
+5 0.000000000 0.000000000 0.000000000  0 0.000000000 0.000000000
+6 0.000000000 0.000000000 0.000000000  0 0.000000000 0.000000000</code></pre>
+</div>
+</div>
+<p>The resulting dataframe contains for each word the <span class="math inline">\(\text{tf-idf}\)</span> weight in the respective document.</p>
+</section>
+<section id="sentiment-analysis" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="sentiment-analysis"><span class="header-section-number">11.4</span> Sentiment Analysis</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"textdata"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">get_sentiments</span>(<span class="st">"afinn"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>TBD</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./10_clustering.html" class="pagination-link" aria-label="Unsupervised Learning">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
