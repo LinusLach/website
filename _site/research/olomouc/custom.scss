@@ -1,0 +1,47 @@
+/*-- scss:defaults --*/
+
+// headings
+$presentation-heading-text-transform: none;
+
+// text
+
+.center {
+    text-align: center;
+  }
+  
+// fonts
+
+.reveal .slides section {
+  font-size: 24pt;
+}
+
+.reveal blockquote {
+  color: #444444 !important; /* Replace with your desired color */
+}
+.reveal blockquote {
+  border-left: 0.2em solid #444444 !important; /* Your desired color */
+}
+
+
+
+// logo
+
+.reveal .slide-logo {
+  max-height: 7% !important;
+}
+
+
+// fragment blur
+
+.reveal .slides section .fragment.blur {
+  filter: blur(5px);
+}
+
+.reveal .slides section .fragment.blur.visible {
+  filter: none
+}
+
+.add-space{
+padding-right: 2%;
+}
+
