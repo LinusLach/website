@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -21,8 +21,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -68,15 +69,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./01_Einfuehrung.html" rel="prev">
 <script src="site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-70a47bd5681a7291082a5b9f83d58762.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -132,19 +135,12 @@ cookieconsent.run({
 </script> 
   
 <script>
-
   MathJax = {
-
     tex: {
-
       tags: 'ams'  // should be 'ams', 'none', or 'all'
-
     }
-
   };
-
 </script>
-
 <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9752146314349572" crossorigin="anonymous"></script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
@@ -161,7 +157,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -179,7 +175,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -201,7 +197,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Data Mining Übungsmaterial</a> 
     </div>
@@ -258,7 +256,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07_Clustering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Einführung</span></span></a>
   </div>
 </li>
     </ul>
@@ -349,12 +347,12 @@ window.Quarto = {
 <h2 data-number="2.1" class="anchored" data-anchor-id="sec-penguins"><span class="header-section-number">2.1</span> Der Palmer-Penguin-Datensatz</h2>
 <p>Der Datensatz für diese und teilweise auch kommende Übungen ist der sogenannte *Palmer-Penguins-Datensatz. Als Teil der <code>{tidyverse}</code>-Library ist der Datensatz bereits vorinstalliert und wir können diesen nach dem Hinzufügen der <code>{tidyverse}</code>-Library über den Befehl <code>palmerpenguins::penguins</code> abrufen. Es ist wie immer ratsam, den Datensatz als neue Variable zu speichern:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data_penguin<span class="ot">&lt;-</span>palmerpenguins<span class="sc">::</span>penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data_penguin<span class="ot">&lt;-</span>palmerpenguins<span class="sc">::</span>penguins</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Das Aufrufen der <code>glimpse</code>⁣-Funktion gibt wieder einen kompakten Überblick über die verschiedenen Variablen und Werte, welche diese annehmen.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_penguin <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_penguin <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 344
 Columns: 8
@@ -374,7 +372,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="sec-descriptive_stat"><span class="header-section-number">2.1.1</span> Deskriptive Statistiken</h3>
 <p>Die Funktion <code>summary()</code> in R erzeugt beim Aufruf eine deskriptive Zusammenfassung des übergebenen Datensatzes. Für quantitative Variablen werden dabei deskriptive Statistiken wie Minimum, Maximum, Median, arithmetisches Mittel und die Quartile ausgegeben. Bei nominalen oder kategorialen Variablen werden die einzelnen Ausprägungen und deren absolute Häufigkeiten dargestellt. Zusätzlich wird für jede Variable die Anzahl der fehlenden Werte (kodiert als <code>NA</code>) aufgeführt.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_penguin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_penguin)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      species          island    bill_length_mm  bill_depth_mm  
  Adelie   :152   Biscoe   :168   Min.   :32.10   Min.   :13.10  
@@ -396,7 +394,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 <p>Um deskriptive Statistiken für verschiedene Subgruppen metrischer Variablen zu berechnen, bieten sich die in der vorherigen Übung eingeführten Funktionen <code>summarise()</code> und <code>group_by()</code> aus der <code>dplyr</code>-Library an:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data_penguin <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data_penguin <span class="sc">%&gt;%</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
@@ -404,27 +402,27 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Median"</span> <span class="ot">=</span> <span class="fu">median</span>(bill_length_mm),</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Mean"</span> <span class="ot">=</span> <span class="fu">mean</span>(bill_length_mm),</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"3rd Qu."</span> <span class="ot">=</span> <span class="fu">quantile</span>(bill_length_mm, <span class="fl">0.25</span>),</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>            )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>            )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="mtrcxwajmm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#mtrcxwajmm table {
+<div id="kskmhulqjd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#kskmhulqjd table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#mtrcxwajmm thead, #mtrcxwajmm tbody, #mtrcxwajmm tfoot, #mtrcxwajmm tr, #mtrcxwajmm td, #mtrcxwajmm th {
+#kskmhulqjd thead, #kskmhulqjd tbody, #kskmhulqjd tfoot, #kskmhulqjd tr, #kskmhulqjd td, #kskmhulqjd th {
   border-style: none;
 }
 
-#mtrcxwajmm p {
+#kskmhulqjd p {
   margin: 0;
   padding: 0;
 }
 
-#mtrcxwajmm .gt_table {
+#kskmhulqjd .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -450,12 +448,12 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-left-color: #D3D3D3;
 }
 
-#mtrcxwajmm .gt_caption {
+#kskmhulqjd .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#mtrcxwajmm .gt_title {
+#kskmhulqjd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -467,7 +465,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-width: 0;
 }
 
-#mtrcxwajmm .gt_subtitle {
+#kskmhulqjd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -479,7 +477,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-top-width: 0;
 }
 
-#mtrcxwajmm .gt_heading {
+#kskmhulqjd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -491,13 +489,13 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#mtrcxwajmm .gt_bottom_border {
+#kskmhulqjd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#mtrcxwajmm .gt_col_headings {
+#kskmhulqjd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -512,7 +510,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#mtrcxwajmm .gt_col_heading {
+#kskmhulqjd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -532,7 +530,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   overflow-x: hidden;
 }
 
-#mtrcxwajmm .gt_column_spanner_outer {
+#kskmhulqjd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -544,15 +542,15 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 4px;
 }
 
-#mtrcxwajmm .gt_column_spanner_outer:first-child {
+#kskmhulqjd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#mtrcxwajmm .gt_column_spanner_outer:last-child {
+#kskmhulqjd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#mtrcxwajmm .gt_column_spanner {
+#kskmhulqjd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -564,11 +562,11 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   width: 100%;
 }
 
-#mtrcxwajmm .gt_spanner_row {
+#kskmhulqjd .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#mtrcxwajmm .gt_group_heading {
+#kskmhulqjd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -594,7 +592,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   text-align: left;
 }
 
-#mtrcxwajmm .gt_empty_group_heading {
+#kskmhulqjd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -609,15 +607,15 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   vertical-align: middle;
 }
 
-#mtrcxwajmm .gt_from_md > :first-child {
+#kskmhulqjd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#mtrcxwajmm .gt_from_md > :last-child {
+#kskmhulqjd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#mtrcxwajmm .gt_row {
+#kskmhulqjd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -636,7 +634,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   overflow-x: hidden;
 }
 
-#mtrcxwajmm .gt_stub {
+#kskmhulqjd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -649,7 +647,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#mtrcxwajmm .gt_stub_row_group {
+#kskmhulqjd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -663,15 +661,15 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   vertical-align: top;
 }
 
-#mtrcxwajmm .gt_row_group_first td {
+#kskmhulqjd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#mtrcxwajmm .gt_row_group_first th {
+#kskmhulqjd .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#mtrcxwajmm .gt_summary_row {
+#kskmhulqjd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -681,16 +679,16 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#mtrcxwajmm .gt_first_summary_row {
+#kskmhulqjd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#mtrcxwajmm .gt_first_summary_row.thick {
+#kskmhulqjd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#mtrcxwajmm .gt_last_summary_row {
+#kskmhulqjd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -700,7 +698,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-color: #D3D3D3;
 }
 
-#mtrcxwajmm .gt_grand_summary_row {
+#kskmhulqjd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -710,7 +708,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#mtrcxwajmm .gt_first_grand_summary_row {
+#kskmhulqjd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -720,7 +718,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-top-color: #D3D3D3;
 }
 
-#mtrcxwajmm .gt_last_grand_summary_row_top {
+#kskmhulqjd .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -730,11 +728,11 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-color: #D3D3D3;
 }
 
-#mtrcxwajmm .gt_striped {
+#kskmhulqjd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#mtrcxwajmm .gt_table_body {
+#kskmhulqjd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -743,7 +741,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-color: #D3D3D3;
 }
 
-#mtrcxwajmm .gt_footnotes {
+#kskmhulqjd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -757,7 +755,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#mtrcxwajmm .gt_footnote {
+#kskmhulqjd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -766,7 +764,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#mtrcxwajmm .gt_sourcenotes {
+#kskmhulqjd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -780,7 +778,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#mtrcxwajmm .gt_sourcenote {
+#kskmhulqjd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -788,76 +786,85 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#mtrcxwajmm .gt_left {
+#kskmhulqjd .gt_left {
   text-align: left;
 }
 
-#mtrcxwajmm .gt_center {
+#kskmhulqjd .gt_center {
   text-align: center;
 }
 
-#mtrcxwajmm .gt_right {
+#kskmhulqjd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#mtrcxwajmm .gt_font_normal {
+#kskmhulqjd .gt_font_normal {
   font-weight: normal;
 }
 
-#mtrcxwajmm .gt_font_bold {
+#kskmhulqjd .gt_font_bold {
   font-weight: bold;
 }
 
-#mtrcxwajmm .gt_font_italic {
+#kskmhulqjd .gt_font_italic {
   font-style: italic;
 }
 
-#mtrcxwajmm .gt_super {
+#kskmhulqjd .gt_super {
   font-size: 65%;
 }
 
-#mtrcxwajmm .gt_footnote_marks {
+#kskmhulqjd .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#mtrcxwajmm .gt_asterisk {
+#kskmhulqjd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#mtrcxwajmm .gt_indent_1 {
+#kskmhulqjd .gt_indent_1 {
   text-indent: 5px;
 }
 
-#mtrcxwajmm .gt_indent_2 {
+#kskmhulqjd .gt_indent_2 {
   text-indent: 10px;
 }
 
-#mtrcxwajmm .gt_indent_3 {
+#kskmhulqjd .gt_indent_3 {
   text-indent: 15px;
 }
 
-#mtrcxwajmm .gt_indent_4 {
+#kskmhulqjd .gt_indent_4 {
   text-indent: 20px;
 }
 
-#mtrcxwajmm .gt_indent_5 {
+#kskmhulqjd .gt_indent_5 {
   text-indent: 25px;
+}
+
+#kskmhulqjd .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#kskmhulqjd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
 }
 </style>
 
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="species" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">species</th>
 <th id="n" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">n</th>
-<th id="1st Qu." class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">1st Qu.</th>
+<th id="a1st-Qu." class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">1st Qu.</th>
 <th id="Median" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Median</th>
 <th id="Mean" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Mean</th>
-<th id="3rd Qu." class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">3rd Qu.</th>
+<th id="a3rd-Qu." class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">3rd Qu.</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
@@ -893,7 +900,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 <p>Wir können diese Statistiken auch grafisch mit einem Boxplot darstellen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_penguin <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_penguin <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>species,<span class="at">y=</span>bill_length_mm, <span class="at">fill =</span> species))<span class="sc">+</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
@@ -905,7 +912,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)<span class="sc">+</span></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -932,7 +939,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <p><span id="eq-elr"><span class="math display">\[
 Y = b_0 + b_1X + \varepsilon
 \tag{2.1}\]</span></span></p>
-<p>zu approximieren. Hierbei ist <span class="math inline">\(X \in \mathbb{R}^K\)</span> die unabhängige Variable, <span class="math inline">\(b_0, b_1 \in \mathbb{R}\)</span> sind die Regressionskoeffizienten (Achsenabschnitt und Steigung) und <span class="math inline">\(\varepsilon \sim \mathcal{N}(0, 1)\)</span> ist ein Fehlerterm, der als normalverteilt angenommen wird.</p>
+<p>zu approximieren. Hierbei ist <span class="math inline">\(X \in \mathbb{R}^K\)</span> die unabhängige Variable, <span class="math inline">\(b_0, b_1 \in \mathbb{R}\)</span> sind die Regressionskoeffizienten (Achsenabschnitt und Steigung) und <span class="math inline">\(\varepsilon \sim \mathcal{N}(0, 1)\in\mathbb{R}^k\)</span> ist ein Fehlerterm, der als normalverteilt angenommen wird.</p>
 <p>Gleichung <a href="#eq-elr" class="quarto-xref">Gleichung&nbsp;<span>2.1</span></a> bezeichnen wir auch als einfache lineare Regressionsgleichung oder Modellgleichung. Dabei sind <span class="math inline">\(X\)</span> und <span class="math inline">\(Y\)</span> Vektoren der Dimension <span class="math inline">\(K \in \mathbb{N}\)</span>, also <span class="math inline">\(X = (x_1, \ldots, x_K)\)</span> und <span class="math inline">\(Y = (y_1, \ldots, y_K)\)</span> mit <span class="math inline">\(x_i\in\mathbb{R}\)</span> und <span class="math inline">\(y_i\in\mathbb{R}\)</span> für alle <span class="math inline">\(k=1,\ldots K\)</span>.</p>
 <p>Wir können die Regressionsgleichung <a href="#eq-elr" class="quarto-xref">Gleichung&nbsp;<span>2.1</span></a> komponentenweise betrachten:</p>
 <p><span class="math display">\[
@@ -1382,11 +1389,20 @@ y_k = b_0 + b_1 x_k + \varepsilon_k, \qquad k=1,\ldots,K
 #yichzgjisd .gt_indent_5 {
   text-indent: 25px;
 }
+
+#yichzgjisd .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#yichzgjisd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
 </style>
 
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="x" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">x</th>
 <th id="y" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">y</th>
 </tr>
@@ -1464,14 +1480,14 @@ y_k = b_0 + b_1 x_k + \varepsilon_k, \qquad k=1,\ldots,K
 <p>Wir können die Regressionsgerade dann mithilfe der <code>geom_abline</code>-Funktion visualisieren:</p>
 <div style="page-break-after: always;"></div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>data_example <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>x,<span class="at">y=</span>y))<span class="sc">+</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>data_example <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>x,<span class="at">y=</span>y))<span class="sc">+</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>  <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">"darkorange"</span>,</span>
 <span id="cb8-3"><a href="#cb8-3"></a>             <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
 <span id="cb8-4"><a href="#cb8-4"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="fl">0.5098</span>,</span>
 <span id="cb8-5"><a href="#cb8-5"></a>              <span class="at">intercept =</span> <span class="sc">-</span><span class="fl">0.2273</span>,</span>
 <span id="cb8-6"><a href="#cb8-6"></a>              <span class="at">linewidth =</span> <span class="dv">1</span>,</span>
 <span id="cb8-7"><a href="#cb8-7"></a>              <span class="at">color =</span> <span class="st">"cyan4"</span>)<span class="sc">+</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-8"><a href="#cb8-8"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1488,7 +1504,7 @@ y_k = b_0 + b_1 x_k + \varepsilon_k, \qquad k=1,\ldots,K
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Wichtig
+<span class="screen-reader-only">Important</span>Wichtig
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1504,16 +1520,16 @@ Wichtig
 </ol>
 <p>Diese Phasen werden durch die Funktionen <code>linear_reg()</code> und <code>fit()</code> spezifiziert. Die Spezifikation des Modells erfolgt stets unabhängig von den zugrundeliegenden Daten:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>lm_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>lm_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Um nun die Modellparameter für die Daten aus <a href="#exm-elr" class="quarto-xref">Example&nbsp;<span>2.1</span></a> zu schätzen, kombinieren wir die Modellspezifikation mit der <code>fit</code>-Funktion:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>lm_fit <span class="ot">&lt;-</span> lm_spec <span class="sc">%&gt;%</span> <span class="fu">fit</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>lm_fit <span class="ot">&lt;-</span> lm_spec <span class="sc">%&gt;%</span> <span class="fu">fit</span>(</span>
 <span id="cb10-2"><a href="#cb10-2"></a>  <span class="at">data =</span> data_example,</span>
 <span id="cb10-3"><a href="#cb10-3"></a>  <span class="at">formula =</span> y <span class="sc">~</span> x</span>
-<span id="cb10-4"><a href="#cb10-4"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-4"><a href="#cb10-4"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol type="1">
 <li>In der ersten Zeile deklarieren wir ein neues Objekt namens <code>lm_fit</code>. Indem wir die zuvor definierte Modellspezifikation <code>lm_spec</code> an die Funktion <code>fit()</code> übergeben, weisen wir <code>fit()</code> an, die Parameter für ein lineares Regressionsmodell zu schätzen.</li>
@@ -1523,7 +1539,7 @@ Wichtig
 <p>Das Objekt <code>lm_fit</code> enthält nun unter anderem die geschätzten Modellparameter <span class="math inline">\(b_0\)</span> und <span class="math inline">\(b_1\)</span>. Es existieren verschiedene Wege, um auf diese zuzugreifen:</p>
 <p>Durch das Ausgeben des Objekts <code>lm_fit</code> erhalten wir neben den Koeffizienten <span class="math inline">\(b_0\)</span> (<code>Intercept</code>) und <span class="math inline">\(b_1\)</span> (<code>x</code>) beispielsweise auch die Formel, die zur Schätzung der Modellparameter verwendet wurde:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>lm_fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>lm_fit</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>parsnip model object
 
@@ -1538,9 +1554,9 @@ Coefficients:
 </div>
 <p>Eine detaillierte Übersicht der geschätzten Modellparameter und deren statistischer Signifikanz erhalten wir durch folgenden Code-Abschnitt:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="sc">%&gt;%</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1572,7 +1588,7 @@ F-statistic: 27.34 on 1 and 9 DF,  p-value: 0.0005429</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Wiederholung
+<span class="screen-reader-only">Tip</span>Wiederholung
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1595,7 +1611,7 @@ Residual standard error: 1.023 on 9 degrees of freedom
 <p>Neben den deskriptiven Merkmalen wird im unteren Teil der Ausgabe auch noch der Standardfehler der Residuen angegeben.</p>
 <p>Die geschätzten Residuen für das geschätzte Modell können auch grafisch dargestellt werden:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>estimates <span class="ot">&lt;-</span> lm_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>estimates <span class="ot">&lt;-</span> lm_fit <span class="sc">%&gt;%</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(data_example) <span class="sc">%&gt;%</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="dv">1</span>)</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1610,7 +1626,7 @@ Residual standard error: 1.023 on 9 degrees of freedom
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">intercept =</span> <span class="sc">-</span><span class="fl">0.2253</span>,</span>
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">linewidth =</span> <span class="dv">1</span>,</span>
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"cyan4"</span>)<span class="sc">+</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1659,7 +1675,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Wiederholung
+<span class="screen-reader-only">Tip</span>Wiederholung
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1736,25 +1752,25 @@ b = (X^\prime X)^{-1}X^\prime Y
 <p>Als Beispiel verwenden wir hierfür nun keinen synthetischen Datensatz mehr, sondern den <code>data_penguin</code>-Datensatz aus <a href="#sec-penguins" class="quarto-xref"><span>Section 2.1</span></a>.</p>
 <p>Angenommen, die abhängige Variable ist das Gewicht der Pinguine (<code>body_mass_g</code>). Wie im einfachen linearen Regressionsmodell wird zuerst das Modell durch die <code>linear_reg</code>-Funktion spezifiziert. Nach der Spezifikation werden dann die Parameter mithilfe der <code>fit</code>-Funktion geschätzt. Das Argument <code>formula</code> hat rechts des <code>~</code>-Operators einen Punkt stehen. Der <code>.</code>-Operator signalisiert, dass alle verbleibenden Variablen als unabhängige Variablen verwendet werden sollen.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mlr_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>()</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mlr_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>()</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>mlr_fit <span class="ot">&lt;-</span> mlr_spec <span class="sc">%&gt;%</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> data_penguin,</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">formula =</span> body_mass_g <span class="sc">~</span>.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">formula =</span> body_mass_g <span class="sc">~</span>.)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Alternativ kann man statt des <code>.</code> auch alle Variablen wie folgt ausschreiben, wobei das in den meisten Fällen aufgrund schlechter Lesbarkeit nicht zu empfehlen ist:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mlr_fit <span class="ot">&lt;-</span> mlr_spec <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mlr_fit <span class="ot">&lt;-</span> mlr_spec <span class="sc">%&gt;%</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> data_penguin,</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">formula =</span> body_mass_g <span class="sc">~</span> species <span class="sc">+</span> island <span class="sc">+</span> bill_length_mm <span class="sc">+</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        bill_depth_mm <span class="sc">+</span> flipper_length_mm <span class="sc">+</span> sex <span class="sc">+</span> year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        bill_depth_mm <span class="sc">+</span> flipper_length_mm <span class="sc">+</span> sex <span class="sc">+</span> year)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Analog zum eindimensionalen Fall kann mit den <code>extract_fit_engine</code>- und <code>summary</code>-Funktion eine Zusammenfassung erzeugt werden:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mlr_fit_summary <span class="ot">&lt;-</span> mlr_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mlr_fit_summary <span class="ot">&lt;-</span> mlr_fit <span class="sc">%&gt;%</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>mlr_fit_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>mlr_fit_summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1781,7 +1797,7 @@ year                -42.785     20.949  -2.042  0.04194 *
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 286.5 on 323 degrees of freedom
-  (11 Beobachtungen als fehlend gelöscht)
+  (11 observations deleted due to missingness)
 Multiple R-squared:  0.8768,    Adjusted R-squared:  0.8734 
 F-statistic: 255.4 on 9 and 323 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
@@ -1809,10 +1825,10 @@ F-statistic: 255.4 on 9 and 323 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Durch die Standardisierung erreichen wir, dass die standardisierten Koeffizienten vergleichbar sind. Der geschätzte Koeffizient mit dem größten standardisierten Wert hat dadurch den größten Einfluss auf die abhängige Variable, während der Koeffizient mit dem kleinsten standardisierten Wert den kleinsten Einfluss hat.</p>
 <p>Durch die <code>lm.beta::lm.beta()</code>-Funktion können wir die standardisierten Koeffizienten für ein lineares Modell in R bestimmen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>mlr_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>mlr_fit <span class="sc">%&gt;%</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  lm.beta<span class="sc">::</span><span class="fu">lm.beta</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1839,7 +1855,7 @@ year              -4.278e+01   -4.320e-02  2.095e+01  -2.042  0.04194 *
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 286.5 on 323 degrees of freedom
-  (11 Beobachtungen als fehlend gelöscht)
+  (11 observations deleted due to missingness)
 Multiple R-squared:  0.8768,    Adjusted R-squared:  0.8734 
 F-statistic: 255.4 on 9 and 323 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
@@ -1875,14 +1891,14 @@ F-statistic: 255.4 on 9 and 323 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Eine grundlegende Bedingung ist, dass die Beziehung zwischen der abhängigen Variable und den (metrischen) erklärenden Variablen tatsächlich linear ist. Falls diese Bedingung nicht erfüllt ist, können die Effekte der verschiedenen unabhängigen Variablen nicht richtig interpretiert werden. Um zu prüfen, ob diese erfüllt ist, können die paarweise Punktewolken zwischen der abhängigen und den unabhängigen Variablen betrachtet werden.</p>
 <p>Das folgende Code-Snippet erzeugt drei Punktwolken, welche jeweils auf der <code>x</code>-Achse die abhängige Variable <code>body_mass_g</code> und auf der <code>y</code>-Achse die metrischen unabhängigen Variablen abbilden.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>data_penguin <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>data_penguin <span class="sc">%&gt;%</span></span>
 <span id="cb27-2"><a href="#cb27-2"></a>  <span class="fu">select</span>(<span class="fu">ends_with</span>(<span class="st">"mm"</span>),body_mass_g) <span class="sc">%&gt;%</span></span>
 <span id="cb27-3"><a href="#cb27-3"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb27-4"><a href="#cb27-4"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>body_mass_g) <span class="sc">%&gt;%</span></span>
 <span id="cb27-5"><a href="#cb27-5"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y=</span>value,<span class="at">x=</span>body_mass_g))<span class="sc">+</span></span>
 <span id="cb27-6"><a href="#cb27-6"></a>    <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb27-7"><a href="#cb27-7"></a>    <span class="fu">facet_grid</span>(<span class="at">rows =</span> <span class="fu">vars</span>(name) ,<span class="at">scales =</span> <span class="st">"free"</span>)<span class="sc">+</span></span>
-<span id="cb27-8"><a href="#cb27-8"></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-8"><a href="#cb27-8"></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1931,26 +1947,26 @@ F-statistic: 255.4 on 9 and 323 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Um eine Grafik wie die obige zu erzeugen, müssen wir zuerst die Residuen und dann die Vorhersagen erzeugen.</p>
 <p>Die Residuen können wir ähnlich wie die Zusammenfassung der Modellparameter erzeugen, indem wir zuerst das <code>fit</code>-Attribut des Modells aus dem Objekt <code>mlr_fit</code> mithilfe der <code>extract_fit_engine</code>-Funktion extrahieren. Nach der Extraktion können wir dann mit der <code>residuals</code>-Funktion die Residuen auslesen.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>resid<span class="ot">&lt;-</span>mlr_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>resid<span class="ot">&lt;-</span>mlr_fit <span class="sc">%&gt;%</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">residuals</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">residuals</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Ein ähnliches Vorgehen können wir auch bei den Vorhersagen anwenden. Allerdings müssen wir die Vorhersagen erst mithilfe der <code>predict</code>-Funktion erzeugen. Um Vorhersagen für alle Observationen zu erhalten, reicht es, den gesamten Datensatz als Argument zu übergeben. Durch die <code>na.omit</code>-Funktion werden dann noch alle fehlenden Werte entfernt.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>preds <span class="ot">&lt;-</span> mlr_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>preds <span class="ot">&lt;-</span> mlr_fit <span class="sc">%&gt;%</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(data_penguin) <span class="sc">%&gt;%</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Nach dem Erzeugen der Residuen und der Vorhersagewerte können wir diese in einem neuen Datensatz speichern und direkt an die <code>ggplot</code>-Funktion übergeben:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">predictions =</span> preds,</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">residuals =</span> resid</span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>preds,<span class="at">y=</span>resid))<span class="sc">+</span></span>
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Neben den Residuen ist es manchmal auch sinnvoll, die <em>Quadratwurzel des Betrags der standardisierten Residuen</em> zu betrachten.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -1997,7 +2013,7 @@ F-statistic: 255.4 on 9 and 323 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>In den Residuen wird ein kleiner Abwärtstrend sichtbar, welcher allerdings so gering ist, dass für das gegebene Modell keine Heteroskedastie vermutet werden sollte.</p>
 <p>Die obige Grafik wurde durch folgenden Code erzeugt:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>resid<span class="ot">&lt;-</span>mlr_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>resid<span class="ot">&lt;-</span>mlr_fit <span class="sc">%&gt;%</span></span>
 <span id="cb32-2"><a href="#cb32-2"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb32-3"><a href="#cb32-3"></a>  <span class="fu">rstudent</span>()</span>
 <span id="cb32-4"><a href="#cb32-4"></a></span>
@@ -2008,7 +2024,7 @@ F-statistic: 255.4 on 9 and 323 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb32-9"><a href="#cb32-9"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>preds,<span class="at">y=</span>residuals))<span class="sc">+</span></span>
 <span id="cb32-10"><a href="#cb32-10"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb32-11"><a href="#cb32-11"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y<span class="sc">~</span>x, <span class="at">se =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb32-12"><a href="#cb32-12"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-12"><a href="#cb32-12"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Ähnlich wie bei der vorherigen Grafik wurde mithilfe von <code>ggplot</code> eine Punktewolke durch die Residuen und Vorhersagen erzeugt. Der Unterschied liegt hierbei in den Zeilen <code>3</code>, <code>7</code> und <code>11</code>.</p>
 <ul>
@@ -2034,8 +2050,6 @@ F-statistic: 255.4 on 9 and 323 DF,  p-value: &lt; 2.2e-16</code></pre>
 <!--
 
 Übungsaufgabe: Können die Residuen auch nichtkonstante Varianz haben, aber die Trendlinie horizontal sein?
-
-
 
 
 ::: {.cell}
@@ -2120,8 +2134,6 @@ p2/p4/p6
 :::
 
 
-
-
 -->
 </section>
 <section id="normalität-der-residuen" class="level4" data-number="2.3.3.4">
@@ -2131,7 +2143,7 @@ p2/p4/p6
 <h5 data-number="2.3.3.4.1" class="anchored" data-anchor-id="qq-plots"><span class="header-section-number">2.3.3.4.1</span> QQ-Plots</h5>
 <p>Häufig wird ein sogenannter <em>QQ-Plot</em> (Quantil-Quantil-Plot) verwendet, um zu überprüfen, ob die unterliegende Verteilung einer Normalverteilung entspricht. Hierbei werden den empirischen Quantilen (der unterliegenden Residuen) die theoretischen Quantile gegenübergestellt. Falls die Punkte hierbei sehr nah an der erzeugten Geraden liegen, so geht man davon aus, dass die Quantile der empirischen Verteilung gleich der Normalverteilung sind und somit die Residuen ebenso normalverteilt sind.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>resid <span class="ot">&lt;-</span> mlr_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>resid <span class="ot">&lt;-</span> mlr_fit <span class="sc">%&gt;%</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">residuals</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">residuals =</span> .)</span>
@@ -2139,7 +2151,7 @@ p2/p4/p6
 <span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>resid <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample=</span>residuals))<span class="sc">+</span></span>
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>()<span class="sc">+</span></span>
 <span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>()<span class="sc">+</span></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -2157,7 +2169,7 @@ p2/p4/p6
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Wiederholung
+<span class="screen-reader-only">Tip</span>Wiederholung
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -2175,12 +2187,12 @@ Wiederholung
 <h5 data-number="2.3.3.4.2" class="anchored" data-anchor-id="vergleich-der-histogramme-mit-der-dichte-einer-normalverteilung"><span class="header-section-number">2.3.3.4.2</span> Vergleich der Histogramme mit der Dichte einer Normalverteilung</h5>
 <p>Neben den Quantilen bietet sich auch die Betrachtung des Histogramms der Residuen an:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>resid <span class="sc">%&gt;%</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>resid <span class="sc">%&gt;%</span> </span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>residuals))<span class="sc">+</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()<span class="sc">+</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -2192,10 +2204,10 @@ Wiederholung
 </div>
 <p>Um das Histogramm, welches durch die <code>geom_histogram</code>-Funktion erzeugt wurde, mit der Dichte einer Normalverteilung vergleichen zu können, müssen wir zuerst die <code>y</code>-Achse so anpassen, dass diese nicht mehr die absoluten Häufigkeiten, sondern die relativen Häufigkeiten darstellt. Durch das Setzen von <code>y=after_stat(density)</code> in den Aesthetics der <code>geom_histogram</code>⁣-Ebene wird dies erreicht.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>resid <span class="sc">%&gt;%</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>resid <span class="sc">%&gt;%</span> </span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>residuals))<span class="sc">+</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y=</span> <span class="fu">after_stat</span>(density)))<span class="sc">+</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -2206,11 +2218,11 @@ Wiederholung
 </div>
 <p>Nach dem Festlegen der Darstellung der Häufigkeit kann als Nächstes die Dichte einer Normalverteilung hinzugefügt werden. Die <code>stat_function()</code>-Funktion erleichter das Hinzufügen der Dichte einer Normalverteilung um ein vielfaches, da hier vorerst nur das Argument <code>fun=dnorm</code> übergeben werden muss.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>resid <span class="sc">%&gt;%</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>resid <span class="sc">%&gt;%</span> </span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>residuals))<span class="sc">+</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y=</span> <span class="fu">after_stat</span>(density)))<span class="sc">+</span></span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="fl">1.5</span>)<span class="sc">+</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -2222,7 +2234,7 @@ Wiederholung
 <p>Problematisch ist allerdings, dass die Dichte einer Standardnormalverteilung (<span class="math inline">\(\mathcal{N}(0,1)\)</span>) abgebildet wird, für welche gilt <span class="math inline">\(f(x)\approx 0,\: |x|&gt;4\)</span>. Die rote Linie in der obigen Grafik stellt die Dichte der Standardnormalverteilung dar. Für das Histogramm gilt allerdings, dass selbst für <span class="math inline">\(|\verb|residuals|| &gt; 500\)</span> noch Observationen erkennbar sind. Es müssen also entweder die Werte der Residuen skaliert werden, oder die Parameter der Normalverteilung angepasst werden. Um die Parameter der Normalverteilung anzupassen, verwendet man das <code>args</code> Argument. Die Funktion <code>dnorm</code> besitzt die Argumente <code>mean</code> und <code>sd</code>, was für den Mittelwert und die Standardabweichung der Normalverteilung steht. Indem man das Argument <code>mean</code> auf den Mittelwert der Residuen und <code>sd</code> auf die Standardabweichung der Residuen setzt, sollte sich also die Dichte einer Normalverteilung erzeugen lassen, welche wir mit dem Histogramm vergleichen können!</p>
 <p>Um die beiden Argumente <code>mean</code> und <code>sd</code> zu übergeben, kann man diese zuerst separat berechnen und dann als Liste <code>list(mean = ..., sd = ...)</code> übergeben:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>mean_res <span class="ot">&lt;-</span> mlr_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>mean_res <span class="ot">&lt;-</span> mlr_fit <span class="sc">%&gt;%</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>()<span class="sc">%&gt;%</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">residuals</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span>
@@ -2240,7 +2252,7 @@ Wiederholung
 <span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">linewidth =</span> <span class="fl">1.5</span>,</span>
 <span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> mean_res,</span>
 <span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>                            <span class="at">sd =</span> sd_res))<span class="sc">+</span></span>
-<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -2303,7 +2315,7 @@ X_i \approx \sum_{n=i}^{j} \alpha_n X_{n+1}, \quad \alpha_1,...,\alpha_n\in\math
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Wichtig
+<span class="screen-reader-only">Important</span>Wichtig
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -2769,11 +2781,20 @@ Wichtig
 #gcwvzouehs .gt_indent_5 {
   text-indent: 25px;
 }
+
+#gcwvzouehs .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#gcwvzouehs div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
 </style>
 
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <thead>
-<tr class="header gt_col_headings">
+<tr class="gt_col_headings header">
 <th id="num_vis" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">num_vis</th>
 <th id="avg_drink_price" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">avg_drink_price</th>
 <th id="avg_expense" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">avg_expense</th>
@@ -2969,12 +2990,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <p>Da die beiden Variablen stark korrelieren, sind ihre Effekte im Modell, welches beide Variablen enthält, weder signifikant noch interpretierbar. Allerdings sind die Parameter getrennt betrachtet in <code>Modell 1</code> und <code>Modell 2</code> (hoch)signifikant, was ebenso dafür spricht, dass die Feature stark korellieren.</p>
 <p>Noch extremer ist der Effekt, wenn man die Variable <code>weekday</code> in eine Dummy Variable umwandelt, welche jede Ausprägungsmöglichkeit abbildet:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>data_kantine_dummy <span class="ot">&lt;-</span> data_kantine <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>data_kantine_dummy <span class="ot">&lt;-</span> data_kantine <span class="sc">%&gt;%</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="at">week_day_wednesday =</span> <span class="fu">if_else</span>(week_day <span class="sc">==</span> <span class="st">"Mittwoch"</span>, <span class="dv">1</span>,<span class="dv">0</span>),</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">week_day_saturday =</span> <span class="fu">if_else</span>(week_day <span class="sc">==</span> <span class="st">"Samstag"</span>, <span class="dv">1</span>,<span class="dv">0</span>),</span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">week_day_sunday =</span> <span class="fu">if_else</span>(week_day <span class="sc">==</span> <span class="st">"Sonntag"</span>, <span class="dv">1</span>,<span class="dv">0</span>),</span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">week_day =</span> <span class="cn">NULL</span></span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>          )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>          )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Im obigen Datensatz wurde die Variable <code>week_day</code> durch Dummy Variablen ersetzt, welche jeden Wochentag im Datensatz abbilden. Wenn dann die Parameter für das MLR Modell geschätzt werden, welches den Einfluss der Wochentage auf die Besucherzahl modelliert, dann ergibt sich der Asuzug aus folgender Zusammenfassung:</p>
 <div class="cell" data-out.lines="[10,11,12,13,14,15,16,17]">
@@ -3003,9 +3024,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 <p>verwendet werden um zu prüfen, ob Multikolinearität in einem Modell vorhanden ist. Hierbei steht <span class="math inline">\(R_j^2\)</span> für das Bestimmtheitsmaß der Regression des Regressors <span class="math inline">\(X_j\)</span> auf alle anderen Regressoren. Als Daumenregel wird häufig genannt, dass falls <span class="math inline">\(\text{VIF}_j\geq 5\)</span>, der Regressor <span class="math inline">\(X_j\)</span> aus dem Modell entfernt werden sollte.</p>
 <p>Um den VIF für alle unabhängigen Variablen zu berechnen, kann man die <code>vif()</code>-Funktion der <code>{car}</code> Library verwenden. Ähnlich wie beim Erzeugen der Modellzusammenfassung muss man zuerst die <code>extract_fit_engine()</code>-Funktion anwenden, um das Modell an die <code>vif()</code>-Funktion übergeben zu können.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>mlr_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>mlr_fit <span class="sc">%&gt;%</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  car<span class="sc">::</span><span class="fu">vif</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  car<span class="sc">::</span><span class="fu">vif</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                       GVIF Df GVIF^(1/(2*Df))
 species           71.200285  2        2.904828
@@ -3038,7 +3059,7 @@ year               1.172956  1        1.083031</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Definition
+<span class="screen-reader-only">Tip</span>Definition
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -3061,7 +3082,7 @@ D_i = \frac{(\hat{b}-\hat{b}_{(i)})^\prime (X^\prime X)(\hat{b}-\hat{b}_{(i)})}{
 <p>wobei <span class="math inline">\(\hat{b_{(i)}}\)</span> die geschätzten Parameter ohne die <span class="math inline">\(i\)</span>-te Beobachtung sind und <span class="math inline">\(\hat{\sigma}\)</span> der <span class="math inline">\(\text{RMSE}\)</span> des Modells (siehe <a href="#sec-MSE" class="quarto-xref"><span>Section 2.3.4.3</span></a>). Falls <span class="math inline">\(D_i &gt; F_{J;K-J-1;0.5}\)</span>, dann ist die Observation <span class="math inline">\(i\)</span> ein Ausreißer.</p>
 <p>Um den Cook’s Distance in R zu berechnen, verwenden wir die <code>stats::cooks.distance()</code>-Funktion.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>cooks_d <span class="ot">&lt;-</span> mlr_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>cooks_d <span class="ot">&lt;-</span> mlr_fit <span class="sc">%&gt;%</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cooks.distance</span>()</span>
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -3075,7 +3096,7 @@ D_i = \frac{(\hat{b}-\hat{b}_{(i)})^\prime (X^\prime X)(\hat{b}-\hat{b}_{(i)})}{
 <span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Observation"</span>,</span>
 <span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Cook's Distance"</span></span>
 <span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -3106,9 +3127,9 @@ R^2_{\text{korr}}  = R^2- \frac{J\cdot(1-R^2)}{K-J-1}
 \tag{2.9}\]</span></span></p>
 <p>In R können wir den AIC mithilfe der <code>stats::AIC</code>-Funktion berechnen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>mlr_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>mlr_fit <span class="sc">%&gt;%</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  stats<span class="sc">::</span><span class="fu">AIC</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  stats<span class="sc">::</span><span class="fu">AIC</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4724.97</code></pre>
 </div>
@@ -3123,9 +3144,9 @@ R^2_{\text{korr}}  = R^2- \frac{J\cdot(1-R^2)}{K-J-1}
 <p>Der RMSE wird häufig verwendet, da dieser die euklidische Distanz zwischen zwei Punkten berechnet und deshalb sehr intuitiv interpretierbar ist.</p>
 <p>Wir können den RMSE mithilfe der <code>yardstick::mse()</code>-Funktion berechnen. Hierfür müssen wir zuerst die Vorhersagen generieren und diese dann zusammen mit den tatsächlichen Werten übergeben:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a>mlr_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a>mlr_fit <span class="sc">%&gt;%</span></span>
 <span id="cb50-2"><a href="#cb50-2"></a>  parsnip<span class="sc">::</span><span class="fu">augment</span>(data_penguin) <span class="sc">%&gt;%</span></span>
-<span id="cb50-3"><a href="#cb50-3"></a>  yardstick<span class="sc">::</span><span class="fu">rmse</span>(<span class="at">truth =</span> .pred, <span class="at">estimate =</span> body_mass_g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-3"><a href="#cb50-3"></a>  yardstick<span class="sc">::</span><span class="fu">rmse</span>(<span class="at">truth =</span> .pred, <span class="at">estimate =</span> body_mass_g)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric .estimator .estimate
@@ -3602,27 +3623,36 @@ R^2_{\text{korr}}  = R^2- \frac{J\cdot(1-R^2)}{K-J-1}
 #jrjlbjvltn .gt_indent_5 {
   text-indent: 25px;
 }
+
+#jrjlbjvltn .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#jrjlbjvltn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
 </style>
 
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <thead>
-<tr class="header gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
-<th id="0" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0</th>
-<th id="0.01" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.01</th>
-<th id="0.02" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.02</th>
-<th id="0.03" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.03</th>
-<th id="0.04" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.04</th>
-<th id="0.05" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.05</th>
-<th id="0.06" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.06</th>
-<th id="0.07" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.07</th>
-<th id="0.08" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.08</th>
-<th id="0.09" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.09</th>
+<tr class="gt_col_headings header">
+<th id="a::stub" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="a0" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0</th>
+<th id="a0.01" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.01</th>
+<th id="a0.02" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.02</th>
+<th id="a0.03" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.03</th>
+<th id="a0.04" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.04</th>
+<th id="a0.05" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.05</th>
+<th id="a0.06" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.06</th>
+<th id="a0.07" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.07</th>
+<th id="a0.08" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.08</th>
+<th id="a0.09" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">0.09</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td id="stub_1_1" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.0</td>
+<th id="stub_1_1" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.0</th>
 <td class="gt_row gt_right" headers="stub_1_1 0">0.9772</td>
 <td class="gt_row gt_right" headers="stub_1_1 0.01">0.9778</td>
 <td class="gt_row gt_right" headers="stub_1_1 0.02">0.9783</td>
@@ -3635,7 +3665,7 @@ R^2_{\text{korr}}  = R^2- \frac{J\cdot(1-R^2)}{K-J-1}
 <td class="gt_row gt_right" headers="stub_1_1 0.09">0.9817</td>
 </tr>
 <tr class="even">
-<td id="stub_1_2" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.1</td>
+<th id="stub_1_2" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.1</th>
 <td class="gt_row gt_right" headers="stub_1_2 0">0.9821</td>
 <td class="gt_row gt_right" headers="stub_1_2 0.01">0.9826</td>
 <td class="gt_row gt_right" headers="stub_1_2 0.02">0.9830</td>
@@ -3648,7 +3678,7 @@ R^2_{\text{korr}}  = R^2- \frac{J\cdot(1-R^2)}{K-J-1}
 <td class="gt_row gt_right" headers="stub_1_2 0.09">0.9857</td>
 </tr>
 <tr class="odd">
-<td id="stub_1_3" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.2</td>
+<th id="stub_1_3" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.2</th>
 <td class="gt_row gt_right" headers="stub_1_3 0">0.9861</td>
 <td class="gt_row gt_right" headers="stub_1_3 0.01">0.9864</td>
 <td class="gt_row gt_right" headers="stub_1_3 0.02">0.9868</td>
@@ -3661,7 +3691,7 @@ R^2_{\text{korr}}  = R^2- \frac{J\cdot(1-R^2)}{K-J-1}
 <td class="gt_row gt_right" headers="stub_1_3 0.09">0.9890</td>
 </tr>
 <tr class="even">
-<td id="stub_1_4" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.3</td>
+<th id="stub_1_4" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.3</th>
 <td class="gt_row gt_right" headers="stub_1_4 0">0.9893</td>
 <td class="gt_row gt_right" headers="stub_1_4 0.01">0.9896</td>
 <td class="gt_row gt_right" headers="stub_1_4 0.02">0.9898</td>
@@ -3674,7 +3704,7 @@ R^2_{\text{korr}}  = R^2- \frac{J\cdot(1-R^2)}{K-J-1}
 <td class="gt_row gt_right" headers="stub_1_4 0.09">0.9916</td>
 </tr>
 <tr class="odd">
-<td id="stub_1_5" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.4</td>
+<th id="stub_1_5" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.4</th>
 <td class="gt_row gt_right" headers="stub_1_5 0">0.9918</td>
 <td class="gt_row gt_right" headers="stub_1_5 0.01">0.9920</td>
 <td class="gt_row gt_right" headers="stub_1_5 0.02">0.9922</td>
@@ -3687,7 +3717,7 @@ R^2_{\text{korr}}  = R^2- \frac{J\cdot(1-R^2)}{K-J-1}
 <td class="gt_row gt_right" headers="stub_1_5 0.09">0.9936</td>
 </tr>
 <tr class="even">
-<td id="stub_1_6" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.5</td>
+<th id="stub_1_6" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.5</th>
 <td class="gt_row gt_right" headers="stub_1_6 0">0.9938</td>
 <td class="gt_row gt_right" headers="stub_1_6 0.01">0.9940</td>
 <td class="gt_row gt_right" headers="stub_1_6 0.02">0.9941</td>
@@ -3700,7 +3730,7 @@ R^2_{\text{korr}}  = R^2- \frac{J\cdot(1-R^2)}{K-J-1}
 <td class="gt_row gt_right" headers="stub_1_6 0.09">0.9952</td>
 </tr>
 <tr class="odd">
-<td id="stub_1_7" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.6</td>
+<th id="stub_1_7" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.6</th>
 <td class="gt_row gt_right" headers="stub_1_7 0">0.9953</td>
 <td class="gt_row gt_right" headers="stub_1_7 0.01">0.9955</td>
 <td class="gt_row gt_right" headers="stub_1_7 0.02">0.9956</td>
@@ -3713,7 +3743,7 @@ R^2_{\text{korr}}  = R^2- \frac{J\cdot(1-R^2)}{K-J-1}
 <td class="gt_row gt_right" headers="stub_1_7 0.09">0.9964</td>
 </tr>
 <tr class="even">
-<td id="stub_1_8" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.7</td>
+<th id="stub_1_8" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.7</th>
 <td class="gt_row gt_right" headers="stub_1_8 0">0.9965</td>
 <td class="gt_row gt_right" headers="stub_1_8 0.01">0.9966</td>
 <td class="gt_row gt_right" headers="stub_1_8 0.02">0.9967</td>
@@ -3726,7 +3756,7 @@ R^2_{\text{korr}}  = R^2- \frac{J\cdot(1-R^2)}{K-J-1}
 <td class="gt_row gt_right" headers="stub_1_8 0.09">0.9974</td>
 </tr>
 <tr class="odd">
-<td id="stub_1_9" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.8</td>
+<th id="stub_1_9" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.8</th>
 <td class="gt_row gt_right" headers="stub_1_9 0">0.9974</td>
 <td class="gt_row gt_right" headers="stub_1_9 0.01">0.9975</td>
 <td class="gt_row gt_right" headers="stub_1_9 0.02">0.9976</td>
@@ -3739,7 +3769,7 @@ R^2_{\text{korr}}  = R^2- \frac{J\cdot(1-R^2)}{K-J-1}
 <td class="gt_row gt_right" headers="stub_1_9 0.09">0.9981</td>
 </tr>
 <tr class="even">
-<td id="stub_1_10" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.9</td>
+<th id="stub_1_10" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">2.9</th>
 <td class="gt_row gt_right" headers="stub_1_10 0">0.9981</td>
 <td class="gt_row gt_right" headers="stub_1_10 0.01">0.9982</td>
 <td class="gt_row gt_right" headers="stub_1_10 0.02">0.9982</td>
@@ -3784,7 +3814,7 @@ Berechne für das Beispiel in <a href="#sec-cd" class="quarto-xref"><span>Sectio
 <div id="exr-eda_hotel" class="theorem exercise">
 <p><span class="theorem-title"><strong>Aufgabe 2.8</strong></span> Beschreibe, wie im folgenden Code-Snippet die Daten aufbereitet werden. Gehe dabei auf die einzelnen Funktionen und deren Rückgabewert ein.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a>hotel_rates_filtered <span class="ot">&lt;-</span> hotel_rates <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a>hotel_rates_filtered <span class="ot">&lt;-</span> hotel_rates <span class="sc">%&gt;%</span></span>
 <span id="cb52-2"><a href="#cb52-2"></a> <span class="fu">mutate</span>(</span>
 <span id="cb52-3"><a href="#cb52-3"></a>   <span class="at">arrival_month =</span> <span class="fu">factor</span>(<span class="fu">month</span>(arrival_date)),</span>
 <span id="cb52-4"><a href="#cb52-4"></a>   <span class="at">num_guests =</span> adults<span class="sc">+</span>children,</span>
@@ -3793,7 +3823,7 @@ Berechne für das Beispiel in <a href="#sec-cd" class="quarto-xref"><span>Sectio
 <span id="cb52-7"><a href="#cb52-7"></a>   <span class="fu">select</span>(num_guests,total_of_special_requests,</span>
 <span id="cb52-8"><a href="#cb52-8"></a>          required_car_parking_spaces,arrival_month,</span>
 <span id="cb52-9"><a href="#cb52-9"></a>          is_repeated_guest,lead_time,stays_in_week_nights,</span>
-<span id="cb52-10"><a href="#cb52-10"></a>          avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb52-10"><a href="#cb52-10"></a>          avg_price_per_room)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div id="exr-mlrfit" class="theorem exercise">
@@ -3822,9 +3852,9 @@ Berechne für das Beispiel in <a href="#sec-cd" class="quarto-xref"><span>Sectio
 <div id="sol-eda_rel_size" class="proof solution">
 <p><span class="proof-title"><em>Solution 2.1</em> (<a href="#exr-eda_rel_size" class="quarto-xref">Aufgabe&nbsp;<span>2.1</span></a>). </span>Um herauszufinden, wie groß der relative Anteil der jeweiligen Pinguinspezies ist, können wir die <code>group_by</code>- und <code>summarise</code>-Funktionen verwenden. Durch das Spezifizieren von <code>rel = n()/nrow(data_penguin)</code> erstellen wir in der Zusammenfassung eine neue Spalte <code>rel</code> welche für jedes Gruppenmitglied (jede Spezies) zuerst die Anzahl berechnet (durch die <code>n()</code>-Funktion) und diese anschließend durch die Gesamtanzahl der Datenpunkte im Datensatz teilt (die Gesamtanzahl berechnen wir durch <code>nrow(data_penguin)</code>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>data_penguin <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>data_penguin <span class="sc">%&gt;%</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">%&gt;%</span></span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">rel =</span> <span class="fu">n</span>()<span class="sc">/</span><span class="fu">nrow</span>(data_penguin))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">rel =</span> <span class="fu">n</span>()<span class="sc">/</span><span class="fu">nrow</span>(data_penguin))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 2
   species     rel
@@ -3838,13 +3868,13 @@ Berechne für das Beispiel in <a href="#sec-cd" class="quarto-xref"><span>Sectio
 <div id="sol-eda_density" class="proof solution">
 <p><span class="proof-title"><em>Solution 2.2</em> (<a href="#exr-eda_density" class="quarto-xref">Aufgabe&nbsp;<span>2.2</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a>data_penguin<span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a>data_penguin<span class="sc">%&gt;%</span></span>
 <span id="cb55-2"><a href="#cb55-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>bill_length_mm, <span class="at">fill =</span>species))<span class="sc">+</span></span>
 <span id="cb55-3"><a href="#cb55-3"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
 <span id="cb55-4"><a href="#cb55-4"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span><span class="fu">c</span>(<span class="st">"darkorange"</span>,<span class="st">"purple"</span>,<span class="st">"cyan4"</span>))<span class="sc">+</span></span>
 <span id="cb55-5"><a href="#cb55-5"></a>  <span class="fu">labs</span>(<span class="at">x =</span><span class="st">"Schnabellänge in mm"</span>, <span class="at">y=</span><span class="st">"Dichte"</span>)<span class="sc">+</span></span>
 <span id="cb55-6"><a href="#cb55-6"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)<span class="sc">+</span></span>
-<span id="cb55-7"><a href="#cb55-7"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb55-7"><a href="#cb55-7"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span><span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -3863,14 +3893,14 @@ Berechne für das Beispiel in <a href="#sec-cd" class="quarto-xref"><span>Sectio
 <div id="sol-lm_newdata" class="proof solution">
 <p><span class="proof-title"><em>Solution 2.3</em> (<a href="#exr-lm_newdata" class="quarto-xref">Aufgabe&nbsp;<span>2.3</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>data_penguin <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>data_penguin <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins</span>
 <span id="cb56-2"><a href="#cb56-2"></a></span>
 <span id="cb56-3"><a href="#cb56-3"></a>data_penguin <span class="ot">&lt;-</span> data_penguin <span class="sc">%&gt;%</span></span>
 <span id="cb56-4"><a href="#cb56-4"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb56-5"><a href="#cb56-5"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span>
 <span id="cb56-6"><a href="#cb56-6"></a></span>
 <span id="cb56-7"><a href="#cb56-7"></a>data_penguin_adelie <span class="ot">&lt;-</span> data_penguin <span class="sc">%&gt;%</span></span>
-<span id="cb56-8"><a href="#cb56-8"></a>  <span class="fu">filter</span>(species<span class="sc">==</span><span class="st">"Adelie"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb56-8"><a href="#cb56-8"></a>  <span class="fu">filter</span>(species<span class="sc">==</span><span class="st">"Adelie"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Zuerst erstellen wir einen Datensatz <code>data_penguin</code>, indem wir den <code>penguins</code>-Datensatz der Library <code>palmerpenguins</code> in der ersten Zeile neu einlesen. Danach überschreiben wir den Datensatz mit einer modifizierten Version, wobei wir im ersten Schritt (Zeile 3) die <code>na.omit()</code>-Funktion auf den Datensatz anwenden, um alle <code>NA</code>-Werte zu entfernen, und im zweiten Schritt (Zeile 4) mithilfe der <code>select()</code>-Funktion die Spalte <code>years</code> entfernen. Spalten können wir mithilfe der <code>select</code>-Funktion entfernen, indem wir den <code>-</code>-Operator vor den Spaltennamen setzen.</p>
 <p>In Zeile 7 generieren wir dann einen neuen Datensatz <code>data_penguin_adelie</code>, indem wir auf den Datensatz <code>data_penguin</code> die <code>filter</code>-Funktion anwenden. Durch das Argument <code>species=="Adelie"</code> spezifizieren wir in der <code>filter</code>-Funktion, dass nur Einträge im neuen Datensatz gespeichert werden, welche in der Spalte <code>species</code> die Ausprägung <code>"Adelie"</code> besitzen.</p>
@@ -3880,16 +3910,16 @@ Berechne für das Beispiel in <a href="#sec-cd" class="quarto-xref"><span>Sectio
 <ol type="1">
 <li><!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>lm_adelie <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>lm_adelie <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> data_penguin_adelie,</span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">formula =</span> flipper_length_mm <span class="sc">~</span>  body_mass_g )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">formula =</span> flipper_length_mm <span class="sc">~</span>  body_mass_g )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Wie in <a href="#sec-elr" class="quarto-xref"><span>Section 2.2.1</span></a> können wir mithilfe der <code>linear_reg</code>-Funktion ein lineares Modell spezifizieren und die Parameter direkt mit der <code>fit</code>-Funktion schätzen. Hierbei verwenden wir die Formel <code>flipper_length_mm ~  body_mass_g</code>, welche beschreibt, dass <code>flipper_length_mm</code> die abhängige Variable ist und <code>body_mass_g</code> die unabhängige Variable. Die Daten für die Schätzung spezifizieren wir durch das <code>data</code>-Argument. Wie in der Aufgabenstellung beschrieben, verwenden wir den neuen Datensatz <code>data_penguin_adelie</code>, welcher lediglich Pinguine der Spezies <code>Adelie</code> enthält.</p></li>
 <li><!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>lm_adelie <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>lm_adelie <span class="sc">%&gt;%</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -3924,16 +3954,16 @@ F-statistic: 39.69 on 1 and 144 DF,  p-value: 3.402e-09</code></pre>
 \]</span></p></li>
 <li><p>Mithilfe der <code>predict()</code> oder <code>augment()</code>-Funktion, können wir das erwartete Gewicht auch mit R schätzen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>lm_adelie <span class="sc">%&gt;%</span> </span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(<span class="fu">tibble</span>(<span class="at">body_mass_g =</span> <span class="dv">16000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>lm_adelie <span class="sc">%&gt;%</span> </span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(<span class="fu">tibble</span>(<span class="at">body_mass_g =</span> <span class="dv">16000</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
   .pred
   &lt;dbl&gt;
 1  271.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>lm_adelie <span class="sc">%&gt;%</span> </span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(<span class="fu">tibble</span>(<span class="at">body_mass_g =</span> <span class="dv">16000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>lm_adelie <span class="sc">%&gt;%</span> </span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(<span class="fu">tibble</span>(<span class="at">body_mass_g =</span> <span class="dv">16000</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
   .pred body_mass_g
@@ -3967,14 +3997,14 @@ F-statistic: 39.69 on 1 and 144 DF,  p-value: 3.402e-09</code></pre>
 <div id="sol-fstat" class="proof solution">
 <p><span class="proof-title"><em>Solution 2.7</em> (<a href="#exr-fstat" class="quarto-xref">Aufgabe&nbsp;<span>2.7</span></a>). </span>Um zu überprüfen, ob in den Daten, welche wir für die Berechnung der Cook’s Distance in <a href="#sec-cd" class="quarto-xref"><span>Section 2.3.3.7.2</span></a> verwendet haben, einflussreiche Observationen sind, müssen wir das <span class="math inline">\(F_{J;K-J-1;0.5}\)</span>-Quantil berechnen. Da <span class="math inline">\(J = 7\)</span> und <span class="math inline">\(K=344\)</span> ergibt sich</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(<span class="at">p =</span> <span class="fl">0.5</span>,<span class="at">df1 =</span> <span class="dv">7</span>, <span class="at">df2 =</span> <span class="dv">344-7-1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(<span class="at">p =</span> <span class="fl">0.5</span>,<span class="at">df1 =</span> <span class="dv">7</span>, <span class="at">df2 =</span> <span class="dv">344-7-1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9083624</code></pre>
 </div>
 </div>
 <p>Wir können diesen Wert nun mit den Werten der Cook’s Distance vergleichen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(cooks_d <span class="sc">&gt;=</span> <span class="fu">qf</span>(<span class="at">p =</span> <span class="fl">0.5</span>,<span class="at">df1 =</span> <span class="dv">7</span>, <span class="at">df2 =</span> <span class="dv">344-7-1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(cooks_d <span class="sc">&gt;=</span> <span class="fu">qf</span>(<span class="at">p =</span> <span class="fl">0.5</span>,<span class="at">df1 =</span> <span class="dv">7</span>, <span class="at">df2 =</span> <span class="dv">344-7-1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0</code></pre>
 </div>
@@ -3984,7 +4014,7 @@ F-statistic: 39.69 on 1 and 144 DF,  p-value: 3.402e-09</code></pre>
 <div id="sol-eda_hotel" class="proof solution">
 <p><span class="proof-title"><em>Solution 2.8</em> (<a href="#exr-eda_hotel" class="quarto-xref">Aufgabe&nbsp;<span>2.8</span></a>). </span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1"></a>hotel_rates_filtered <span class="ot">&lt;-</span> hotel_rates <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1"></a>hotel_rates_filtered <span class="ot">&lt;-</span> hotel_rates <span class="sc">%&gt;%</span></span>
 <span id="cb68-2"><a href="#cb68-2"></a> <span class="fu">mutate</span>(</span>
 <span id="cb68-3"><a href="#cb68-3"></a>   <span class="at">arrival_month =</span> <span class="fu">factor</span>(<span class="fu">month</span>(arrival_date)),</span>
 <span id="cb68-4"><a href="#cb68-4"></a>   <span class="at">num_guests =</span> adults<span class="sc">+</span>children,</span>
@@ -3993,7 +4023,7 @@ F-statistic: 39.69 on 1 and 144 DF,  p-value: 3.402e-09</code></pre>
 <span id="cb68-7"><a href="#cb68-7"></a>   <span class="fu">select</span>(num_guests,total_of_special_requests,</span>
 <span id="cb68-8"><a href="#cb68-8"></a>          required_car_parking_spaces,arrival_month,</span>
 <span id="cb68-9"><a href="#cb68-9"></a>          is_repeated_guest,lead_time,stays_in_week_nights,</span>
-<span id="cb68-10"><a href="#cb68-10"></a>          avg_price_per_room)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb68-10"><a href="#cb68-10"></a>          avg_price_per_room)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol type="1">
 <li>In der ersten Zeile wird ein neuer Datensatz <code>hotel_rates_filtered</code> definiert.</li>
@@ -4009,9 +4039,9 @@ F-statistic: 39.69 on 1 and 144 DF,  p-value: 3.402e-09</code></pre>
 <div id="sol-mlrfit" class="proof solution">
 <p><span class="proof-title"><em>Solution 2.9</em> (<a href="#exr-mlrfit" class="quarto-xref">Aufgabe&nbsp;<span>2.9</span></a>). </span>Erstelle mit R ein MLR Modell, welches als abhängige Variable <code>avg_price_per_room</code> enthält und als unabhängige Variablen alle anderen Variablen im Datensatz <code>hotel_rates_filtered</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>mlr_hotel_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>mlr_hotel_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> hotel_rates_filtered,</span>
-<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">formula =</span> avg_price_per_room <span class="sc">~</span> .)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">formula =</span> avg_price_per_room <span class="sc">~</span> .)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div id="sol-mlrsummary" class="proof solution">
@@ -4019,9 +4049,9 @@ F-statistic: 39.69 on 1 and 144 DF,  p-value: 3.402e-09</code></pre>
 <ol type="1">
 <li><!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>mlr_hotel_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>mlr_hotel_fit <span class="sc">%&gt;%</span></span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -4062,12 +4092,12 @@ F-statistic:  2483 on 17 and 15384 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Die Aufgabenstellung wurde bei dieser Teilaufgabe absichtlich etwas uneindeutig gestellt. Da die Frage lautet, ob eine Variable <strong>nicht</strong> statistisch signifikant ist, lautet die Antwort eigentlich <strong>Nein</strong>. Denn selbst die Variable <code>arrival_month_2</code> ist zum Signifikanzniveau <span class="math inline">\(\alpha = 0.948\)</span> signifikant. Normalerweise spricht man aber bei der Frage nach Signifikanz immer von einem Niveau <span class="math inline">\(\alpha \in (0,0.05)\)</span>. Falls wir allerdings die gängige Daumenregel für Signifikanz verwenden, dann sie die Variablen <code>arrival_month2,arrival_monht_11</code> und <code>stays_in_week_nights</code> nicht statistisch signifikant.</p></li>
 <li><!-- -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lm.beta)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lm.beta)</span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>mlr_hotel_fit <span class="sc">%&gt;%</span></span>
 <span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm.beta</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -4140,7 +4170,7 @@ H_1: \text{min. ein Koeffizient ist ungleich } 0
 <ol type="1">
 <li><p>Homoskedastizität:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>resid<span class="ot">&lt;-</span>mlr_hotel_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>resid<span class="ot">&lt;-</span>mlr_hotel_fit <span class="sc">%&gt;%</span></span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rstudent</span>()</span>
 <span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -4159,7 +4189,7 @@ H_1: \text{min. ein Koeffizient ist ungleich } 0
 <span id="cb74-17"><a href="#cb74-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">sqrt{|Std. Residuen|}"</span>),</span>
 <span id="cb74-18"><a href="#cb74-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Quadratwurzel des Betrags </span><span class="sc">\n</span><span class="st">der standardisierten Residuen"</span></span>
 <span id="cb74-19"><a href="#cb74-19" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb74-20"><a href="#cb74-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb74-20"><a href="#cb74-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -4171,7 +4201,7 @@ H_1: \text{min. ein Koeffizient ist ungleich } 0
 <p>In der erzeugten Grafik ist klar zu erkennen, dass die blaue Trendlinie nicht horizontal ist, sondern eine leichte positive Steigung besitzt. Wir können deshalb nicht ausschließen, dass die Residuen eine konstante Varianz besitzen. Aufgrund der positiven Steigung können wir vermuten, dass die Varianz in den Residuen mit zunehmendem Schätzwert ebenso steigt.</p></li>
 <li><p>Autokorrelation:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>resid<span class="ot">&lt;-</span>mlr_hotel_fit <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>resid<span class="ot">&lt;-</span>mlr_hotel_fit <span class="sc">%&gt;%</span></span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rstudent</span>()</span>
 <span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -4190,7 +4220,7 @@ H_1: \text{min. ein Koeffizient ist ungleich } 0
 <span id="cb75-17"><a href="#cb75-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">sqrt{|Std. Residuen|}"</span>),</span>
 <span id="cb75-18"><a href="#cb75-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Quadratwurzel des Betrags </span><span class="sc">\n</span><span class="st">der standardisierten Residuen"</span></span>
 <span id="cb75-19"><a href="#cb75-19" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb75-20"><a href="#cb75-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb75-20"><a href="#cb75-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size=</span><span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -4202,7 +4232,7 @@ H_1: \text{min. ein Koeffizient ist ungleich } 0
 <p>Durch das Abändern der <code>method</code> in der <code>geom_smooth</code>-Funktion können wir eine nichtlineare Trendlinie einzeichnen. Da die neue Trendlinie ebenso nicht horizontal ist und zusätzlich auch noch leicht nichtlinear, können wir nicht ausschließen, dass die Residuen unabhängig voneinander sind. Da beide dieser Effekte allerdings marginal sind, sollte das für die Modellgüte nicht weiter problematisch sein.</p></li>
 <li><p>Annahme der Normalverteilung der Residuen: Mithilfe des folgenden Skripts können wir sowohl den QQ-Plot als auch ein Histogramm untereinander darstellen. Hierbei verwenden wir die <code>{patchwork}</code>-Library, welche es erlaubt, Grafiken einfach miteinander zu verknüpfen. Indem wir zuerst eine Grafik <code>p1</code> erstellen, welche den QQ-Plot enthält, und danach ein Histogramm unter <code>p2</code> speichern, können wir die beiden Grafiken mit dem <code>p1/p2</code> Befehl vertikal angeordnet darstellen.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>resid <span class="ot">&lt;-</span> mlr_hotel_fit <span class="sc">%&gt;%</span></span>
 <span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_engine</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">residuals</span>() <span class="sc">%&gt;%</span></span>
@@ -4234,7 +4264,7 @@ H_1: \text{min. ein Koeffizient ist ungleich } 0
 <span id="cb76-30"><a href="#cb76-30" aria-hidden="true" tabindex="-1"></a>                            <span class="at">sd =</span> sd_res))<span class="sc">+</span></span>
 <span id="cb76-31"><a href="#cb76-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span>
 <span id="cb76-32"><a href="#cb76-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-33"><a href="#cb76-33" aria-hidden="true" tabindex="-1"></a>p1<span class="sc">/</span>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb76-33"><a href="#cb76-33" aria-hidden="true" tabindex="-1"></a>p1<span class="sc">/</span>p2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -4258,239 +4288,243 @@ H_1: \text{min. ein Koeffizient ist ungleich } 0
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
       }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
         }
       }
       return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
         }
-        return container.innerHTML
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -4498,185 +4532,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./01_Einfuehrung.html" class="pagination-link" aria-label="(Kurz)Einführung in R">
@@ -4696,7 +4706,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Copyright 2025, Linus Lach</p>
+<p>Copyright 2025, Linus Konstanzer</p>
 <div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       &nbsp;
