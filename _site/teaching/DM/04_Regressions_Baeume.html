@@ -1469,16 +1469,6 @@ node), split, n, deviance, yval
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="fl">0.0500000</span>      <span class="dv">2</span>         c <span class="fl">0.1164630</span> <span class="fl">0.01292697</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Berechne die fehlenden Werte <code>a</code>, <code>b</code> und <code>c</code>.</p>
-<ol type="1">
-<li><p>Der Wert <span class="math inline">\(b\)</span> ist immer <span class="math inline">\(1\)</span>, da es sich um den relativen Fehler bezüglich des Wurzelknotens im Wurzelknoten selbst handelt.</p></li>
-<li><p>Da der Wert <span class="math inline">\(a\)</span> der erste in der <code>cp</code> Tablle ist, berechnet sich dieser durch die Formel</p>
-<p><span class="math display">\[\begin{equation*}
-  \text{CP}_1 = 1- \frac{90.79800 + 752.97340}{3516.58000} = 0.7600591
-\end{equation*}\]</span></p></li>
-<li><p>Der Wert <span class="math inline">\(c\)</span> berechnet sich durch die Formel <span class="math display">\[\begin{equation*}
-  \text{rel err}_3 = \text{rel err}_2-\text{CP}_2 = 0.2399409 − 0.1265061 = 0.1134348
-\end{equation*}\]</span></p></li>
-</ol>
 </div>
 </section>
 <section id="r-aufgaben" class="level3" data-number="4.6.2">
@@ -1649,6 +1639,16 @@ Eventuell `agent` wieder hinzufügen, allerdings sieht der Bausm dann bisschen z
 </div>
 </div>
 <p>gegeben.</p>
+<ol type="1">
+<li><p>Der Wert <span class="math inline">\(b\)</span> ist immer <span class="math inline">\(1\)</span>, da es sich um den relativen Fehler bezüglich des Wurzelknotens im Wurzelknoten selbst handelt.</p></li>
+<li><p>Da der Wert <span class="math inline">\(a\)</span> der erste in der <code>cp</code> Tablle ist, berechnet sich dieser durch die Formel</p>
+<p><span class="math display">\[\begin{equation*}
+  \text{CP}_1 = 1- \frac{90.79800 + 752.97340}{3516.58000} = 0.7600591
+\end{equation*}\]</span></p></li>
+<li><p>Der Wert <span class="math inline">\(c\)</span> berechnet sich durch die Formel <span class="math display">\[\begin{equation*}
+  \text{rel err}_3 = \text{rel err}_2-\text{CP}_2 = 0.2399409 − 0.1265061 = 0.1134348
+\end{equation*}\]</span></p></li>
+</ol>
 <p>Also <span class="math inline">\(a = 0.7600591\)</span>, <span class="math inline">\(b = 1\)</span> und <span class="math inline">\(c = 0.1134348\)</span>.</p>
 </div>
 <div id="sol-cv_split" class="proof solution">
