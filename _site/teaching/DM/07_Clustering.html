@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Einführung – Data Mining Übungsmaterial</title>
+<title>7&nbsp; Clustering – Data Mining Übungsmaterial</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -183,7 +183,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_Clustering.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Einführung</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_Clustering.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Clustering</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -255,7 +255,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07_Clustering.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Einführung</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
   </div>
 </li>
     </ul>
@@ -268,32 +268,33 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#ähnlichkeitsmaße" id="toc-ähnlichkeitsmaße" class="nav-link active" data-scroll-target="#ähnlichkeitsmaße"><span class="header-section-number">7.1</span> Ähnlichkeitsmaße</a>
+  <li><a href="#einführung" id="toc-einführung" class="nav-link active" data-scroll-target="#einführung"><span class="header-section-number">7.1</span> Einführung</a></li>
+  <li><a href="#ähnlichkeitsmaße" id="toc-ähnlichkeitsmaße" class="nav-link" data-scroll-target="#ähnlichkeitsmaße"><span class="header-section-number">7.2</span> Ähnlichkeitsmaße</a>
   <ul>
-  <li><a href="#metrische-features" id="toc-metrische-features" class="nav-link" data-scroll-target="#metrische-features"><span class="header-section-number">7.1.1</span> Metrische Features</a></li>
-  <li><a href="#nominale-features" id="toc-nominale-features" class="nav-link" data-scroll-target="#nominale-features"><span class="header-section-number">7.1.2</span> Nominale Features</a></li>
-  <li><a href="#gemischte-features" id="toc-gemischte-features" class="nav-link" data-scroll-target="#gemischte-features"><span class="header-section-number">7.1.3</span> Gemischte Features</a></li>
+  <li><a href="#metrische-features" id="toc-metrische-features" class="nav-link" data-scroll-target="#metrische-features"><span class="header-section-number">7.2.1</span> Metrische Features</a></li>
+  <li><a href="#nominale-features" id="toc-nominale-features" class="nav-link" data-scroll-target="#nominale-features"><span class="header-section-number">7.2.2</span> Nominale Features</a></li>
+  <li><a href="#gemischte-features" id="toc-gemischte-features" class="nav-link" data-scroll-target="#gemischte-features"><span class="header-section-number">7.2.3</span> Gemischte Features</a></li>
   </ul></li>
-  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering"><span class="header-section-number">7.2</span> Clustering</a>
+  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering"><span class="header-section-number">7.3</span> Clustering</a>
   <ul>
-  <li><a href="#hierarchische-verfahren" id="toc-hierarchische-verfahren" class="nav-link" data-scroll-target="#hierarchische-verfahren"><span class="header-section-number">7.2.1</span> Hierarchische Verfahren</a>
+  <li><a href="#hierarchische-verfahren" id="toc-hierarchische-verfahren" class="nav-link" data-scroll-target="#hierarchische-verfahren"><span class="header-section-number">7.3.1</span> Hierarchische Verfahren</a>
   <ul class="collapse">
-  <li><a href="#linkage-methoden" id="toc-linkage-methoden" class="nav-link" data-scroll-target="#linkage-methoden"><span class="header-section-number">7.2.1.1</span> Linkage-Methoden</a></li>
-  <li><a href="#agglomerative-und-divisive-verfahren" id="toc-agglomerative-und-divisive-verfahren" class="nav-link" data-scroll-target="#agglomerative-und-divisive-verfahren"><span class="header-section-number">7.2.1.2</span> Agglomerative und Divisive Verfahren</a></li>
-  <li><a href="#sec-dendro" id="toc-sec-dendro" class="nav-link" data-scroll-target="#sec-dendro"><span class="header-section-number">7.2.1.3</span> Dendrogramme</a></li>
+  <li><a href="#linkage-methoden" id="toc-linkage-methoden" class="nav-link" data-scroll-target="#linkage-methoden"><span class="header-section-number">7.3.1.1</span> Linkage-Methoden</a></li>
+  <li><a href="#agglomerative-und-divisive-verfahren" id="toc-agglomerative-und-divisive-verfahren" class="nav-link" data-scroll-target="#agglomerative-und-divisive-verfahren"><span class="header-section-number">7.3.1.2</span> Agglomerative und Divisive Verfahren</a></li>
+  <li><a href="#sec-dendro" id="toc-sec-dendro" class="nav-link" data-scroll-target="#sec-dendro"><span class="header-section-number">7.3.1.3</span> Dendrogramme</a></li>
   </ul></li>
-  <li><a href="#bestimmung-der-optimalen-clusteranzahl" id="toc-bestimmung-der-optimalen-clusteranzahl" class="nav-link" data-scroll-target="#bestimmung-der-optimalen-clusteranzahl"><span class="header-section-number">7.2.2</span> Bestimmung der optimalen Clusteranzahl</a></li>
+  <li><a href="#bestimmung-der-optimalen-clusteranzahl" id="toc-bestimmung-der-optimalen-clusteranzahl" class="nav-link" data-scroll-target="#bestimmung-der-optimalen-clusteranzahl"><span class="header-section-number">7.3.2</span> Bestimmung der optimalen Clusteranzahl</a></li>
   </ul></li>
-  <li><a href="#ähnlichkeitsmaße-und-clustering-in-r" id="toc-ähnlichkeitsmaße-und-clustering-in-r" class="nav-link" data-scroll-target="#ähnlichkeitsmaße-und-clustering-in-r"><span class="header-section-number">7.3</span> Ähnlichkeitsmaße und Clustering in R</a>
+  <li><a href="#ähnlichkeitsmaße-und-clustering-in-r" id="toc-ähnlichkeitsmaße-und-clustering-in-r" class="nav-link" data-scroll-target="#ähnlichkeitsmaße-und-clustering-in-r"><span class="header-section-number">7.4</span> Ähnlichkeitsmaße und Clustering in R</a>
   <ul>
-  <li><a href="#ähnlichkeitsmaße-1" id="toc-ähnlichkeitsmaße-1" class="nav-link" data-scroll-target="#ähnlichkeitsmaße-1"><span class="header-section-number">7.3.1</span> Ähnlichkeitsmaße</a></li>
-  <li><a href="#clustering-1" id="toc-clustering-1" class="nav-link" data-scroll-target="#clustering-1"><span class="header-section-number">7.3.2</span> Clustering</a>
+  <li><a href="#ähnlichkeitsmaße-1" id="toc-ähnlichkeitsmaße-1" class="nav-link" data-scroll-target="#ähnlichkeitsmaße-1"><span class="header-section-number">7.4.1</span> Ähnlichkeitsmaße</a></li>
+  <li><a href="#clustering-1" id="toc-clustering-1" class="nav-link" data-scroll-target="#clustering-1"><span class="header-section-number">7.4.2</span> Clustering</a>
   <ul class="collapse">
-  <li><a href="#hierarchische-verfahren-1" id="toc-hierarchische-verfahren-1" class="nav-link" data-scroll-target="#hierarchische-verfahren-1"><span class="header-section-number">7.3.2.1</span> Hierarchische Verfahren</a></li>
+  <li><a href="#hierarchische-verfahren-1" id="toc-hierarchische-verfahren-1" class="nav-link" data-scroll-target="#hierarchische-verfahren-1"><span class="header-section-number">7.4.2.1</span> Hierarchische Verfahren</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#übungsaufgaben" id="toc-übungsaufgaben" class="nav-link" data-scroll-target="#übungsaufgaben"><span class="header-section-number">7.4</span> Übungsaufgaben</a></li>
-  <li><a href="#lösungen" id="toc-lösungen" class="nav-link" data-scroll-target="#lösungen"><span class="header-section-number">7.5</span> Lösungen</a></li>
+  <li><a href="#übungsaufgaben" id="toc-übungsaufgaben" class="nav-link" data-scroll-target="#übungsaufgaben"><span class="header-section-number">7.5</span> Übungsaufgaben</a></li>
+  <li><a href="#lösungen" id="toc-lösungen" class="nav-link" data-scroll-target="#lösungen"><span class="header-section-number">7.6</span> Lösungen</a></li>
   </ul>
 </nav>
     </div>
@@ -302,7 +303,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Einführung</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Clustering</span></h1>
 </div>
 
 
@@ -319,14 +320,16 @@ window.Quarto = {
 </header>
 
 
-<!-- # Clustering -->
 <p>In diesem Kapitel wollen wir erste Einblicke in das Unsupervised-Learning bekommen. Sowohl Regressions- als auch Klassifikationsaufgaben gehören dem Supervised-Learning an, da in beiden Fällen die Zielvariablen bekannt sind bzw. diese existieren. Im Unsupervised-Learning ist das Ziel nicht, eine Klasse oder einen bestimmten Wert vorherzusagen, sondern Muster in den Daten zu analysieren. Man spricht deshalb im Kontext von Unsupervised-Learning auch von unlabeled Data.</p>
+<section id="einführung" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="einführung"><span class="header-section-number">7.1</span> Einführung</h2>
 <p>Ein wichtiges Teilgebiet des Unsupervised-Learning ist die Clusteranalyse. Ziel der Clusteranalyse ist es, einen gegebenen Datensatz in Untergruppen einzuteilen, sodass diese Untergruppen innerhalb möglichst <em>homogen</em> sind und zu anderen Gruppen <em>heterogen</em>. Unter homogen verstehen wir, dass sich die Objekte in einer Untergruppe sehr ähneln. Unter heterogen verstehen wir auf der anderen Seite, dass sich die Cluster gegenseitig kaum ähneln sollen. Was wir unter Ähnlichkeit verstehen, wollen wir im nächsten Abschnitt etwas genauer untersuchen.</p>
-<section id="ähnlichkeitsmaße" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="ähnlichkeitsmaße"><span class="header-section-number">7.1</span> Ähnlichkeitsmaße</h2>
+</section>
+<section id="ähnlichkeitsmaße" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="ähnlichkeitsmaße"><span class="header-section-number">7.2</span> Ähnlichkeitsmaße</h2>
 <p>Im <code>plamerpenguins::penguins</code> Datensatz befinden sich verschiedene Datentypen in den Variablen, welche die Pinguine beschreiben. Da dieser Datensatz sowohl aus metrischen als auch aus nominalen Features besteht, wollen wir im folgenden Absatz beide Arten von Ähnlichkeits- bzw. Distanzmaßen betrachten.</p>
-<section id="metrische-features" class="level3" data-number="7.1.1">
-<h3 data-number="7.1.1" class="anchored" data-anchor-id="metrische-features"><span class="header-section-number">7.1.1</span> Metrische Features</h3>
+<section id="metrische-features" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="metrische-features"><span class="header-section-number">7.2.1</span> Metrische Features</h3>
 <p>So gibt etwa die Variable <code>body_mass_g</code> an, wie schwer ein Pinguin ist. Intuitiv scheint es also sinnvoll zu sein, zu sagen, dass sich zwei Pinguine ähnlich sind, wenn diese <em>ungefähr</em> gleich viel wiegen. Den Gewichtsunterschied können wir hierbei relativ leicht bezüglich verschiedener Distanzmaße berechnen:</p>
 <p>Die <span class="math inline">\(L^q\)</span>-Metrik ist eine Verallgemeinerung der euklidischen Distanz, welche wir für die Berechnung der quadratischen Fehler verwendet haben. Diese ist definiert als <span class="math display">\[\begin{equation}
   d_q(x,y) = \left(\sum_{j=1}^J |x_j-y_j|^q\right)^{\frac{1}{q}},\qquad q\geq1
@@ -350,8 +353,8 @@ s(x,y)={\frac {\sum _{j=1}^{J}(x_{j}-{\bar {x}})(y_{j}-{\bar {y}})}{{\sqrt {\sum
 <p><span class="math inline">\(D\)</span> ist also eine quadratische Matrix, wobei ein Eintrag <span class="math inline">\(d_{i,j}\)</span> der Distanz zwischen den Punkten <span class="math inline">\(x_i\)</span> und <span class="math inline">\(x_j\)</span> entspricht.</p>
 <p>Ähnlich wie bei dem Vergleich der geschätzten Koeffizienten im Zuge der linearen Regression oder dem Skalieren der Daten bei Neuronalen Netzen sollten wir auch beim Clustering die Daten normalisieren, damit die verschiedenen Skalen der metrischen Features keine Verzerrung herbeiführen.</p>
 </section>
-<section id="nominale-features" class="level3" data-number="7.1.2">
-<h3 data-number="7.1.2" class="anchored" data-anchor-id="nominale-features"><span class="header-section-number">7.1.2</span> Nominale Features</h3>
+<section id="nominale-features" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="nominale-features"><span class="header-section-number">7.2.2</span> Nominale Features</h3>
 <p>Wir haben bisher angenommen, dass die Features im Datensatz metrisch sind, da sich die Ähnlichkeitsmaße in diesem Fall relativ leicht berechnen lassen. Allerdings sind in den meisten Datensätzen auch nominale Features vertreten, weshalb wir auch diese berücksichtigen sollten.</p>
 <p>So sind sich im Beispiel der Pinguine etwa zwei Pinguine auch gewissermaßen ähnlich, falls diese der gleichen Spezies angehören. Allerdings ist nicht klar, wie wir den Abstand zwischen zwei verschiedenen Spezies messen!</p>
 <p>Ähnlich wie beim Umgang mit nominalen Features im Supervised-Learning können wir die Nominalen Feature in Dummy Variablen umwandeln. Ausgehend von dieser Dummy Transformation können wir dann eine Kontingenztabelle erstellen, welche die Grundlage für Distanzmaße im Kontext nominaler Features bildet.</p>
@@ -419,8 +422,8 @@ s(x_m,x_l) = \frac{a+\delta d}{a+\delta d+ \lambda (b+c)},
 \end{equation*}\]</span></p>
 <p>Wir können also auch durch diese Transformation eine gewisse Ähnlichkeit zwischen den Koeffizienten quantifizieren.</p>
 </section>
-<section id="gemischte-features" class="level3" data-number="7.1.3">
-<h3 data-number="7.1.3" class="anchored" data-anchor-id="gemischte-features"><span class="header-section-number">7.1.3</span> Gemischte Features</h3>
+<section id="gemischte-features" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="gemischte-features"><span class="header-section-number">7.2.3</span> Gemischte Features</h3>
 <p>Wir haben nun separat sowohl metrische als auch nominale Features untersucht. Da in den meisten Datensätzen aber sowohl metrische, als auch nominale Features vorhanden sind, stellt sich berechtigterweise die Frage, wie man mit Datenpunkten umgeht, welche sowohl metrische als auch nominale Features enthalten.</p>
 <p>Der Gower-Coefficient kombiniert verschiedene Merkmalstypen und fasst diese in einer Distanz zusammen. Dieser ist definiert als</p>
 <p><span class="math display">\[\begin{equation*}
@@ -437,8 +440,8 @@ s(x_m,x_l) = \frac{a+\delta d}{a+\delta d+ \lambda (b+c)},
 <p>Der Gowerkoeffizient skaliert außerdem die metrischen Features auf das Intervall <span class="math inline">\([0,1]\)</span>, weshalb hier eine Normalisierung nicht weiter notwendig ist.</p>
 </section>
 </section>
-<section id="clustering" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="clustering"><span class="header-section-number">7.2</span> Clustering</h2>
+<section id="clustering" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="clustering"><span class="header-section-number">7.3</span> Clustering</h2>
 <p>Nachdem wir nun für verschiedene Ausprägungsarten Distanzmaße definiert haben, können wir auf verschiedenste Art und Weise Datenpunkte mit niedrigen Distanzmaßen bzw. hoher Korrelation zu Untergruppen zusammenfassen. Man unterscheidet hierbei zwischen verschiedenen Verfahrenstypen, nämlich den</p>
 <ol type="1">
 <li>Hierarchischen Verfahren</li>
@@ -446,12 +449,12 @@ s(x_m,x_l) = \frac{a+\delta d}{a+\delta d+ \lambda (b+c)},
 <li>Dichtebasierten Verfahren</li>
 </ol>
 <p>Im Kontext dieser Veranstaltung setzen wir uns vorwiegend mit den hierarchischen Verfahren auseinander. Für partitionierende Verfahren, siehe zum Beispiel <a href="https://en.wikipedia.org/wiki/K-means_clustering">K-Means</a>. Für dichtebasierte Verfahren, siehe zum Beispiel <a href="https://en.wikipedia.org/wiki/DBSCAN">DBSCAN</a> und <a href="https://arxiv.org/abs/1911.02282">h-DBSCAN</a>.</p>
-<section id="hierarchische-verfahren" class="level3" data-number="7.2.1">
-<h3 data-number="7.2.1" class="anchored" data-anchor-id="hierarchische-verfahren"><span class="header-section-number">7.2.1</span> Hierarchische Verfahren</h3>
+<section id="hierarchische-verfahren" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="hierarchische-verfahren"><span class="header-section-number">7.3.1</span> Hierarchische Verfahren</h3>
 <p>Bei den hierarchischen Verfahren unterscheidet man zwischen agglomerativen und divisiven Verfahren. Die grundsätzliche Idee ist, iterativ Gruppen an Punkten (Cluster) zu vergrößern oder zu verkleinern, indem man eine Anforderung an die Homogenität der Cluster schrittweise erhöht oder verringert. Hierbei versteht man unter agglomerativen Verfahren, dass zu Beginn jeder Datenpunkt ein eigenes Cluster bildet und diese Cluster schrittweise durch das Zusammenführen vergrößert werden.</p>
 <p>Bei einem divisiven Verfahren starten wir mit einem großen Cluster, welches alle Datenpunkte beinhaltet, und verkleinern dieses iterativ durch das Aufteilen in kleinere Cluster.</p>
-<section id="linkage-methoden" class="level4" data-number="7.2.1.1">
-<h4 data-number="7.2.1.1" class="anchored" data-anchor-id="linkage-methoden"><span class="header-section-number">7.2.1.1</span> Linkage-Methoden</h4>
+<section id="linkage-methoden" class="level4" data-number="7.3.1.1">
+<h4 data-number="7.3.1.1" class="anchored" data-anchor-id="linkage-methoden"><span class="header-section-number">7.3.1.1</span> Linkage-Methoden</h4>
 <p>Unabhängig davon, ob es sich um ein agglomeratives oder ein divisives Verfahren handelt, müssen wir spezifizieren, wie die Distanzen zwischen verschiedenen Clustern gemessen werden. Nur wenn klar ist, wie groß die Distanzen innerhalb und zwischen verschiedenen Clustern sind, kann bestimmt werden, wie diese aufgeteilt bzw. zusammengefasst werden sollen.</p>
 <p>Wir unterscheiden beim Messen dieser Distanzen zwischen der Single-, Complete- und Average-Linkage-Distanz:</p>
 <ol type="1">
@@ -517,8 +520,8 @@ s(x_m,x_l) = \frac{a+\delta d}{a+\delta d+ \lambda (b+c)},
 </div>
 </div>
 </section>
-<section id="agglomerative-und-divisive-verfahren" class="level4" data-number="7.2.1.2">
-<h4 data-number="7.2.1.2" class="anchored" data-anchor-id="agglomerative-und-divisive-verfahren"><span class="header-section-number">7.2.1.2</span> Agglomerative und Divisive Verfahren</h4>
+<section id="agglomerative-und-divisive-verfahren" class="level4" data-number="7.3.1.2">
+<h4 data-number="7.3.1.2" class="anchored" data-anchor-id="agglomerative-und-divisive-verfahren"><span class="header-section-number">7.3.1.2</span> Agglomerative und Divisive Verfahren</h4>
 <p>Wir können nun mithilfe der zuvor definierten Distanzmaße zwischen Punkten und Clustern das agglomerative und das divisive Clusterverfahren genauer betrachten.</p>
 <p>Den Ablauf des agglomerativen Verfahrens können wir in den folgenden Schritten zusammenfassen:</p>
 <ol type="1">
@@ -539,8 +542,8 @@ s(x_m,x_l) = \frac{a+\delta d}{a+\delta d+ \lambda (b+c)},
 <li><p>Wiederhole Schritt 2, bis eine vorher festgelegte Zahl an Clustern erreicht wurde.</p></li>
 </ol>
 </section>
-<section id="sec-dendro" class="level4" data-number="7.2.1.3">
-<h4 data-number="7.2.1.3" class="anchored" data-anchor-id="sec-dendro"><span class="header-section-number">7.2.1.3</span> Dendrogramme</h4>
+<section id="sec-dendro" class="level4" data-number="7.3.1.3">
+<h4 data-number="7.3.1.3" class="anchored" data-anchor-id="sec-dendro"><span class="header-section-number">7.3.1.3</span> Dendrogramme</h4>
 <p>Unabhängig von der Dimensionalität des Datensatzes ist es wünschenswert, die Clusterbildung zu visualisieren, damit wir ein Gefühl dafür bekommen können, wie</p>
 <ol type="1">
 <li>weit die verschiedenen Cluster voneinander entfernt sind.</li>
@@ -604,8 +607,8 @@ Da sich dieses Optimierungsproblem nicht analytisch optimieren lässt, verwenden
 -->
 </section>
 </section>
-<section id="bestimmung-der-optimalen-clusteranzahl" class="level3" data-number="7.2.2">
-<h3 data-number="7.2.2" class="anchored" data-anchor-id="bestimmung-der-optimalen-clusteranzahl"><span class="header-section-number">7.2.2</span> Bestimmung der optimalen Clusteranzahl</h3>
+<section id="bestimmung-der-optimalen-clusteranzahl" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="bestimmung-der-optimalen-clusteranzahl"><span class="header-section-number">7.3.2</span> Bestimmung der optimalen Clusteranzahl</h3>
 <p>Bei hierarchischen Algorithmen werden im Dendrogram für verschiedene Clusteranazahlen die Dissimilarity Werte abgebildet, allerdings ist sowohl in diesem Kontext als auch beim <span class="math inline">\(k\)</span>-Means algorithmus nicht klar, wie der Wert <span class="math inline">\(k\)</span> gewählt werden soll. Natürlich könnten wir jeden Punkt sein eigenes Cluster zuweisen, allerdings ist es dann nicht sinnvoll die Cluster anschließend zu untersuchen. Genausowenig sollten wir die Anzahl der Cluster auf <span class="math inline">\(1\)</span> setzen, da schließlich das Ziel ist möglichst homogene Cluster zu finden. Eine Antwort auf die Frage, wie viele Cluster man wählen sollte, liefert der Scree-Plot. Dieser zeigt auf der <span class="math inline">\(x\)</span>-Achse die Anzahl der Cluster und auf der <span class="math inline">\(y\)</span>-Achse das Dissimilarity Level. Diese Kurve ist monoton fallend in der Anzahl der Cluster, da mit jedem weiteren Cluster die Homogenität innerhalb der Cluster steigt.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -623,8 +626,8 @@ Da sich dieses Optimierungsproblem nicht analytisch optimieren lässt, verwenden
 <p>Heuristisch wird diese Regel auch oft <em>Ellenbogenkriterium</em> genannt, da man jenen Punkt auf der Kurve auswählt, welcher dem Knick eines Ellenbogens am ähnlichsten ist.</p>
 </section>
 </section>
-<section id="ähnlichkeitsmaße-und-clustering-in-r" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="ähnlichkeitsmaße-und-clustering-in-r"><span class="header-section-number">7.3</span> Ähnlichkeitsmaße und Clustering in R</h2>
+<section id="ähnlichkeitsmaße-und-clustering-in-r" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="ähnlichkeitsmaße-und-clustering-in-r"><span class="header-section-number">7.4</span> Ähnlichkeitsmaße und Clustering in R</h2>
 <p>In diesem Abschnitt wollen wir verschiedene Ähnlichkeits- bzw. Distanzmaße, Clusteralgorithmen und Clusteranalysen in R betrachten. Hierfür verwenden wir vorwiegend die folgenden Pakete:<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -633,8 +636,8 @@ Da sich dieses Optimierungsproblem nicht analytisch optimieren lässt, verwenden
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Wir betrachten in diesem Abschnitt wieder den <code>palmerpenguins::penguins</code> Datensatz.</p>
-<section id="ähnlichkeitsmaße-1" class="level3" data-number="7.3.1">
-<h3 data-number="7.3.1" class="anchored" data-anchor-id="ähnlichkeitsmaße-1"><span class="header-section-number">7.3.1</span> Ähnlichkeitsmaße</h3>
+<section id="ähnlichkeitsmaße-1" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="ähnlichkeitsmaße-1"><span class="header-section-number">7.4.1</span> Ähnlichkeitsmaße</h3>
 <p>Die Funktion <code>cluster::daisy()</code> berechnet für einen übergebenen Datensatz verschiedene Distanzmatrizen. Als Argumente übergibt man hier neben dem Datensatz auch das Argument <code>metric</code>, welches die Metrik, bzw. Methode spezifiziert, bezüglich welcher die Ähnlichkeitsmaße berechnet werden sollen. Zulässige Metriken sind hierbei <code>"euclidean"</code>, <code>"manhattan"</code> und <code>"gower"</code>. Lediglich die Gower Metrik erlaubt es uns mit dieser Funktion auch gemischte Datensätze zu untersuchen.</p>
 <div id="exm-metricsr" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 7.2</strong></span> Betrachte folgenden Teildatensatz des <code>palmerpenguins::penguins</code> Datensatzes, bestehend aus dem ersten, 50. und 250. Pinguin (ohne die Variable <code>year</code>):</p>
@@ -701,11 +704,11 @@ Number of objects : 3</code></pre>
 <p>Anhand dieser Korrelationsmatrix kann man ablesen, dass die Variablen <code>body_mass_g</code> und <code>bill_length_mm</code> sehr stark positiv korrelieren und die Variablen <code>flipper_length_mm</code> sowie <code>bill_depth_mm</code> sehr stark negativ korrelieren.</p>
 </div>
 </section>
-<section id="clustering-1" class="level3" data-number="7.3.2">
-<h3 data-number="7.3.2" class="anchored" data-anchor-id="clustering-1"><span class="header-section-number">7.3.2</span> Clustering</h3>
+<section id="clustering-1" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="clustering-1"><span class="header-section-number">7.4.2</span> Clustering</h3>
 <p>In diesem Abschnitt betrachten wir hierarchische Verfahren.</p>
-<section id="hierarchische-verfahren-1" class="level4" data-number="7.3.2.1">
-<h4 data-number="7.3.2.1" class="anchored" data-anchor-id="hierarchische-verfahren-1"><span class="header-section-number">7.3.2.1</span> Hierarchische Verfahren</h4>
+<section id="hierarchische-verfahren-1" class="level4" data-number="7.4.2.1">
+<h4 data-number="7.4.2.1" class="anchored" data-anchor-id="hierarchische-verfahren-1"><span class="header-section-number">7.4.2.1</span> Hierarchische Verfahren</h4>
 <p>Zum Durchführen einer hierarchischen Clustermethode können wir die <code>stats::hclust()</code>-Funktion verwenden. Die <code>hclust()</code>-Funktion verwendet hierbei allerdings lediglich ein agglomoratives Verfahren. Für divisive Verfahren können wir die <code>dclust::dclust()</code>-Funktion verwenden.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Das allgemeine Vorgehen hierbei ist wie folgt:</p>
 <ol type="1">
 <li>Berechne für die zu untersuchenden Daten eine Distanz- oder Ähnlichkeitsmatrix, z.&nbsp;B. mithilfe der <code>daisy()</code>-Funktion.</li>
@@ -872,7 +875,7 @@ Number of objects : 3</code></pre>
 </div>
 </div>
 </div>
-<p>Der Unterschied zu den in <a href="#sec-dendro" class="quarto-xref"><span>Section 7.2.1.3</span></a> erzeugten Dendrogrammen liegt in der Darstellung der Blattknoten.</p>
+<p>Der Unterschied zu den in <a href="#sec-dendro" class="quarto-xref"><span>Section 7.3.1.3</span></a> erzeugten Dendrogrammen liegt in der Darstellung der Blattknoten.</p>
 <p>Diese unterscheiden sich bei der durch die <code>base::plot()</code> erzeugten Darstellung vorwiegend durch die vertikale Position. Die vertikale Position gibt Auskunft darüber, in welcher Reihenfolge die Cluster gebildet wurden. Dadurch, dass das Dendrogramm in diesem Fall aber nicht wirklich übersichtlich ist, wollen wir im Folgenden ein Beispiel betrachten.</p>
 <div id="exm-dendrogram" class="theorem example">
 <p><span class="theorem-title"><strong>Beispiel 7.4</strong></span> Betrachte den synthetischen, normalisierten Datensatz, erzeugt durch das Code-Snippet:</p>
@@ -940,8 +943,8 @@ Number of objects : 3</code></pre>
 </section>
 </section>
 </section>
-<section id="übungsaufgaben" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="übungsaufgaben"><span class="header-section-number">7.4</span> Übungsaufgaben</h2>
+<section id="übungsaufgaben" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="übungsaufgaben"><span class="header-section-number">7.5</span> Übungsaufgaben</h2>
 <div id="exr-pen_calc" class="theorem exercise">
 <p><span class="theorem-title"><strong>Aufgabe 7.1</strong></span> Gegeben sei folgender Ausschnitt aus dem <code>penguins</code> Datensatz:</p>
 <div class="cell">
@@ -1048,8 +1051,8 @@ Number of objects : 5</code></pre>
 </ol>
 </div>
 </section>
-<section id="lösungen" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="lösungen"><span class="header-section-number">7.5</span> Lösungen</h2>
+<section id="lösungen" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="lösungen"><span class="header-section-number">7.6</span> Lösungen</h2>
 <div id="sol-pen_calc" class="proof solution">
 <p><span class="proof-title"><em>Solution 7.1</em> (<a href="#exr-pen_calc" class="quarto-xref">Aufgabe&nbsp;<span>7.1</span></a>). </span></p>
 <ol type="1">
